@@ -5216,11 +5216,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\ITI\\GraduationProject\\PharmaLink_API\\PharmaLink_API\\PharmaLink_API.csproj",
+      "projectUniqueName": "E:\\ITI\\GraduationProject\\PharmaLink_API\\PharmaLink\\PharmaLink_API\\PharmaLink_API.csproj",
       "projectName": "PharmaLink_API",
-      "projectPath": "E:\\ITI\\GraduationProject\\PharmaLink_API\\PharmaLink_API\\PharmaLink_API.csproj",
+      "projectPath": "E:\\ITI\\GraduationProject\\PharmaLink_API\\PharmaLink\\PharmaLink_API\\PharmaLink_API.csproj",
       "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
-      "outputPath": "E:\\ITI\\GraduationProject\\PharmaLink_API\\PharmaLink_API\\obj\\",
+      "outputPath": "E:\\ITI\\GraduationProject\\PharmaLink_API\\PharmaLink\\PharmaLink_API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

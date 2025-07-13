@@ -1,2 +1,9 @@
 *.vs
 Migrations/
+PharmaLink_API/obj/Debug/net9.0/PharmaLink_API.AssemblyInfo.cs
+PharmaLink_API/obj/Debug/net9.0/PharmaLink_API.AssemblyInfoInputs.cache
+PharmaLink_API/obj/Debug/net9.0/PharmaLink_API.GeneratedMSBuildEditorConfig.editorconfig
+PharmaLink_API/obj/Debug/net9.0/PharmaLink_API.assets.cache
+PharmaLink_API/obj/PharmaLink_API.csproj.nuget.dgspec.json
+PharmaLink_API/obj/project.assets.json
+PharmaLink_API/obj/project.nuget.cache
