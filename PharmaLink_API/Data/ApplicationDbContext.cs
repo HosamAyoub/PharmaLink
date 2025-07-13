@@ -121,70 +121,70 @@ namespace PharmaLink_API.Data
             });
 
             // *********Seed tables********* //
-            modelBuilder.Entity<Account>().HasData(
-                new Account { AccountID = 1, Email = "user1@example.com", Password = "hashedpass", Role = "User" },
-                new Account { AccountID = 2, Email = "pharmacy@example.com", Password = "hashedpass", Role = "Pharmacy" }
-            );
+            //modelBuilder.Entity<Account>().HasData(
+            //    new Account { AccountID = 1, Email = "user1@example.com", Password = "hashedpass", Role = "User" },
+            //    new Account { AccountID = 2, Email = "pharmacy@example.com", Password = "hashedpass", Role = "Pharmacy" }
+            //);
 
-            modelBuilder.Entity<User>().HasData(
-                new User
-                {
-                    UserID = 1,
-                    Name = "Mariem",
-                    Gender = "Female",
-                    DateOfBirth = new DateTime(2000, 1, 1),
-                    MobileNumber = "0100000000",
-                    Country = "Egypt",
-                    Address = "Cairo",
-                    UserDisease = "None",
-                    UserDrugs = "Paracetamol",
-                    AccountId = 1
-                }
-             );
+            //modelBuilder.Entity<User>().HasData(
+            //    new User
+            //    {
+            //        UserID = 1,
+            //        Name = "Mariem",
+            //        Gender = "Female",
+            //        DateOfBirth = new DateTime(2000, 1, 1),
+            //        MobileNumber = "0100000000",
+            //        Country = "Egypt",
+            //        Address = "Cairo",
+            //        UserDisease = "None",
+            //        UserDrugs = "Paracetamol",
+            //        AccountId = 1
+            //    }
+            // );
 
-            modelBuilder.Entity<Drug>().HasData(
-                new Drug
-                {
-                    DrugID = 1,
-                    CommonName = "Panadol",
-                    Category = "Painkiller",
-                    ActiveIngredient = "Paracetamol",
-                    Alternatives_names = "Tylenol",
-                    AlternativesGpID = 100,
-                    Indications_and_usage = "Headache, fever",
-                    Dosage_and_administration = "500mg twice daily",
-                    Dosage_forms_and_strengths = "Tablet 500mg",
-                    Contraindications = "Liver disease",
-                    Warnings_and_cautions = "Don't exceed 4g/day",
-                    Drug_interactions = "Warfarin",
-                    Description = "Pain reliever",
-                    Storage_and_handling = "Keep cool and dry",
-                    Adverse_reactions = "Nausea",
-                    Drug_UrlImg = "/images/panadol.png"
-                }
-             );
+            //modelBuilder.Entity<Drug>().HasData(
+            //    new Drug
+            //    {
+            //        DrugID = 1,
+            //        CommonName = "Panadol",
+            //        Category = "Painkiller",
+            //        ActiveIngredient = "Paracetamol",
+            //        Alternatives_names = "Tylenol",
+            //        AlternativesGpID = 100,
+            //        Indications_and_usage = "Headache, fever",
+            //        Dosage_and_administration = "500mg twice daily",
+            //        Dosage_forms_and_strengths = "Tablet 500mg",
+            //        Contraindications = "Liver disease",
+            //        Warnings_and_cautions = "Don't exceed 4g/day",
+            //        Drug_interactions = "Warfarin",
+            //        Description = "Pain reliever",
+            //        Storage_and_handling = "Keep cool and dry",
+            //        Adverse_reactions = "Nausea",
+            //        Drug_UrlImg = "/images/panadol.png"
+            //    }
+            // );
 
-            modelBuilder.Entity<Pharmacy>().HasData(
-                new Pharmacy { PharmacyID = 1, Name = "Good Health", Country="Egypt", Address = "Nasr City", AccountId = 2 }
-            );
+            //modelBuilder.Entity<Pharmacy>().HasData(
+            //    new Pharmacy { PharmacyID = 1, Name = "Good Health", Country="Egypt", Address = "Nasr City", AccountId = 2 }
+            //);
 
-            modelBuilder.Entity<PharmacyStock>().HasData(
-                new PharmacyStock { DrugId = 1, PharmacyId = 1, Price = 15.00m, QuantityAvailable = 50 }
-            );
+        //    modelBuilder.Entity<PharmacyStock>().HasData(
+        //        new PharmacyStock { DrugId = 1, PharmacyId = 1, Price = 15.00m, QuantityAvailable = 50 }
+        //    );
 
-            modelBuilder.Entity<UserFavoriteDrug>().HasData(
-                new UserFavoriteDrug { UserId = 1, DrugId = 1 }
-            );
+        //    modelBuilder.Entity<UserFavoriteDrug>().HasData(
+        //        new UserFavoriteDrug { UserId = 1, DrugId = 1 }
+        //    );
 
-            modelBuilder.Entity<CartItem>().HasData(
-                new CartItem
-                {
-                    UserId = 1,
-                    DrugId = 1,
-                    PharmacyId = 1,
-                    Quantity = 1
-                }
-            );
+        //    modelBuilder.Entity<CartItem>().HasData(
+        //        new CartItem
+        //        {
+        //            UserId = 1,
+        //            DrugId = 1,
+        //            PharmacyId = 1,
+        //            Quantity = 1
+        //        }
+        //    );
         }
 
         // *********DB SETS********* //
@@ -196,5 +196,6 @@ namespace PharmaLink_API.Data
         public DbSet<PharmacyStock> PharmacyStocks { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<UserFavoriteDrug> UserFavoriteDrugs { get; set; }
+        
     }
 }
