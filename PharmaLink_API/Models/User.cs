@@ -13,7 +13,7 @@
         public string UserDrugs { get; set; }
 
         //User-Account relationship (one to one)
-        public int AccountId { get; set; }
+        public Guid AccountId { get; set; }
         public Account Account { get; set; }
 
         //User-Order relationship (one to many)

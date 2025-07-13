@@ -77,9 +77,6 @@ namespace PharmaLink_API.Migrations
                     b.Property<int>("PharmacyId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("OrderID")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
@@ -87,8 +84,6 @@ namespace PharmaLink_API.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("UserId", "DrugId", "PharmacyId");
-
-                    b.HasIndex("OrderID");
 
                     b.HasIndex("DrugId", "PharmacyId");
 
@@ -210,15 +205,29 @@ namespace PharmaLink_API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("PaymentIntentId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PaymentMethod")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PaymentStatus")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("PharmacyId")
                         .HasColumnType("int");
+
+                    b.Property<string>("SessionId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -237,19 +246,38 @@ namespace PharmaLink_API.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Orders");
+                });
 
-                    b.HasData(
-                        new
-                        {
-                            OrderID = 1,
-                            Address = "Cairo",
-                            OrderDate = new DateTime(2025, 7, 12, 12, 0, 0, 0, DateTimeKind.Unspecified),
-                            PaymentMethod = "Cash",
-                            PharmacyId = 1,
-                            Status = "Pending",
-                            TotalPrice = 30.00m,
-                            UserId = 1
-                        });
+            modelBuilder.Entity("PharmaLink_API.Models.OrderDetail", b =>
+                {
+                    b.Property<int>("OrderDetailId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderDetailId"));
+
+                    b.Property<int>("DrugId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PharmacyId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("OrderDetailId");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("DrugId", "PharmacyId");
+
+                    b.ToTable("OrderDetail");
                 });
 
             modelBuilder.Entity("PharmaLink_API.Models.Pharmacy", b =>
@@ -427,11 +455,6 @@ namespace PharmaLink_API.Migrations
 
             modelBuilder.Entity("PharmaLink_API.Models.CartItem", b =>
                 {
-                    b.HasOne("PharmaLink_API.Models.Order", "Order")
-                        .WithMany("CartItems")
-                        .HasForeignKey("OrderID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("PharmaLink_API.Models.User", "User")
                         .WithMany("CartItems")
                         .HasForeignKey("UserId")
@@ -443,8 +466,6 @@ namespace PharmaLink_API.Migrations
                         .HasForeignKey("DrugId", "PharmacyId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.Navigation("Order");
 
                     b.Navigation("PharmacyStocks");
 
@@ -468,6 +489,25 @@ namespace PharmaLink_API.Migrations
                     b.Navigation("Pharmacy");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("PharmaLink_API.Models.OrderDetail", b =>
+                {
+                    b.HasOne("PharmaLink_API.Models.Order", "Order")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PharmaLink_API.Models.PharmacyStock", "PharmacyStock")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("DrugId", "PharmacyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("PharmacyStock");
                 });
 
             modelBuilder.Entity("PharmaLink_API.Models.Pharmacy", b =>
@@ -546,7 +586,7 @@ namespace PharmaLink_API.Migrations
 
             modelBuilder.Entity("PharmaLink_API.Models.Order", b =>
                 {
-                    b.Navigation("CartItems");
+                    b.Navigation("OrderDetails");
                 });
 
             modelBuilder.Entity("PharmaLink_API.Models.Pharmacy", b =>
@@ -559,6 +599,8 @@ namespace PharmaLink_API.Migrations
             modelBuilder.Entity("PharmaLink_API.Models.PharmacyStock", b =>
                 {
                     b.Navigation("CartItems");
+
+                    b.Navigation("OrderDetails");
                 });
 
             modelBuilder.Entity("PharmaLink_API.Models.User", b =>

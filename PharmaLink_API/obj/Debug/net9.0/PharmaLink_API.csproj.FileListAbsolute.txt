@@ -7,7 +7,6 @@ E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\PharmaLi
 E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\PharmaLink_API.dll
 E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\PharmaLink_API.pdb
 E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\AutoMapper.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Azure.Core.dll
 E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Azure.Identity.dll
 E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Humanizer.dll

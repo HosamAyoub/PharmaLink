@@ -56,10 +56,24 @@ namespace PharmaLink_API.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             //Order-CartItem relationship (1, many)
-            modelBuilder.Entity<Order>()
-                .HasMany(o => o.CartItems)
-                .WithOne(ci => ci.Order)
-                .HasForeignKey(ci => ci.OrderID)
+            //modelBuilder.Entity<Order>()
+            //    .HasMany(o => o.CartItems)
+            //    .WithOne(ci => ci.Order)
+            //    .HasForeignKey(ci => ci.OrderID)
+            //    .OnDelete(DeleteBehavior.Cascade);
+
+            //OrderDetail-PharmacyStock relationship (many to one)
+            modelBuilder.Entity<OrderDetail>()
+                .HasOne(od => od.PharmacyStock)
+                .WithMany(ps => ps.OrderDetails)
+                .HasForeignKey(od => new { od.DrugId, od.PharmacyId })
+                .OnDelete(DeleteBehavior.Restrict);
+
+            //OrderDetail-Order relationship (many to one)
+            modelBuilder.Entity<OrderDetail>()
+                .HasOne(od => od.Order)
+                .WithMany(o => o.OrderDetails)
+                .HasForeignKey(od => od.OrderId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             //PharmacyStock (many, many)
@@ -156,10 +170,6 @@ namespace PharmaLink_API.Data
 
             modelBuilder.Entity<PharmacyStock>().HasData(
                 new PharmacyStock { DrugId = 1, PharmacyId = 1, Price = 15.00m, QuantityAvailable = 50 }
-            );
-
-            modelBuilder.Entity<Order>().HasData(
-                new Order { OrderID = 1, UserId = 1, PharmacyId=1, Address = "Cairo", PaymentMethod="Cash", Status="Pending", TotalPrice = 30.00m, OrderDate = new DateTime(2025, 07, 12, 12, 00, 00) }
             );
 
             modelBuilder.Entity<UserFavoriteDrug>().HasData(

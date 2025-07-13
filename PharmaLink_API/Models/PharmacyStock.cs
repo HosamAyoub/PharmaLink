@@ -13,5 +13,8 @@
 
         //User-PharmacyStock(Cart) relationship (many to many)
         public ICollection<CartItem>? CartItems { get; set; }
+
+        //OrderDetail-PharmacyStock relationship (many to one)
+        public ICollection<OrderDetail>? OrderDetails { get; set; }
     }
 }
