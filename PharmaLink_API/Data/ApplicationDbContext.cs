@@ -1,19 +1,23 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using PharmaLink_API.Models;
 
 namespace PharmaLink_API.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<Account>
     {
+        public ApplicationDbContext()
+        {
+        }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Account>()
-                .HasIndex(a => a.Email)
-                .IsUnique();
+            //modelBuilder.Entity<Account>()
+            //    .HasIndex(a => a.Email)
+            //    .IsUnique();
 
             //modelBuilder.Entity<Pharmacy>()
             //    .HasIndex(p => p.Name)
@@ -122,6 +126,8 @@ namespace PharmaLink_API.Data
                       .HasForeignKey(uf => uf.DrugId);
             });
 
+            base.OnModelCreating(modelBuilder);
+
             // *********Seed tables********* //
             //modelBuilder.Entity<Account>().HasData(
             //    new Account { AccountID = 1, Email = "user1@example.com", Password = "hashedpass", Role = "User" },
@@ -170,23 +176,23 @@ namespace PharmaLink_API.Data
             //    new Pharmacy { PharmacyID = 1, Name = "Good Health", Country="Egypt", Address = "Nasr City", AccountId = 2 }
             //);
 
-        //    modelBuilder.Entity<PharmacyStock>().HasData(
-        //        new PharmacyStock { DrugId = 1, PharmacyId = 1, Price = 15.00m, QuantityAvailable = 50 }
-        //    );
+            //    modelBuilder.Entity<PharmacyStock>().HasData(
+            //        new PharmacyStock { DrugId = 1, PharmacyId = 1, Price = 15.00m, QuantityAvailable = 50 }
+            //    );
 
-        //    modelBuilder.Entity<UserFavoriteDrug>().HasData(
-        //        new UserFavoriteDrug { UserId = 1, DrugId = 1 }
-        //    );
+            //    modelBuilder.Entity<UserFavoriteDrug>().HasData(
+            //        new UserFavoriteDrug { UserId = 1, DrugId = 1 }
+            //    );
 
-        //    modelBuilder.Entity<CartItem>().HasData(
-        //        new CartItem
-        //        {
-        //            UserId = 1,
-        //            DrugId = 1,
-        //            PharmacyId = 1,
-        //            Quantity = 1
-        //        }
-        //    );
+            //    modelBuilder.Entity<CartItem>().HasData(
+            //        new CartItem
+            //        {
+            //            UserId = 1,
+            //            DrugId = 1,
+            //            PharmacyId = 1,
+            //            Quantity = 1
+            //        }
+            //    );
         }
 
         // *********DB SETS********* //

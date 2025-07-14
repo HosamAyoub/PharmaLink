@@ -1,12 +1,9 @@
-﻿namespace PharmaLink_API.Models
-{
-    public class Account
-    {
-        public Guid AccountID { get; set; }
-        public string Role { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
+﻿using Microsoft.AspNetCore.Identity;
 
+namespace PharmaLink_API.Models
+{
+    public class Account : IdentityUser
+    {
         //user-Account relationship (one to one)
         public User? User { get; set; }
 

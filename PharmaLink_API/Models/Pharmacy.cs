@@ -11,7 +11,7 @@
         public TimeOnly EndHour { get; set; }
 
         //Pharmacy-Account relationship (one to one)
-        public Guid AccountId { get; set; }
+        public string AccountId { get; set; }
         public Account Account { get; set; }
 
         //Pharmacy-Drug relationship (many to many)
