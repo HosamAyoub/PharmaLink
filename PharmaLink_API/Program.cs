@@ -1,6 +1,8 @@
 
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PharmaLink_API.Data;
+using PharmaLink_API.Models;
 using PharmaLink_API.Repository;
 using PharmaLink_API.Repository.IRepository;
 
@@ -21,6 +23,9 @@ namespace PharmaLink_API
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<ICartRepository, CartRepository>();
             builder.Services.AddScoped<IDrugRepository, DrugRepoServices>();
+            builder.Services.AddIdentity<Account, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
