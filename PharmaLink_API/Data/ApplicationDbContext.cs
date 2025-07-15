@@ -121,70 +121,92 @@ namespace PharmaLink_API.Data
             });
 
             // *********Seed tables********* //
-            //modelBuilder.Entity<Account>().HasData(
-            //    new Account { AccountID = 1, Email = "user1@example.com", Password = "hashedpass", Role = "User" },
-            //    new Account { AccountID = 2, Email = "pharmacy@example.com", Password = "hashedpass", Role = "Pharmacy" }
-            //);
+            // Seed Account
+            var userAccountId = new Guid("11111111-1111-1111-1111-111111111111");
+            var pharmacyAccountId = new Guid("22222222-2222-2222-2222-222222222222");
 
-            //modelBuilder.Entity<User>().HasData(
-            //    new User
-            //    {
-            //        UserID = 1,
-            //        Name = "Mariem",
-            //        Gender = "Female",
-            //        DateOfBirth = new DateTime(2000, 1, 1),
-            //        MobileNumber = "0100000000",
-            //        Country = "Egypt",
-            //        Address = "Cairo",
-            //        UserDisease = "None",
-            //        UserDrugs = "Paracetamol",
-            //        AccountId = 1
-            //    }
-            // );
+            modelBuilder.Entity<Account>().HasData(
+                new Account
+                {
+                    AccountID = userAccountId,
+                    Role = "User",
+                    Email = "user@example.com",
+                    Password = "UserPass123"
+                },
+                new Account
+                {
+                    AccountID = pharmacyAccountId,
+                    Role = "Pharmacy",
+                    Email = "pharmacy@example.com",
+                    Password = "PharmacyPass123"
+                }
+            );
 
-            //modelBuilder.Entity<Drug>().HasData(
-            //    new Drug
-            //    {
-            //        DrugID = 1,
-            //        CommonName = "Panadol",
-            //        Category = "Painkiller",
-            //        ActiveIngredient = "Paracetamol",
-            //        Alternatives_names = "Tylenol",
-            //        AlternativesGpID = 100,
-            //        Indications_and_usage = "Headache, fever",
-            //        Dosage_and_administration = "500mg twice daily",
-            //        Dosage_forms_and_strengths = "Tablet 500mg",
-            //        Contraindications = "Liver disease",
-            //        Warnings_and_cautions = "Don't exceed 4g/day",
-            //        Drug_interactions = "Warfarin",
-            //        Description = "Pain reliever",
-            //        Storage_and_handling = "Keep cool and dry",
-            //        Adverse_reactions = "Nausea",
-            //        Drug_UrlImg = "/images/panadol.png"
-            //    }
-            // );
+            // Seed User
+            modelBuilder.Entity<User>().HasData(
+                new User
+                {
+                    UserID = 1,
+                    Name = "John Doe",
+                    Gender = "Male",
+                    DateOfBirth = new DateTime(1995, 1, 1),
+                    MobileNumber = "0123456789",
+                    Country = "Egypt",
+                    Address = "123 Main St",
+                    UserDisease = "Diabetes",
+                    UserDrugs = "Metformin",
+                    AccountId = userAccountId
+                }
+            );
 
-            //modelBuilder.Entity<Pharmacy>().HasData(
-            //    new Pharmacy { PharmacyID = 1, Name = "Good Health", Country="Egypt", Address = "Nasr City", AccountId = 2 }
-            //);
+            // Seed Pharmacy
+            modelBuilder.Entity<Pharmacy>().HasData(
+                new Pharmacy
+                {
+                    PharmacyID = 1,
+                    Name = "GoodHealth Pharmacy",
+                    Country = "Egypt",
+                    Address = "456 Health Ave",
+                    Rate = 4.5,
+                    StartHour = new TimeOnly(8, 0),
+                    EndHour = new TimeOnly(22, 0),
+                    AccountId = pharmacyAccountId
+                }
+            );
 
-        //    modelBuilder.Entity<PharmacyStock>().HasData(
-        //        new PharmacyStock { DrugId = 1, PharmacyId = 1, Price = 15.00m, QuantityAvailable = 50 }
-        //    );
+            // Seed Drug
+            modelBuilder.Entity<Drug>().HasData(
+                new Drug
+                {
+                    DrugID = 1,
+                    CommonName = "Paracetamol",
+                    Category = "Pain Reliever",
+                    ActiveIngredient = "Acetaminophen",
+                    Alternatives_names = "Panadol, Tylenol",
+                    AlternativesGpID = 101,
+                    Indications_and_usage = "For fever and pain",
+                    Dosage_and_administration = "500mg every 6 hours",
+                    Dosage_forms_and_strengths = "Tablet 500mg",
+                    Contraindications = "Liver disease",
+                    Warnings_and_cautions = "Do not exceed 4g/day",
+                    Drug_interactions = "Alcohol",
+                    Description = "Pain relief drug",
+                    Storage_and_handling = "Store below 30°C",
+                    Adverse_reactions = "Nausea, Rash",
+                    Drug_UrlImg = "https://example.com/images/paracetamol.png"
+                }
+            );
 
-        //    modelBuilder.Entity<UserFavoriteDrug>().HasData(
-        //        new UserFavoriteDrug { UserId = 1, DrugId = 1 }
-        //    );
-
-        //    modelBuilder.Entity<CartItem>().HasData(
-        //        new CartItem
-        //        {
-        //            UserId = 1,
-        //            DrugId = 1,
-        //            PharmacyId = 1,
-        //            Quantity = 1
-        //        }
-        //    );
+            // Seed PharmacyStock (Pharmacy ↔ Drug)
+            modelBuilder.Entity<PharmacyStock>().HasData(
+                new PharmacyStock
+                {
+                    DrugId = 1,
+                    PharmacyId = 1,
+                    Price = 10.5m,
+                    QuantityAvailable = 100
+                }
+            );
         }
 
         // *********DB SETS********* //
@@ -193,6 +215,7 @@ namespace PharmaLink_API.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Drug> Drugs { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<PharmacyStock> PharmacyStocks { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<UserFavoriteDrug> UserFavoriteDrugs { get; set; }

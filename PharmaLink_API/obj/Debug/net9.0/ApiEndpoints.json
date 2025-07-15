@@ -264,5 +264,47 @@
         "StatusCode": 500
       }
     ]
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.OrdersController",
+    "Method": "SubmitOrder",
+    "RelativePath": "api/Orders",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.OrdersController",
+    "Method": "CreateCheckoutSession",
+    "RelativePath": "api/Orders/CreateCheckoutSession",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.OrdersController",
+    "Method": "StripeWebhook",
+    "RelativePath": "api/Orders/stripe-webhook",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
   }
 ]

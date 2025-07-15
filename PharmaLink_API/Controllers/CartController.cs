@@ -29,13 +29,21 @@ namespace PharmaLink_API.Controllers
         public async Task<ActionResult<IEnumerable<CartItem>>> GetCartSummary(int userId)
         {
             var cartItems = await _cartRepository.GetAllAsync(u => u.UserId == userId, x => x.PharmacyStocks);
-            var user = await _userRepository.GetAsync(u => u.UserID == userId);
+            var user = await _userRepository.GetAsync(u => u.UserID == userId, true, x => x.Account);
 
             if (cartItems == null || !cartItems.Any())
             {
                 return NotFound("No items found in the cart");
             }
+            if (user == null)
+            {
+                return NotFound("User not found.");
+            }
 
+            if (user.Account == null)
+            {
+                return NotFound("User account information is missing.");
+            }
             var cartDto = new CartItemSummaryDTO
             {
                 cartItems = cartItems.Select(c => new AddToCartDTO
@@ -48,6 +56,10 @@ namespace PharmaLink_API.Controllers
                 }),
                 order = new Order
                 {
+                    Name = user.Name,
+                    PhoneNumber = user.MobileNumber,
+                    Email = user.Account.Email,
+                    Country = user.Country,
                     Address = user.Address,
                     TotalPrice = cartItems.Sum(c => c.Price * c.Quantity)
                 }
