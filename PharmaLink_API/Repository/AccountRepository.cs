@@ -21,7 +21,7 @@ namespace PharmaLink_API.Repository
             _db = db;
             //newUser = new AccountDTO();
         }
-        public async Task<IdentityResult> RegisterAsync(AccountDTO account)
+        public async Task<IdentityResult> RegisterAsync(RegisterAccountDTO account)
         {
             if (account == null)
             {

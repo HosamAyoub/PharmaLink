@@ -22,7 +22,7 @@ namespace PharmaLink_API.Controllers
             _accountRepository = accountRepository;
         }
         [HttpPost("Register")]
-        public async Task<IActionResult> Register(AccountDTO userRegisterInfo)
+        public async Task<IActionResult> Register(RegisterAccountDTO userRegisterInfo)
         {
             IdentityResult result = IdentityResult.Success;
             if (ModelState.IsValid)
@@ -43,6 +43,21 @@ namespace PharmaLink_API.Controllers
             return BadRequest(result.Errors.ToArray());
         }
         //[HttpPost("Login")]
-
+        //public async Task<IActionResult> Login(LoginDTO loginInfo)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        SignInResult result = await _accountRepository.LoginAsync(loginInfo.Email, loginInfo.Password);
+        //        // if (result.Succeeded)
+        //        // {
+        //        //     return Ok(new { Message = "Login successful" });
+        //        // }
+        //        // else
+        //        // {
+        //        //     return Unauthorized(new { Message = "Invalid login attempt" });
+        //        // }
+        //    }
+        //    return BadRequest(ModelState);
+        //}
     }
 }

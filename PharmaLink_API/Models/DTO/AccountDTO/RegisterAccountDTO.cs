@@ -2,7 +2,7 @@
 
 namespace PharmaLink_API.Models.DTO.AccountDTO
 {
-    public class AccountDTO
+    public class RegisterAccountDTO
     {
         [Required]
         public string UserName { get; set; }
@@ -16,7 +16,7 @@ namespace PharmaLink_API.Models.DTO.AccountDTO
         public string ConfirmPassword { get; set; }
         [Required]
         public string PhoneNumber { get; set; }
-        public UserDTO? User { get; set; }
-        public PharmacyDTO? Pharmacy { get; set; }
+        public RegisterUserDTO? User { get; set; }
+        public RegsiterPharmacyDTO? Pharmacy { get; set; }
     }
 }

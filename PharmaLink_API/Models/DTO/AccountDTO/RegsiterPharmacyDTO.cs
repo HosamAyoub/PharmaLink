@@ -2,7 +2,7 @@
 
 namespace PharmaLink_API.Models.DTO.AccountDTO
 {
-    public class PharmacyDTO
+    public class RegsiterPharmacyDTO
     {
         [Required]
         public string Country { get; set; }

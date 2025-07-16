@@ -2,7 +2,7 @@
 
 namespace PharmaLink_API.Models.DTO.AccountDTO
 {
-    public class UserDTO
+    public class RegisterUserDTO
     {
         [Required]
         public Gender Gender { get; set; }
