@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PharmaLink_API.Models;
 using PharmaLink_API.Models.DTO.AccountDTO;
+using PharmaLink_API.Repository.IRepository;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace PharmaLink_API.Controllers
 {
@@ -12,44 +15,32 @@ namespace PharmaLink_API.Controllers
     public class AccountController : ControllerBase
     {
 
-        private readonly UserManager<Account> _userManager;
-        private readonly IMapper _mapper;
+        private readonly IAccountRepository _accountRepository;
 
-        public AccountController(UserManager<Account> userManager, IMapper mapper)
+        public AccountController(IAccountRepository accountRepository)
         {
-            _userManager = userManager;
-            _mapper = mapper;
+            _accountRepository = accountRepository;
         }
         [HttpPost("Register")]
-        public async Task<IActionResult> Register(RegisterUserDTO userRegisterInfo)
+        public async Task<IActionResult> Register(AccountDTO userRegisterInfo)
         {
+            IdentityResult result = IdentityResult.Success;
             if (ModelState.IsValid)
             {
-                //Account newUser = _mapper.Map<Account>(userRegisterInfo);
-                Account newUser = new Account
-                {
-                    UserName = userRegisterInfo.UserName,
-                    Email = userRegisterInfo.Email,
-                    // You can set other properties here if needed
-                };
-                IdentityResult result = await _userManager.CreateAsync(newUser, userRegisterInfo.Password);
+                result = await _accountRepository.RegisterAsync(userRegisterInfo);
                 if (result.Succeeded)
                 {
-
-                    // Optionally, you can add the user to a role here
-                    // await _userManager.AddToRoleAsync(newUser, "User");
-                    return Ok(new { Message = $"User registered successfully\n{newUser.UserName}\n{newUser.Email}" });
+                    return Ok(new { Message = $"User registered successfully\n{userRegisterInfo.UserName}\n{userRegisterInfo.Email}" });
                 }
-                else
-                {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError(string.Empty, error.Description);
-                    }
-                }
-                return BadRequest(result.Errors.ToList());
+                //else
+                //{
+                //    foreach (var error in result.Errors)
+                //    {
+                //        ModelState.AddModelError(string.Empty, error.Description);
+                //    }
+                //}
             }
-            return BadRequest(ModelState);
+            return BadRequest(result.Errors.ToArray());
         }
         //[HttpPost("Login")]
 

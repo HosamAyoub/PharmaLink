@@ -29,9 +29,13 @@ namespace PharmaLink_API.Data
 
 
 
+            //modelBuilder.Entity<User>()
+            //    .HasIndex(u => u.MobileNumber)
+            //    .IsUnique();
             modelBuilder.Entity<User>()
-                .HasIndex(u => u.MobileNumber)
-                .IsUnique();
+                .Property(u => u.Gender)
+                .HasConversion<string>();
+
 
             // *********RELATIONSHIPS********* //
 

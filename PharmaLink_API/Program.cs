@@ -18,11 +18,12 @@ namespace PharmaLink_API
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            builder.Services.AddAutoMapper(typeof(MappingConfig));
+            builder.Services.AddAutoMapper(typeof(Program));
 
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<ICartRepository, CartRepository>();
             builder.Services.AddScoped<IDrugRepository, DrugRepoServices>();
+            builder.Services.AddScoped<IAccountRepository, AccountRepository>();
             builder.Services.AddIdentity<Account, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
