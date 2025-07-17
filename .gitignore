@@ -1,3 +1,9 @@
 *.vs
 Migrations/
-PharmaLink_API/obj/
+bin/
+obj/
+.vs/
+*.suo
+*.user
+*.sdf
+*.log
