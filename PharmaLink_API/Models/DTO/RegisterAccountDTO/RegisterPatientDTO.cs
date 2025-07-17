@@ -1,8 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace PharmaLink_API.Models.DTO.RegisterAccountDTO
 {
-    public class RegisterUserDTO
+    public class RegisterPatientDTO
     {
         [Required]
         public Gender Gender { get; set; }
@@ -10,10 +10,9 @@ namespace PharmaLink_API.Models.DTO.RegisterAccountDTO
         public DateOnly DateOfBirth { get; set; }
         [Required]
         public string Country { get; set; }
-        // we will convert it to langitutde and latitude
         public string? Address { get; set; }
-        public string? UserDiseases { get; set; }
-        public string? UserDrugs { get; set; }
+        public string? PatientDiseases { get; set; }
+        public string? PatientDrugs { get; set; }
         public string AccountId { get; set; }
     }
 }

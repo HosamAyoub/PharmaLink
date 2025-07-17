@@ -1,13 +1,13 @@
-﻿using PharmaLink_API.Data;
+using PharmaLink_API.Data;
 using PharmaLink_API.Models;
 using PharmaLink_API.Repository.IRepository;
 
 namespace PharmaLink_API.Repository
 {
-    public class UserRepository : Repository<User>, IUserRepository
+    public class PatientRepository : Repository<Patient>, IPatientRepository
     {
         private readonly ApplicationDbContext _db;
-        public UserRepository(ApplicationDbContext db) : base(db)
+        public PatientRepository(ApplicationDbContext db) : base(db)
         {
             _db = db;
         }

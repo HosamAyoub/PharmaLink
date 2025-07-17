@@ -2,8 +2,8 @@
 {
     public class CartItem
     {
-        public int UserId { get; set; }
-        public User? User { get; set; }
+        public int PatientId { get; set; }
+        public Patient? Patient { get; set; }
 
         public int DrugId { get; set; }
         public int PharmacyId { get; set; }

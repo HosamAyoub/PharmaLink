@@ -13,12 +13,12 @@ namespace PharmaLink_API.Controllers
     public class CartController : ControllerBase
     {
         private readonly ICartRepository _cartRepository;
-        private readonly IUserRepository _userRepository;
+        private readonly IPatientRepository _patientRepository;
         private readonly IMapper _mapper;
-        public CartController(ICartRepository cartRepository, IUserRepository userRepository, IMapper mapper)
+        public CartController(ICartRepository cartRepository, IPatientRepository patientRepository, IMapper mapper)
         {
             _cartRepository = cartRepository;
-            _userRepository = userRepository;
+            _patientRepository = patientRepository;
             _mapper = mapper;
         }
 
@@ -26,10 +26,10 @@ namespace PharmaLink_API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<CartItem>>> GetCartSummary(int userId)
+        public async Task<ActionResult<IEnumerable<CartItem>>> GetCartSummary(int PatientId)
         {
-            var cartItems = await _cartRepository.GetAllAsync(u => u.UserId == userId, x => x.PharmacyStocks);
-            var user = await _userRepository.GetAsync(u => u.UserID == userId);
+            var cartItems = await _cartRepository.GetAllAsync(u => u.PatientId == PatientId, x => x.PharmacyStocks);
+            var user = await _patientRepository.GetAsync(u => u.PatientId == PatientId);
 
             if (cartItems == null || !cartItems.Any())
             {
@@ -40,7 +40,7 @@ namespace PharmaLink_API.Controllers
             {
                 cartItems = cartItems.Select(c => new AddToCartDTO
                 {
-                    UserId = c.UserId,
+                    PatientId = c.PatientId,
                     DrugId = c.DrugId,
                     PharmacyId = c.PharmacyId,
                     Quantity = c.Quantity,
@@ -62,13 +62,13 @@ namespace PharmaLink_API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<AddToCartDTO>> AddToCart([FromBody] AddToCartDTO cartItem)
         {
-            if (cartItem == null || cartItem.PharmacyId == null || cartItem.UserId == null || cartItem.UserId == null)
+            if (cartItem == null || cartItem.PharmacyId == null || cartItem.PatientId == null || cartItem.PatientId == null)
             {
                 return BadRequest("Cart item cannot be null");
             }
 
             var existingCartItem = await _cartRepository.GetAsync(
-                u => u.UserId == cartItem.UserId && u.DrugId == cartItem.DrugId && u.PharmacyId == cartItem.PharmacyId);
+                u => u.PatientId == cartItem.PatientId && u.DrugId == cartItem.DrugId && u.PharmacyId == cartItem.PharmacyId);
 
             CartItem finalCartItem;
             if (existingCartItem == null)
@@ -84,7 +84,7 @@ namespace PharmaLink_API.Controllers
             }
             await _cartRepository.SaveAsync();
 
-            var cartList = await _cartRepository.GetAllAsync(u => u.UserId == cartItem.UserId);
+            var cartList = await _cartRepository.GetAllAsync(u => u.PatientId == cartItem.PatientId);
             var totalCount = cartList.Count;
 
 
@@ -95,9 +95,9 @@ namespace PharmaLink_API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<CartItem>> IncrementCartItem(int userId, int drugId, int pharmacyId)
+        public async Task<ActionResult<CartItem>> IncrementCartItem(int PatientId, int drugId, int pharmacyId)
         {
-            var cartItem = await _cartRepository.GetAsync(u => u.UserId == userId && u.DrugId == drugId && u.PharmacyId == pharmacyId);
+            var cartItem = await _cartRepository.GetAsync(u => u.PatientId == PatientId && u.DrugId == drugId && u.PharmacyId == pharmacyId);
             if (cartItem == null)
             {
                 return NotFound("Cart item not found");
@@ -111,9 +111,9 @@ namespace PharmaLink_API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<CartItem>> DecrementCartItem(int userId, int drugId, int pharmacyId)
+        public async Task<ActionResult<CartItem>> DecrementCartItem(int PatientId, int drugId, int pharmacyId)
         {
-            var cartItem = await _cartRepository.GetAsync(u => u.UserId == userId && u.DrugId == drugId && u.PharmacyId == pharmacyId);
+            var cartItem = await _cartRepository.GetAsync(u => u.PatientId == PatientId && u.DrugId == drugId && u.PharmacyId == pharmacyId);
             if (cartItem == null)
             {
                 return NotFound("Cart item not found");
@@ -129,14 +129,14 @@ namespace PharmaLink_API.Controllers
             return Ok(cartItem);
         }
 
-        [HttpDelete("remove/{userId}/{drugId}/{pharmacyId}")]
+        [HttpDelete("remove/{PatientId}/{drugId}/{pharmacyId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> RemoveFromCart(int userId, int drugId, int pharmacyId)
+        public async Task<ActionResult> RemoveFromCart(int PatientId, int drugId, int pharmacyId)
         {
             var cartItem = await _cartRepository.GetAsync(
-                u => u.UserId == userId && u.DrugId == drugId && u.PharmacyId == pharmacyId
+                u => u.PatientId == PatientId && u.DrugId == drugId && u.PharmacyId == pharmacyId
             );
 
             if (cartItem == null)
@@ -150,19 +150,19 @@ namespace PharmaLink_API.Controllers
             return Ok(new
             {
                 message = "Item successfully removed from cart",
-                userId,
+                PatientId,
                 drugId,
                 pharmacyId
             });
         }
 
-        [HttpGet("{userId}")]
+        [HttpGet("{PatientId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<CartItem>>> GetCartItems(int userId)
+        public async Task<ActionResult<IEnumerable<CartItem>>> GetCartItems(int PatientId)
         {
-            var cartItems = await _cartRepository.GetAllAsync(u => u.UserId == userId);
+            var cartItems = await _cartRepository.GetAllAsync(u => u.PatientId == PatientId);
             if (cartItems == null || !cartItems.Any())
             {
                 return NotFound("No items found in the cart");

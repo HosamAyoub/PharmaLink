@@ -5,9 +5,9 @@ namespace PharmaLink_API.Models
     public class Account : IdentityUser
     {
         // Represents a user account in the PharmaLink system, inheriting from IdentityUser.
-        public string? DisplayName { get; set; }
+        public string DisplayName { get; set; }
         //user-Account relationship (one to one)
-        public User? User { get; set; }
+        public Patient? Patient { get; set; }
 
         // User-Pharmacy relationship (one to one)
         public Pharmacy? Pharmacy { get; set; }

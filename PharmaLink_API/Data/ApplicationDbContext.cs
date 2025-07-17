@@ -29,21 +29,21 @@ namespace PharmaLink_API.Data
 
 
 
-            //modelBuilder.Entity<User>()
+            //modelBuilder.Entity<Patient>()
             //    .HasIndex(u => u.MobileNumber)
             //    .IsUnique();
-            modelBuilder.Entity<User>()
+            modelBuilder.Entity<Patient>()
                 .Property(u => u.Gender)
                 .HasConversion<string>();
 
 
             // *********RELATIONSHIPS********* //
 
-            //Account-User (1,1)
+            //Account-Patient (1,1)
             modelBuilder.Entity<Account>()
-                .HasOne(a => a.User)
+                .HasOne(a => a.Patient)
                 .WithOne(u => u.Account)
-                .HasForeignKey<User>(u => u.AccountId);
+                .HasForeignKey<Patient>(u => u.AccountId);
 
             //Account-Pharmacy (1,1)
             modelBuilder.Entity<Account>()
@@ -51,11 +51,11 @@ namespace PharmaLink_API.Data
                 .WithOne(p => p.Account)
                 .HasForeignKey<Pharmacy>(p => p.AccountId);
 
-            //User-Order (1, many)
-            modelBuilder.Entity<User>()
+            //Patient-Order (1, many)
+            modelBuilder.Entity<Patient>()
                 .HasMany(u => u.Orders)
-                .WithOne(o => o.User)
-                .HasForeignKey(o => o.UserId)
+                .WithOne(o => o.Patient)
+                .HasForeignKey(o => o.PatientId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             //Pharmacy-Order (1, many)
@@ -100,14 +100,14 @@ namespace PharmaLink_API.Data
                       .HasForeignKey(pd => pd.DrugId);
             });
 
-            //User-PharmacyStocks(Cart) relationship (many to many)
+            //Patient-PharmacyStocks(Cart) relationship (many to many)
             modelBuilder.Entity<CartItem>(entity =>
             {
-                entity.HasKey(uc => new { uc.UserId, uc.DrugId, uc.PharmacyId });
+                entity.HasKey(uc => new { uc.PatientId, uc.DrugId, uc.PharmacyId });
 
-                entity.HasOne(uc => uc.User)
+                entity.HasOne(uc => uc.Patient)
                       .WithMany(u => u.CartItems)
-                      .HasForeignKey(uc => uc.UserId)
+                      .HasForeignKey(uc => uc.PatientId)
                       .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne(uc => uc.PharmacyStocks)
@@ -116,17 +116,17 @@ namespace PharmaLink_API.Data
                       .OnDelete(DeleteBehavior.Restrict);
             });
 
-            //UserFavoriteDrug (many, many)
-            modelBuilder.Entity<UserFavoriteDrug>(entity =>
+            //PatientFavoriteDrug (many, many)
+            modelBuilder.Entity<PatientFavoriteDrug>(entity =>
             {
-                entity.HasKey(uf => new { uf.UserId, uf.DrugId });
+                entity.HasKey(uf => new { uf.PatientId, uf.DrugId });
 
-                entity.HasOne(uf => uf.User)
-                      .WithMany(u => u.UserFavorites)
-                      .HasForeignKey(uf => uf.UserId);
+                entity.HasOne(uf => uf.Patient)
+                      .WithMany(u => u.PatientFavorites)
+                      .HasForeignKey(uf => uf.PatientId);
 
                 entity.HasOne(uf => uf.Drug)
-                      .WithMany(d => d.UserFavorites)
+                      .WithMany(d => d.PatientFavorites)
                       .HasForeignKey(uf => uf.DrugId);
             });
 
@@ -134,22 +134,22 @@ namespace PharmaLink_API.Data
 
             // *********Seed tables********* //
             //modelBuilder.Entity<Account>().HasData(
-            //    new Account { AccountID = 1, Email = "user1@example.com", Password = "hashedpass", Role = "User" },
+            //    new Account { AccountID = 1, Email = "Patient1@example.com", Password = "hashedpass", Role = "Patient" },
             //    new Account { AccountID = 2, Email = "pharmacy@example.com", Password = "hashedpass", Role = "Pharmacy" }
             //);
 
-            //modelBuilder.Entity<User>().HasData(
-            //    new User
+            //modelBuilder.Entity<Patient>().HasData(
+            //    new Patient
             //    {
-            //        UserID = 1,
+            //        PatientID = 1,
             //        Name = "Mariem",
             //        Gender = "Female",
             //        DateOfBirth = new DateTime(2000, 1, 1),
             //        MobileNumber = "0100000000",
             //        Country = "Egypt",
             //        Address = "Cairo",
-            //        UserDisease = "None",
-            //        UserDrugs = "Paracetamol",
+            //        PatientDisease = "None",
+            //        PatientDrugs = "Paracetamol",
             //        AccountId = 1
             //    }
             // );
@@ -184,14 +184,14 @@ namespace PharmaLink_API.Data
             //        new PharmacyStock { DrugId = 1, PharmacyId = 1, Price = 15.00m, QuantityAvailable = 50 }
             //    );
 
-            //    modelBuilder.Entity<UserFavoriteDrug>().HasData(
-            //        new UserFavoriteDrug { UserId = 1, DrugId = 1 }
+            //    modelBuilder.Entity<PatientFavoriteDrug>().HasData(
+            //        new PatientFavoriteDrug { PatientId = 1, DrugId = 1 }
             //    );
 
             //    modelBuilder.Entity<CartItem>().HasData(
             //        new CartItem
             //        {
-            //            UserId = 1,
+            //            PatientId = 1,
             //            DrugId = 1,
             //            PharmacyId = 1,
             //            Quantity = 1
@@ -202,12 +202,12 @@ namespace PharmaLink_API.Data
         // *********DB SETS********* //
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Pharmacy> Pharmacies { get; set; }
-        public DbSet<User> Users { get; set; }
+        public DbSet<Patient> Patients { get; set; }
         public DbSet<Drug> Drugs { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<PharmacyStock> PharmacyStocks { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
-        public DbSet<UserFavoriteDrug> UserFavoriteDrugs { get; set; }
+        public DbSet<PatientFavoriteDrug> PatientFavoriteDrugs { get; set; }
         
     }
 }

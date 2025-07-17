@@ -18,9 +18,9 @@
         public int PharmacyId { get; set; }
         public Pharmacy? Pharmacy { get; set; }
 
-        //User-Order relationship (one to many)
-        public int UserId { get; set; }
-        public User? User { get; set; }
+        //Patient-Order relationship (one to many)
+        public int PatientId { get; set; }
+        public Patient? Patient { get; set; }
 
         //OrderDetail-Order relationship (many to one)
         public ICollection<OrderDetail>? OrderDetails { get; set; }

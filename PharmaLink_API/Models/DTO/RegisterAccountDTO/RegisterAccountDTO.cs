@@ -7,7 +7,7 @@ namespace PharmaLink_API.Models.DTO.RegisterAccountDTO
         [Required]
         public string UserName { get; set; }
         [Required]
-        public string? DisplayName { get; set; }
+        public string DisplayName { get; set; }
         [Required]
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; }
@@ -19,7 +19,7 @@ namespace PharmaLink_API.Models.DTO.RegisterAccountDTO
         public string ConfirmPassword { get; set; }
         [Required]
         public string PhoneNumber { get; set; }
-        public RegisterUserDTO? User { get; set; }
+        public RegisterPatientDTO? Patient { get; set; }
         public RegsiterPharmacyDTO? Pharmacy { get; set; }
     }
 }

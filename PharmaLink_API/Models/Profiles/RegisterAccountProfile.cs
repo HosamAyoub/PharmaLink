@@ -7,7 +7,8 @@ namespace PharmaLink_API.Models.Profiles
     {
         public RegisterAccountProfile()
         {
-            CreateMap<RegisterUserDTO, User>();
+            CreateMap<RegisterPatientDTO, Patient>();
+            CreateMap<RegisterPatientDTO, Patient>();
             CreateMap<RegsiterPharmacyDTO, Pharmacy>();
             CreateMap<RegisterAccountDTO, Account>();
         }

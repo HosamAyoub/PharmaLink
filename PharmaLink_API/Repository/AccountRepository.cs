@@ -43,17 +43,23 @@ namespace PharmaLink_API.Repository
                 return result;
             }
 
-            if (account.User != null)
+            if (account.Patient != null)
             {
-                account.User.AccountId = newAccount.Id;
-                newAccount.User = _mapper.Map<User>(account.User);
-                await _db.Users.AddAsync(newAccount.User);
+                account.Patient.AccountId = newAccount.Id;
+                newAccount.Patient = _mapper.Map<Patient>(account.Patient);
+                await _db.Patients.AddAsync(newAccount.Patient);
             }
             else if (account.Pharmacy != null)
             {
                 account.Pharmacy.AccountId = newAccount.Id;
                 newAccount.Pharmacy = _mapper.Map<Pharmacy>(account.Pharmacy);
                 await _db.Pharmacies.AddAsync(newAccount.Pharmacy);
+            }
+            else if (account.Patient != null)
+            {
+                account.Patient.AccountId = newAccount.Id;
+                newAccount.Patient = _mapper.Map<Patient>(account.Patient);
+                await _db.Patients.AddAsync(newAccount.Patient);
             }
 
             await _db.SaveChangesAsync();
@@ -113,5 +119,52 @@ namespace PharmaLink_API.Repository
                 userName = user.UserName,
             });
         }
+
+        //public Task<Account> GetUserByEmailAsync(string email)
+        //{
+        //    if (string.IsNullOrEmpty(email))
+        //    {
+        //        return Task.FromResult<Account>(null);
+        //    }
+        //    return _userManager.FindByEmailAsync(email);
+        //}
+        //public Task<Account> GetUserByEmailAsync(string email)
+        //{
+        //    if (string.IsNullOrEmpty(email))
+        //    {
+        //        return Task.FromResult<Account>(null);
+        //    }
+        //    return _userManager.FindByEmailAsync(email);
+        //}
+        //public Task<Account> GetUserByUsernameAsync(string username)
+        //{
+        //    if (string.IsNullOrEmpty(username))
+        //    {
+        //        return Task.FromResult<Account>(null);
+        //    }
+        //    return _userManager.FindByNameAsync(username);
+        //}
+
+        //public List<Account> GetUserByDisplayNameAsync(string displayName)
+        //{
+        //    if (string.IsNullOrEmpty(displayName))
+        //    {
+        //        return null;
+        //    }
+        //    return _db.Users
+        //        .Where(u => u. != null && u.DisplayName.Contains(displayName, StringComparison.OrdinalIgnoreCase))
+        //        .ToList();
+        //}
+
+        //public Task<IdentityResult> UpdateUserAsync(Account user)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public Task<IdentityResult> DeleteUserAsync(string id)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
     }
 }
