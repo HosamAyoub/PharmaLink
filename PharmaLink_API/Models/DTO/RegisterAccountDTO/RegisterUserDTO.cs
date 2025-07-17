@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace PharmaLink_API.Models.DTO.AccountDTO
+namespace PharmaLink_API.Models.DTO.RegisterAccountDTO
 {
     public class RegisterUserDTO
     {

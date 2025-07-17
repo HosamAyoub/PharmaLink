@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace PharmaLink_API.Models.DTO.AccountDTO
+namespace PharmaLink_API.Models.DTO.RegisterAccountDTO
 {
     public class RegisterAccountDTO
     {
@@ -10,6 +10,7 @@ namespace PharmaLink_API.Models.DTO.AccountDTO
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; }
         [Required]
+        [DataType(DataType.Password)]
         public string PasswordHash { get; set; }
         [Required]
         [Compare("PasswordHash", ErrorMessage = "The password and confirmation password do not match.")]

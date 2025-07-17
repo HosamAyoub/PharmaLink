@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PharmaLink_API.Data;
 using PharmaLink_API.Models;
 using PharmaLink_API.Repository.IRepository;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace PharmaLink_API.Controllers
 {
+    //[Authorize(Roles = "Admin,Pharmacist,Doctor,Patient")]
     [Route("api/[controller]")]
     [ApiController]
     public class DrugController : ControllerBase
@@ -30,6 +32,7 @@ namespace PharmaLink_API.Controllers
         }
 
         // GET api/<DrugController>/paracetamol
+        [Authorize]
         [HttpGet("Drug_Name")]
         public async Task<List<Drug>> GetByName(string Dname)
         {

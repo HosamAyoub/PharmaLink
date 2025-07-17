@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using PharmaLink_API.Models.DTO.AccountDTO;
+using PharmaLink_API.Models.DTO.RegisterAccountDTO;
 
 namespace PharmaLink_API.Models.Profiles
 {
