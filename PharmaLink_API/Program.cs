@@ -23,6 +23,7 @@ namespace PharmaLink_API
             builder.Services.AddScoped<ICartRepository, CartRepository>();
             builder.Services.AddScoped<IOrderHeaderRepository, OrderHeaderRepository>();
             builder.Services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
+            builder.Services.AddScoped<IPharmacyStockRepository, PharmacyStockRepository>();
 
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi

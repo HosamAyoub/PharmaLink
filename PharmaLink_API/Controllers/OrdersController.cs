@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using PharmaLink_API.Models;
+using PharmaLink_API.Models.DTO.CartDTO;
 using PharmaLink_API.Repository.IRepository;
 using PharmaLink_API.Utility;
 using Stripe;
@@ -18,28 +19,49 @@ namespace PharmaLink_API.Controllers
         private readonly IUserRepository _userRepository;
         private readonly IOrderHeaderRepository _orderHeaderRepository;
         private readonly IOrderDetailRepository _orderDetailRepository;
+        private readonly IPharmacyStockRepository _pharmacyStockRepository;
         private readonly StripeModel _StripeModel;
-        public OrdersController(ICartRepository cartRepository, IUserRepository userRepository, IOrderHeaderRepository orderHeaderRepository, IOrderDetailRepository orderDetailRepository, IOptions<StripeModel> stripeOptions)
+        public OrdersController(ICartRepository cartRepository, IUserRepository userRepository, IOrderHeaderRepository orderHeaderRepository, IOrderDetailRepository orderDetailRepository, IOptions<StripeModel> stripeOptions, IPharmacyStockRepository pharmacyStockRepository)
         {
             _cartRepository = cartRepository;
             _userRepository = userRepository;
             _orderHeaderRepository = orderHeaderRepository;
             _orderDetailRepository = orderDetailRepository;
             _StripeModel = stripeOptions.Value;
+            _pharmacyStockRepository = pharmacyStockRepository;
         }
 
-        [HttpPost]
-        public async Task<ActionResult> SubmitOrder(int userId)
+        [HttpPost("submit")]
+        public async Task<IActionResult> SubmitOrder([FromBody] SubmitOrderRequestDTO request)
         {
-            var cartItems = await _cartRepository.GetAllAsync(u => u.UserId == userId, x => x.PharmacyStocks);
-            var user = await _userRepository.GetAsync(u => u.UserID == userId, true, x=>x.Account);
+            var userId = request.UserId;
+            var items = request.Items;
 
-            if (user == null || !cartItems.Any() || user.Account == null)
+            var cartItems = items; 
+            var user = await _userRepository.GetAsync(u => u.UserID == userId, true, x => x.Account);
+
+            if (user == null || !items.Any() || user.Account == null)
             {
                 return BadRequest("Invalid user or empty cart.");
             }
 
-            var pharmacyId = cartItems.FirstOrDefault().PharmacyId;    
+            decimal totalPrice = 0;
+            int pharmacyId = items.First().PharmacyId;
+
+            foreach (var item in items)
+            {
+                var stock = await _pharmacyStockRepository.GetAsync(
+                    s => s.DrugId == item.DrugId && s.PharmacyId == item.PharmacyId
+                );
+
+                if (stock == null)
+                    return BadRequest($"Drug with ID {item.DrugId} not found in stock.");
+
+                if (item.Quantity > stock.QuantityAvailable)
+                    return BadRequest($"Not enough stock for drug ID {item.DrugId}.");
+
+                totalPrice += stock.Price * item.Quantity;
+            }
 
             var order = new PharmaLink_API.Models.Order
             {
@@ -49,10 +71,9 @@ namespace PharmaLink_API.Controllers
                 Email = user.Account.Email,
                 Country = user.Country,
                 Address = user.Address,
-                TotalPrice = cartItems.Sum(c => c.Price * c.Quantity),
+                TotalPrice = totalPrice,
                 OrderDate = DateTime.UtcNow,
                 PharmacyId = pharmacyId,
-
                 PaymentStatus = SD.PaymentStatusPending,
                 Status = SD.StatusPending,
                 PaymentMethod = "Cash"
@@ -61,23 +82,32 @@ namespace PharmaLink_API.Controllers
             await _orderHeaderRepository.CreateAsync(order);
             await _orderHeaderRepository.SaveAsync();
 
-            foreach (var item in cartItems)
+            foreach (var item in items)
             {
+                var stock = await _pharmacyStockRepository.GetAsync(
+                    s => s.DrugId == item.DrugId && s.PharmacyId == item.PharmacyId
+                );
+
                 var orderDetail = new OrderDetail
                 {
                     OrderId = order.OrderID,
                     DrugId = item.DrugId,
                     PharmacyId = item.PharmacyId,
                     Quantity = item.Quantity,
-                    Price = item.Price
+                    Price = stock.Price
                 };
+
                 await _orderDetailRepository.CreateAsync(orderDetail);
+
+                stock.QuantityAvailable -= item.Quantity;
             }
 
             await _orderDetailRepository.SaveAsync();
 
             return Ok(new { OrderId = order.OrderID, Message = "Order submitted successfully." });
         }
+
+
 
         [HttpPost("CreateCheckoutSession")]
         public async Task<ActionResult> CreateCheckoutSession([FromBody]int orderId)
@@ -92,7 +122,7 @@ namespace PharmaLink_API.Controllers
             var orderDetails = await _orderDetailRepository.GetAllAsync(od => od.OrderId == orderId, x => x.PharmacyStock.Drug);
 
 
-            var domain = "http://localhost:4200";
+            var domain = "http://localhost:4200/client";
             var options = new SessionCreateOptions
             {
                 PaymentMethodTypes = new List<string> { "card" },
@@ -117,7 +147,7 @@ namespace PharmaLink_API.Controllers
                             Name = item.PharmacyStock.Drug.CommonName ?? "Unnamed Drug",
                             Description = item.PharmacyStock.Drug.CommonName ?? "No description",
                         },
-                        UnitAmount = (long)(item.Price * 100), // Amount in cents
+                        UnitAmount = (long)(item.Price * 100),
                     },
                     Quantity = item.Quantity,
                 });
@@ -126,7 +156,6 @@ namespace PharmaLink_API.Controllers
             var service = new SessionService();
             Session session = await service.CreateAsync(options);
 
-            // Save sessionId if needed for tracking
             _orderHeaderRepository.UpdateStripePaymentID(orderId, session.Id, session.PaymentIntentId);
             await _orderHeaderRepository.SaveAsync();
 
@@ -138,7 +167,7 @@ namespace PharmaLink_API.Controllers
         {
             try
             {
-                Request.EnableBuffering(); // important to allow multiple reads
+                Request.EnableBuffering();
                 var json = await new StreamReader(Request.Body).ReadToEndAsync();
                 Request.Body.Position = 0;
 

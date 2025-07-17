@@ -1,46 +1,6 @@
 [
   {
     "ContainingType": "PharmaLink_API.Controllers.CartController",
-    "Method": "GetCartItems",
-    "RelativePath": "api/Cart/{userId}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[PharmaLink_API.Models.CartItem, PharmaLink_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      },
-      {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 404
-      },
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 500
-      }
-    ]
-  },
-  {
-    "ContainingType": "PharmaLink_API.Controllers.CartController",
     "Method": "AddToCart",
     "RelativePath": "api/Cart/AddToCart",
     "HttpMethod": "POST",
@@ -88,19 +48,9 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "drugId",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "pharmacyId",
-        "Type": "System.Int32",
-        "IsRequired": false
+        "Name": "cartUpdateDTO",
+        "Type": "PharmaLink_API.Models.DTO.CartDTO.CartUpdateDTO",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": [
@@ -138,19 +88,9 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "drugId",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "pharmacyId",
-        "Type": "System.Int32",
-        "IsRequired": false
+        "Name": "cartUpdateDTO",
+        "Type": "PharmaLink_API.Models.DTO.CartDTO.CartUpdateDTO",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": [
@@ -181,25 +121,15 @@
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.CartController",
-    "Method": "RemoveFromCart",
-    "RelativePath": "api/Cart/remove/{userId}/{drugId}/{pharmacyId}",
-    "HttpMethod": "DELETE",
+    "Method": "RemoveItemFromCart",
+    "RelativePath": "api/Cart/remove",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "drugId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "pharmacyId",
-        "Type": "System.Int32",
+        "Name": "dto",
+        "Type": "PharmaLink_API.Models.DTO.CartDTO.CartUpdateDTO",
         "IsRequired": true
       }
     ],
@@ -241,7 +171,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[PharmaLink_API.Models.CartItem, PharmaLink_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "PharmaLink_API.Models.DTO.CartDTO.CartItemSummaryDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -267,22 +197,6 @@
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.OrdersController",
-    "Method": "SubmitOrder",
-    "RelativePath": "api/Orders",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "PharmaLink_API.Controllers.OrdersController",
     "Method": "CreateCheckoutSession",
     "RelativePath": "api/Orders/CreateCheckoutSession",
     "HttpMethod": "POST",
@@ -305,6 +219,22 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.OrdersController",
+    "Method": "SubmitOrder",
+    "RelativePath": "api/Orders/submit",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "PharmaLink_API.Models.DTO.CartDTO.SubmitOrderRequestDTO",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": []
   }
 ]
