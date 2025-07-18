@@ -112,7 +112,7 @@ namespace PharmaLink_API.Data
 
                 entity.HasOne(uc => uc.PharmacyStocks)
                       .WithMany(pd => pd.CartItems)
-                      .HasForeignKey(uc => new { uc.DrugId, uc.PharmacyId })
+                      .HasForeignKey(uc => new { uc.PharmacyId, uc.DrugId })
                       .OnDelete(DeleteBehavior.Restrict);
             });
 
@@ -205,6 +205,7 @@ namespace PharmaLink_API.Data
         public DbSet<Patient> Patients { get; set; }
         public DbSet<Drug> Drugs { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<PharmacyStock> PharmacyStocks { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<PatientFavoriteDrug> PatientFavoriteDrugs { get; set; }

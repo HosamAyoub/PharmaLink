@@ -103,6 +103,9 @@ namespace PharmaLink_API
             // Register repositories
             builder.Services.AddScoped<IPatientRepository, PatientRepository>();
             builder.Services.AddScoped<ICartRepository, CartRepository>();
+            builder.Services.AddScoped<IOrderHeaderRepository, OrderHeaderRepository>();
+            builder.Services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
+            builder.Services.AddScoped<IPharmacyStockRepository, PharmacyStockRepository>();
             builder.Services.AddScoped<IDrugRepository, DrugRepoServices>();
             builder.Services.AddScoped<IRoleRepository, RoleRepository>();
             builder.Services.AddScoped<IAccountRepository, AccountRepository>();
@@ -110,6 +113,18 @@ namespace PharmaLink_API
             builder.Services.AddControllers();
             builder.Services.AddOpenApi();
             builder.Services.AddSwaggerGen();
+
+
+            builder.Services.Configure<StripeModel>(builder.Configuration.GetSection("Stripe"));
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.WithOrigins("http://localhost:4200")
+                                      .AllowAnyMethod()
+                                      .AllowAnyHeader());
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -119,6 +134,7 @@ namespace PharmaLink_API
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.UseCors("CorsPolicy");
 
             app.UseHttpsRedirection();
 
