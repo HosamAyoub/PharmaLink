@@ -17,28 +17,44 @@ namespace PharmaLink_API.Controllers
         [HttpPost("CreateRole")]
         public async Task<IActionResult> CreateRole(string roleName)
         {
-            if(ModelState.IsValid)
+            if(string.IsNullOrWhiteSpace(roleName))
             {
-                IdentityResult result = await _roleRepository.CreateRoleAsync(roleName);
-                if (!result.Succeeded)
-                {
-                    return BadRequest(result.Errors);
-                }
+                return BadRequest(new { Error = "Role Name cannot be null or empty." });
+            }
+            IdentityResult result = await _roleRepository.CreateRoleAsync(roleName);
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
             }
             return Ok(new { Message = $"Role '{roleName}' created successfully." });
         }
-        [HttpDelete("DeleteRole")]
-        public async Task<IActionResult> DeleteRole(string roleId)
+        [HttpDelete("DeleteRoleById")]
+        public async Task<IActionResult> DeleteRoleById(string roleId)
         {
-            if (ModelState.IsValid)
+            if (string.IsNullOrWhiteSpace(roleId))
             {
-                IdentityResult result = await _roleRepository.DeleteRoleAsync(roleId);
-                if (!result.Succeeded)
-                {
-                    return BadRequest(result.Errors);
-                }
+                    return BadRequest(new { Errors = "Role ID cannot be null or empty." });
+            }
+            IdentityResult result = await _roleRepository.DeleteRoleByIdAsync(roleId);
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
             }
             return Ok(new { Message = $"Role with ID '{roleId}' deleted successfully." });
+        }
+        [HttpDelete("DeleteRoleByName")]
+        public async Task<IActionResult> DeleteRoleByName(string roleName)
+        {
+            if (string.IsNullOrWhiteSpace(roleName))
+            {
+                    return BadRequest(new { Errors = "Role Name cannot be null or empty." });
+            }
+            IdentityResult result = await _roleRepository.DeleteRoleByNameAsync(roleName);
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
+            return Ok(new { Message = $"Role with Name '{roleName}' deleted successfully." });
         }
         [HttpGet("GetAllRoles")]
         public async Task<IActionResult> GetAllRoles()

@@ -15,17 +15,19 @@ namespace PharmaLink_API.Repository
     public class AccountRepository : IAccountRepository
     {
         private readonly UserManager<Account> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IMapper _mapper;
         private readonly ApplicationDbContext _db;
         private readonly IConfiguration _config;
 
         //private readonly AccountDTO newUser;
-        public AccountRepository(UserManager<Account> userManager, IMapper mapper, ApplicationDbContext db, IConfiguration configuration)
+        public AccountRepository(UserManager<Account> userManager, IMapper mapper, ApplicationDbContext db, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _mapper = mapper;
             _db = db;
             _config = configuration;
+            _roleManager = roleManager;
             //newUser = new AccountDTO();
         }
         public async Task<IdentityResult> RegisterAsync(RegisterAccountDTO account)
@@ -55,11 +57,25 @@ namespace PharmaLink_API.Repository
                 newAccount.Pharmacy = _mapper.Map<Pharmacy>(account.Pharmacy);
                 await _db.Pharmacies.AddAsync(newAccount.Pharmacy);
             }
-            else if (account.Patient != null)
+
+            
+
+            string roleName = account.Patient != null ? "User" :
+                              account.Pharmacy != null ? "Pharmacy" :
+                              "Admin";
+
+            if (!await _roleManager.RoleExistsAsync(roleName))
             {
-                account.Patient.AccountId = newAccount.Id;
-                newAccount.Patient = _mapper.Map<Patient>(account.Patient);
-                await _db.Patients.AddAsync(newAccount.Patient);
+                await transaction.RollbackAsync();
+                return IdentityResult.Failed(new IdentityError { Description = $"Role '{roleName}' does not exist." });
+            }
+
+            var roleResult = await _userManager.AddToRoleAsync(newAccount, roleName);
+
+            if (!roleResult.Succeeded)
+            {
+                await transaction.RollbackAsync();
+                return IdentityResult.Failed(roleResult.Errors.ToArray());
             }
 
             await _db.SaveChangesAsync();

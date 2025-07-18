@@ -29,7 +29,7 @@ namespace PharmaLink_API.Repository
             return await _roleManager.CreateAsync(role);
         }
 
-        public async Task<IdentityResult> DeleteRoleAsync(string roleId)
+        public async Task<IdentityResult> DeleteRoleByIdAsync(string roleId)
         {
             if (string.IsNullOrEmpty(roleId))
             {
@@ -37,6 +37,21 @@ namespace PharmaLink_API.Repository
             }
 
             var role = await _roleManager.FindByIdAsync(roleId);
+            if (role == null)
+            {
+                return IdentityResult.Failed(new IdentityError { Description = "Role not found." });
+            }
+
+            return await _roleManager.DeleteAsync(role);
+        }
+        public async Task<IdentityResult> DeleteRoleByNameAsync(string roleName)
+        {
+            if (string.IsNullOrEmpty(roleName))
+            {
+                return IdentityResult.Failed(new IdentityError { Description = "Role Name cannot be null or empty." });
+            }
+
+            var role = await _roleManager.FindByNameAsync(roleName);
             if (role == null)
             {
                 return IdentityResult.Failed(new IdentityError { Description = "Role not found." });

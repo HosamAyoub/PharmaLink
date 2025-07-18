@@ -11,11 +11,17 @@ namespace PharmaLink_API.Repository.IRepository
         /// <returns>A task representing the asynchronous operation, with a result indicating success or failure.</returns>
         Task<IdentityResult> CreateRoleAsync(string roleName);
         /// <summary>
-        /// Deletes an existing role from the system.
+        /// Deletes an existing role from the system by id.
         /// </summary>
         /// <param name="roleId">The ID of the role to delete.</param>
         /// <returns>A task representing the asynchronous operation, with a result indicating success or failure.</returns>
-        Task<IdentityResult> DeleteRoleAsync(string roleId);
+        Task<IdentityResult> DeleteRoleByIdAsync(string roleId);
+        /// <summary>
+        /// Deletes and existing role from the system by its name.
+        /// </summary>
+        /// <param name="roleName">The ID of the role to delete.</param>
+        /// <returns>A task representing the asynchronous operation, with a result indicating success or failure.</returns>
+        Task<IdentityResult> DeleteRoleByNameAsync(string roleName);
         /// <summary>
         /// Gets all roles in the system.
         /// </summary>

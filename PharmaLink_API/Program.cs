@@ -34,9 +34,17 @@ namespace PharmaLink_API
 
             builder.Services.AddAutoMapper(typeof(Program));
 
-            builder.Services.AddIdentity<Account, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+            builder.Services.AddIdentityCore<Account>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+            })
+            .AddRoles<IdentityRole>()
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
+
+            //builder.Services.AddIdentity<Account, IdentityRole>()
+            //    .AddEntityFrameworkStores<ApplicationDbContext>()
+            //    .AddDefaultTokenProviders();
             // IMPORTANT: Add Identity FIRST, then configure Authentication
             //builder.Services.AddIdentity<Account, IdentityRole>(options =>
             //{

@@ -32,13 +32,14 @@ namespace PharmaLink_API.Controllers
         }
 
         // GET api/<DrugController>/paracetamol
-        //[Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpGet("Drug_Name")]
         public async Task<List<Drug>> GetByName(string Dname)
         {
             return await DrugRepo.GetAllAsync(D => D.CommonName.ToLower().StartsWith(Dname.ToLower()));
         }
 
+        [Authorize(Roles = "User, Admin, Pharmacy")]
         [HttpGet("Category")]
         public async Task<List<Drug>> GetByCategory(string Cname)
         {
