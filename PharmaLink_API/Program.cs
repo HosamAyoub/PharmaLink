@@ -1,6 +1,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using PharmaLink_API.Data;
+using PharmaLink_API.Models;
 using PharmaLink_API.Repository;
 using PharmaLink_API.Repository.IRepository;
 
@@ -20,12 +21,27 @@ namespace PharmaLink_API
 
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<ICartRepository, CartRepository>();
+            builder.Services.AddScoped<IOrderHeaderRepository, OrderHeaderRepository>();
+            builder.Services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
+            builder.Services.AddScoped<IPharmacyStockRepository, PharmacyStockRepository>();
             builder.Services.AddScoped<IDrugRepository, DrugRepoServices>();
 
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
             builder.Services.AddSwaggerGen();
+
+
+            builder.Services.Configure<StripeModel>(builder.Configuration.GetSection("Stripe"));
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.WithOrigins("http://localhost:4200")
+                                      .AllowAnyMethod()
+                                      .AllowAnyHeader());
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -35,6 +51,7 @@ namespace PharmaLink_API
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.UseCors("CorsPolicy");
 
             app.UseHttpsRedirection();
 
