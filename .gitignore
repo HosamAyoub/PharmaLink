@@ -1,3 +1,46 @@
 *.vs
 Migrations/
-PharmaLink_API/obj/
+
+# Build results
+bin/
+obj/
+out/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio Code workspace
+.vscode/
+
+# Rider
+.idea/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# NuGet packages
+*.nupkg
+*.snupkg
+packages/
+# Uncomment if you have NuGet package restore enabled
+# !packages/build/
+# !packages/repositories.config
+
+# Dotnet CLI
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Publish output
+publish/
+
