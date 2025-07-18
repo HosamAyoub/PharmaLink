@@ -16,7 +16,7 @@ namespace PharmaLink_API.Controllers
         private readonly IPatientRepository _patientRepository;
         private readonly IPharmacyStockRepository _pharmacyStockRepository;
         private readonly IMapper _mapper;
-        public CartController(ICartRepository cartRepository, IPatientRepository patientRepository, IMapper mapper, , IPharmacyStockRepository pharmacyStockRepository)
+        public CartController(ICartRepository cartRepository, IPatientRepository patientRepository, IMapper mapper, IPharmacyStockRepository pharmacyStockRepository)
         {
             _cartRepository = cartRepository;
             _patientRepository = patientRepository;
@@ -48,10 +48,10 @@ namespace PharmaLink_API.Controllers
 
             var cartItemDtos = cartItems.Select(c => new CartItemDetailsDTO
             {
-                drugId = c.DrugId,
+                DrugId = c.DrugId,
                 PharmacyId = c.PharmacyId,
                 DrugName = c.PharmacyStocks?.Drug?.CommonName ?? "Unknown Drug",
-                PharmacyName = c.PharmacyStocks?.Pharmacy?.Name ?? "Unknown Pharmacy",
+                PharmacyName = c.PharmacyStocks?.Pharmacy?.Account?.DisplayName ?? "Unknown Pharmacy",
                 ImageUrl = c.PharmacyStocks?.Drug?.Drug_UrlImg ?? "", 
                 UnitPrice = c.Price,
                 Quantity = c.Quantity
@@ -61,8 +61,8 @@ namespace PharmaLink_API.Controllers
 
             var orderDto = new OrderSummaryDTO
             {
-                Name = patient.Name,
-                PhoneNumber = patient.MobileNumber,
+                Name = patient.Account.DisplayName,
+                PhoneNumber = patient.Account.PhoneNumber,
                 Email = patient.Account.Email,
                 Address = patient.Address,
                 Country = patient.Country,

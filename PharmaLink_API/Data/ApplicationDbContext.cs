@@ -132,25 +132,27 @@ namespace PharmaLink_API.Data
 
             base.OnModelCreating(modelBuilder);
 
-            // *********Seed tables********* //
+
+
+            //// *********Seed tables********* //
+            //var guid1 = Guid.NewGuid().ToString();
+            //var guid2 = Guid.NewGuid().ToString();
             //modelBuilder.Entity<Account>().HasData(
-            //    new Account { AccountID = 1, Email = "Patient1@example.com", Password = "hashedpass", Role = "Patient" },
-            //    new Account { AccountID = 2, Email = "pharmacy@example.com", Password = "hashedpass", Role = "Pharmacy" }
+            //new Account { Id = guid1, UserName="Patient", DisplayName="Patient", PhoneNumber="213123", Email = "Patient1@example.com", PasswordHash = "Ads6*6" },
+            //new Account { Id = guid2, UserName = "Pharmacy", DisplayName = "Pharmacy", PhoneNumber = "213123", Email = "pharmacy@example.com", PasswordHash = "Ads6*6" }
             //);
 
             //modelBuilder.Entity<Patient>().HasData(
             //    new Patient
             //    {
-            //        PatientID = 1,
-            //        Name = "Mariem",
-            //        Gender = "Female",
-            //        DateOfBirth = new DateTime(2000, 1, 1),
-            //        MobileNumber = "0100000000",
+            //        PatientId = 1,
+            //        Gender = Gender.Female,
+            //        DateOfBirth = new DateOnly(2000, 1, 1),
             //        Country = "Egypt",
             //        Address = "Cairo",
-            //        PatientDisease = "None",
+            //        PatientDiseases = "Clear",
             //        PatientDrugs = "Paracetamol",
-            //        AccountId = 1
+            //        AccountId = guid1
             //    }
             // );
 
@@ -177,12 +179,12 @@ namespace PharmaLink_API.Data
             // );
 
             //modelBuilder.Entity<Pharmacy>().HasData(
-            //    new Pharmacy { PharmacyID = 1, Name = "Good Health", Country="Egypt", Address = "Nasr City", AccountId = 2 }
+            //    new Pharmacy { PharmacyID = 1, Country = "Egypt", Address = "Nasr City", AccountId = guid2 }
             //);
 
-            //    modelBuilder.Entity<PharmacyStock>().HasData(
-            //        new PharmacyStock { DrugId = 1, PharmacyId = 1, Price = 15.00m, QuantityAvailable = 50 }
-            //    );
+            //modelBuilder.Entity<PharmacyStock>().HasData(
+            //    new PharmacyStock { DrugId = 1, PharmacyId = 1, Price = 15.00m, QuantityAvailable = 50 }
+            //);
 
             //    modelBuilder.Entity<PatientFavoriteDrug>().HasData(
             //        new PatientFavoriteDrug { PatientId = 1, DrugId = 1 }

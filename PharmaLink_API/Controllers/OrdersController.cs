@@ -16,15 +16,15 @@ namespace PharmaLink_API.Controllers
     public class OrdersController : ControllerBase
     {
         private readonly ICartRepository _cartRepository;
-        private readonly IUserRepository _userRepository;
+        private readonly IPatientRepository _patientRepository;
         private readonly IOrderHeaderRepository _orderHeaderRepository;
         private readonly IOrderDetailRepository _orderDetailRepository;
         private readonly IPharmacyStockRepository _pharmacyStockRepository;
         private readonly StripeModel _StripeModel;
-        public OrdersController(ICartRepository cartRepository, IUserRepository userRepository, IOrderHeaderRepository orderHeaderRepository, IOrderDetailRepository orderDetailRepository, IOptions<StripeModel> stripeOptions, IPharmacyStockRepository pharmacyStockRepository)
+        public OrdersController(ICartRepository cartRepository, IPatientRepository patientRepository, IOrderHeaderRepository orderHeaderRepository, IOrderDetailRepository orderDetailRepository, IOptions<StripeModel> stripeOptions, IPharmacyStockRepository pharmacyStockRepository)
         {
             _cartRepository = cartRepository;
-            _userRepository = userRepository;
+            _patientRepository = patientRepository;
             _orderHeaderRepository = orderHeaderRepository;
             _orderDetailRepository = orderDetailRepository;
             _StripeModel = stripeOptions.Value;
@@ -34,11 +34,11 @@ namespace PharmaLink_API.Controllers
         [HttpPost("submit")]
         public async Task<IActionResult> SubmitOrder([FromBody] SubmitOrderRequestDTO request)
         {
-            var userId = request.UserId;
+            var patientId = request.PatientId;
             var items = request.Items;
 
             var cartItems = items; 
-            var user = await _userRepository.GetAsync(u => u.UserID == userId, true, x => x.Account);
+            var user = await _patientRepository.GetAsync(u => u.PatientId == patientId, true, x => x.Account);
 
             if (user == null || !items.Any() || user.Account == null)
             {
@@ -65,9 +65,9 @@ namespace PharmaLink_API.Controllers
 
             var order = new PharmaLink_API.Models.Order
             {
-                UserId = userId,
-                Name = user.Name,
-                PhoneNumber = user.MobileNumber,
+                PatientId = patientId,
+                Name = user.Account.DisplayName,
+                PhoneNumber = user.Account.PhoneNumber,
                 Email = user.Account.Email,
                 Country = user.Country,
                 Address = user.Address,

@@ -1,12 +1,11 @@
 ﻿using AutoMapper;
-using PharmaLink_API.Models;
 using PharmaLink_API.Models.DTO.CartDTO;
 
-namespace PharmaLink_API
+namespace PharmaLink_API.Models.Profiles
 {
-    public class MappingConfig : Profile
+    public class CartProfile : Profile
     {
-        public MappingConfig()
+        public CartProfile()
         {
             CreateMap<CartItem, AddToCartDTO>().ReverseMap();
             CreateMap<CartItem, CartItemSummaryDTO>().ReverseMap();

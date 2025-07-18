@@ -2,7 +2,7 @@
 {
     public class SubmitOrderRequestDTO
     {
-        public int UserId { get; set; }
+        public int PatientId { get; set; }
         public List<OrderItemDTO> Items { get; set; }
     }
 }
