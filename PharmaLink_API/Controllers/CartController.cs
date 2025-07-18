@@ -14,12 +14,14 @@ namespace PharmaLink_API.Controllers
     {
         private readonly ICartRepository _cartRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IPharmacyStockRepository _pharmacyStockRepository;
         private readonly IMapper _mapper;
-        public CartController(ICartRepository cartRepository, IUserRepository userRepository, IMapper mapper)
+        public CartController(ICartRepository cartRepository, IUserRepository userRepository, IMapper mapper, IPharmacyStockRepository pharmacyStockRepository)
         {
             _cartRepository = cartRepository;
             _userRepository = userRepository;
             _mapper = mapper;
+            _pharmacyStockRepository = pharmacyStockRepository;
         }
 
         [HttpGet("summary")]
@@ -87,6 +89,13 @@ namespace PharmaLink_API.Controllers
             if (cartItem == null || cartItem.PharmacyId == null || cartItem.UserId == null || cartItem.UserId == null)
             {
                 return BadRequest("Cart item cannot be null");
+            }
+
+            var stockExists = await _pharmacyStockRepository.GetAsync(s => s.DrugId == cartItem.DrugId && s.PharmacyId == cartItem.PharmacyId);
+
+            if (stockExists == null)
+            {
+                return BadRequest("This drug is not available in the selected pharmacy.");
             }
 
             var existingCartItem = await _cartRepository.GetAsync(

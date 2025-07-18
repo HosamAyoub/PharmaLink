@@ -102,7 +102,7 @@ namespace PharmaLink_API.Data
 
                 entity.HasOne(uc => uc.PharmacyStocks)
                       .WithMany(pd => pd.CartItems)
-                      .HasForeignKey(uc => new { uc.DrugId, uc.PharmacyId })
+                      .HasForeignKey(uc => new { uc.PharmacyId, uc.DrugId })
                       .OnDelete(DeleteBehavior.Restrict);
             });
 
