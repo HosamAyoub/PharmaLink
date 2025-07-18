@@ -51,7 +51,7 @@ namespace PharmaLink_API.Controllers
                 DrugId = c.DrugId,
                 PharmacyId = c.PharmacyId,
                 DrugName = c.PharmacyStocks?.Drug?.CommonName ?? "Unknown Drug",
-                PharmacyName = c.PharmacyStocks?.Pharmacy?.Account?.DisplayName ?? "Unknown Pharmacy",
+                PharmacyName = c.PharmacyStocks?.Pharmacy?.Name ?? "Unknown Pharmacy",
                 ImageUrl = c.PharmacyStocks?.Drug?.Drug_UrlImg ?? "", 
                 UnitPrice = c.Price,
                 Quantity = c.Quantity
@@ -61,7 +61,7 @@ namespace PharmaLink_API.Controllers
 
             var orderDto = new OrderSummaryDTO
             {
-                Name = patient.Account.DisplayName,
+                Name = patient.Name,
                 PhoneNumber = patient.Account.PhoneNumber,
                 Email = patient.Account.Email,
                 Address = patient.Address,

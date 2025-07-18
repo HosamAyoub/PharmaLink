@@ -5,6 +5,8 @@ namespace PharmaLink_API.Models.DTO.RegisterAccountDTO
     public class RegisterPatientDTO
     {
         [Required]
+        public string Name { get; set; }
+        [Required]
         public Gender Gender { get; set; }
         [Required]
         public DateOnly DateOfBirth { get; set; }

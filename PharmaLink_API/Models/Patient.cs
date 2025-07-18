@@ -1,8 +1,11 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace PharmaLink_API.Models
 {
     public class Patient
     {
         public int PatientId { get; set; }
+        public string Name { get; set; }
         public Gender Gender { get; set; }
         public DateOnly DateOfBirth { get; set; }
         public string Country { get; set; }

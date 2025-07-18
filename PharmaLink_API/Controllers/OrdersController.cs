@@ -66,7 +66,7 @@ namespace PharmaLink_API.Controllers
             var order = new PharmaLink_API.Models.Order
             {
                 PatientId = patientId,
-                Name = user.Account.DisplayName,
+                Name = user.Name,
                 PhoneNumber = user.Account.PhoneNumber,
                 Email = user.Account.Email,
                 Country = user.Country,
