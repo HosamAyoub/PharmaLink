@@ -15,6 +15,5 @@
 
         public int Quantity { get; set; }
         public decimal Price { get; set; }
-        // Additional properties can be added as needed
     }
 }

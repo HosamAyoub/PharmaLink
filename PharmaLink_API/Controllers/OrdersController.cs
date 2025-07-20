@@ -37,14 +37,18 @@ namespace PharmaLink_API.Controllers
             var patientId = request.PatientId;
             var items = request.Items;
 
-            var cartItems = items; 
-            var user = await _patientRepository.GetAsync(u => u.PatientId == patientId, true, x => x.Account);
+            // Get patient and related account
+            var user = await _patientRepository.GetAsync(
+                u => u.PatientId == patientId,true,
+                x => x.Account
+            );
 
-            if (user == null || !items.Any() || user.Account == null)
+            if (user == null || user.Account == null || !items.Any())
             {
-                return BadRequest("Invalid user or empty cart.");
+                return BadRequest("Invalid patient or empty cart.");
             }
 
+            // Validate items and calculate total price
             decimal totalPrice = 0;
             int pharmacyId = items.First().PharmacyId;
 
@@ -55,14 +59,15 @@ namespace PharmaLink_API.Controllers
                 );
 
                 if (stock == null)
-                    return BadRequest($"Drug with ID {item.DrugId} not found in stock.");
+                    return BadRequest($"Drug ID {item.DrugId} not found in pharmacy stock.");
 
                 if (item.Quantity > stock.QuantityAvailable)
-                    return BadRequest($"Not enough stock for drug ID {item.DrugId}.");
+                    return BadRequest($"Not enough stock for Drug ID {item.DrugId}.");
 
                 totalPrice += stock.Price * item.Quantity;
             }
 
+            // Create Order
             var order = new PharmaLink_API.Models.Order
             {
                 PatientId = patientId,
@@ -82,6 +87,7 @@ namespace PharmaLink_API.Controllers
             await _orderHeaderRepository.CreateAsync(order);
             await _orderHeaderRepository.SaveAsync();
 
+            // Create OrderDetails 
             foreach (var item in items)
             {
                 var stock = await _pharmacyStockRepository.GetAsync(
@@ -98,13 +104,30 @@ namespace PharmaLink_API.Controllers
                 };
 
                 await _orderDetailRepository.CreateAsync(orderDetail);
-
-                stock.QuantityAvailable -= item.Quantity;
             }
 
             await _orderDetailRepository.SaveAsync();
 
-            return Ok(new { OrderId = order.OrderID, Message = "Order submitted successfully." });
+            // Update PharmacyStock quantities
+            foreach (var item in items)
+            {
+                var stock = await _pharmacyStockRepository.GetAsync(
+                    s => s.DrugId == item.DrugId && s.PharmacyId == item.PharmacyId
+                );
+
+                if (stock != null)
+                {
+                    stock.QuantityAvailable -= item.Quantity;
+                }
+            }
+
+            await _pharmacyStockRepository.SaveAsync();
+
+            return Ok(new
+            {
+                OrderId = order.OrderID,
+                Message = "Order submitted successfully."
+            });
         }
 
 

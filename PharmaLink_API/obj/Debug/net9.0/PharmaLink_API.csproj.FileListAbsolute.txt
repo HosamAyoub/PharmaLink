@@ -674,3 +674,9 @@ D:\GitHub\PharmaLink\PharmaLink_API\obj\Debug\net9.0\staticwebassets.upToDateChe
 D:\GitHub\PharmaLink\PharmaLink_API\obj\Debug\net9.0\PharmaLi.2384C688.Up2Date
 D:\GitHub\PharmaLink\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.genruntimeconfig.cache
 D:\GitHub\PharmaLink\PharmaLink_API\obj\Debug\net9.0\ref\PharmaLink_API.dll
+E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Identity.Core.dll
+E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Identity.Stores.dll

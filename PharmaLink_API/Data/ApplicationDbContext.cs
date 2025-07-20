@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PharmaLink_API.Models;
 
@@ -15,23 +16,11 @@ namespace PharmaLink_API.Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<Account>()
-            //    .HasIndex(a => a.Email)
-            //    .IsUnique();
-
-            //modelBuilder.Entity<Pharmacy>()
-            //    .HasIndex(p => p.Name)
-            //    .IsUnique();
-
             modelBuilder.Entity<Drug>()
                 .HasIndex(d => d.Category)
                 .IncludeProperties(d => new { d.CommonName , d.ActiveIngredient });
 
 
-
-            //modelBuilder.Entity<Patient>()
-            //    .HasIndex(u => u.MobileNumber)
-            //    .IsUnique();
             modelBuilder.Entity<Patient>()
                 .Property(u => u.Gender)
                 .HasConversion<string>();
@@ -65,18 +54,11 @@ namespace PharmaLink_API.Data
                 .HasForeignKey(o => o.PharmacyId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            //Order-CartItem relationship (1, many)
-            //modelBuilder.Entity<Order>()
-            //    .HasMany(o => o.CartItems)
-            //    .WithOne(ci => ci.Order)
-            //    .HasForeignKey(ci => ci.OrderID)
-            //    .OnDelete(DeleteBehavior.Cascade);
-
             //OrderDetail-PharmacyStock relationship (many to one)
             modelBuilder.Entity<OrderDetail>()
                 .HasOne(od => od.PharmacyStock)
                 .WithMany(ps => ps.OrderDetails)
-                .HasForeignKey(od => new { od.DrugId, od.PharmacyId })
+                .HasForeignKey(od => new { od.PharmacyId, od.DrugId })
                 .OnDelete(DeleteBehavior.Restrict);
 
             //OrderDetail-Order relationship (many to one)
@@ -135,70 +117,40 @@ namespace PharmaLink_API.Data
 
 
             //// *********Seed tables********* //
-            //var guid1 = Guid.NewGuid().ToString();
-            //var guid2 = Guid.NewGuid().ToString();
-            //modelBuilder.Entity<Account>().HasData(
-            //new Account { Id = guid1, UserName="Patient", DisplayName="Patient", PhoneNumber="213123", Email = "Patient1@example.com", PasswordHash = "Ads6*6" },
-            //new Account { Id = guid2, UserName = "Pharmacy", DisplayName = "Pharmacy", PhoneNumber = "213123", Email = "pharmacy@example.com", PasswordHash = "Ads6*6" }
-            //);
+            // 1. Drugs
+            modelBuilder.Entity<Drug>().HasData(
+                new Drug
+                {
+                    DrugID = 1,
+                    CommonName = "Paracetamol",
+                    Category = "Painkiller",
+                    ActiveIngredient = "Acetaminophen",
+                    Alternatives_names = "Panadol, Tylenol",
+                    AlternativesGpID = 1,
+                    Indications_and_usage = "Fever, headache, pain",
+                    Dosage_and_administration = "500mg every 6h",
+                    Dosage_forms_and_strengths = "Tablet, 500mg",
+                    Contraindications = "Liver disease",
+                    Warnings_and_cautions = "Do not exceed 4g/day",
+                    Drug_interactions = "Alcohol, Warfarin",
+                    Description = "Common OTC analgesic",
+                    Storage_and_handling = "Store below 25°C",
+                    Adverse_reactions = "Nausea, rash",
+                    Drug_UrlImg = "images/Medicine/Paracetamol.jpg"
+                }
+            );
 
-            //modelBuilder.Entity<Patient>().HasData(
-            //    new Patient
-            //    {
-            //        PatientId = 1,
-            //        Gender = Gender.Female,
-            //        DateOfBirth = new DateOnly(2000, 1, 1),
-            //        Country = "Egypt",
-            //        Address = "Cairo",
-            //        PatientDiseases = "Clear",
-            //        PatientDrugs = "Paracetamol",
-            //        AccountId = guid1
-            //    }
-            // );
+            // 4. PharmacyStock
+            modelBuilder.Entity<PharmacyStock>().HasData(
+                new PharmacyStock
+                {
+                    DrugId = 1,
+                    PharmacyId = 2,
+                    Price = 10.50m,
+                    QuantityAvailable = 100
+                }
+            );
 
-            //modelBuilder.Entity<Drug>().HasData(
-            //    new Drug
-            //    {
-            //        DrugID = 1,
-            //        CommonName = "Panadol",
-            //        Category = "Painkiller",
-            //        ActiveIngredient = "Paracetamol",
-            //        Alternatives_names = "Tylenol",
-            //        AlternativesGpID = 100,
-            //        Indications_and_usage = "Headache, fever",
-            //        Dosage_and_administration = "500mg twice daily",
-            //        Dosage_forms_and_strengths = "Tablet 500mg",
-            //        Contraindications = "Liver disease",
-            //        Warnings_and_cautions = "Don't exceed 4g/day",
-            //        Drug_interactions = "Warfarin",
-            //        Description = "Pain reliever",
-            //        Storage_and_handling = "Keep cool and dry",
-            //        Adverse_reactions = "Nausea",
-            //        Drug_UrlImg = "/images/panadol.png"
-            //    }
-            // );
-
-            //modelBuilder.Entity<Pharmacy>().HasData(
-            //    new Pharmacy { PharmacyID = 1, Country = "Egypt", Address = "Nasr City", AccountId = guid2 }
-            //);
-
-            //modelBuilder.Entity<PharmacyStock>().HasData(
-            //    new PharmacyStock { DrugId = 1, PharmacyId = 1, Price = 15.00m, QuantityAvailable = 50 }
-            //);
-
-            //    modelBuilder.Entity<PatientFavoriteDrug>().HasData(
-            //        new PatientFavoriteDrug { PatientId = 1, DrugId = 1 }
-            //    );
-
-            //    modelBuilder.Entity<CartItem>().HasData(
-            //        new CartItem
-            //        {
-            //            PatientId = 1,
-            //            DrugId = 1,
-            //            PharmacyId = 1,
-            //            Quantity = 1
-            //        }
-            //    );
         }
 
         // *********DB SETS********* //
