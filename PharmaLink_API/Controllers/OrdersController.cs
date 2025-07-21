@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Microsoft.Identity.Client;
 using PharmaLink_API.Models;
 using PharmaLink_API.Models.DTO.CartDTO;
 using PharmaLink_API.Repository.IRepository;
 using PharmaLink_API.Utility;
 using Stripe;
 using Stripe.Checkout;
+using System.Security.Claims;
 //using Stripe.BillingPortal;
 
 namespace PharmaLink_API.Controllers
@@ -20,8 +23,9 @@ namespace PharmaLink_API.Controllers
         private readonly IOrderHeaderRepository _orderHeaderRepository;
         private readonly IOrderDetailRepository _orderDetailRepository;
         private readonly IPharmacyStockRepository _pharmacyStockRepository;
+        private readonly IPharmacyRepository _pharmacyRepository;
         private readonly StripeModel _StripeModel;
-        public OrdersController(ICartRepository cartRepository, IPatientRepository patientRepository, IOrderHeaderRepository orderHeaderRepository, IOrderDetailRepository orderDetailRepository, IOptions<StripeModel> stripeOptions, IPharmacyStockRepository pharmacyStockRepository)
+        public OrdersController(ICartRepository cartRepository, IPatientRepository patientRepository, IOrderHeaderRepository orderHeaderRepository, IOrderDetailRepository orderDetailRepository, IOptions<StripeModel> stripeOptions, IPharmacyStockRepository pharmacyStockRepository, IPharmacyRepository pharmacyRepository)
         {
             _cartRepository = cartRepository;
             _patientRepository = patientRepository;
@@ -29,30 +33,35 @@ namespace PharmaLink_API.Controllers
             _orderDetailRepository = orderDetailRepository;
             _StripeModel = stripeOptions.Value;
             _pharmacyStockRepository = pharmacyStockRepository;
+            _pharmacyRepository = pharmacyRepository;
         }
 
+        [Authorize(Roles = "user")]
         [HttpPost("submit")]
-        public async Task<IActionResult> SubmitOrder([FromBody] SubmitOrderRequestDTO request)
+        public async Task<IActionResult> SubmitOrder([FromBody] SubmitOrderRequestDTO dto)
         {
-            var patientId = request.PatientId;
-            var items = request.Items;
+            // 1. Get accountId from JWT
+            var accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(accountId))
+                return Unauthorized("Invalid token.");
 
-            // Get patient and related account
+            // 2. Get Patient and Account
             var user = await _patientRepository.GetAsync(
-                u => u.PatientId == patientId,true,
-                x => x.Account
+                u => u.AccountId == accountId, true, 
+                x => x.Account,
+                x => x.CartItems
             );
 
-            if (user == null || user.Account == null || !items.Any())
-            {
-                return BadRequest("Invalid patient or empty cart.");
-            }
+            if (user == null || user.Account == null || user.CartItems == null || !user.CartItems.Any())
+                return BadRequest("No items in cart.");
 
-            // Validate items and calculate total price
+            int patientId = user.PatientId;
+            var cartItems = user.CartItems.ToList();
             decimal totalPrice = 0;
-            int pharmacyId = items.First().PharmacyId;
+            int pharmacyId = cartItems.First().PharmacyId;
 
-            foreach (var item in items)
+            // 3. Validate Cart Items and Calculate total
+            foreach (var item in cartItems)
             {
                 var stock = await _pharmacyStockRepository.GetAsync(
                     s => s.DrugId == item.DrugId && s.PharmacyId == item.PharmacyId
@@ -67,7 +76,7 @@ namespace PharmaLink_API.Controllers
                 totalPrice += stock.Price * item.Quantity;
             }
 
-            // Create Order
+            // 4. Create Order
             var order = new PharmaLink_API.Models.Order
             {
                 PatientId = patientId,
@@ -81,14 +90,14 @@ namespace PharmaLink_API.Controllers
                 PharmacyId = pharmacyId,
                 PaymentStatus = SD.PaymentStatusPending,
                 Status = SD.StatusPending,
-                PaymentMethod = "Cash"
+                PaymentMethod = dto.PaymentMethod
             };
 
             await _orderHeaderRepository.CreateAsync(order);
             await _orderHeaderRepository.SaveAsync();
 
-            // Create OrderDetails 
-            foreach (var item in items)
+            // 5. Create OrderDetails
+            foreach (var item in cartItems)
             {
                 var stock = await _pharmacyStockRepository.GetAsync(
                     s => s.DrugId == item.DrugId && s.PharmacyId == item.PharmacyId
@@ -108,8 +117,8 @@ namespace PharmaLink_API.Controllers
 
             await _orderDetailRepository.SaveAsync();
 
-            // Update PharmacyStock quantities
-            foreach (var item in items)
+            // 6. Update PharmacyStock
+            foreach (var item in cartItems)
             {
                 var stock = await _pharmacyStockRepository.GetAsync(
                     s => s.DrugId == item.DrugId && s.PharmacyId == item.PharmacyId
@@ -123,14 +132,17 @@ namespace PharmaLink_API.Controllers
 
             await _pharmacyStockRepository.SaveAsync();
 
+            // 7. Clear the Cart
+            await _cartRepository.RemoveRangeAsync(user.CartItems.ToList());
+            await _cartRepository.SaveAsync();
+
             return Ok(new
             {
                 OrderId = order.OrderID,
-                Message = "Order submitted successfully."
+                PaymentMethod = dto.PaymentMethod,
+                Message = "Order submitted successfully from cart."
             });
         }
-
-
 
         [HttpPost("CreateCheckoutSession")]
         public async Task<ActionResult> CreateCheckoutSession([FromBody]int orderId)
@@ -217,11 +229,16 @@ namespace PharmaLink_API.Controllers
 
                     Console.WriteLine("Stripe Session ID: " + session.Id);
 
+                    StripeConfiguration.ApiKey = _StripeModel.SecretKey;
+                    var service = new SessionService();
+                    var fullSession = await service.GetAsync(session.Id);
+
                     var order = await _orderHeaderRepository.GetAsync(o => o.SessionId == session.Id);
                     if (order != null)
                     {
-                        order.Status = SD.StatusApproved;
+                        //order.Status = SD.StatusApproved;
                         order.PaymentStatus = SD.PaymentStatusApproved;
+                        order.PaymentIntentId = fullSession.PaymentIntentId;
                         await _orderHeaderRepository.SaveAsync();
                         Console.WriteLine($"Order updated: OrderID = {order.OrderID}");
                     }
@@ -250,5 +267,204 @@ namespace PharmaLink_API.Controllers
                 return BadRequest("Webhook processing error.");
             }
         }
+
+        [Authorize(Roles = "user")]
+        [HttpPost("cancel/{orderId}")]
+        public async Task<IActionResult> CancelOrder(int orderId)
+        {
+            var accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(accountId))
+                return Unauthorized("Invalid token.");
+
+            var order = await _orderHeaderRepository.GetAsync(
+                o => o.OrderID == orderId, tracking: true,
+                x => x.OrderDetails
+            );
+
+            if (order == null)
+                return NotFound("Order not found.");
+
+            var patient = await _patientRepository.GetAsync(p => p.AccountId == accountId);
+            if (patient == null || patient.PatientId != order.PatientId)
+                return Forbid("Not authorized to cancel this order.");
+
+            if (order.Status == SD.StatusCancelled)
+                return BadRequest("Order is already cancelled.");
+
+            if (order.Status == SD.StatusApproved)
+            {
+                // Stripe refund if paid by card
+                if (order.PaymentMethod != "Cash" && order.PaymentStatus == SD.PaymentStatusApproved)
+                {
+                    StripeConfiguration.ApiKey = _StripeModel.SecretKey;
+
+                    var refundOptions = new RefundCreateOptions
+                    {
+                        PaymentIntent = order.PaymentIntentId,
+                        Reason = RefundReasons.RequestedByCustomer,
+                    };
+
+                    var refundService = new RefundService();
+                    Refund refund = await refundService.CreateAsync(refundOptions);
+
+                    order.PaymentStatus = SD.PaymentStatusRefunded;
+                }
+                else
+                {
+                    return BadRequest("Cannot cancel an already approved order paid in cash.");
+                }
+            }
+            else
+            {
+                order.PaymentStatus = SD.PaymentStatusRefunded;
+            }
+
+            // Cancel and restock
+            order.Status = SD.StatusCancelled;
+
+            foreach (var item in order.OrderDetails)
+            {
+                var stock = await _pharmacyStockRepository.GetAsync(
+                    s => s.DrugId == item.DrugId && s.PharmacyId == item.PharmacyId
+                );
+                if (stock != null)
+                {
+                    stock.QuantityAvailable += item.Quantity;
+                }
+            }
+
+            await _orderHeaderRepository.SaveAsync();
+            await _pharmacyStockRepository.SaveAsync();
+
+            return Ok(new
+            {
+                Message = $"Order #{orderId} has been cancelled and refund issued if applicable."
+            });
+        }
+
+
+
+        //******************Pharmacy Only Endpoints******************//
+
+        [Authorize(Roles = "pharmacy")]
+        [HttpPost("accept/{orderId}")]
+        public async Task<IActionResult> AcceptOrder(int orderId)
+        {
+            var order = await _orderHeaderRepository.GetAsync(o => o.OrderID == orderId, true, x => x.OrderDetails);
+            if (order == null)
+                return NotFound("Order not found.");
+
+            var accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(accountId))
+                return Forbid("AccountId missing.");
+
+            var pharmacy = await _pharmacyRepository.GetAsync(p => p.AccountId == accountId);
+            if (pharmacy == null)
+                return Forbid("Pharmacy not found.");
+
+            if (order.PharmacyId!= pharmacy.PharmacyID)
+                return Forbid("You are not authorized to update this order.");
+
+            if (order.Status != SD.StatusPending)
+                return BadRequest("Only pending orders can be accepted.");
+
+            order.Status = SD.StatusApproved;
+            await _orderHeaderRepository.SaveAsync();
+
+            return Ok(new { Message = $"Order #{orderId} has been accepted." });
+        }
+
+        [Authorize(Roles = "pharmacy")]
+        [HttpPost("reject/{orderId}")]
+        public async Task<IActionResult> RejectOrder(int orderId)
+        {
+            var order = await _orderHeaderRepository.GetAsync(o => o.OrderID == orderId, true, x => x.OrderDetails);
+            if (order == null)
+                return NotFound("Order not found.");
+
+            var accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(accountId))
+                return Forbid("AccountId missing.");
+
+            var pharmacy = await _pharmacyRepository.GetAsync(p => p.AccountId == accountId);
+            if (pharmacy == null)
+                return Forbid("Pharmacy not found.");
+
+            if (order.PharmacyId != pharmacy.PharmacyID)
+                return Forbid("You are not authorized to update this order.");
+
+            if (order.Status != SD.StatusPending)
+                return BadRequest("Only pending orders can be rejected.");
+
+            order.Status = SD.StatusRejected;
+
+            if (order.PaymentStatus == SD.PaymentStatusApproved)
+            {
+                // Stripe refund if paid by card
+                if (order.PaymentMethod != "Cash")
+                {
+                    StripeConfiguration.ApiKey = _StripeModel.SecretKey;
+                    var refundOptions = new RefundCreateOptions
+                    {
+                        PaymentIntent = order.PaymentIntentId,
+                        Reason = RefundReasons.RequestedByCustomer,
+                    };
+                    var refundService = new RefundService();
+                    Refund refund = await refundService.CreateAsync(refundOptions);
+                    order.PaymentStatus = SD.PaymentStatusRefunded;
+                }
+            }
+
+            foreach (var item in order.OrderDetails)
+            {
+                var stock = await _pharmacyStockRepository.GetAsync(s => s.PharmacyId == item.PharmacyId && s.DrugId == item.DrugId);
+                if (stock != null)
+                {
+                    stock.QuantityAvailable += item.Quantity;
+                }
+            }
+
+            await _orderHeaderRepository.SaveAsync();
+            await _pharmacyStockRepository.SaveAsync();
+
+            return Ok(new { Message = $"Order #{orderId} has been rejected." });
+        }
+
+        [Authorize(Roles = "pharmacy")]
+        [HttpGet("orders")]
+        public async Task<IActionResult> GetPharmacyOrders()
+        {
+            var accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(accountId))
+                return Forbid("AccountId missing.");
+
+            var pharmacy = await _pharmacyRepository.GetAsync(p => p.AccountId == accountId);
+            if (pharmacy == null)
+                return Forbid("Pharmacy not found.");
+
+            var orders = await _orderHeaderRepository.GetAllAsync( o => o.PharmacyId == pharmacy.PharmacyID,
+                x => x.OrderDetails,
+                x => x.Patient,
+                x => x.Pharmacy);
+
+            if (orders == null || !orders.Any())
+                return NotFound("No orders found for this pharmacy.");
+
+            var result = orders.Select(o => new
+            {
+                o.OrderID,
+                o.OrderDate,
+                o.Status,
+                o.TotalPrice,
+                o.PaymentStatus,
+                OrderDetails = o.OrderDetails.Select(d => new {
+                    d.DrugId,
+                    d.Quantity
+                })
+            });
+
+            return Ok(result);
+        }
+
     }
 }
