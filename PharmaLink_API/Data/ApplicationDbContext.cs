@@ -18,7 +18,7 @@ namespace PharmaLink_API.Data
         {
             modelBuilder.Entity<Drug>()
                 .HasIndex(d => d.Category)
-                .IncludeProperties(d => new { d.CommonName , d.ActiveIngredient });
+                .IncludeProperties(d => new { d.CommonName, d.ActiveIngredient });
 
 
             modelBuilder.Entity<Patient>()
@@ -117,11 +117,31 @@ namespace PharmaLink_API.Data
                       .HasForeignKey(uf => uf.DrugId);
             });
 
-            base.OnModelCreating(modelBuilder);
 
+            // Configure Pharmacy entity
 
+            modelBuilder.Entity<Pharmacy>()
+                .HasIndex(p => p.Name)
+                .IsUnique();
+            // Rate validation (enforces [Range(0,5)] at database level)
+            modelBuilder.Entity<Pharmacy>()
+                .Property(p => p.Rate)
+                .HasColumnType("decimal(3,1)") // Stores values like 4.5
+                .HasPrecision(3, 1);
+
+modelBuilder.Entity<Pharmacy>()
+                .Property(p => p.StartHour)
+                .HasConversion(
+                    timeOnly => timeOnly.HasValue ? timeOnly.Value.ToTimeSpan() : (TimeSpan?)null,
+                    timeSpan => timeSpan.HasValue ? TimeOnly.FromTimeSpan(timeSpan.Value) : (TimeOnly?)null);
+            modelBuilder.Entity<Pharmacy>()
+                .Property(p => p.EndHour)
+                .HasConversion(
+                    timeOnly => timeOnly.HasValue ? timeOnly.Value.ToTimeSpan() : (TimeSpan?)null,
+                    timeSpan => timeSpan.HasValue ? TimeOnly.FromTimeSpan(timeSpan.Value) : (TimeOnly?)null);
 
             //// *********Seed tables********* //
+
             // 1. Drugs
             modelBuilder.Entity<Drug>().HasData(
                 new Drug
@@ -208,6 +228,104 @@ namespace PharmaLink_API.Data
                 }
             );
 
+        //    modelBuilder.Entity<CartItem>().HasData(
+        //        new CartItem
+        //        {
+        //            PatientId = 1,
+        //            DrugId = 1,
+        //            PharmacyId = 1,
+        //            Quantity = 1
+        //        }
+        //    );
+
+        private void SeedPharmacies(ModelBuilder modelBuilder)
+        {
+            // Pharmacy Accounts
+            modelBuilder.Entity<Account>().HasData(
+                new Account
+                {
+                    Id = "11111111-1111-1111-1111-111111111111",
+                    UserName = "pharmacy1",
+                    NormalizedUserName = "PHARMACY1",
+                    Email = "pharmacy1@example.com",
+                    NormalizedEmail = "PHARMACY1@EXAMPLE.COM",
+                    EmailConfirmed = true,
+                    PasswordHash = "AQAAAAIAAYagAAAAEHYx1JwHk7QbX1YpJxTwWk+YqGE=", // Hash for "123"
+                    PhoneNumber = "01012345678",
+                    PhoneNumberConfirmed = true,
+                    SecurityStamp = "7D8C9A2B4E6F1C3A5B9D8E7F6A5C4B3A", // Static value
+                    ConcurrencyStamp = "1A2B3C4D5E6F7G8H9I0J1K2L3M4N5O6P" // Static value
+                },
+                new Account
+                {
+                    Id = "22222222-2222-2222-2222-222222222222",
+                    UserName = "pharmacy2",
+                    NormalizedUserName = "PHARMACY2",
+                    Email = "pharmacy2@example.com",
+                    NormalizedEmail = "PHARMACY2@EXAMPLE.COM",
+                    EmailConfirmed = true,
+                    PasswordHash = "AQAAAAIAAYagAAAAEHYx1JwHk7QbX1YpJxTwWk+YqGE=",
+                    PhoneNumber = "01023456789",
+                    PhoneNumberConfirmed = true,
+                    SecurityStamp = "8E9F0A1B2C3D4E5F6G7H8I9J0K1L2M3N", // Static value
+                    ConcurrencyStamp = "2B3C4D5E6F7G8H9I0J1K2L3M4N5O6P7Q" // Static value
+                },
+                new Account
+                {
+                    Id = "33333333-3333-3333-3333-333333333333",
+                    UserName = "pharmacy3",
+                    NormalizedUserName = "PHARMACY3",
+                    Email = "pharmacy3@example.com",
+                    NormalizedEmail = "PHARMACY3@EXAMPLE.COM",
+                    EmailConfirmed = true,
+                    PasswordHash = "AQAAAAIAAYagAAAAEHYx1JwHk7QbX1YpJxTwWk+YqGE=",
+                    PhoneNumber = "01034567890",
+                    PhoneNumberConfirmed = true,
+                    SecurityStamp = "9F0A1B2C3D4E5F6G7H8I9J0K1L2M3N4O", // Static value
+                    ConcurrencyStamp = "3C4D5E6F7G8H9I0J1K2L3M4N5O6P7Q8R" // Static value
+                }
+            );
+
+            // Pharmacies - Using DateTime for TimeOnly conversion
+            modelBuilder.Entity<Pharmacy>().HasData(
+                new Pharmacy
+                {
+                    PharmacyID = 1,
+                    Name = "City Pharmacy",
+                    Country = "Egypt",
+                    Address = "123 Main Street, Downtown Cairo",
+                    PhoneNumber = "01012345678", // Matches account phone
+                    Rate = 4.5,
+                    StartHour = TimeOnly.Parse("09:00"),
+                    EndHour = TimeOnly.Parse("21:00"),
+                    AccountId = "11111111-1111-1111-1111-111111111111"
+                },
+                new Pharmacy
+                {
+                    PharmacyID = 2,
+                    Name = "Health Plus",
+                    Country = "Egypt",
+                    Address = "456 Alexandria Corniche, Alexandria",
+                    PhoneNumber = "01023456789", // Matches account phone
+                    Rate = 4.2,
+                    StartHour = TimeOnly.Parse("08:00"),
+                    EndHour = TimeOnly.Parse("20:00"),
+                    AccountId = "22222222-2222-2222-2222-222222222222"
+                },
+                new Pharmacy
+                {
+                    PharmacyID = 3,
+                    Name = "MediCare",
+                    Country = "Egypt",
+                    Address = "789 Nasr City, Cairo",
+                    PhoneNumber = "01034567890", // Matches account phone
+                    Rate = 4.7,
+                    StartHour = TimeOnly.Parse("10:00"),
+                    EndHour = TimeOnly.Parse("22:00"),
+                    AccountId = "33333333-3333-3333-3333-333333333333"
+                }
+            );
+
         }
 
         // *********DB SETS********* //
@@ -220,6 +338,6 @@ namespace PharmaLink_API.Data
         public DbSet<PharmacyStock> PharmacyStocks { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<PatientFavoriteDrug> PatientFavoriteDrugs { get; set; }
-        
+
     }
 }

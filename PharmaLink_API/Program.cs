@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using PharmaLink_API.Data;
 using PharmaLink_API.Models;
+using PharmaLink_API.Models.Profiles;
 using PharmaLink_API.Repository;
 using PharmaLink_API.Repository.IRepository;
 using System.Text;
@@ -34,6 +35,8 @@ namespace PharmaLink_API
             });
 
             builder.Services.AddAutoMapper(typeof(Program));
+            builder.Services.AddAutoMapper(typeof(PharmacyProfile));
+
 
             builder.Services.AddIdentityCore<Account>(options =>
             {
@@ -103,6 +106,7 @@ namespace PharmaLink_API
             });
 
             // Register repositories
+            builder.Services.AddScoped<IPharmacyRepository, PharmacyRepository>();
             builder.Services.AddScoped<IPatientRepository, PatientRepository>();
             builder.Services.AddScoped<ICartRepository, CartRepository>();
             builder.Services.AddScoped<IOrderHeaderRepository, OrderHeaderRepository>();
