@@ -47,14 +47,14 @@ namespace PharmaLink_API.Repository
 
             if (account.Patient != null)
             {
-                account.Patient.AccountId = newAccount.Id;
                 newAccount.Patient = _mapper.Map<Patient>(account.Patient);
+                newAccount.Patient.AccountId = newAccount.Id;
                 await _db.Patients.AddAsync(newAccount.Patient);
             }
             else if (account.Pharmacy != null)
             {
-                account.Pharmacy.AccountId = newAccount.Id;
                 newAccount.Pharmacy = _mapper.Map<Pharmacy>(account.Pharmacy);
+                newAccount.Pharmacy.AccountId = newAccount.Id;
                 await _db.Pharmacies.AddAsync(newAccount.Pharmacy);
             }
 
