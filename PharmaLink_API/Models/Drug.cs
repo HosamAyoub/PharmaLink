@@ -22,7 +22,7 @@
 
 
         //Drug-Pharmacy relationship (many to many)
-        public ICollection<PharmacyStock>? PharmacyStocks { get; set; }
+        public ICollection<PharmacyProduct>? PharmacyStock { get; set; }
 
         //Drug-Patient(favorites) relationship (many to many)
         public ICollection<PatientFavoriteDrug>? PatientFavorites { get; set; }

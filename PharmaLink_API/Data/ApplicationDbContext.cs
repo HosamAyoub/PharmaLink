@@ -61,7 +61,7 @@ namespace PharmaLink_API.Data
 
             //OrderDetail-PharmacyStock relationship (many to one)
             modelBuilder.Entity<OrderDetail>()
-                .HasOne(od => od.PharmacyStock)
+                .HasOne(od => od.PharmacyProduct)
                 .WithMany(ps => ps.OrderDetails)
                 .HasForeignKey(od => new { od.PharmacyId, od.DrugId })
                 .OnDelete(DeleteBehavior.Restrict);
@@ -74,16 +74,16 @@ namespace PharmaLink_API.Data
                 .OnDelete(DeleteBehavior.Cascade);
 
             //PharmacyStock (many, many)
-            modelBuilder.Entity<PharmacyStock>(entity =>
+            modelBuilder.Entity<PharmacyProduct>(entity =>
             {
                 entity.HasKey(pd => new { pd.PharmacyId, pd.DrugId });
 
                 entity.HasOne(pd => pd.Pharmacy)
-                      .WithMany(p => p.PharmacyStocks)
+                      .WithMany(p => p.PharmacyStock)
                       .HasForeignKey(pd => pd.PharmacyId);
 
                 entity.HasOne(pd => pd.Drug)
-                      .WithMany(d => d.PharmacyStocks)
+                      .WithMany(d => d.PharmacyStock)
                       .HasForeignKey(pd => pd.DrugId);
             });
 
@@ -97,7 +97,7 @@ namespace PharmaLink_API.Data
                       .HasForeignKey(uc => uc.PatientId)
                       .OnDelete(DeleteBehavior.Restrict);
 
-                entity.HasOne(uc => uc.PharmacyStocks)
+                entity.HasOne(uc => uc.PharmacyProduct)
                       .WithMany(pd => pd.CartItems)
                       .HasForeignKey(uc => new { uc.PharmacyId, uc.DrugId })
                       .OnDelete(DeleteBehavior.Restrict);
@@ -423,23 +423,23 @@ namespace PharmaLink_API.Data
         }
         private void SeedPharmacyStocks(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<PharmacyStock>().HasData(
+            modelBuilder.Entity<PharmacyProduct>().HasData(
                 // City Pharmacy (PharmacyID = 1) - Premium pricing, good stock
-                new PharmacyStock
+                new PharmacyProduct
                 {
                     DrugId = 1, // Paracetamol
                     PharmacyId = 1,
                     Price = 12.50m,
                     QuantityAvailable = 150
                 },
-                new PharmacyStock
+                new PharmacyProduct
                 {
                     DrugId = 2, // Ibuprofen
                     PharmacyId = 1,
                     Price = 18.00m,
                     QuantityAvailable = 85
                 },
-                new PharmacyStock
+                new PharmacyProduct
                 {
                     DrugId = 3, // Amoxicillin
                     PharmacyId = 1,
@@ -448,21 +448,21 @@ namespace PharmaLink_API.Data
                 },
 
                 // Health Plus (PharmacyID = 2) - Competitive pricing, high stock
-                new PharmacyStock
+                new PharmacyProduct
                 {
                     DrugId = 1, // Paracetamol
                     PharmacyId = 2,
                     Price = 10.50m,
                     QuantityAvailable = 200
                 },
-                new PharmacyStock
+                new PharmacyProduct
                 {
                     DrugId = 2, // Ibuprofen
                     PharmacyId = 2,
                     Price = 15.00m,
                     QuantityAvailable = 120
                 },
-                new PharmacyStock
+                new PharmacyProduct
                 {
                     DrugId = 3, // Amoxicillin
                     PharmacyId = 2,
@@ -471,21 +471,21 @@ namespace PharmaLink_API.Data
                 },
 
                 // MediCare (PharmacyID = 3) - Mid-range pricing, moderate stock
-                new PharmacyStock
+                new PharmacyProduct
                 {
                     DrugId = 1, // Paracetamol
                     PharmacyId = 3,
                     Price = 11.25m,
                     QuantityAvailable = 100
                 },
-                new PharmacyStock
+                new PharmacyProduct
                 {
                     DrugId = 2, // Ibuprofen
                     PharmacyId = 3,
                     Price = 16.50m,
                     QuantityAvailable = 75
                 },
-                new PharmacyStock
+                new PharmacyProduct
                 {
                     DrugId = 3, // Amoxicillin
                     PharmacyId = 3,
@@ -503,7 +503,7 @@ namespace PharmaLink_API.Data
         public DbSet<Drug> Drugs { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
-        public DbSet<PharmacyStock> PharmacyStocks { get; set; }
+        public DbSet<PharmacyProduct> PharmacyStock { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<PatientFavoriteDrug> PatientFavoriteDrugs { get; set; }
 

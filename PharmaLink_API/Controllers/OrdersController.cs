@@ -154,7 +154,7 @@ namespace PharmaLink_API.Controllers
                 return NotFound("Order not found.");
             }
 
-            var orderDetails = await _orderDetailRepository.GetAllAsync(od => od.OrderId == orderId, x => x.PharmacyStock.Drug);
+            var orderDetails = await _orderDetailRepository.GetAllAsync(od => od.OrderId == orderId, x => x.PharmacyProduct.Drug);
 
 
             var domain = "http://localhost:4200/client";
@@ -169,7 +169,7 @@ namespace PharmaLink_API.Controllers
 
             foreach (var item in orderDetails)
             {
-                if (item.PharmacyStock?.Drug == null)
+                if (item.PharmacyProduct?.Drug == null)
                     return BadRequest("Drug information missing for some cart items.");
 
                 options.LineItems.Add(new SessionLineItemOptions
@@ -179,8 +179,8 @@ namespace PharmaLink_API.Controllers
                         Currency = "usd",
                         ProductData = new SessionLineItemPriceDataProductDataOptions
                         {
-                            Name = item.PharmacyStock.Drug.CommonName ?? "Unnamed Drug",
-                            Description = item.PharmacyStock.Drug.CommonName ?? "No description",
+                            Name = item.PharmacyProduct.Drug.CommonName ?? "Unnamed Drug",
+                            Description = item.PharmacyProduct.Drug.CommonName ?? "No description",
                         },
                         UnitAmount = (long)(item.Price * 100),
                     },

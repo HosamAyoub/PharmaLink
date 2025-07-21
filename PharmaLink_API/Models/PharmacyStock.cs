@@ -1,6 +1,6 @@
 ﻿namespace PharmaLink_API.Models
 {
-    public class PharmacyStock
+    public class PharmacyProduct
     {
         public int DrugId { get; set; }
         public Drug? Drug { get; set; }

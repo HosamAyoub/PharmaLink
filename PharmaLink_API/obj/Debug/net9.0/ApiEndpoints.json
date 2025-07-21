@@ -674,6 +674,85 @@
     ]
   },
   {
+    "ContainingType": "PharmaLink_API.Controllers.PharmacyStockController",
+    "Method": "GetPharmacyStock",
+    "RelativePath": "api/PharmacyStock",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pharmacyId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageNumber",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.PharmacyStockController",
+    "Method": "AddProductsToPharmacyStock",
+    "RelativePath": "api/PharmacyStock",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pharmacyStockDTO",
+        "Type": "System.Collections.Generic.List\u00601[[PharmaLink_API.Models.DTO.PharmacyStockDTO.pharmacyProductDTO, PharmaLink_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.PharmacyStockController",
+    "Method": "UpdatePharmacyProduct",
+    "RelativePath": "api/PharmacyStock",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pharmacyStockDTO",
+        "Type": "PharmaLink_API.Models.DTO.PharmacyStockDTO.pharmacyProductDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.PharmacyStockController",
+    "Method": "DeletePharmacyProduct",
+    "RelativePath": "api/PharmacyStock",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pharmacyId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "productId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "PharmaLink_API.Controllers.RoleController",
     "Method": "CreateRole",
     "RelativePath": "api/Role/CreateRole",
