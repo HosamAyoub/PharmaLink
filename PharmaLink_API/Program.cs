@@ -101,6 +101,7 @@ namespace PharmaLink_API
             });
 
             // Register repositories
+            builder.Services.AddScoped<IPharmacyRepository, PharmacyRepository>();
             builder.Services.AddScoped<IPatientRepository, PatientRepository>();
             builder.Services.AddScoped<ICartRepository, CartRepository>();
             builder.Services.AddScoped<IOrderHeaderRepository, OrderHeaderRepository>();

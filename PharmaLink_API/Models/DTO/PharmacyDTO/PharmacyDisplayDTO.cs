@@ -1,0 +1,12 @@
+﻿namespace PharmaLink_API.Models.DTO.PharmacyDTO
+{
+    public class PharmacyDisplayDTO
+    {
+        public string Name { get; set; }
+        public string Address { get; set; }
+        public string? Phone { get; set; }
+        public double? Rate { get; set; }
+        public TimeOnly? StartHour { get; set; }
+        public TimeOnly? EndHour { get; set; }
+    }
+}
