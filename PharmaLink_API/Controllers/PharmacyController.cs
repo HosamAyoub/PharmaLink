@@ -52,16 +52,16 @@ namespace PharmaLink_API.Controllers
             var pharmacyDto = _Mapper.Map<PharmacyDisplayDTO>(pharmacy);
             return Ok(pharmacyDto);
         }
-        [HttpPost]
-        public async Task<IActionResult> CreatePharmacy([FromBody] Pharmacy pharmacy)
-        {
-            if (pharmacy == null || string.IsNullOrEmpty(pharmacy.Name))
-            {
-                return BadRequest("Invalid pharmacy data.");
-            }
-            await _PharmacyRepo.CreateAsync(pharmacy);
-            return CreatedAtAction(nameof(GetPharmacyById), new { id = pharmacy.PharmacyID }, pharmacy);
-        }
+        //[HttpPost]
+        //public async Task<IActionResult> CreatePharmacy([FromBody] Pharmacy pharmacy)
+        //{
+        //    if (pharmacy == null || string.IsNullOrEmpty(pharmacy.Name))
+        //    {
+        //        return BadRequest("Invalid pharmacy data.");
+        //    }
+        //    await _PharmacyRepo.CreateAsync(pharmacy);
+        //    return CreatedAtAction(nameof(GetPharmacyById), new { id = pharmacy.PharmacyID }, pharmacy);
+        //}
         [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdatePharmacy(int id, [FromBody] PharmacyDisplayDTO Editedpharmacy)
         {
