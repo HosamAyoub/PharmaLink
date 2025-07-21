@@ -23,5 +23,11 @@ namespace PharmaLink_API.Repository
             shoppingCart.Quantity += count;
             return shoppingCart.Quantity;
         }
+
+        public async Task RemoveRangeAsync(IEnumerable<CartItem> cartItems)
+        {
+            _db.CartItems.RemoveRange(cartItems);
+            await _db.SaveChangesAsync();
+        }
     }
 }
