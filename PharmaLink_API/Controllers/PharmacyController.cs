@@ -63,9 +63,9 @@ namespace PharmaLink_API.Controllers
             return CreatedAtAction(nameof(GetPharmacyById), new { id = pharmacy.PharmacyID }, pharmacy);
         }
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> UpdatePharmacy(int id, [FromBody] Pharmacy Editedpharmacy)
+        public async Task<IActionResult> UpdatePharmacy(int id, [FromBody] PharmacyDisplayDTO Editedpharmacy)
         {
-            if (Editedpharmacy == null || Editedpharmacy.PharmacyID != id)
+            if (Editedpharmacy == null)
             {
                 return BadRequest("Invalid pharmacy data.");
             }
@@ -74,7 +74,9 @@ namespace PharmaLink_API.Controllers
             {
                 return NotFound($"Pharmacy with ID {id} not found.");
             }
-            await _PharmacyRepo.UpdateAsync(Editedpharmacy);
+            // Map the updated properties from DTO to the existing entity
+            var pharmacyToUpdate = _Mapper.Map<Pharmacy>(Editedpharmacy);
+            await _PharmacyRepo.UpdateAsync(pharmacyToUpdate);
             return NoContent();
         }
         [HttpDelete("{id:int}")]

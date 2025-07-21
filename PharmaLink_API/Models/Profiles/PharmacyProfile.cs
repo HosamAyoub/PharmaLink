@@ -7,7 +7,7 @@ namespace PharmaLink_API.Models.Profiles
     {
         public PharmacyProfile()
         {
-            CreateMap<Pharmacy, PharmacyDisplayDTO>();
+            CreateMap<Pharmacy, PharmacyDisplayDTO>().ReverseMap();
         }
     }
 }
