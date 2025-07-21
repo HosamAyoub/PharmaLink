@@ -2,7 +2,6 @@
 {
     public class SubmitOrderRequestDTO
     {
-        public int PatientId { get; set; }
-        public List<OrderItemDTO> Items { get; set; }
+        public string PaymentMethod { get; set; } = "Cash";
     }
 }

@@ -47,12 +47,8 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "PharmaLink_API.Models.DTO.CartDTO.AddToCartDTO",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
+        "Type": "System.Void",
+        "MediaTypes": [],
         "StatusCode": 200
       },
       {
@@ -63,6 +59,36 @@
           "text/json"
         ],
         "StatusCode": 400
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 500
+      }
+    ]
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.CartController",
+    "Method": "ClearCart",
+    "RelativePath": "api/Cart/clear",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 404
       },
       {
         "Type": "System.Void",
@@ -194,13 +220,7 @@
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "patientId",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": [
       {
         "Type": "PharmaLink_API.Models.DTO.CartDTO.CartItemSummaryDTO",
@@ -430,8 +450,66 @@
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.OrdersController",
+    "Method": "AcceptOrder",
+    "RelativePath": "api/Orders/accept/{orderId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.OrdersController",
+    "Method": "CancelOrder",
+    "RelativePath": "api/Orders/cancel/{orderId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.OrdersController",
     "Method": "CreateCheckoutSession",
     "RelativePath": "api/Orders/CreateCheckoutSession",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.OrdersController",
+    "Method": "GetPharmacyOrders",
+    "RelativePath": "api/Orders/orders",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.OrdersController",
+    "Method": "RejectOrder",
+    "RelativePath": "api/Orders/reject/{orderId}",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -463,7 +541,7 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "request",
+        "Name": "dto",
         "Type": "PharmaLink_API.Models.DTO.CartDTO.SubmitOrderRequestDTO",
         "IsRequired": true
       }

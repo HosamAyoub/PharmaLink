@@ -2,7 +2,7 @@
 {
     public class CartUpdateDTO
     {
-        public int PatientId { get; set; }
+        //public int PatientId { get; set; }
         public int DrugId { get; set; }
         public int PharmacyId { get; set; }
     }

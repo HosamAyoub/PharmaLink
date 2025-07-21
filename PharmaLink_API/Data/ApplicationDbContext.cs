@@ -142,6 +142,44 @@ namespace PharmaLink_API.Data
                     Storage_and_handling = "Store below 25°C",
                     Adverse_reactions = "Nausea, rash",
                     Drug_UrlImg = "images/Medicine/Paracetamol.jpg"
+                },
+                new Drug
+                {
+                    DrugID = 2,
+                    CommonName = "Ibuprofen",
+                    Category = "Painkiller",
+                    ActiveIngredient = "Ibuprofen",
+                    Alternatives_names = "Advil, Motrin",
+                    AlternativesGpID = 2,
+                    Indications_and_usage = "Pain, inflammation, fever",
+                    Dosage_and_administration = "200mg every 6–8h",
+                    Dosage_forms_and_strengths = "Tablet, 200mg",
+                    Contraindications = "Ulcers, kidney disease",
+                    Warnings_and_cautions = "Avoid long-term use",
+                    Drug_interactions = "Aspirin, Warfarin",
+                    Description = "NSAID used for pain and inflammation",
+                    Storage_and_handling = "Store below 25°C",
+                    Adverse_reactions = "GI bleeding, headache",
+                    Drug_UrlImg = "images/Medicine/Ibuprofen.jpg"
+                },
+                new Drug
+                {
+                    DrugID = 3,
+                    CommonName = "Amoxicillin",
+                    Category = "Antibiotic",
+                    ActiveIngredient = "Amoxicillin",
+                    Alternatives_names = "Moxatag, Trimox",
+                    AlternativesGpID = 3,
+                    Indications_and_usage = "Bacterial infections",
+                    Dosage_and_administration = "500mg every 8h",
+                    Dosage_forms_and_strengths = "Capsule, 500mg",
+                    Contraindications = "Penicillin allergy",
+                    Warnings_and_cautions = "Complete full course",
+                    Drug_interactions = "Methotrexate, Warfarin",
+                    Description = "Broad-spectrum antibiotic",
+                    Storage_and_handling = "Store in a cool, dry place",
+                    Adverse_reactions = "Diarrhea, rash",
+                    Drug_UrlImg = "images/Medicine/Amoxicillin.jpg"
                 }
             );
 
@@ -153,6 +191,20 @@ namespace PharmaLink_API.Data
                     PharmacyId = 2,
                     Price = 10.50m,
                     QuantityAvailable = 100
+                },
+                new PharmacyStock
+                {
+                    DrugId = 2,
+                    PharmacyId = 2,
+                    Price = 15.00m,
+                    QuantityAvailable = 50
+                },
+                new PharmacyStock
+                {
+                    DrugId = 3,
+                    PharmacyId = 2,
+                    Price = 25.00m,
+                    QuantityAvailable = 70
                 }
             );
 

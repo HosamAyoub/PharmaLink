@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using PharmaLink_API.Data;
 using PharmaLink_API.Models;
 using PharmaLink_API.Repository;
@@ -110,13 +111,43 @@ namespace PharmaLink_API
             builder.Services.AddScoped<IDrugRepository, DrugRepoServices>();
             builder.Services.AddScoped<IRoleRepository, RoleRepository>();
             builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+            builder.Services.AddScoped<IPharmacyRepository, PharmacyRepository>();
 
             builder.Services.AddControllers().AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
             }); ;
             builder.Services.AddOpenApi();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(
+                options =>
+                {
+                    options.SwaggerDoc("v1", new OpenApiInfo { Title = "PharmaLink API", Version = "v1" });
+
+                    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                    {
+                        Name = "Authorization",
+                        Type = SecuritySchemeType.ApiKey,
+                        Scheme = "Bearer",
+                        BearerFormat = "JWT",
+                        In = ParameterLocation.Header,
+                        Description = @"Enter your JWT token like this: Bearer {your JWT token}Example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                    });
+
+                    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                        {
+                        {
+                            new OpenApiSecurityScheme
+                            {
+                               Reference = new OpenApiReference
+                               {
+                                  Type = ReferenceType.SecurityScheme,
+                                  Id = "Bearer"
+                               }
+                            },
+                           Array.Empty<string>()
+                        }
+                    });
+                });
 
 
             builder.Services.Configure<StripeModel>(builder.Configuration.GetSection("Stripe"));
