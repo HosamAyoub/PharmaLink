@@ -15,6 +15,5 @@ namespace PharmaLink_API.Models.DTO.RegisterAccountDTO
         public string? Address { get; set; }
         public string? PatientDiseases { get; set; }
         public string? PatientDrugs { get; set; }
-        public string AccountId { get; set; }
     }
 }

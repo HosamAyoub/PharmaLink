@@ -40,6 +40,11 @@ namespace PharmaLink_API.Data
                 .WithOne(p => p.Account)
                 .HasForeignKey<Pharmacy>(p => p.AccountId);
 
+            //Account Phone number is unique
+            modelBuilder.Entity<Account>()
+                .HasIndex(a => a.PhoneNumber)
+                .IsUnique();
+
             //Patient-Order (1, many)
             modelBuilder.Entity<Patient>()
                 .HasMany(u => u.Orders)

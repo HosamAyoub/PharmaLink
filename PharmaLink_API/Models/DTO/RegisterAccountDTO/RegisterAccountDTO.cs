@@ -16,6 +16,7 @@ namespace PharmaLink_API.Models.DTO.RegisterAccountDTO
         [Compare("PasswordHash", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
         [Required]
+        [Phone(ErrorMessage = "Invalid Phone Number")]
         public string PhoneNumber { get; set; }
         public RegisterPatientDTO? Patient { get; set; }
         public RegsiterPharmacyDTO? Pharmacy { get; set; }
