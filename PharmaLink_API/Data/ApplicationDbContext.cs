@@ -129,11 +129,11 @@ namespace PharmaLink_API.Data
                 .HasColumnType("decimal(3,1)") // Stores values like 4.5
                 .HasPrecision(3, 1);
 
-modelBuilder.Entity<Pharmacy>()
-                .Property(p => p.StartHour)
-                .HasConversion(
-                    timeOnly => timeOnly.HasValue ? timeOnly.Value.ToTimeSpan() : (TimeSpan?)null,
-                    timeSpan => timeSpan.HasValue ? TimeOnly.FromTimeSpan(timeSpan.Value) : (TimeOnly?)null);
+            modelBuilder.Entity<Pharmacy>()
+                            .Property(p => p.StartHour)
+                            .HasConversion(
+                                timeOnly => timeOnly.HasValue ? timeOnly.Value.ToTimeSpan() : (TimeSpan?)null,
+                                timeSpan => timeSpan.HasValue ? TimeOnly.FromTimeSpan(timeSpan.Value) : (TimeOnly?)null);
             modelBuilder.Entity<Pharmacy>()
                 .Property(p => p.EndHour)
                 .HasConversion(
@@ -227,6 +227,7 @@ modelBuilder.Entity<Pharmacy>()
                     QuantityAvailable = 70
                 }
             );
+        }
 
         //    modelBuilder.Entity<CartItem>().HasData(
         //        new CartItem
