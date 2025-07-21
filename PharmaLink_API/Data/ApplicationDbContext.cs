@@ -129,13 +129,24 @@ namespace PharmaLink_API.Data
                       .WithMany(d => d.PatientFavorites)
                       .HasForeignKey(uf => uf.DrugId);
             });
-            
+
+
+            // Configure Pharmacy entity
+
+            modelBuilder.Entity<Pharmacy>()
+                .HasIndex(p => p.Name)
+                .IsUnique();
+            // Rate validation (enforces [Range(0,5)] at database level)
+            modelBuilder.Entity<Pharmacy>()
+                .Property(p => p.Rate)
+                .HasColumnType("decimal(3,1)") // Stores values like 4.5
+                .HasPrecision(3, 1);
+
             modelBuilder.Entity<Pharmacy>()
                 .Property(p => p.StartHour)
                 .HasConversion(
                     timeOnly => timeOnly.HasValue ? timeOnly.Value.ToTimeSpan() : (TimeSpan?)null,
                     timeSpan => timeSpan.HasValue ? TimeOnly.FromTimeSpan(timeSpan.Value) : (TimeOnly?)null);
-
             modelBuilder.Entity<Pharmacy>()
                 .Property(p => p.EndHour)
                 .HasConversion(

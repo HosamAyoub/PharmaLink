@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using PharmaLink_API.Data;
 using PharmaLink_API.Models;
+using PharmaLink_API.Models.Profiles;
 using PharmaLink_API.Repository;
 using PharmaLink_API.Repository.IRepository;
 using System.Text;
@@ -33,6 +34,8 @@ namespace PharmaLink_API
             });
 
             builder.Services.AddAutoMapper(typeof(Program));
+            builder.Services.AddAutoMapper(typeof(PharmacyProfile));
+
 
             builder.Services.AddIdentityCore<Account>(options =>
             {

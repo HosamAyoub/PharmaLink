@@ -1,10 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using PharmaLink_API.Models.CustomAttributes;
+using System.ComponentModel.DataAnnotations;
 
 namespace PharmaLink_API.Models
 {
     public class Pharmacy
     {
+        [Key]
         public int PharmacyID { get; set; }
+        [Unique]
         public string Name { get; set; }
         public string Country { get; set; }
         [MaxLength(150, ErrorMessage = "Address cannot exceed 150 characters.")]
@@ -12,6 +15,7 @@ namespace PharmaLink_API.Models
         //public string Longitude { get; set; }
         //public string Latitude { get; set; }
         [DataType(DataType.PhoneNumber)]
+        [EgyptianPhoneNumber(AcceptLandlines = true)]
         public string? PhoneNumber { get; set; }
         [Range(0,5, ErrorMessage = "Rate must be between 0 and 5.")]
         public double? Rate { get; set; }
