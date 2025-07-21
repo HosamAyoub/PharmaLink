@@ -625,7 +625,7 @@
       },
       {
         "Name": "Editedpharmacy",
-        "Type": "PharmaLink_API.Models.Pharmacy",
+        "Type": "PharmaLink_API.Models.DTO.PharmacyDTO.PharmacyDisplayDTO",
         "IsRequired": true
       }
     ],
