@@ -471,6 +471,101 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "PharmaLink_API.Controllers.PharmacyController",
+    "Method": "GetAllPharmacies",
+    "RelativePath": "api/Pharmacy",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.PharmacyController",
+    "Method": "CreatePharmacy",
+    "RelativePath": "api/Pharmacy",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pharmacy",
+        "Type": "PharmaLink_API.Models.Pharmacy",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.PharmacyController",
+    "Method": "GetPharmacyById",
+    "RelativePath": "api/Pharmacy/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.PharmacyController",
+    "Method": "UpdatePharmacy",
+    "RelativePath": "api/Pharmacy/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "Editedpharmacy",
+        "Type": "PharmaLink_API.Models.Pharmacy",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.PharmacyController",
+    "Method": "DeletePharmacy",
+    "RelativePath": "api/Pharmacy/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.PharmacyController",
+    "Method": "GetPharmacyByName",
+    "RelativePath": "api/Pharmacy/{name}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "name",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "PharmaLink_API.Controllers.RoleController",
     "Method": "CreateRole",
     "RelativePath": "api/Role/CreateRole",

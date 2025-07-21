@@ -58,6 +58,11 @@ namespace PharmaLink_API.Repository
 
             return await query.FirstOrDefaultAsync();
         }
+        public async Task UpdateAsync(T entity)
+        {
+            dbSet.Update(entity);
+            await SaveAsync();
+        }
 
         public async Task RemoveAsync(T entity)
         {
