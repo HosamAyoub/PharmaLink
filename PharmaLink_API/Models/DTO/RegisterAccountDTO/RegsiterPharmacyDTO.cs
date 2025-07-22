@@ -13,6 +13,5 @@ namespace PharmaLink_API.Models.DTO.RegisterAccountDTO
         
         public TimeOnly? StartHour { get; set; }
         public TimeOnly? EndHour { get; set; }
-        public string AccountId { get; set; }
     }
 }

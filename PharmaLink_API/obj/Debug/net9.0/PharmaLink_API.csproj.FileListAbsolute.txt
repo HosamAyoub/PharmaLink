@@ -680,3 +680,5 @@ E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink\PharmaLink_API\bin
 E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
 E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Identity.Core.dll
 E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Identity.Stores.dll
+D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\FluentValidation.dll
+D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\FluentValidation.DependencyInjectionExtensions.dll
