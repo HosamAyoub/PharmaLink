@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35913.81
+VisualStudioVersion = 17.13.35913.81 d17.13
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PharmaLink_API", "PharmaLink_API\PharmaLink_API.csproj", "{FBE9A4FA-46EE-40D5-A3C6-9FED0389146B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PharmaLink_API", "PharmaLink_API\PharmaLink_API.csproj", "{FBE9A4FA-46EE-40D5-A3C6-9FED0389146B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
