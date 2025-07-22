@@ -570,22 +570,6 @@
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.PharmacyController",
-    "Method": "CreatePharmacy",
-    "RelativePath": "api/Pharmacy",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "pharmacy",
-        "Type": "PharmaLink_API.Models.Pharmacy",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "PharmaLink_API.Controllers.PharmacyController",
     "Method": "GetPharmacyById",
     "RelativePath": "api/Pharmacy/{id}",
     "HttpMethod": "GET",

@@ -157,7 +157,7 @@ namespace PharmaLink_API.Data
             SeedPatients(modelBuilder);
 
             // 5. PharmacyStock
-            SeedPharmacyStocks(modelBuilder);
+            //SeedPharmacyStocks(modelBuilder);
         }
 
 
@@ -181,25 +181,25 @@ namespace PharmaLink_API.Data
                     Name = "Patient",
                 }
             );
-<<<<<<< HEAD
+
 
             // 4. PharmacyStock
-            modelBuilder.Entity<PharmacyStock>().HasData(
-                new PharmacyStock
+            modelBuilder.Entity<PharmacyProduct>().HasData(
+                new PharmacyProduct
                 {
                     DrugId = 1,
                     PharmacyId = 2,
                     Price = 10.50m,
                     QuantityAvailable = 100
                 },
-                new PharmacyStock
+                new PharmacyProduct
                 {
                     DrugId = 2,
                     PharmacyId = 2,
                     Price = 15.00m,
                     QuantityAvailable = 50
                 },
-                new PharmacyStock
+                new PharmacyProduct
                 {
                     DrugId = 3,
                     PharmacyId = 2,
@@ -208,20 +208,6 @@ namespace PharmaLink_API.Data
                 }
             );
         }
-
-        //    modelBuilder.Entity<CartItem>().HasData(
-        //        new CartItem
-        //        {
-        //            PatientId = 1,
-        //            DrugId = 1,
-        //            PharmacyId = 1,
-        //            Quantity = 1
-        //        }
-        //    );
-
-=======
-        }
->>>>>>> origin/main
         private void SeedPharmacies(ModelBuilder modelBuilder)
         {
             // Pharmacy Accounts
