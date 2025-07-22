@@ -7,7 +7,7 @@
 
         public int DrugId { get; set; }
         public int PharmacyId { get; set; }
-        public PharmacyStock? PharmacyStocks { get; set; }
+        public PharmacyProduct? PharmacyProduct { get; set; }
 
         public int Quantity { get; set; }
         public decimal Price { get; set; }

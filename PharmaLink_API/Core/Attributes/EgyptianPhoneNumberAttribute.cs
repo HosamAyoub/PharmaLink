@@ -1,29 +1,26 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 
-namespace PharmaLink_API.Models.CustomAttributes
+namespace PharmaLink_API.Core.Attributes
 {
-    public class EgyptianPhoneNumberAttribute : ValidationAttribute // set base class to ValidationAttribute
+    public class EgyptianPhoneNumberAttribute : ValidationAttribute
     {
         private const string Pattern = @"^(\+20|0)?1[0125][0-9]{8}$";
 
-        public bool AcceptLandlines { get; set; } = false; // Optionally allow landlines
+        public bool AcceptLandlines { get; set; } = false;
 
-        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext) // overrides ValidationAttribute.IsValid
+        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
             if (value == null) return ValidationResult.Success;
 
             string phone = value.ToString()!;
 
-            // Check if empty (let RequiredAttribute handle this case)
             if (string.IsNullOrWhiteSpace(phone))
                 return ValidationResult.Success;
 
-            // Mobile number validation
             if (Regex.IsMatch(phone, Pattern))
                 return ValidationResult.Success;
 
-            // Optional landline validation
             if (AcceptLandlines && IsValidLandline(phone))
                 return ValidationResult.Success;
 
@@ -32,7 +29,6 @@ namespace PharmaLink_API.Models.CustomAttributes
 
         private bool IsValidLandline(string phone)
         {
-            // Landline regex (e.g., 0223456789 for Cairo)
             return Regex.IsMatch(phone, @"^0[0-9]{9}$");
         }
 

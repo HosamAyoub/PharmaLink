@@ -1,6 +1,6 @@
-﻿using System.Linq.Expressions;
+using System.Linq.Expressions;
 
-namespace PharmaLink_API.Repository.IRepository
+namespace PharmaLink_API.Repository.Interfaces
 {
     public interface IRepository<T> where T : class
     {

@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using PharmaLink_API.Models;
 using PharmaLink_API.Models.DTO.RegisterAccountDTO;
 
-namespace PharmaLink_API.Repository.IRepository
+namespace PharmaLink_API.Repository.Interfaces
 {
     public interface IAccountRepository
     {

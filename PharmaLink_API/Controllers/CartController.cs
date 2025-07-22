@@ -1,11 +1,11 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using PharmaLink_API.Models;
 using PharmaLink_API.Models.DTO.CartDTO;
-using PharmaLink_API.Repository.IRepository;
+using PharmaLink_API.Repository.Interfaces;
 using System.Security.Claims;
 
 namespace PharmaLink_API.Controllers
@@ -49,8 +49,8 @@ namespace PharmaLink_API.Controllers
 
             var cartItems = await _cartRepository.GetAllAsync(
                 u => u.PatientId == patientId,
-                x => x.PharmacyStocks!.Drug,
-                x => x.PharmacyStocks!.Pharmacy
+                x => x.PharmacyProduct!.Drug,
+                x => x.PharmacyProduct!.Pharmacy
             );
 
             if (cartItems == null || !cartItems.Any())
@@ -62,9 +62,9 @@ namespace PharmaLink_API.Controllers
             {
                 DrugId = c.DrugId,
                 PharmacyId = c.PharmacyId,
-                DrugName = c.PharmacyStocks?.Drug?.CommonName ?? "Unknown Drug",
-                PharmacyName = c.PharmacyStocks?.Pharmacy?.Name ?? "Unknown Pharmacy",
-                ImageUrl = c.PharmacyStocks?.Drug?.Drug_UrlImg ?? "",
+                DrugName = c.PharmacyProduct?.Drug?.CommonName ?? "Unknown Drug",
+                PharmacyName = c.PharmacyProduct?.Pharmacy?.Name ?? "Unknown Pharmacy",
+                ImageUrl = c.PharmacyProduct?.Drug?.Drug_UrlImg ?? "",
                 UnitPrice = c.Price,
                 Quantity = c.Quantity
             }).ToList();

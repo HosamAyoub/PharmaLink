@@ -1,16 +1,12 @@
-﻿using FluentValidation;
+using FluentValidation;
 using PharmaLink_API.Models.DTO.PharmacyStockDTO;
 
-namespace PharmaLink_API.Models.Validators
+namespace PharmaLink_API.Infrastructure.Validators
 {
-    public class PharmacyStockDTOValidator : AbstractValidator<pharmacyProductDTO>
+    public class PharmacyProductDTOValidator : AbstractValidator<pharmacyProductDTO>
     {
-        public PharmacyStockDTOValidator()
+        public PharmacyProductDTOValidator()
         {
-            RuleFor(x => x.PharmacyId)
-                .NotEmpty().WithMessage("Pharmacy ID is required.")
-                .GreaterThan(0).WithMessage("Pharmacy ID must be greater than 0.");
-
             RuleFor(x => x.DrugId)
                 .NotEmpty().WithMessage("Drug ID is required.")
                 .GreaterThan(0).WithMessage("Drug ID must be greater than 0.");

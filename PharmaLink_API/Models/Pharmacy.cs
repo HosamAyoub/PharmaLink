@@ -1,4 +1,4 @@
-﻿using PharmaLink_API.Models.CustomAttributes;
+﻿using PharmaLink_API.Core.Attributes;
 using System.ComponentModel.DataAnnotations;
 
 namespace PharmaLink_API.Models
@@ -31,7 +31,7 @@ namespace PharmaLink_API.Models
         public Account Account { get; set; }
 
         //Pharmacy-Drug relationship (many to many)
-        public ICollection<PharmacyStock>? PharmacyStocks { get; set; }
+        public ICollection<PharmacyProduct>? PharmacyStock { get; set; }
 
         //Pharmacy-Order relationship (one to many)
         public ICollection<Order>? Orders { get; set; }

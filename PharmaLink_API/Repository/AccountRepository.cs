@@ -1,11 +1,12 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using PharmaLink_API.Data;
 using PharmaLink_API.Models;
 using PharmaLink_API.Models.DTO.RegisterAccountDTO;
-using PharmaLink_API.Repository.IRepository;
+using PharmaLink_API.Repository.Interfaces;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -20,7 +21,6 @@ namespace PharmaLink_API.Repository
         private readonly ApplicationDbContext _db;
         private readonly IConfiguration _config;
 
-        //private readonly AccountDTO newUser;
         public AccountRepository(UserManager<Account> userManager, IMapper mapper, ApplicationDbContext db, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
         {
             _userManager = userManager;
@@ -28,7 +28,6 @@ namespace PharmaLink_API.Repository
             _db = db;
             _config = configuration;
             _roleManager = roleManager;
-            //newUser = new AccountDTO();
         }
         public async Task<IdentityResult> RegisterAsync(RegisterAccountDTO account)
         {
@@ -101,6 +100,10 @@ namespace PharmaLink_API.Repository
             {
                 return Results.Unauthorized();
             }
+            
+            
+
+
 
             List<Claim> claims = new List<Claim>
             {
@@ -109,6 +112,11 @@ namespace PharmaLink_API.Repository
                 new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),   // JWT ID
             };
+            var pharmacy = await _db.Pharmacies.FirstOrDefaultAsync(p => p.AccountId == user.Id);
+            if (pharmacy != null)
+            {
+                claims.Add(new Claim("pharmacy_id", pharmacy.PharmacyID.ToString()));
+            }
 
             foreach (var role in await _userManager.GetRolesAsync(user))
             {

@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 
-namespace PharmaLink_API.Repository.IRepository
+namespace PharmaLink_API.Repository.Interfaces
 {
     public interface IRoleRepository
     {
