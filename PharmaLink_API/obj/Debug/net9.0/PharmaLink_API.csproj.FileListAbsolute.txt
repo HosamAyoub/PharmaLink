@@ -680,3 +680,15 @@ E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink\PharmaLink_API\bin
 E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
 E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Identity.Core.dll
 E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Identity.Stores.dll
+F:\ITI FAYOUM\GraduationProject_ITI\PharmaLink\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.csproj.AssemblyReference.cache
+F:\ITI FAYOUM\GraduationProject_ITI\PharmaLink\PharmaLink_API\obj\Debug\net9.0\rpswa.dswa.cache.json
+F:\ITI FAYOUM\GraduationProject_ITI\PharmaLink\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.GeneratedMSBuildEditorConfig.editorconfig
+F:\ITI FAYOUM\GraduationProject_ITI\PharmaLink\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.AssemblyInfoInputs.cache
+F:\ITI FAYOUM\GraduationProject_ITI\PharmaLink\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.AssemblyInfo.cs
+F:\ITI FAYOUM\GraduationProject_ITI\PharmaLink\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.csproj.CoreCompileInputs.cache
+F:\ITI FAYOUM\GraduationProject_ITI\PharmaLink\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.MvcApplicationPartsAssemblyInfo.cs
+F:\ITI FAYOUM\GraduationProject_ITI\PharmaLink\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.MvcApplicationPartsAssemblyInfo.cache
+F:\ITI FAYOUM\GraduationProject_ITI\PharmaLink\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.sourcelink.json
+F:\ITI FAYOUM\GraduationProject_ITI\PharmaLink\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.dll
+F:\ITI FAYOUM\GraduationProject_ITI\PharmaLink\PharmaLink_API\obj\Debug\net9.0\refint\PharmaLink_API.dll
+F:\ITI FAYOUM\GraduationProject_ITI\PharmaLink\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.pdb
