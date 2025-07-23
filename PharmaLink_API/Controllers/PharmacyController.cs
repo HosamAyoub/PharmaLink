@@ -52,6 +52,17 @@ namespace PharmaLink_API.Controllers
             var pharmacyDto = _Mapper.Map<PharmacyDisplayDTO>(pharmacy);
             return Ok(pharmacyDto);
         }
+        [HttpGet("all/{name:alpha}")]
+        public async Task<ActionResult<IEnumerable<PharmacyDisplayDTO>>> GetAllPharmaciesByName(string name)
+        {
+            var pharmacies = await _PharmacyRepo.GetAllPharmaciesByNameAsync(name);
+            if (pharmacies == null || pharmacies.Count == 0)
+            {
+                return NotFound($"No pharmacies found with name {name}.");
+            }
+            var pharmaciesDto = _Mapper.Map<IEnumerable<PharmacyDisplayDTO>>(pharmacies);
+            return Ok(pharmaciesDto);
+        }
         //[HttpPost]
         //public async Task<IActionResult> CreatePharmacy([FromBody] Pharmacy pharmacy)
         //{
