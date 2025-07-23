@@ -20,16 +20,16 @@ namespace PharmaLink_API.Controllers
             _logger = logger;
         }
 
-        [HttpGet]
-        [Authorize(Policy = "PharmacyAdmin")]
-        public IActionResult GetPharmacyStock(int? pharmacyId, int pageNumber = 1, int pageSize = 10)
+        [HttpGet()]
+
+        public IActionResult GetPharmacyStock(int pharmacyId, int pageNumber = 1, int pageSize = 10)
         {
             try
             {
                 _logger.LogInformation("GetPharmacyStock endpoint called with pharmacyId: {PharmacyId}, pageNumber: {PageNumber}, pageSize: {PageSize}", 
                     pharmacyId, pageNumber, pageSize);
 
-                var result = _pharmacyStockService.GetPharmacyStock(User, pharmacyId, pageNumber, pageSize);
+                var result = _pharmacyStockService.GetPharmacyStock(pharmacyId, pageNumber, pageSize);
 
                 if (!result.Success)
                 {
@@ -172,6 +172,37 @@ namespace PharmaLink_API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Unhandled exception in DeletePharmacyProduct endpoint for drugId: {DrugId}", drugId);
+                return StatusCode(500, new 
+                { 
+                    success = false,
+                    message = "An internal server error occurred.",
+                    details = ex.Message
+                });
+            }
+        }
+
+        [HttpGet("category/{category}")]
+        public IActionResult GetPharmacyStockByCategory(int pharamcyId , string category, int pageNumber = 1, int pageSize = 10)
+        {
+            try
+            {
+                _logger.LogInformation("GetPharmacyStockByCategory endpoint called with category: {Category},pharmacyID , pageNumber: {PageNumber}, pageSize: {PageSize}", 
+                    category, pageNumber, pageSize);
+                var result = _pharmacyStockService.GetPharmacyStockByCategory(pharamcyId,category, pageNumber, pageSize);
+                if (!result.Success)
+                {
+                    return HandleServiceError(result);
+                }
+                return Ok(new
+                {
+                    success = true,
+                    data = result.Data,
+                    message = "Pharmacy stock by category retrieved successfully."
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unhandled exception in GetPharmacyStockByCategory endpoint");
                 return StatusCode(500, new 
                 { 
                     success = false,

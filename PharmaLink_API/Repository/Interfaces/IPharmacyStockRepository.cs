@@ -9,6 +9,8 @@ namespace PharmaLink_API.Repository.Interfaces
         public void UpdatePharmacyProduct(PharmacyProduct PharmacyProduct);
         public PharmacyProduct? GetPharmacyProduct(int pharmacyId, int drugId);
         public void DeletePharmacyProduct(PharmacyProduct PharmacyProduct);
+        public List<PharmacyProduct> getPharmacyStockByCategory(int pharamcyId ,string category, int pageNumber, int pageSize);
+
     }
-    
+
 }

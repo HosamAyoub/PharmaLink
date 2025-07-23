@@ -3,6 +3,30 @@
   "WorkspaceRootPath": "F:\\ITI FAYOUM\\GraduationProject_ITI\\PharmaLink\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{FBE9A4FA-46EE-40D5-A3C6-9FED0389146B}|PharmaLink_API\\PharmaLink_API.csproj|f:\\iti fayoum\\graduationproject_iti\\pharmalink\\pharmalink_api\\controllers\\pharmacystockcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FBE9A4FA-46EE-40D5-A3C6-9FED0389146B}|PharmaLink_API\\PharmaLink_API.csproj|solutionrelative:pharmalink_api\\controllers\\pharmacystockcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FBE9A4FA-46EE-40D5-A3C6-9FED0389146B}|PharmaLink_API\\PharmaLink_API.csproj|f:\\iti fayoum\\graduationproject_iti\\pharmalink\\pharmalink_api\\repository\\pharmacystockrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FBE9A4FA-46EE-40D5-A3C6-9FED0389146B}|PharmaLink_API\\PharmaLink_API.csproj|solutionrelative:pharmalink_api\\repository\\pharmacystockrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FBE9A4FA-46EE-40D5-A3C6-9FED0389146B}|PharmaLink_API\\PharmaLink_API.csproj|f:\\iti fayoum\\graduationproject_iti\\pharmalink\\pharmalink_api\\services\\interfaces\\ipharmacystockservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FBE9A4FA-46EE-40D5-A3C6-9FED0389146B}|PharmaLink_API\\PharmaLink_API.csproj|solutionrelative:pharmalink_api\\services\\interfaces\\ipharmacystockservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FBE9A4FA-46EE-40D5-A3C6-9FED0389146B}|PharmaLink_API\\PharmaLink_API.csproj|f:\\iti fayoum\\graduationproject_iti\\pharmalink\\pharmalink_api\\services\\pharmacystockservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FBE9A4FA-46EE-40D5-A3C6-9FED0389146B}|PharmaLink_API\\PharmaLink_API.csproj|solutionrelative:pharmalink_api\\services\\pharmacystockservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FBE9A4FA-46EE-40D5-A3C6-9FED0389146B}|PharmaLink_API\\PharmaLink_API.csproj|f:\\iti fayoum\\graduationproject_iti\\pharmalink\\pharmalink_api\\repository\\interfaces\\ipharmacystockrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FBE9A4FA-46EE-40D5-A3C6-9FED0389146B}|PharmaLink_API\\PharmaLink_API.csproj|solutionrelative:pharmalink_api\\repository\\interfaces\\ipharmacystockrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FBE9A4FA-46EE-40D5-A3C6-9FED0389146B}|PharmaLink_API\\PharmaLink_API.csproj|f:\\iti fayoum\\graduationproject_iti\\pharmalink\\pharmalink_api\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{FBE9A4FA-46EE-40D5-A3C6-9FED0389146B}|PharmaLink_API\\PharmaLink_API.csproj|solutionrelative:pharmalink_api\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{FBE9A4FA-46EE-40D5-A3C6-9FED0389146B}|PharmaLink_API\\PharmaLink_API.csproj|f:\\iti fayoum\\graduationproject_iti\\pharmalink\\pharmalink_api\\migrations\\applicationdbcontextmodelsnapshot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FBE9A4FA-46EE-40D5-A3C6-9FED0389146B}|PharmaLink_API\\PharmaLink_API.csproj|solutionrelative:pharmalink_api\\migrations\\applicationdbcontextmodelsnapshot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -27,12 +51,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 2,
           "Children": [
-            {
-              "$type": "Bookmark",
-              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:129:0:{13b12e3e-c1b4-4539-9371-4fe9a0d523fc}"
@@ -42,24 +62,99 @@
               "Name": "ST:130:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "PharmacyStockController.cs",
+              "DocumentMoniker": "F:\\ITI FAYOUM\\GraduationProject_ITI\\PharmaLink\\PharmaLink_API\\Controllers\\PharmacyStockController.cs",
+              "RelativeDocumentMoniker": "PharmaLink_API\\Controllers\\PharmacyStockController.cs",
+              "ToolTip": "F:\\ITI FAYOUM\\GraduationProject_ITI\\PharmaLink\\PharmaLink_API\\Controllers\\PharmacyStockController.cs",
+              "RelativeToolTip": "PharmaLink_API\\Controllers\\PharmacyStockController.cs",
+              "ViewState": "AgIAALIAAAAAAAAAAAAqwLcAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-22T21:39:12.991Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
+              "Title": "IPharmacyStockService.cs",
+              "DocumentMoniker": "F:\\ITI FAYOUM\\GraduationProject_ITI\\PharmaLink\\PharmaLink_API\\Services\\Interfaces\\IPharmacyStockService.cs",
+              "RelativeDocumentMoniker": "PharmaLink_API\\Services\\Interfaces\\IPharmacyStockService.cs",
+              "ToolTip": "F:\\ITI FAYOUM\\GraduationProject_ITI\\PharmaLink\\PharmaLink_API\\Services\\Interfaces\\IPharmacyStockService.cs",
+              "RelativeToolTip": "PharmaLink_API\\Services\\Interfaces\\IPharmacyStockService.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAwAAABoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-22T21:38:32.172Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "PharmacyStockService.cs",
+              "DocumentMoniker": "F:\\ITI FAYOUM\\GraduationProject_ITI\\PharmaLink\\PharmaLink_API\\Services\\PharmacyStockService.cs",
+              "RelativeDocumentMoniker": "PharmaLink_API\\Services\\PharmacyStockService.cs",
+              "ToolTip": "F:\\ITI FAYOUM\\GraduationProject_ITI\\PharmaLink\\PharmaLink_API\\Services\\PharmacyStockService.cs",
+              "RelativeToolTip": "PharmaLink_API\\Services\\PharmacyStockService.cs",
+              "ViewState": "AgIAAGkBAAAAAAAAAAAAAFoBAABiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-22T21:24:47.491Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PharmacyStockRepository.cs",
+              "DocumentMoniker": "F:\\ITI FAYOUM\\GraduationProject_ITI\\PharmaLink\\PharmaLink_API\\Repository\\PharmacyStockRepository.cs",
+              "RelativeDocumentMoniker": "PharmaLink_API\\Repository\\PharmacyStockRepository.cs",
+              "ToolTip": "F:\\ITI FAYOUM\\GraduationProject_ITI\\PharmaLink\\PharmaLink_API\\Repository\\PharmacyStockRepository.cs",
+              "RelativeToolTip": "PharmaLink_API\\Repository\\PharmacyStockRepository.cs",
+              "ViewState": "AgIAANcAAAAAAAAAAAAkwLQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-22T21:01:12.817Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "IPharmacyStockRepository.cs",
+              "DocumentMoniker": "F:\\ITI FAYOUM\\GraduationProject_ITI\\PharmaLink\\PharmaLink_API\\Repository\\Interfaces\\IPharmacyStockRepository.cs",
+              "RelativeDocumentMoniker": "PharmaLink_API\\Repository\\Interfaces\\IPharmacyStockRepository.cs",
+              "ToolTip": "F:\\ITI FAYOUM\\GraduationProject_ITI\\PharmaLink\\PharmaLink_API\\Repository\\Interfaces\\IPharmacyStockRepository.cs",
+              "RelativeToolTip": "PharmaLink_API\\Repository\\Interfaces\\IPharmacyStockRepository.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAswA0AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-22T21:17:24.426Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": ".gitignore",
+              "DocumentMoniker": "F:\\ITI FAYOUM\\GraduationProject_ITI\\PharmaLink\\PharmaLink_API\\.gitignore",
+              "RelativeDocumentMoniker": "PharmaLink_API\\.gitignore",
+              "ToolTip": "F:\\ITI FAYOUM\\GraduationProject_ITI\\PharmaLink\\PharmaLink_API\\.gitignore",
+              "RelativeToolTip": "PharmaLink_API\\.gitignore",
+              "ViewState": "AgIAAOcAAAAAAAAAAAAAAOoAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-07-22T21:22:50.588Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "ApplicationDbContextModelSnapshot.cs",
               "DocumentMoniker": "F:\\ITI FAYOUM\\GraduationProject_ITI\\PharmaLink\\PharmaLink_API\\Migrations\\ApplicationDbContextModelSnapshot.cs",
               "RelativeDocumentMoniker": "PharmaLink_API\\Migrations\\ApplicationDbContextModelSnapshot.cs",
               "ToolTip": "F:\\ITI FAYOUM\\GraduationProject_ITI\\PharmaLink\\PharmaLink_API\\Migrations\\ApplicationDbContextModelSnapshot.cs",
               "RelativeToolTip": "PharmaLink_API\\Migrations\\ApplicationDbContextModelSnapshot.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-21T13:46:45.651Z"
+              "WhenOpened": "2025-07-21T13:46:45.651Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 7,
               "Title": "dbo.Pharmacies.sql",
               "DocumentMoniker": "ViewDataWindow_MSSQL__/APDO/PharmaLinkDB/True/SqlTable/dbo.Pharmacies.sql",
               "ToolTip": "ViewDataWindow_MSSQL__/APDO/PharmaLinkDB/True/SqlTable/dbo.Pharmacies.sql",
@@ -68,7 +163,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 8,
               "Title": "dbo.Drugs.sql",
               "DocumentMoniker": "ViewDataWindow_MSSQL__/APDO/PharmaLinkDB/True/SqlTable/dbo.Drugs.sql",
               "ToolTip": "ViewDataWindow_MSSQL__/APDO/PharmaLinkDB/True/SqlTable/dbo.Drugs.sql",
@@ -77,7 +172,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 9,
               "Title": "dbo.AspNetUsers.sql",
               "DocumentMoniker": "ViewDataWindow_MSSQL__/APDO/PharmaLinkDB/True/SqlTable/dbo.AspNetUsers.sql",
               "ToolTip": "ViewDataWindow_MSSQL__/APDO/PharmaLinkDB/True/SqlTable/dbo.AspNetUsers.sql",
@@ -86,7 +181,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 10,
               "Title": "20250717175059_AddTables.cs",
               "DocumentMoniker": "F:\\ITI FAYOUM\\GraduationProject_ITI\\PharmaLink\\PharmaLink_API\\Migrations\\20250717175059_AddTables.cs",
               "RelativeDocumentMoniker": "PharmaLink_API\\Migrations\\20250717175059_AddTables.cs",

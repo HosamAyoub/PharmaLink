@@ -21,7 +21,7 @@ namespace PharmaLink_API.Repository
         {
             try
             {
-                _logger.LogInformation("Getting pharmacy stock for pharmacy {PharmacyId}, page {PageNumber}, size {PageSize}", 
+                _logger.LogInformation("Getting pharmacy stock for pharmacy {PharmacyId}, page {PageNumber}, size {PageSize}",
                     pharmacyId, pageNumber, pageSize);
 
                 var pharmacyStock = db.PharmacyStock
@@ -50,13 +50,13 @@ namespace PharmaLink_API.Repository
             try
             {
                 _logger.LogInformation("Getting pharmacy product for pharmacy {PharmacyId} and drug {DrugId}", pharmacyId, drugId);
-                
+
                 return db.PharmacyStock.AsNoTracking()
                     .FirstOrDefault(ps => ps.PharmacyId == pharmacyId && ps.DrugId == drugId);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while getting pharmacy product for pharmacy {PharmacyId} and drug {DrugId}", 
+                _logger.LogError(ex, "Error occurred while getting pharmacy product for pharmacy {PharmacyId} and drug {DrugId}",
                     pharmacyId, drugId);
                 throw new InvalidOperationException($"Failed to retrieve pharmacy product for pharmacy {pharmacyId} and drug {drugId}.", ex);
             }
@@ -67,7 +67,7 @@ namespace PharmaLink_API.Repository
             try
             {
                 _logger.LogInformation("Adding {Count} products to pharmacy stock", pharmacyStock.Count);
-                
+
                 if (pharmacyStock == null || !pharmacyStock.Any())
                 {
                     throw new ArgumentException("Pharmacy stock list cannot be null or empty.");
@@ -89,7 +89,7 @@ namespace PharmaLink_API.Repository
                 {
                     var existing = db.PharmacyStock.AsNoTracking()
                         .FirstOrDefault(ps => ps.PharmacyId == product.PharmacyId && ps.DrugId == product.DrugId);
-                    
+
                     if (existing != null)
                     {
                         throw new InvalidOperationException($"Product with Pharmacy ID {product.PharmacyId} and Drug ID {product.DrugId} already exists.");
@@ -98,7 +98,7 @@ namespace PharmaLink_API.Repository
 
                 db.PharmacyStock.AddRange(pharmacyStock);
                 db.SaveChanges();
-                
+
                 _logger.LogInformation("Successfully added {Count} products to pharmacy stock", pharmacyStock.Count);
             }
             catch (DbUpdateException ex)
@@ -117,9 +117,9 @@ namespace PharmaLink_API.Repository
         {
             try
             {
-                _logger.LogInformation("Updating pharmacy product for pharmacy {PharmacyId} and drug {DrugId}", 
+                _logger.LogInformation("Updating pharmacy product for pharmacy {PharmacyId} and drug {DrugId}",
                     pharmacyStock.PharmacyId, pharmacyStock.DrugId);
-                
+
                 if (pharmacyStock == null)
                 {
                     throw new ArgumentNullException(nameof(pharmacyStock), "Pharmacy product cannot be null.");
@@ -145,8 +145,8 @@ namespace PharmaLink_API.Repository
 
                 db.PharmacyStock.Update(pharmacyStock);
                 db.SaveChanges();
-                
-                _logger.LogInformation("Successfully updated pharmacy product for pharmacy {PharmacyId} and drug {DrugId}", 
+
+                _logger.LogInformation("Successfully updated pharmacy product for pharmacy {PharmacyId} and drug {DrugId}",
                     pharmacyStock.PharmacyId, pharmacyStock.DrugId);
             }
             catch (DbUpdateConcurrencyException ex)
@@ -161,7 +161,7 @@ namespace PharmaLink_API.Repository
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while updating pharmacy product for pharmacy {PharmacyId} and drug {DrugId}", 
+                _logger.LogError(ex, "Error occurred while updating pharmacy product for pharmacy {PharmacyId} and drug {DrugId}",
                     pharmacyStock.PharmacyId, pharmacyStock.DrugId);
                 throw new InvalidOperationException("Failed to update pharmacy product.", ex);
             }
@@ -171,26 +171,26 @@ namespace PharmaLink_API.Repository
         {
             try
             {
-                _logger.LogInformation("Deleting pharmacy product for pharmacy {PharmacyId} and drug {DrugId}", 
+                _logger.LogInformation("Deleting pharmacy product for pharmacy {PharmacyId} and drug {DrugId}",
                     pharmacyStock.PharmacyId, pharmacyStock.DrugId);
-                
+
                 if (pharmacyStock == null)
                 {
                     throw new ArgumentNullException(nameof(pharmacyStock), "Pharmacy product cannot be null.");
                 }
 
                 // Check if product has active orders or cart items
-                var hasActiveOrders = db.OrderDetails.Any(od => od.PharmacyId == pharmacyStock.PharmacyId 
-                    && od.DrugId == pharmacyStock.DrugId);
-                
-                if (hasActiveOrders)
-                {
-                    throw new InvalidOperationException("Cannot delete product that has active orders.");
-                }
+                //var hasActiveOrders = db.OrderDetails.Any(od => od.PharmacyId == pharmacyStock.PharmacyId
+                //    && od.DrugId == pharmacyStock.DrugId);
 
-                var hasCartItems = db.CartItems.Any(ci => ci.PharmacyId == pharmacyStock.PharmacyId 
+                //if (hasActiveOrders)
+                //{
+                //    throw new InvalidOperationException("Cannot delete product that has active orders.");
+                //}
+
+                var hasCartItems = db.CartItems.Any(ci => ci.PharmacyId == pharmacyStock.PharmacyId
                     && ci.DrugId == pharmacyStock.DrugId);
-                
+
                 if (hasCartItems)
                 {
                     throw new InvalidOperationException("Cannot delete product that is in customer carts.");
@@ -198,8 +198,8 @@ namespace PharmaLink_API.Repository
 
                 db.PharmacyStock.Remove(pharmacyStock);
                 db.SaveChanges();
-                
-                _logger.LogInformation("Successfully deleted pharmacy product for pharmacy {PharmacyId} and drug {DrugId}", 
+
+                _logger.LogInformation("Successfully deleted pharmacy product for pharmacy {PharmacyId} and drug {DrugId}",
                     pharmacyStock.PharmacyId, pharmacyStock.DrugId);
             }
             catch (DbUpdateException ex)
@@ -209,10 +209,40 @@ namespace PharmaLink_API.Repository
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while deleting pharmacy product for pharmacy {PharmacyId} and drug {DrugId}", 
+                _logger.LogError(ex, "Error occurred while deleting pharmacy product for pharmacy {PharmacyId} and drug {DrugId}",
                     pharmacyStock.PharmacyId, pharmacyStock.DrugId);
                 throw new InvalidOperationException("Failed to delete pharmacy product.", ex);
             }
         }
+
+
+        public List<PharmacyProduct> getPharmacyStockByCategory(int pharmacyId,string category, int pageNumber, int pageSize)
+        {
+            try
+            {
+                _logger.LogInformation("Getting pharmacy stock by category {Category}, page {PageNumber}, size {PageSize}",
+                    category, pageNumber, pageSize);
+                var pharmacyStock = db.PharmacyStock
+                    .Where(ps => ps.Drug!.Category == category && ps.PharmacyId == pharmacyId)
+                    .Include(ps => ps.Drug)
+                    .Include(ps => ps.Pharmacy);
+
+
+                if (pageNumber > 0 && pageSize > 0)
+                {
+                    return pharmacyStock.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+                }
+                else
+                {
+                    return pharmacyStock.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while getting pharmacy stock by category {Category}", category);
+                throw new InvalidOperationException($"Failed to retrieve pharmacy stock for category {category}.", ex);
+            }
+        }
+        
     }
 }
