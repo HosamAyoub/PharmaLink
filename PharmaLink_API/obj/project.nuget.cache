@@ -1,11 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "mFH3VXFttqc=",
+  "dgSpecHash": "c80G2ma0ATs=",
   "success": true,
   "projectFilePath": "C:\\Users\\GRAPHICS\\Desktop\\Backend Grad\\PharmaLink_API\\PharmaLink_API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\GRAPHICS\\.nuget\\packages\\automapper\\14.0.0\\automapper.14.0.0.nupkg.sha512",
-    "C:\\Users\\GRAPHICS\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
     "C:\\Users\\GRAPHICS\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\GRAPHICS\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",
     "C:\\Users\\GRAPHICS\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
@@ -94,27 +93,5 @@
     "C:\\Users\\GRAPHICS\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512",
     "C:\\Users\\GRAPHICS\\.nuget\\packages\\system.windows.extensions\\6.0.0\\system.windows.extensions.6.0.0.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "Undefined",
-      "level": "Warning",
-      "message": "Problem reading the cache file C:\\Users\\GRAPHICS\\Desktop\\Backend Grad\\PharmaLink_API\\obj\\project.nuget.cache : '<' is an invalid start of a property name. Expected a '\"'. Path: $ | LineNumber: 2 | BytePositionInLine: 0.",
-      "projectPath": "C:\\Users\\GRAPHICS\\Desktop\\Backend Grad\\PharmaLink_API\\PharmaLink_API.csproj",
-      "warningLevel": 1,
-      "filePath": "C:\\Users\\GRAPHICS\\Desktop\\Backend Grad\\PharmaLink_API\\PharmaLink_API.csproj",
-      "targetGraphs": []
-    },
-    {
-      "code": "NU1608",
-      "level": "Warning",
-      "message": "Detected package version outside of dependency constraint: AutoMapper.Extensions.Microsoft.DependencyInjection 12.0.1 requires AutoMapper (= 12.0.1) but version AutoMapper 14.0.0 was resolved.",
-      "projectPath": "C:\\Users\\GRAPHICS\\Desktop\\Backend Grad\\PharmaLink_API\\PharmaLink_API.csproj",
-      "warningLevel": 1,
-      "filePath": "C:\\Users\\GRAPHICS\\Desktop\\Backend Grad\\PharmaLink_API\\PharmaLink_API.csproj",
-      "libraryId": "AutoMapper",
-      "targetGraphs": [
-        "net9.0"
-      ]
-    }
-  ]
+  "logs": []
 }

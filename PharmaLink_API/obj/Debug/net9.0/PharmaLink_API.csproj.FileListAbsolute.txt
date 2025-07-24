@@ -1,691 +1,174 @@
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\appsettings.Development.json
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\appsettings.json
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\PharmaLink_API.staticwebassets.endpoints.json
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\PharmaLink_API.exe
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\PharmaLink_API.deps.json
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\PharmaLink_API.runtimeconfig.json
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\PharmaLink_API.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\PharmaLink_API.pdb
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\AutoMapper.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Azure.Core.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Azure.Identity.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Humanizer.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Microsoft.AspNetCore.OpenApi.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Microsoft.Bcl.AsyncInterfaces.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Microsoft.Build.Locator.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Microsoft.CodeAnalysis.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Microsoft.CodeAnalysis.CSharp.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Microsoft.Data.SqlClient.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Abstractions.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Design.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Relational.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.SqlServer.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Caching.Abstractions.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Caching.Memory.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Configuration.Abstractions.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.DependencyInjection.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.DependencyModel.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Logging.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Logging.Abstractions.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Options.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Primitives.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Microsoft.Identity.Client.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Microsoft.Identity.Client.Extensions.Msal.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Microsoft.IdentityModel.Abstractions.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Microsoft.IdentityModel.JsonWebTokens.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Microsoft.IdentityModel.Logging.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Microsoft.OpenApi.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Microsoft.SqlServer.Server.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Microsoft.Win32.SystemEvents.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Mono.TextTemplating.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\System.ClientModel.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\System.CodeDom.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\System.Composition.AttributedModel.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\System.Composition.Convention.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\System.Composition.Hosting.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\System.Composition.Runtime.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\System.Composition.TypedParts.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\System.Configuration.ConfigurationManager.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\System.Drawing.Common.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\System.Formats.Asn1.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\System.Memory.Data.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\System.Runtime.Caching.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\System.Security.Cryptography.ProtectedData.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\System.Security.Permissions.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\System.Text.Json.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\System.Windows.Extensions.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.CSharp.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.CSharp.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.CSharp.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.CSharp.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.CSharp.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.CSharp.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.CSharp.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.CSharp.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.CSharp.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.CSharp.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.csproj.AssemblyReference.cache
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.GeneratedMSBuildEditorConfig.editorconfig
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.AssemblyInfoInputs.cache
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.AssemblyInfo.cs
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.csproj.CoreCompileInputs.cache
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.MvcApplicationPartsAssemblyInfo.cs
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.MvcApplicationPartsAssemblyInfo.cache
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.sourcelink.json
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\obj\Debug\net9.0\scopedcss\bundle\PharmaLink_API.styles.css
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\obj\Debug\net9.0\staticwebassets.build.json
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\obj\Debug\net9.0\staticwebassets.development.json
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\obj\Debug\net9.0\staticwebassets.build.endpoints.json
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\obj\Debug\net9.0\staticwebassets\msbuild.PharmaLink_API.Microsoft.AspNetCore.StaticWebAssets.props
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\obj\Debug\net9.0\staticwebassets\msbuild.PharmaLink_API.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\obj\Debug\net9.0\staticwebassets\msbuild.build.PharmaLink_API.props
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\obj\Debug\net9.0\staticwebassets\msbuild.buildMultiTargeting.PharmaLink_API.props
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\obj\Debug\net9.0\staticwebassets\msbuild.buildTransitive.PharmaLink_API.props
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\obj\Debug\net9.0\staticwebassets.pack.json
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\obj\Debug\net9.0\PharmaLi.2384C688.Up2Date
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\obj\Debug\net9.0\refint\PharmaLink_API.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.pdb
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.genruntimeconfig.cache
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink_API\obj\Debug\net9.0\ref\PharmaLink_API.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\appsettings.Development.json
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\appsettings.json
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\PharmaLink_API.staticwebassets.endpoints.json
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\PharmaLink_API.exe
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\PharmaLink_API.deps.json
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\PharmaLink_API.runtimeconfig.json
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\PharmaLink_API.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\PharmaLink_API.pdb
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\AutoMapper.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Azure.Core.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Azure.Identity.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Humanizer.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.AspNetCore.OpenApi.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.Bcl.AsyncInterfaces.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.Build.Locator.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.CodeAnalysis.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.CodeAnalysis.CSharp.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.Data.SqlClient.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Abstractions.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Design.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Relational.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.SqlServer.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Caching.Abstractions.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Caching.Memory.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Configuration.Abstractions.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.DependencyInjection.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.DependencyModel.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Logging.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Logging.Abstractions.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Options.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Primitives.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.Identity.Client.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.Identity.Client.Extensions.Msal.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.IdentityModel.Abstractions.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.IdentityModel.JsonWebTokens.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.IdentityModel.Logging.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.OpenApi.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.SqlServer.Server.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.Win32.SystemEvents.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Mono.TextTemplating.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\System.ClientModel.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\System.CodeDom.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\System.Composition.AttributedModel.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\System.Composition.Convention.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\System.Composition.Hosting.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\System.Composition.Runtime.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\System.Composition.TypedParts.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\System.Configuration.ConfigurationManager.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\System.Drawing.Common.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\System.Formats.Asn1.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\System.Memory.Data.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\System.Runtime.Caching.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\System.Security.Cryptography.ProtectedData.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\System.Security.Permissions.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\System.Text.Json.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\System.Windows.Extensions.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.CSharp.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.CSharp.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.CSharp.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.CSharp.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.CSharp.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.CSharp.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.CSharp.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.CSharp.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.CSharp.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.CSharp.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.csproj.AssemblyReference.cache
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.GeneratedMSBuildEditorConfig.editorconfig
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.AssemblyInfoInputs.cache
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.AssemblyInfo.cs
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.csproj.CoreCompileInputs.cache
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.MvcApplicationPartsAssemblyInfo.cs
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.MvcApplicationPartsAssemblyInfo.cache
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.sourcelink.json
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\obj\Debug\net9.0\scopedcss\bundle\PharmaLink_API.styles.css
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\obj\Debug\net9.0\staticwebassets.build.json
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\obj\Debug\net9.0\staticwebassets.development.json
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\obj\Debug\net9.0\staticwebassets.build.endpoints.json
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\obj\Debug\net9.0\staticwebassets\msbuild.PharmaLink_API.Microsoft.AspNetCore.StaticWebAssets.props
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\obj\Debug\net9.0\staticwebassets\msbuild.PharmaLink_API.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\obj\Debug\net9.0\staticwebassets\msbuild.build.PharmaLink_API.props
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\obj\Debug\net9.0\staticwebassets\msbuild.buildMultiTargeting.PharmaLink_API.props
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\obj\Debug\net9.0\staticwebassets\msbuild.buildTransitive.PharmaLink_API.props
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\obj\Debug\net9.0\staticwebassets.pack.json
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\obj\Debug\net9.0\PharmaLi.2384C688.Up2Date
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\obj\Debug\net9.0\refint\PharmaLink_API.dll
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.pdb
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.genruntimeconfig.cache
-E:\ITI\GraduationProject\PharmaLink_API\PharmaLink\PharmaLink_API\obj\Debug\net9.0\ref\PharmaLink_API.dll
-<<<<<<< HEAD
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\appsettings.Development.json
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\appsettings.json
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\PharmaLink_API.staticwebassets.endpoints.json
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\PharmaLink_API.exe
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\PharmaLink_API.deps.json
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\PharmaLink_API.runtimeconfig.json
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\PharmaLink_API.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\PharmaLink_API.pdb
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\AutoMapper.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\Azure.Core.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\Azure.Identity.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\Humanizer.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.AspNetCore.OpenApi.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.Bcl.AsyncInterfaces.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.Build.Locator.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.CodeAnalysis.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.CodeAnalysis.CSharp.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.Data.SqlClient.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Abstractions.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Design.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Relational.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.SqlServer.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Caching.Abstractions.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Caching.Memory.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Configuration.Abstractions.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.DependencyInjection.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.DependencyModel.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Logging.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Logging.Abstractions.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Options.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Primitives.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.Identity.Client.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.Identity.Client.Extensions.Msal.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.IdentityModel.Abstractions.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.IdentityModel.JsonWebTokens.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.IdentityModel.Logging.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.OpenApi.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.SqlServer.Server.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.Win32.SystemEvents.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\Mono.TextTemplating.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\System.ClientModel.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\System.CodeDom.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\System.Composition.AttributedModel.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\System.Composition.Convention.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\System.Composition.Hosting.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\System.Composition.Runtime.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\System.Composition.TypedParts.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\System.Configuration.ConfigurationManager.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\System.Drawing.Common.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\System.Memory.Data.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\System.Runtime.Caching.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\System.Security.Cryptography.ProtectedData.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\System.Security.Permissions.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\System.Windows.Extensions.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.CSharp.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.CSharp.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.CSharp.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.CSharp.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.CSharp.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.CSharp.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.CSharp.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.CSharp.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.CSharp.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.CSharp.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.csproj.AssemblyReference.cache
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\obj\Debug\net9.0\rpswa.dswa.cache.json
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.AssemblyInfoInputs.cache
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.AssemblyInfo.cs
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.csproj.CoreCompileInputs.cache
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.sourcelink.json
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\obj\Debug\net9.0\rjimswa.dswa.cache.json
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\obj\Debug\net9.0\rjsmrazor.dswa.cache.json
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\obj\Debug\net9.0\rjsmcshtml.dswa.cache.json
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\obj\Debug\net9.0\scopedcss\bundle\PharmaLink_API.styles.css
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\obj\Debug\net9.0\staticwebassets.build.json
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\obj\Debug\net9.0\staticwebassets.build.json.cache
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\obj\Debug\net9.0\staticwebassets.development.json
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\obj\Debug\net9.0\staticwebassets.build.endpoints.json
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\obj\Debug\net9.0\PharmaLi.2384C688.Up2Date
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\obj\Debug\net9.0\refint\PharmaLink_API.dll
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.pdb
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.genruntimeconfig.cache
-C:\Users\GRAPHICS\Desktop\ITI Grad\PharmaLink_API\obj\Debug\net9.0\ref\PharmaLink_API.dll
-=======
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\appsettings.Development.json
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\appsettings.json
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\PharmaLink_API.staticwebassets.endpoints.json
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\PharmaLink_API.exe
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\PharmaLink_API.deps.json
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\PharmaLink_API.runtimeconfig.json
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\PharmaLink_API.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\PharmaLink_API.pdb
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\AutoMapper.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Azure.Core.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Azure.Identity.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Humanizer.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.AspNetCore.Cryptography.Internal.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.AspNetCore.OpenApi.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.Bcl.AsyncInterfaces.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.Build.Locator.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.CodeAnalysis.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.CodeAnalysis.CSharp.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.Data.SqlClient.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Abstractions.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Design.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Relational.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.SqlServer.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Caching.Abstractions.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Caching.Memory.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Configuration.Abstractions.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.DependencyInjection.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.DependencyModel.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Identity.Core.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Identity.Stores.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Logging.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Logging.Abstractions.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Options.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Primitives.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.Identity.Client.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.Identity.Client.Extensions.Msal.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.IdentityModel.Abstractions.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.IdentityModel.JsonWebTokens.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.IdentityModel.Logging.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.OpenApi.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.SqlServer.Server.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Microsoft.Win32.SystemEvents.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Mono.TextTemplating.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\System.ClientModel.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\System.CodeDom.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\System.Composition.AttributedModel.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\System.Composition.Convention.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\System.Composition.Hosting.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\System.Composition.Runtime.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\System.Composition.TypedParts.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\System.Configuration.ConfigurationManager.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\System.Drawing.Common.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\System.Formats.Asn1.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\System.Memory.Data.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\System.Runtime.Caching.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\System.Security.Cryptography.ProtectedData.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\System.Security.Permissions.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\System.Text.Json.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\System.Windows.Extensions.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.CSharp.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.CSharp.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.CSharp.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.CSharp.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.CSharp.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.CSharp.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.CSharp.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.CSharp.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.CSharp.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.CSharp.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.Workspaces.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.Workspaces.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.Workspaces.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.Workspaces.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.Workspaces.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.Workspaces.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.Workspaces.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.Workspaces.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
-D:\GitHub\PharmaLink\PharmaLink_API\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
-D:\GitHub\PharmaLink\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.csproj.AssemblyReference.cache
-D:\GitHub\PharmaLink\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.GeneratedMSBuildEditorConfig.editorconfig
-D:\GitHub\PharmaLink\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.AssemblyInfoInputs.cache
-D:\GitHub\PharmaLink\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.AssemblyInfo.cs
-D:\GitHub\PharmaLink\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.csproj.CoreCompileInputs.cache
-D:\GitHub\PharmaLink\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.MvcApplicationPartsAssemblyInfo.cs
-D:\GitHub\PharmaLink\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.MvcApplicationPartsAssemblyInfo.cache
-D:\GitHub\PharmaLink\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.sourcelink.json
-D:\GitHub\PharmaLink\PharmaLink_API\obj\Debug\net9.0\scopedcss\bundle\PharmaLink_API.styles.css
-D:\GitHub\PharmaLink\PharmaLink_API\obj\Debug\net9.0\staticwebassets.build.json
-D:\GitHub\PharmaLink\PharmaLink_API\obj\Debug\net9.0\staticwebassets.development.json
-D:\GitHub\PharmaLink\PharmaLink_API\obj\Debug\net9.0\staticwebassets.build.endpoints.json
-D:\GitHub\PharmaLink\PharmaLink_API\obj\Debug\net9.0\staticwebassets\msbuild.PharmaLink_API.Microsoft.AspNetCore.StaticWebAssets.props
-D:\GitHub\PharmaLink\PharmaLink_API\obj\Debug\net9.0\staticwebassets\msbuild.PharmaLink_API.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
-D:\GitHub\PharmaLink\PharmaLink_API\obj\Debug\net9.0\staticwebassets\msbuild.build.PharmaLink_API.props
-D:\GitHub\PharmaLink\PharmaLink_API\obj\Debug\net9.0\staticwebassets\msbuild.buildMultiTargeting.PharmaLink_API.props
-D:\GitHub\PharmaLink\PharmaLink_API\obj\Debug\net9.0\staticwebassets\msbuild.buildTransitive.PharmaLink_API.props
-D:\GitHub\PharmaLink\PharmaLink_API\obj\Debug\net9.0\staticwebassets.pack.json
-D:\GitHub\PharmaLink\PharmaLink_API\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
-D:\GitHub\PharmaLink\PharmaLink_API\obj\Debug\net9.0\PharmaLi.2384C688.Up2Date
-D:\GitHub\PharmaLink\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.dll
-D:\GitHub\PharmaLink\PharmaLink_API\obj\Debug\net9.0\refint\PharmaLink_API.dll
-D:\GitHub\PharmaLink\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.pdb
-D:\GitHub\PharmaLink\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.genruntimeconfig.cache
-D:\GitHub\PharmaLink\PharmaLink_API\obj\Debug\net9.0\ref\PharmaLink_API.dll
->>>>>>> c4c417c82f23fda0d351e7d7fd1547478e903d59
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\appsettings.Development.json
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\appsettings.json
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\PharmaLink_API.staticwebassets.endpoints.json
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\PharmaLink_API.exe
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\PharmaLink_API.deps.json
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\PharmaLink_API.runtimeconfig.json
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\PharmaLink_API.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\PharmaLink_API.pdb
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\AutoMapper.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Azure.Core.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Azure.Identity.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Humanizer.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.AspNetCore.OpenApi.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.Build.Locator.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.CodeAnalysis.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.Data.SqlClient.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Design.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Relational.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.SqlServer.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Caching.Abstractions.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Caching.Memory.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.DependencyModel.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Identity.Core.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Identity.Stores.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Logging.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Options.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.Extensions.Primitives.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.Identity.Client.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.Identity.Client.Extensions.Msal.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.OpenApi.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.SqlServer.Server.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Mono.TextTemplating.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\System.ClientModel.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\System.CodeDom.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\System.Composition.AttributedModel.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\System.Composition.Convention.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\System.Composition.Hosting.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\System.Composition.Runtime.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\System.Composition.TypedParts.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\System.Configuration.ConfigurationManager.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\System.Drawing.Common.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\System.Memory.Data.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\System.Runtime.Caching.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\System.Security.Permissions.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\System.Windows.Extensions.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.CSharp.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.CSharp.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.CSharp.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.CSharp.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.CSharp.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.CSharp.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.CSharp.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.CSharp.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.CSharp.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.CSharp.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.csproj.AssemblyReference.cache
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\obj\Debug\net9.0\rpswa.dswa.cache.json
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.AssemblyInfoInputs.cache
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.AssemblyInfo.cs
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.csproj.CoreCompileInputs.cache
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.sourcelink.json
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\obj\Debug\net9.0\rjimswa.dswa.cache.json
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\obj\Debug\net9.0\rjsmrazor.dswa.cache.json
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\obj\Debug\net9.0\rjsmcshtml.dswa.cache.json
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\obj\Debug\net9.0\scopedcss\bundle\PharmaLink_API.styles.css
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\obj\Debug\net9.0\staticwebassets.build.json
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\obj\Debug\net9.0\staticwebassets.build.json.cache
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\obj\Debug\net9.0\staticwebassets.development.json
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\obj\Debug\net9.0\staticwebassets.build.endpoints.json
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\obj\Debug\net9.0\PharmaLi.2384C688.Up2Date
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\obj\Debug\net9.0\refint\PharmaLink_API.dll
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.pdb
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\obj\Debug\net9.0\PharmaLink_API.genruntimeconfig.cache
+C:\Users\GRAPHICS\Desktop\Backend Grad\PharmaLink_API\obj\Debug\net9.0\ref\PharmaLink_API.dll

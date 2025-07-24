@@ -274,8 +274,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "NewDrug",
-        "Type": "PharmaLink_API.Models.Drug",
+        "Name": "NewDrugDTO",
+        "Type": "PharmaLink_API.Models.DTO.DrugDto.DrugDetailsDTO",
         "IsRequired": true
       }
     ],
@@ -301,8 +301,8 @@
         "IsRequired": true
       },
       {
-        "Name": "EditedDrug",
-        "Type": "PharmaLink_API.Models.Drug",
+        "Name": "EditedDrugDTO",
+        "Type": "PharmaLink_API.Models.DTO.DrugDto.DrugDetailsDTO",
         "IsRequired": true
       }
     ],
@@ -352,7 +352,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[PharmaLink_API.Models.Drug, PharmaLink_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[PharmaLink_API.Models.DTO.DrugDto.DrugDetailsDTO, PharmaLink_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -378,7 +378,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[PharmaLink_API.Models.Drug, PharmaLink_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[PharmaLink_API.Models.DTO.DrugDto.DrugDetailsDTO, PharmaLink_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -404,7 +404,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[PharmaLink_API.Models.Drug, PharmaLink_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[PharmaLink_API.Models.DTO.DrugDto.DrugDetailsDTO, PharmaLink_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -430,7 +430,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[PharmaLink_API.Models.Drug, PharmaLink_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[PharmaLink_API.Models.DTO.DrugDto.DrugDetailsDTO, PharmaLink_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -456,7 +456,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[PharmaLink_API.Models.Drug, PharmaLink_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[PharmaLink_API.Models.DTO.DrugDto.DrugDetailsDTO, PharmaLink_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",

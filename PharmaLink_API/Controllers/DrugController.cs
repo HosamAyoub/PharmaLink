@@ -2,6 +2,7 @@
 using PharmaLink_API.Data;
 using PharmaLink_API.Models;
 using PharmaLink_API.Repository.IRepository;
+using PharmaLink_API.Models.DTO.DrugDto;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -24,52 +25,182 @@ namespace PharmaLink_API.Controllers
 
         [HttpGet("{PageIndex:int}")]
 
-        public async Task<IEnumerable<Drug>> GetBatch(int PageIndex)
+        public async Task<List<DrugDetailsDTO>> GetBatch(int PageIndex)
         {
-            return await DrugRepo.GetBatchDrugs(PageIndex);
+            var Batch =  await DrugRepo.GetBatchDrugs(PageIndex);
+            return Batch.Select(D => new DrugDetailsDTO
+            {
+                DrugID = D.DrugID,
+                CommonName = D.CommonName,
+                Category = D.Category,
+                ActiveIngredient = D.ActiveIngredient,
+                Alternatives_names = D.Alternatives_names,
+                AlternativesGpID = D.AlternativesGpID,
+                Indications_and_usage = D.Indications_and_usage,
+                Dosage_and_administration = D.Dosage_and_administration,
+                Dosage_forms_and_strengths = D.Dosage_forms_and_strengths,
+                Contraindications = D.Contraindications,
+                Warnings_and_cautions = D.Warnings_and_cautions,
+                Drug_interactions = D.Drug_interactions,
+                Description = D.Description,
+                Storage_and_handling = D.Storage_and_handling,
+                Adverse_reactions = D.Adverse_reactions,
+                Drug_UrlImg = D.Drug_UrlImg
+            }).ToList();
         }
 
         // GET api/<DrugController>/paracetamol
         [HttpGet("Drug_Name")]
-        public async Task<List<Drug>> GetByName(string Dname)
+        public async Task<List<DrugDetailsDTO>> GetByName(string Dname)
         {
-            return await DrugRepo.GetAllAsync(D => D.CommonName.ToLower().StartsWith(Dname.ToLower()));
+            var Result = await DrugRepo.GetAllAsync(D => D.CommonName.ToLower().StartsWith(Dname.ToLower()));
+            return Result.Select(D => new DrugDetailsDTO
+            {
+                DrugID = D.DrugID,
+                CommonName = D.CommonName,
+                Category = D.Category,
+                ActiveIngredient = D.ActiveIngredient,
+                Alternatives_names = D.Alternatives_names,
+                AlternativesGpID = D.AlternativesGpID,
+                Indications_and_usage = D.Indications_and_usage,
+                Dosage_and_administration = D.Dosage_and_administration,
+                Dosage_forms_and_strengths = D.Dosage_forms_and_strengths,
+                Contraindications = D.Contraindications,
+                Warnings_and_cautions = D.Warnings_and_cautions,
+                Drug_interactions = D.Drug_interactions,
+                Description = D.Description,
+                Storage_and_handling = D.Storage_and_handling,
+                Adverse_reactions = D.Adverse_reactions,
+                Drug_UrlImg = D.Drug_UrlImg
+            }).ToList();
         }
 
         [HttpGet("Category")]
-        public async Task<List<Drug>> GetByCategory(string Cname)
+        public async Task<List<DrugDetailsDTO>> GetByCategory(string Cname)
         {
-            return await DrugRepo.GetAllAsync(D => D.Category.ToLower().StartsWith(Cname.ToLower()));
+            var Result =  await DrugRepo.GetAllAsync(D => D.Category.ToLower().StartsWith(Cname.ToLower()));
+            return Result.Select(D => new DrugDetailsDTO
+            {
+                DrugID = D.DrugID,
+                CommonName = D.CommonName,
+                Category = D.Category,
+                ActiveIngredient = D.ActiveIngredient,
+                Alternatives_names = D.Alternatives_names,
+                AlternativesGpID = D.AlternativesGpID,
+                Indications_and_usage = D.Indications_and_usage,
+                Dosage_and_administration = D.Dosage_and_administration,
+                Dosage_forms_and_strengths = D.Dosage_forms_and_strengths,
+                Contraindications = D.Contraindications,
+                Warnings_and_cautions = D.Warnings_and_cautions,
+                Drug_interactions = D.Drug_interactions,
+                Description = D.Description,
+                Storage_and_handling = D.Storage_and_handling,
+                Adverse_reactions = D.Adverse_reactions,
+                Drug_UrlImg = D.Drug_UrlImg
+            }).ToList();
         }
 
         [HttpGet("Active_Ingredient")]
-        public async Task<List<Drug>> GetByActiveIngredient(string Active_Ingredient)
+        public async Task<List<DrugDetailsDTO>> GetByActiveIngredient(string Active_Ingredient)
         {
-            return await DrugRepo.GetAllAsync(D => D.Alternatives_names.ToLower().StartsWith(Active_Ingredient.ToLower()));
+            var Result = await DrugRepo.GetAllAsync(D => D.Alternatives_names.ToLower().StartsWith(Active_Ingredient.ToLower()));
+            return Result.Select(D => new DrugDetailsDTO
+            {
+                DrugID = D.DrugID,
+                CommonName = D.CommonName,
+                Category = D.Category,
+                ActiveIngredient = D.ActiveIngredient,
+                Alternatives_names = D.Alternatives_names,
+                AlternativesGpID = D.AlternativesGpID,
+                Indications_and_usage = D.Indications_and_usage,
+                Dosage_and_administration = D.Dosage_and_administration,
+                Dosage_forms_and_strengths = D.Dosage_forms_and_strengths,
+                Contraindications = D.Contraindications,
+                Warnings_and_cautions = D.Warnings_and_cautions,
+                Drug_interactions = D.Drug_interactions,
+                Description = D.Description,
+                Storage_and_handling = D.Storage_and_handling,
+                Adverse_reactions = D.Adverse_reactions,
+                Drug_UrlImg = D.Drug_UrlImg
+            }).ToList();
         }
 
         [HttpGet("q={SearchAnything}")]
-        public async Task<List<Drug>> Search(string SearchAnything)
+        public async Task<List<DrugDetailsDTO>> Search(string SearchAnything)
         { 
             List<Drug> SearchList = new List<Drug>();
             SearchList.AddRange(await DrugRepo.GetAllAsync(D => D.CommonName.ToLower().StartsWith(SearchAnything.ToLower())));
             SearchList.AddRange(await DrugRepo.GetAllAsync(D => D.Category.ToLower().StartsWith(SearchAnything.ToLower())));
             SearchList.AddRange(await DrugRepo.GetAllAsync(D => D.ActiveIngredient.ToLower().StartsWith(SearchAnything.ToLower())));
-            return SearchList;
+            return SearchList.Select(D => new DrugDetailsDTO
+            {
+                DrugID = D.DrugID,
+                CommonName = D.CommonName,
+                Category = D.Category,
+                ActiveIngredient = D.ActiveIngredient,
+                Alternatives_names = D.Alternatives_names,
+                AlternativesGpID = D.AlternativesGpID,
+                Indications_and_usage = D.Indications_and_usage,
+                Dosage_and_administration = D.Dosage_and_administration,
+                Dosage_forms_and_strengths = D.Dosage_forms_and_strengths,
+                Contraindications = D.Contraindications,
+                Warnings_and_cautions = D.Warnings_and_cautions,
+                Drug_interactions = D.Drug_interactions,
+                Description = D.Description,
+                Storage_and_handling = D.Storage_and_handling,
+                Adverse_reactions = D.Adverse_reactions,
+                Drug_UrlImg = D.Drug_UrlImg
+            }).ToList();
         }
 
 
         // POST api/<DrugController>
         [HttpPost]
-        public async Task Post([FromBody] Drug NewDrug)
+        public async Task Post([FromBody] DrugDetailsDTO NewDrugDTO)
         {
+            Drug NewDrug = new Drug
+            {
+                CommonName = NewDrugDTO.CommonName,
+                Category = NewDrugDTO.Category,
+                ActiveIngredient = NewDrugDTO.ActiveIngredient,
+                Alternatives_names = NewDrugDTO.Alternatives_names,
+                AlternativesGpID = NewDrugDTO.AlternativesGpID,
+                Indications_and_usage = NewDrugDTO.Indications_and_usage,
+                Dosage_and_administration = NewDrugDTO.Dosage_and_administration,
+                Dosage_forms_and_strengths = NewDrugDTO.Dosage_forms_and_strengths,
+                Contraindications = NewDrugDTO.Contraindications,
+                Warnings_and_cautions = NewDrugDTO.Warnings_and_cautions,
+                Drug_interactions = NewDrugDTO.Drug_interactions,
+                Description = NewDrugDTO.Description,
+                Storage_and_handling = NewDrugDTO.Storage_and_handling,
+                Adverse_reactions = NewDrugDTO.Adverse_reactions,
+                Drug_UrlImg = NewDrugDTO.Drug_UrlImg
+            };
             await DrugRepo.CreateAsync(NewDrug);
         }
 
         // PUT api/<DrugController>/5
         [HttpPut("{id}")]
-        public async Task Put(int id, [FromBody] Drug EditedDrug)
+        public async Task Put(int id, [FromBody] DrugDetailsDTO EditedDrugDTO)
         {
+            Drug EditedDrug = new Drug
+            {
+                CommonName = EditedDrugDTO.CommonName,
+                Category = EditedDrugDTO.Category,
+                ActiveIngredient = EditedDrugDTO.ActiveIngredient,
+                Alternatives_names = EditedDrugDTO.Alternatives_names,
+                AlternativesGpID = EditedDrugDTO.AlternativesGpID,
+                Indications_and_usage = EditedDrugDTO.Indications_and_usage,
+                Dosage_and_administration = EditedDrugDTO.Dosage_and_administration,
+                Dosage_forms_and_strengths = EditedDrugDTO.Dosage_forms_and_strengths,
+                Contraindications = EditedDrugDTO.Contraindications,
+                Warnings_and_cautions = EditedDrugDTO.Warnings_and_cautions,
+                Drug_interactions = EditedDrugDTO.Drug_interactions,
+                Description = EditedDrugDTO.Description,
+                Storage_and_handling = EditedDrugDTO.Storage_and_handling,
+                Adverse_reactions = EditedDrugDTO.Adverse_reactions,
+                Drug_UrlImg = EditedDrugDTO.Drug_UrlImg
+            };
             await DrugRepo.EditDrug(id, EditedDrug);
         }
 
