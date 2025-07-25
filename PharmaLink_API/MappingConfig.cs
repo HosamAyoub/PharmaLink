@@ -12,6 +12,7 @@ namespace PharmaLink_API
             CreateMap<CartItem, AddToCartDTO>().ReverseMap();
             CreateMap<CartItem, CartItemSummaryDTO>().ReverseMap();
             CreateMap<PharmacyProduct, pharmacyProductDTO>().ReverseMap();
+            CreateMap<Pharmacy, PharmacyDTO>().ReverseMap();
             
         }
     }

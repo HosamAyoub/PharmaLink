@@ -7,6 +7,8 @@ using PharmaLink_API.Data;
 using PharmaLink_API.Models;
 using PharmaLink_API.Models.DTO.RegisterAccountDTO;
 using PharmaLink_API.Repository.Interfaces;
+using PharmaLink_API.Core.Constants;
+using PharmaLink_API.Core.Enums;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -57,11 +59,14 @@ namespace PharmaLink_API.Repository
                 await _db.Pharmacies.AddAsync(newAccount.Pharmacy);
             }
 
-            
 
-            string roleName = account.Patient != null ? "User" :
-                              account.Pharmacy != null ? "Pharmacy" :
-                              "Admin";
+
+            // Determine user role based on account type
+            UserRole userRole = account.Patient != null ? UserRole.Patient :
+                               account.Pharmacy != null ? UserRole.Pharmacy :
+                               UserRole.Admin;
+
+            string roleName = userRole.ToRoleString();
 
             if (!await _roleManager.RoleExistsAsync(roleName))
             {
@@ -100,8 +105,7 @@ namespace PharmaLink_API.Repository
             {
                 return Results.Unauthorized();
             }
-            
-            
+
 
 
 
@@ -112,12 +116,16 @@ namespace PharmaLink_API.Repository
                 new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),   // JWT ID
             };
+
+            // Add pharmacy-specific claims if user is a pharmacy
             var pharmacy = await _db.Pharmacies.FirstOrDefaultAsync(p => p.AccountId == user.Id);
             if (pharmacy != null)
             {
-                claims.Add(new Claim("pharmacy_id", pharmacy.PharmacyID.ToString()));
+                claims.Add(new Claim(CustomClaimTypes.PharmacyId, pharmacy.PharmacyID.ToString()));
             }
 
+
+            // Add roles
             foreach (var role in await _userManager.GetRolesAsync(user))
             {
                 claims.Add(new Claim(ClaimTypes.Role, role));

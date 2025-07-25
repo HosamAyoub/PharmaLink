@@ -1,11 +1,13 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using PharmaLink_API.Core.Constants;
+using PharmaLink_API.Core.Enums;
 using PharmaLink_API.Data;
+using PharmaLink_API.Infrastructure.Validators;
 using PharmaLink_API.Middleware;
 using PharmaLink_API.Models;
 using PharmaLink_API.Models.Profiles;
@@ -13,7 +15,8 @@ using PharmaLink_API.Repository;
 using PharmaLink_API.Repository.Interfaces;
 using PharmaLink_API.Services;
 using PharmaLink_API.Services.Interfaces;
-using PharmaLink_API.Infrastructure.Validators;
+using Serilog;
+using Serilog.Sinks.MSSqlServer;
 using System.Text;
 
 namespace PharmaLink_API
@@ -44,13 +47,13 @@ namespace PharmaLink_API
                 });
             });
 
+            //AutoMapper Configuration
             builder.Services.AddAutoMapper(typeof(Program));
             builder.Services.AddAutoMapper(typeof(PharmacyProfile));
-
             builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
 
-
+            
             builder.Services.AddIdentityCore<Account>(options =>
             {
                 options.User.RequireUniqueEmail = true;
@@ -85,12 +88,32 @@ namespace PharmaLink_API
 
             builder.Services.AddAuthorization(options =>
             {
+                // PharmacyAdmin policy: Allows Admins and Pharmacy users with valid pharmacy_id claim
                 options.AddPolicy("PharmacyAdmin", policy =>
                 {
                     policy.RequireAssertion(context =>
-                        context.User.IsInRole("Admin") ||
-                        (context.User.IsInRole("Pharmacy") && context.User.Claims.Any(c => c.Type == "pharmacy_id"))
+                        context.User.IsInRole(UserRole.Admin.ToRoleString()) ||
+                        (context.User.IsInRole(UserRole.Pharmacy.ToRoleString()) && 
+                         context.User.Claims.Any(c => c.Type == CustomClaimTypes.PharmacyId))
                     );
+                });
+
+                // Admin only policy
+                options.AddPolicy("AdminOnly", policy =>
+                {
+                    policy.RequireRole(UserRole.Admin.ToRoleString());
+                });
+
+                // Patient only policy
+                options.AddPolicy("PatientOnly", policy =>
+                {
+                    policy.RequireRole(UserRole.Patient.ToRoleString());
+                });
+
+                // Pharmacy only policy
+                options.AddPolicy("PharmacyOnly", policy =>
+                {
+                    policy.RequireRole(UserRole.Pharmacy.ToRoleString());
                 });
             });
 
@@ -145,6 +168,38 @@ namespace PharmaLink_API
             });
 
             builder.Services.Configure<StripeModel>(builder.Configuration.GetSection("Stripe"));
+
+            if (builder.Environment.IsProduction())
+            {
+                // Configure Serilog with SourceContext column
+                builder.Host.UseSerilog((ctx, lc) => {
+                    lc.ReadFrom.Configuration(ctx.Configuration)
+                      .WriteTo.MSSqlServer(
+                          connectionString: ctx.Configuration.GetConnectionString("DefaultConnection"),
+                          sinkOptions: new MSSqlServerSinkOptions
+                          {
+                              TableName = "LogEvents",
+                              AutoCreateSqlTable = true
+                          },
+                          columnOptions: new ColumnOptions()
+                          {
+                              AdditionalColumns = new SqlColumn[]
+                              {
+                              new SqlColumn()
+                              {
+                                  ColumnName = "SourceContext",
+                                  PropertyName = "SourceContext",
+                                  DataType = System.Data.SqlDbType.NVarChar,
+                                  DataLength = 150,
+                                  AllowNull = true
+                              }
+                              }
+                          }
+                      );
+                });
+
+            }
+
 
             var app = builder.Build();
 

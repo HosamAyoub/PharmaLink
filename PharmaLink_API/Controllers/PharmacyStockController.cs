@@ -22,14 +22,14 @@ namespace PharmaLink_API.Controllers
 
         [HttpGet()]
 
-        public IActionResult GetPharmacyStock(int pharmacyId, int pageNumber = 1, int pageSize = 10)
+        public IActionResult GetPharmacyStockByPharmacyId(int pharmacyId, int pageNumber = 1, int pageSize = 10)
         {
             try
             {
                 _logger.LogInformation("GetPharmacyStock endpoint called with pharmacyId: {PharmacyId}, pageNumber: {PageNumber}, pageSize: {PageSize}", 
                     pharmacyId, pageNumber, pageSize);
 
-                var result = _pharmacyStockService.GetPharmacyStock(pharmacyId, pageNumber, pageSize);
+                var result = _pharmacyStockService.GetPharmacyStockByPharmacyID(pharmacyId, pageNumber, pageSize);
 
                 if (!result.Success)
                 {
@@ -54,6 +54,130 @@ namespace PharmaLink_API.Controllers
                 });
             }
         }
+        [HttpGet("allPharmaciesStock")]
+        public IActionResult GetAllPharmaciesStock(int pageNumber , int pageSize) 
+        {
+            try
+            {
+                _logger.LogInformation("GetPharmacyStock endpoint called with pageNumber: {PageNumber}, pageSize: {PageSize}", 
+                    pageNumber, pageSize);
+                var result = _pharmacyStockService.GetPharmacyStock(pageNumber, pageSize);
+                if (!result.Success)
+                {
+                    return HandleServiceError(result);
+                }
+                return Ok(new
+                {
+                    success = true,
+                    data = result.Data,
+                    message = "All pharmacy stock retrieved successfully."
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unhandled exception in GetPharmacyStock endpoint");
+                return StatusCode(500, new 
+                { 
+                    success = false,
+                    message = "An internal server error occurred.",
+                    details = ex.Message
+                });
+            }
+
+        }
+        [HttpGet("category/{category}")]
+        public IActionResult GetPharmacyStockByCategory(int pharamcyId, string category, int pageNumber = 1, int pageSize = 10)
+        {
+            try
+            {
+                _logger.LogInformation("GetPharmacyStockByCategory endpoint called with category: {Category},pharmacyID , pageNumber: {PageNumber}, pageSize: {PageSize}",
+                    category, pageNumber, pageSize);
+                var result = _pharmacyStockService.GetPharmacyStockByCategory(pharamcyId, category, pageNumber, pageSize);
+                if (!result.Success)
+                {
+                    return HandleServiceError(result);
+                }
+                return Ok(new
+                {
+                    success = true,
+                    data = result.Data,
+                    message = "Pharmacy stock by category retrieved successfully."
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unhandled exception in GetPharmacyStockByCategory endpoint");
+                return StatusCode(500, new
+                {
+                    success = false,
+                    message = "An internal server error occurred.",
+                    details = ex.Message
+                });
+            }
+        }
+        [HttpGet("{pharmacyId}/{drugId}")]
+        public IActionResult GetPharmacyProductDetails(int pharmacyId, int drugId)
+        {
+            try
+            {
+                _logger.LogInformation("GetPharmacyProductDetails endpoint called for pharmacyId: {PharmacyId}, drugId: {DrugId}", pharmacyId, drugId);
+
+                var result = _pharmacyStockService.GetPharmacyProductDetails(pharmacyId, drugId);
+
+                if (!result.Success)
+                {
+                    return HandleServiceError(result);
+                }
+
+                return Ok(new
+                {
+                    success = true,
+                    data = result.Data,
+                    message = "Pharmacy product details retrieved successfully."
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unhandled exception in GetPharmacyProductDetails endpoint");
+                return StatusCode(500, new
+                {
+                    success = false,
+                    message = "An internal server error occurred.",
+                    details = ex.Message
+                });
+            }
+        }
+
+        [HttpGet("{drugId}/pharmacies")]
+        [Authorize(Policy = "PatientOnly")]
+        public IActionResult GetPharmaciesThatHaveDrug(int drugId)
+        {
+            try
+            {
+                _logger.LogInformation("GetPharmaciesThatHaveDrug endpoint called for drugId: {DrugId}", drugId);
+                var result = _pharmacyStockService.getPharmaciesThatHaveDrug(drugId);
+                if (!result.Success)
+                {
+                    return HandleServiceError(result);
+                }
+                return Ok(new
+                {
+                    success = true,
+                    data = result.Data,
+                    message = "Pharmacies that have the drug retrieved successfully."
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unhandled exception in GetPharmaciesThatHaveDrug endpoint for drugId: {DrugId}", drugId);
+                return StatusCode(500, new
+                {
+                    success = false,
+                    message = "An internal server error occurred.",
+                    details = ex.Message
+                });
+            }
+        }
 
         [HttpPost]
         [Authorize(Policy = "PharmacyAdmin")]
@@ -64,16 +188,6 @@ namespace PharmaLink_API.Controllers
                 _logger.LogInformation("AddProductsToPharmacyStock endpoint called with {ProductCount} products", 
                     pharmacyStockDTO?.Products?.Count ?? 0);
 
-                if (pharmacyStockDTO == null)
-                {
-                    return BadRequest(new
-                    {
-                        success = false,
-                        message = "Request body cannot be null.",
-                        errors = new[] { "PharmacyStock is required." }
-                    });
-                }
-
                 var result = _pharmacyStockService.AddProductsToPharmacyStock(User, pharmacyStockDTO, pharmacyId);
 
                 if (!result.Success)
@@ -81,7 +195,7 @@ namespace PharmaLink_API.Controllers
                     return HandleServiceError(result);
                 }
 
-                return CreatedAtAction(nameof(GetPharmacyStock), new { pharmacyId }, new
+                return StatusCode(201, new
                 {
                     success = true,
                     message = "Products added to pharmacy stock successfully."
@@ -99,29 +213,13 @@ namespace PharmaLink_API.Controllers
             }
         }
 
-        [HttpPut("{drugId}")]
+        [HttpPut()]
         [Authorize(Policy = "PharmacyAdmin")]
-        public IActionResult UpdatePharmacyProduct(int drugId, [FromBody] pharmacyProductDTO pharmacyProductDTO, int? pharmacyId = null)
+        public IActionResult UpdatePharmacyProduct([FromBody] pharmacyProductDTO pharmacyProductDTO, int? pharmacyId = null)
         {
             try
             {
-                _logger.LogInformation("UpdatePharmacyProduct endpoint called for drugId: {DrugId}", drugId);
-
-                if (pharmacyProductDTO == null)
-                {
-                    return BadRequest(new
-                    {
-                        success = false,
-                        message = "Request body cannot be null.",
-                        errors = new[] { "pharmacyProductDTO is required." }
-                    });
-                }
-
-                // Ensure the drugId from route matches the one in the DTO
-                if (pharmacyProductDTO.DrugId != drugId)
-                {
-                    pharmacyProductDTO.DrugId = drugId;
-                }
+                _logger.LogInformation("UpdatePharmacyProduct endpoint called for drugId: {DrugId}", pharmacyProductDTO?.DrugId);
 
                 var result = _pharmacyStockService.UpdatePharmacyProduct(User, pharmacyProductDTO, pharmacyId);
 
@@ -138,7 +236,7 @@ namespace PharmaLink_API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Unhandled exception in UpdatePharmacyProduct endpoint for drugId: {DrugId}", drugId);
+                _logger.LogError(ex, "Unhandled exception in UpdatePharmacyProduct endpoint for drugId: {DrugId}", pharmacyProductDTO?.DrugId);
                 return StatusCode(500, new 
                 { 
                     success = false,
@@ -181,28 +279,32 @@ namespace PharmaLink_API.Controllers
             }
         }
 
-        [HttpGet("category/{category}")]
-        public IActionResult GetPharmacyStockByCategory(int pharamcyId , string category, int pageNumber = 1, int pageSize = 10)
+       
+        [HttpPatch("{drugId}/increase-quantity")]
+        [Authorize(Policy = "PharmacyAdmin")]
+        public IActionResult IncreasePharmacyProductQuantity(int drugId, [FromBody] IncreaseQuantityDTO increaseQuantityDTO, int? pharmacyId = null)
         {
             try
             {
-                _logger.LogInformation("GetPharmacyStockByCategory endpoint called with category: {Category},pharmacyID , pageNumber: {PageNumber}, pageSize: {PageSize}", 
-                    category, pageNumber, pageSize);
-                var result = _pharmacyStockService.GetPharmacyStockByCategory(pharamcyId,category, pageNumber, pageSize);
+                _logger.LogInformation("IncreasePharmacyProductQuantity endpoint called for drugId: {DrugId}", drugId);
+
+                var quantity = increaseQuantityDTO?.Quantity ?? 0;
+                var result = _pharmacyStockService.IncreasePharmacyProductQuantity(User, drugId, quantity, pharmacyId);
+
                 if (!result.Success)
                 {
                     return HandleServiceError(result);
                 }
+
                 return Ok(new
                 {
                     success = true,
-                    data = result.Data,
-                    message = "Pharmacy stock by category retrieved successfully."
+                    message = "Pharmacy product quantity increased successfully."
                 });
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Unhandled exception in GetPharmacyStockByCategory endpoint");
+                _logger.LogError(ex, "Unhandled exception in IncreasePharmacyProductQuantity endpoint for drugId: {DrugId}", drugId);
                 return StatusCode(500, new 
                 { 
                     success = false,
@@ -211,6 +313,77 @@ namespace PharmaLink_API.Controllers
                 });
             }
         }
+
+        [HttpPatch("{drugId}/decrease-quantity")]
+        [Authorize(Policy = "PharmacyAdmin")]
+        public IActionResult DecreasePharmacyProductQuantity(int drugId, [FromBody] DecreaseQuantityDTO decreaseQuantityDTO, int? pharmacyId = null)
+        {
+            try
+            {
+                _logger.LogInformation("DecreasePharmacyProductQuantity endpoint called for drugId: {DrugId}", drugId);
+
+                var quantity = decreaseQuantityDTO?.Quantity ?? 0;
+                var result = _pharmacyStockService.DecreasePharmacyProductQuantity(User, drugId, quantity, pharmacyId);
+
+                if (!result.Success)
+                {
+                    return HandleServiceError(result);
+                }
+
+                return Ok(new
+                {
+                    success = true,
+                    message = "Pharmacy product quantity decreased successfully."
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unhandled exception in DecreasePharmacyProductQuantity endpoint for drugId: {DrugId}", drugId);
+                return StatusCode(500, new 
+                { 
+                    success = false,
+                    message = "An internal server error occurred.",
+                    details = ex.Message
+                });
+            }
+        }
+
+      
+
+        [HttpPatch("{drugId}/price")]
+        [Authorize(Policy = "PharmacyAdmin")]
+        public IActionResult UpdatePharmacyProductPrice(int drugId, [FromBody] UpdatePriceOnlyDTO updatePriceDTO, int? pharmacyId = null)
+        {
+            try
+            {
+                _logger.LogInformation("UpdatePharmacyProductPrice endpoint called for drugId: {DrugId}", drugId);
+
+                var price = updatePriceDTO?.Price ?? 0;
+                var result = _pharmacyStockService.UpdatePharmacyProductPrice(User, drugId, price, pharmacyId);
+
+                if (!result.Success)
+                {
+                    return HandleServiceError(result);
+                }
+
+                return Ok(new
+                {
+                    success = true,
+                    message = "Pharmacy product price updated successfully."
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unhandled exception in UpdatePharmacyProductPrice endpoint for drugId: {DrugId}", drugId);
+                return StatusCode(500, new 
+                { 
+                    success = false,
+                    message = "An internal server error occurred.",
+                    details = ex.Message
+                });
+            }
+        }
+
 
         private IActionResult HandleServiceError<T>(ServiceResult<T> result)
         {

@@ -675,7 +675,7 @@
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.PharmacyStockController",
-    "Method": "GetPharmacyStock",
+    "Method": "GetPharmacyStockByPharmacyId",
     "RelativePath": "api/PharmacyStock",
     "HttpMethod": "GET",
     "IsController": true,
@@ -723,16 +723,11 @@
   {
     "ContainingType": "PharmaLink_API.Controllers.PharmacyStockController",
     "Method": "UpdatePharmacyProduct",
-    "RelativePath": "api/PharmacyStock/{drugId}",
+    "RelativePath": "api/PharmacyStock",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
-      {
-        "Name": "drugId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
       {
         "Name": "pharmacyProductDTO",
         "Type": "PharmaLink_API.Models.DTO.PharmacyStockDTO.pharmacyProductDTO",
@@ -762,6 +757,142 @@
       {
         "Name": "pharmacyId",
         "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.PharmacyStockController",
+    "Method": "DecreasePharmacyProductQuantity",
+    "RelativePath": "api/PharmacyStock/{drugId}/decrease-quantity",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "drugId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "decreaseQuantityDTO",
+        "Type": "PharmaLink_API.Models.DTO.PharmacyStockDTO.DecreaseQuantityDTO",
+        "IsRequired": true
+      },
+      {
+        "Name": "pharmacyId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.PharmacyStockController",
+    "Method": "IncreasePharmacyProductQuantity",
+    "RelativePath": "api/PharmacyStock/{drugId}/increase-quantity",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "drugId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "increaseQuantityDTO",
+        "Type": "PharmaLink_API.Models.DTO.PharmacyStockDTO.IncreaseQuantityDTO",
+        "IsRequired": true
+      },
+      {
+        "Name": "pharmacyId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.PharmacyStockController",
+    "Method": "GetPharmaciesThatHaveDrug",
+    "RelativePath": "api/PharmacyStock/{drugId}/pharmacies",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "drugId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.PharmacyStockController",
+    "Method": "UpdatePharmacyProductPrice",
+    "RelativePath": "api/PharmacyStock/{drugId}/price",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "drugId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "updatePriceDTO",
+        "Type": "PharmaLink_API.Models.DTO.PharmacyStockDTO.UpdatePriceOnlyDTO",
+        "IsRequired": true
+      },
+      {
+        "Name": "pharmacyId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.PharmacyStockController",
+    "Method": "GetPharmacyProductDetails",
+    "RelativePath": "api/PharmacyStock/{pharmacyId}/{drugId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pharmacyId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "drugId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.PharmacyStockController",
+    "Method": "GetAllPharmaciesStock",
+    "RelativePath": "api/PharmacyStock/allPharmaciesStock",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pageNumber",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
         "IsRequired": false
       }
     ],
