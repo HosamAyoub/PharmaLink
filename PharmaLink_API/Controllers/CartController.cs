@@ -10,7 +10,7 @@ using System.Security.Claims;
 
 namespace PharmaLink_API.Controllers
 {
-    [Authorize(Roles = "user")]
+    [Authorize(Roles = "User")]
     [Route("api/[controller]")]
     [ApiController]
     public class CartController : ControllerBase
@@ -122,6 +122,17 @@ namespace PharmaLink_API.Controllers
             var existingCartItem = await _cartRepository.GetAsync(
                 u => u.PatientId == patientId && u.DrugId == cartItem.DrugId && u.PharmacyId == cartItem.PharmacyId);
 
+            var cartList = await _cartRepository.GetAllAsync(u => u.PatientId == patientId);
+
+            if (cartList.Any())
+            {
+                var pharmacyInCart = cartList.First().PharmacyId;
+                if (pharmacyInCart != cartItem.PharmacyId)
+                {
+                    return BadRequest("You can only add drugs from one pharmacy at a time.");
+                }
+            }
+
             CartItem finalCartItem;
             if (existingCartItem == null)
             {
@@ -141,7 +152,7 @@ namespace PharmaLink_API.Controllers
 
             var responseDTO = _mapper.Map<CartItemResponseDTO>(finalCartItem);
 
-            var cartList = await _cartRepository.GetAllAsync(u => u.PatientId == patientId);
+            //var cartList = await _cartRepository.GetAllAsync(u => u.PatientId == patientId);
             var totalCount = cartList.Count;
 
             return Ok(new { cartItem = responseDTO, totalCount });

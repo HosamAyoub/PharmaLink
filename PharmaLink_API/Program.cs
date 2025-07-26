@@ -116,11 +116,9 @@ namespace PharmaLink_API
             builder.Services.AddScoped<IRoleRepository, RoleRepository>();
             builder.Services.AddScoped<IAccountRepository, AccountRepository>();
             builder.Services.AddScoped<IPharmacyRepository, PharmacyRepository>();
+            builder.Services.AddScoped<IFavoriteRepository, FavoriteRepository>();
 
-            builder.Services.AddControllers().AddJsonOptions(options =>
-            {
-                options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
-            }); ;
+            builder.Services.AddControllers();
             builder.Services.AddOpenApi();
             builder.Services.AddSwaggerGen(
                 options =>
