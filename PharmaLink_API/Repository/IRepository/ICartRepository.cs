@@ -6,5 +6,7 @@ namespace PharmaLink_API.Repository.IRepository
     {
         int IncrementCount(CartItem shoppingCart, int count);
         int DecrementCount(CartItem shoppingCart, int count);
-    }    
+        Task RemoveRangeAsync(IEnumerable<CartItem> cartItems);
+        
+    }
 }

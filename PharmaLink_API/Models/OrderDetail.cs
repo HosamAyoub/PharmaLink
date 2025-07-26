@@ -11,10 +11,9 @@
         //OrderDetail-PharmacyStock relationship (many to one)
         public int DrugId { get; set; }
         public int PharmacyId { get; set; }
-        public PharmacyStock? PharmacyStock { get; set; }
+        public PharmacyProduct? PharmacyProduct { get; set; }
 
         public int Quantity { get; set; }
         public decimal Price { get; set; }
-        // Additional properties can be added as needed
     }
 }
