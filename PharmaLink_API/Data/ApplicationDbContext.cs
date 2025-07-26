@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PharmaLink_API.Models;
+using PharmaLink_API.Core.Enums;
 
 namespace PharmaLink_API.Data
 {
@@ -157,7 +158,7 @@ namespace PharmaLink_API.Data
             SeedPatients(modelBuilder);
 
             // 5. PharmacyStock
-            SeedPharmacyStocks(modelBuilder);
+            //SeedPharmacyStocks(modelBuilder);
         }
 
 
@@ -421,79 +422,79 @@ namespace PharmaLink_API.Data
             );
 
         }
-        private void SeedPharmacyStocks(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<PharmacyProduct>().HasData(
-                // City Pharmacy (PharmacyID = 1) - Premium pricing, good stock
-                new PharmacyProduct
-                {
-                    DrugId = 1, // Paracetamol
-                    PharmacyId = 1,
-                    Price = 12.50m,
-                    QuantityAvailable = 150
-                },
-                new PharmacyProduct
-                {
-                    DrugId = 2, // Ibuprofen
-                    PharmacyId = 1,
-                    Price = 18.00m,
-                    QuantityAvailable = 85
-                },
-                new PharmacyProduct
-                {
-                    DrugId = 3, // Amoxicillin
-                    PharmacyId = 1,
-                    Price = 28.50m,
-                    QuantityAvailable = 65
-                },
+        //private void SeedPharmacyStocks(ModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<PharmacyProduct>().HasData(
+        //        // City Pharmacy (PharmacyID = 1) - Premium pricing, good stock
+        //        new PharmacyProduct
+        //        {
+        //            DrugId = 1, // Paracetamol
+        //            PharmacyId = 1,
+        //            Price = 12.50m,
+        //            QuantityAvailable = 150
+        //        },
+        //        new PharmacyProduct
+        //        {
+        //            DrugId = 2, // Ibuprofen
+        //            PharmacyId = 1,
+        //            Price = 18.00m,
+        //            QuantityAvailable = 85
+        //        },
+        //        new PharmacyProduct
+        //        {
+        //            DrugId = 3, // Amoxicillin
+        //            PharmacyId = 1,
+        //            Price = 28.50m,
+        //            QuantityAvailable = 65
+        //        },
 
-                // Health Plus (PharmacyID = 2) - Competitive pricing, high stock
-                new PharmacyProduct
-                {
-                    DrugId = 1, // Paracetamol
-                    PharmacyId = 2,
-                    Price = 10.50m,
-                    QuantityAvailable = 200
-                },
-                new PharmacyProduct
-                {
-                    DrugId = 2, // Ibuprofen
-                    PharmacyId = 2,
-                    Price = 15.00m,
-                    QuantityAvailable = 120
-                },
-                new PharmacyProduct
-                {
-                    DrugId = 3, // Amoxicillin
-                    PharmacyId = 2,
-                    Price = 25.00m,
-                    QuantityAvailable = 90
-                },
+        //        // Health Plus (PharmacyID = 2) - Competitive pricing, high stock
+        //        new PharmacyProduct
+        //        {
+        //            DrugId = 1, // Paracetamol
+        //            PharmacyId = 2,
+        //            Price = 10.50m,
+        //            QuantityAvailable = 200
+        //        },
+        //        new PharmacyProduct
+        //        {
+        //            DrugId = 2, // Ibuprofen
+        //            PharmacyId = 2,
+        //            Price = 15.00m,
+        //            QuantityAvailable = 120
+        //        },
+        //        new PharmacyProduct
+        //        {
+        //            DrugId = 3, // Amoxicillin
+        //            PharmacyId = 2,
+        //            Price = 25.00m,
+        //            QuantityAvailable = 90
+        //        },
 
-                // MediCare (PharmacyID = 3) - Mid-range pricing, moderate stock
-                new PharmacyProduct
-                {
-                    DrugId = 1, // Paracetamol
-                    PharmacyId = 3,
-                    Price = 11.25m,
-                    QuantityAvailable = 100
-                },
-                new PharmacyProduct
-                {
-                    DrugId = 2, // Ibuprofen
-                    PharmacyId = 3,
-                    Price = 16.50m,
-                    QuantityAvailable = 75
-                },
-                new PharmacyProduct
-                {
-                    DrugId = 3, // Amoxicillin
-                    PharmacyId = 3,
-                    Price = 26.75m,
-                    QuantityAvailable = 55
-                }
-            );
-        }
+        //        // MediCare (PharmacyID = 3) - Mid-range pricing, moderate stock
+        //        new PharmacyProduct
+        //        {
+        //            DrugId = 1, // Paracetamol
+        //            PharmacyId = 3,
+        //            Price = 11.25m,
+        //            QuantityAvailable = 100
+        //        },
+        //        new PharmacyProduct
+        //        {
+        //            DrugId = 2, // Ibuprofen
+        //            PharmacyId = 3,
+        //            Price = 16.50m,
+        //            QuantityAvailable = 75
+        //        },
+        //        new PharmacyProduct
+        //        {
+        //            DrugId = 3, // Amoxicillin
+        //            PharmacyId = 3,
+        //            Price = 26.75m,
+        //            QuantityAvailable = 55
+        //        }
+        //    );
+        //}
 
 
         // *********DB SETS********* //

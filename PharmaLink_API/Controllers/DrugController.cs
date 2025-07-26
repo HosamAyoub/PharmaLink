@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PharmaLink_API.Data;
 using PharmaLink_API.Models;
-using PharmaLink_API.Repository.IRepository;
 using PharmaLink_API.Models.DTO.DrugDto;
 using System.Threading.Tasks;
+using PharmaLink_API.Repository.Interfaces;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 

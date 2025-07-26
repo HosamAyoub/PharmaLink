@@ -1,9 +1,9 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PharmaLink_API.Models;
 using PharmaLink_API.Models.DTO.PharmacyDTO;
-using PharmaLink_API.Repository.IRepository;
+using PharmaLink_API.Repository.Interfaces;
 
 namespace PharmaLink_API.Controllers
 {
