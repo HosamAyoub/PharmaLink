@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\GRAPHICS\\Desktop\\Backend Grad\\PharmaLink_API\\PharmaLink_API.csproj": {}
+    "F:\\ITI FAYOUM\\GraduationProject_ITI\\PharmaLink\\PharmaLink_API\\PharmaLink_API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\GRAPHICS\\Desktop\\Backend Grad\\PharmaLink_API\\PharmaLink_API.csproj": {
+    "F:\\ITI FAYOUM\\GraduationProject_ITI\\PharmaLink\\PharmaLink_API\\PharmaLink_API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\GRAPHICS\\Desktop\\Backend Grad\\PharmaLink_API\\PharmaLink_API.csproj",
+        "projectUniqueName": "F:\\ITI FAYOUM\\GraduationProject_ITI\\PharmaLink\\PharmaLink_API\\PharmaLink_API.csproj",
         "projectName": "PharmaLink_API",
-        "projectPath": "C:\\Users\\GRAPHICS\\Desktop\\Backend Grad\\PharmaLink_API\\PharmaLink_API.csproj",
-        "packagesPath": "C:\\Users\\GRAPHICS\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\GRAPHICS\\Desktop\\Backend Grad\\PharmaLink_API\\obj\\",
+        "projectPath": "F:\\ITI FAYOUM\\GraduationProject_ITI\\PharmaLink\\PharmaLink_API\\PharmaLink_API.csproj",
+        "packagesPath": "C:\\Users\\amr mostafa\\.nuget\\packages\\",
+        "outputPath": "F:\\ITI FAYOUM\\GraduationProject_ITI\\PharmaLink\\PharmaLink_API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\GRAPHICS\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\amr mostafa\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -108,7 +108,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.302/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.303/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
