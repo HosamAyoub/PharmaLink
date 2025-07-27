@@ -52,7 +52,7 @@ namespace PharmaLink_API.Controllers
             var pharmacyDto = _Mapper.Map<PharmacyDisplayDTO>(pharmacy);
             return Ok(pharmacyDto);
         }
-        [HttpGet("all/{name:alpha}")]
+        [HttpGet("search/{name:alpha}")]
         public async Task<ActionResult<IEnumerable<PharmacyDisplayDTO>>> GetAllPharmaciesByName(string name)
         {
             var pharmacies = await _PharmacyRepo.GetAllPharmaciesByNameAsync(name);

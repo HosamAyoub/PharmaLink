@@ -658,6 +658,32 @@
     ]
   },
   {
+    "ContainingType": "PharmaLink_API.Controllers.PharmacyController",
+    "Method": "GetAllPharmaciesByName",
+    "RelativePath": "api/Pharmacy/search/{name}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "name",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PharmaLink_API.Models.DTO.PharmacyDTO.PharmacyDisplayDTO, PharmaLink_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "PharmaLink_API.Controllers.PharmacyStockController",
     "Method": "GetPharmacyStock",
     "RelativePath": "api/PharmacyStock",
