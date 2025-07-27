@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PharmaLink_API.Models;
 using PharmaLink_API.Models.DTO.FavoriteDTO;
+using PharmaLink_API.Repository.Interfaces;
 using PharmaLink_API.Repository.IRepository;
 using System.Security.Claims;
 

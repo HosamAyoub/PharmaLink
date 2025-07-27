@@ -1,4 +1,5 @@
 ﻿using PharmaLink_API.Models;
+using PharmaLink_API.Repository.Interfaces;
 
 namespace PharmaLink_API.Repository.IRepository
 {

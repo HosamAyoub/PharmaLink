@@ -12,6 +12,7 @@ using PharmaLink_API.Models;
 using PharmaLink_API.Models.Profiles;
 using PharmaLink_API.Repository;
 using PharmaLink_API.Repository.Interfaces;
+using PharmaLink_API.Repository.IRepository;
 using PharmaLink_API.Services;
 using PharmaLink_API.Services.Interfaces;
 using Serilog;
