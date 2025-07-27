@@ -1,6 +1,6 @@
-﻿using PharmaLink_API.Data;
+using PharmaLink_API.Data;
 using PharmaLink_API.Models;
-using PharmaLink_API.Repository.IRepository;
+using PharmaLink_API.Repository.Interfaces;
 
 namespace PharmaLink_API.Repository
 {
@@ -22,6 +22,12 @@ namespace PharmaLink_API.Repository
         {
             shoppingCart.Quantity += count;
             return shoppingCart.Quantity;
+        }
+
+        public async Task RemoveRangeAsync(IEnumerable<CartItem> cartItems)
+        {
+            _db.CartItems.RemoveRange(cartItems);
+            await _db.SaveChangesAsync();
         }
     }
 }

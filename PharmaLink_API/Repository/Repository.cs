@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using PharmaLink_API.Data;
-using PharmaLink_API.Repository.IRepository;
+using PharmaLink_API.Repository.Interfaces;
 using System.Linq.Expressions;
 using System.Linq;
 
@@ -57,6 +57,11 @@ namespace PharmaLink_API.Repository
             }
 
             return await query.FirstOrDefaultAsync();
+        }
+        public async Task UpdateAsync(T entity)
+        {
+            dbSet.Update(entity);
+            await SaveAsync();
         }
 
         public async Task RemoveAsync(T entity)

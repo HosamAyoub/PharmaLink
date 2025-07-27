@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using PharmaLink_API.Core.Enums;
 
 namespace PharmaLink_API.Models
 {
@@ -25,9 +26,5 @@ namespace PharmaLink_API.Models
 
         //Patient-Favorites relationship (one to many)
         public ICollection<PatientFavoriteDrug>? PatientFavorites { get; set; }
-    }
-    public enum Gender
-    {
-        Male, Female
     }
 }
