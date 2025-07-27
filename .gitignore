@@ -414,3 +414,7 @@ FodyWeavers.xsd
 # Additional files built by Visual Studio
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudio,dotnetcore
+/PharmaLink_API/obj/Debug/net9.0/PharmaLink_API.AssemblyInfo.cs
+/PharmaLink_API/obj/Debug/net9.0/PharmaLink_API.AssemblyInfoInputs.cache
+/.gitignore
+/.gitignore
