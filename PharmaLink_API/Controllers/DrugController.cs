@@ -5,6 +5,8 @@ using PharmaLink_API.Models;
 using PharmaLink_API.Models.DTO.DrugDto;
 using System.Threading.Tasks;
 using PharmaLink_API.Repository.Interfaces;
+using PharmaLink_API.Models.DTO.DrugDTO;
+using System.Collections;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,13 +18,57 @@ namespace PharmaLink_API.Controllers
     public class DrugController : ControllerBase
     {
         private readonly IDrugRepository DrugRepo;
+        private readonly IPharmacyStockRepository PharmaStockRepo;
         public readonly ApplicationDbContext Context;
 
-        public DrugController(IDrugRepository drugRepo, ApplicationDbContext _context)
+        public DrugController(IDrugRepository drugRepo, IPharmacyStockRepository pharmaStockRepo, ApplicationDbContext _context)
         {
             this.DrugRepo = drugRepo;
+            this.PharmaStockRepo = pharmaStockRepo;
             Context = _context;
         }
+
+
+        [HttpGet]
+
+        public async Task<FullPharmaDrugDTO> GetDrugWithPharmacyStock (int DrugID)
+        {
+            Drug Result = await DrugRepo.GetAsync(D => D.DrugID == DrugID,false,D=>D.PharmacyStock);
+            var Pharmas  = PharmaStockRepo.getPharmaciesThatHaveDrug(DrugID);
+            return new FullPharmaDrugDTO
+            {
+                Drug_Info = new DrugDetailsDTO
+                {
+                    DrugID = Result.DrugID,
+                    CommonName = Result.CommonName,
+                    Category = Result.Category,
+                    ActiveIngredient = Result.ActiveIngredient,
+                    Alternatives_names = Result.Alternatives_names,
+                    AlternativesGpID = Result.AlternativesGpID,
+                    Indications_and_usage = Result.Indications_and_usage,
+                    Dosage_and_administration = Result.Dosage_and_administration,
+                    Dosage_forms_and_strengths = Result.Dosage_forms_and_strengths,
+                    Contraindications = Result.Contraindications,
+                    Warnings_and_cautions = Result.Warnings_and_cautions,
+                    Drug_interactions = Result.Drug_interactions,
+                    Description = Result.Description,
+                    Storage_and_handling = Result.Storage_and_handling,
+                    Adverse_reactions = Result.Adverse_reactions,
+                    Drug_UrlImg = Result.Drug_UrlImg
+                },
+                Pharma_Info = Result.PharmacyStock.Select(P => new PharmaDataDTO
+                {
+                    Pharma_Id = P.PharmacyId,
+                    Pharma_Name = Pharmas.FirstOrDefault(Ph => Ph.PharmacyID == P.PharmacyId).Name,
+                    Pharma_Location = Pharmas.FirstOrDefault(Ph => Ph.PharmacyID == P.PharmacyId).Address,
+                    Price = P.Price,
+                    QuantityAvailable = P.QuantityAvailable
+                }).ToList()
+            };
+
+
+        }
+
 
 
         [HttpGet("{PageIndex:int}")]
@@ -52,7 +98,7 @@ namespace PharmaLink_API.Controllers
         }
 
         // GET api/<DrugController>/paracetamol
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpGet("Drug_Name")]
         public async Task<List<DrugDetailsDTO>> GetByName(string Dname)
         {
@@ -78,7 +124,7 @@ namespace PharmaLink_API.Controllers
             }).ToList();
         }
 
-        [Authorize(Roles = "User, Admin, Pharmacy")]
+        //[Authorize(Roles = "User, Admin, Pharmacy")]
         [HttpGet("Category")]
         public async Task<List<DrugDetailsDTO>> GetByCategory(string Cname)
         {

@@ -17,7 +17,7 @@ namespace PharmaLink_API.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0")
+                .HasAnnotation("ProductVersion", "9.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -47,6 +47,23 @@ namespace PharmaLink_API.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = "2",
+                            Name = "Pharmacy"
+                        },
+                        new
+                        {
+                            Id = "3",
+                            Name = "Patient"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -192,7 +209,7 @@ namespace PharmaLink_API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
@@ -217,12 +234,120 @@ namespace PharmaLink_API.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
+                    b.HasIndex("PhoneNumber")
+                        .IsUnique()
+                        .HasFilter("[PhoneNumber] IS NOT NULL");
+
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "11111111-1111-1111-1111-111111111111",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "1A2B3C4D5E6F7G8H9I0J1K2L3M4N5O6P",
+                            Email = "pharmacy1@example.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "PHARMACY1@EXAMPLE.COM",
+                            NormalizedUserName = "PHARMACY1",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHYx1JwHk7QbX1YpJxTwWk+YqGE=",
+                            PhoneNumber = "01012345678",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "7D8C9A2B4E6F1C3A5B9D8E7F6A5C4B3A",
+                            TwoFactorEnabled = false,
+                            UserName = "pharmacy1"
+                        },
+                        new
+                        {
+                            Id = "22222222-2222-2222-2222-222222222222",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "2B3C4D5E6F7G8H9I0J1K2L3M4N5O6P7Q",
+                            Email = "pharmacy2@example.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "PHARMACY2@EXAMPLE.COM",
+                            NormalizedUserName = "PHARMACY2",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHYx1JwHk7QbX1YpJxTwWk+YqGE=",
+                            PhoneNumber = "01023456789",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "8E9F0A1B2C3D4E5F6G7H8I9J0K1L2M3N",
+                            TwoFactorEnabled = false,
+                            UserName = "pharmacy2"
+                        },
+                        new
+                        {
+                            Id = "33333333-3333-3333-3333-333333333333",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "3C4D5E6F7G8H9I0J1K2L3M4N5O6P7Q8R",
+                            Email = "pharmacy3@example.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "PHARMACY3@EXAMPLE.COM",
+                            NormalizedUserName = "PHARMACY3",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHYx1JwHk7QbX1YpJxTwWk+YqGE=",
+                            PhoneNumber = "01034567890",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "9F0A1B2C3D4E5F6G7H8I9J0K1L2M3N4O",
+                            TwoFactorEnabled = false,
+                            UserName = "pharmacy3"
+                        },
+                        new
+                        {
+                            Id = "44444444-4444-4444-4444-444444444444",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "4D5E6F7G8H9I0J1K2L3M4N5O6P7Q8R9S",
+                            Email = "patient1@example.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "PATIENT1@EXAMPLE.COM",
+                            NormalizedUserName = "PATIENT1",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHYx1JwHk7QbX1YpJxTwWk+YqGE=",
+                            PhoneNumber = "01045678901",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "A1B2C3D4E5F6G7H8I9J0K1L2M3N4O5P6",
+                            TwoFactorEnabled = false,
+                            UserName = "patient1"
+                        },
+                        new
+                        {
+                            Id = "55555555-5555-5555-5555-555555555555",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "5E6F7G8H9I0J1K2L3M4N5O6P7Q8R9S0T",
+                            Email = "patient2@example.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "PATIENT2@EXAMPLE.COM",
+                            NormalizedUserName = "PATIENT2",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHYx1JwHk7QbX1YpJxTwWk+YqGE=",
+                            PhoneNumber = "01056789012",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "B2C3D4E5F6G7H8I9J0K1L2M3N4O5P6Q7",
+                            TwoFactorEnabled = false,
+                            UserName = "patient2"
+                        },
+                        new
+                        {
+                            Id = "66666666-6666-6666-6666-666666666666",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "6F7G8H9I0J1K2L3M4N5O6P7Q8R9S0T1U",
+                            Email = "patient3@example.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "PATIENT3@EXAMPLE.COM",
+                            NormalizedUserName = "PATIENT3",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHYx1JwHk7QbX1YpJxTwWk+YqGE=",
+                            PhoneNumber = "01067890123",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "C3D4E5F6G7H8I9J0K1L2M3N4O5P6Q7R8",
+                            TwoFactorEnabled = false,
+                            UserName = "patient3"
+                        });
                 });
 
             modelBuilder.Entity("PharmaLink_API.Models.CartItem", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<int>("PatientId")
                         .HasColumnType("int");
 
                     b.Property<int>("DrugId")
@@ -237,9 +362,9 @@ namespace PharmaLink_API.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.HasKey("UserId", "DrugId", "PharmacyId");
+                    b.HasKey("PatientId", "DrugId", "PharmacyId");
 
-                    b.HasIndex("DrugId", "PharmacyId");
+                    b.HasIndex("PharmacyId", "DrugId");
 
                     b.ToTable("CartItems");
                 });
@@ -269,7 +394,7 @@ namespace PharmaLink_API.Migrations
 
                     b.Property<string>("Category")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CommonName")
                         .IsRequired()
@@ -313,7 +438,70 @@ namespace PharmaLink_API.Migrations
 
                     b.HasKey("DrugID");
 
+                    b.HasIndex("Category");
+
+                    SqlServerIndexBuilderExtensions.IncludeProperties(b.HasIndex("Category"), new[] { "CommonName", "ActiveIngredient" });
+
                     b.ToTable("Drugs");
+
+                    b.HasData(
+                        new
+                        {
+                            DrugID = 1,
+                            ActiveIngredient = "Acetaminophen",
+                            Adverse_reactions = "Nausea, rash",
+                            AlternativesGpID = 1,
+                            Alternatives_names = "Panadol, Tylenol",
+                            Category = "Painkiller",
+                            CommonName = "Paracetamol",
+                            Contraindications = "Liver disease",
+                            Description = "Common OTC analgesic",
+                            Dosage_and_administration = "500mg every 6h",
+                            Dosage_forms_and_strengths = "Tablet, 500mg",
+                            Drug_UrlImg = "images/Medicine/Paracetamol.jpg",
+                            Drug_interactions = "Alcohol, Warfarin",
+                            Indications_and_usage = "Fever, headache, pain",
+                            Storage_and_handling = "Store below 25°C",
+                            Warnings_and_cautions = "Do not exceed 4g/day"
+                        },
+                        new
+                        {
+                            DrugID = 2,
+                            ActiveIngredient = "Ibuprofen",
+                            Adverse_reactions = "GI bleeding, headache",
+                            AlternativesGpID = 2,
+                            Alternatives_names = "Advil, Motrin",
+                            Category = "Painkiller",
+                            CommonName = "Ibuprofen",
+                            Contraindications = "Ulcers, kidney disease",
+                            Description = "NSAID used for pain and inflammation",
+                            Dosage_and_administration = "200mg every 6–8h",
+                            Dosage_forms_and_strengths = "Tablet, 200mg",
+                            Drug_UrlImg = "images/Medicine/Ibuprofen.jpg",
+                            Drug_interactions = "Aspirin, Warfarin",
+                            Indications_and_usage = "Pain, inflammation, fever",
+                            Storage_and_handling = "Store below 25°C",
+                            Warnings_and_cautions = "Avoid long-term use"
+                        },
+                        new
+                        {
+                            DrugID = 3,
+                            ActiveIngredient = "Amoxicillin",
+                            Adverse_reactions = "Diarrhea, rash",
+                            AlternativesGpID = 3,
+                            Alternatives_names = "Moxatag, Trimox",
+                            Category = "Antibiotic",
+                            CommonName = "Amoxicillin",
+                            Contraindications = "Penicillin allergy",
+                            Description = "Broad-spectrum antibiotic",
+                            Dosage_and_administration = "500mg every 8h",
+                            Dosage_forms_and_strengths = "Capsule, 500mg",
+                            Drug_UrlImg = "images/Medicine/Amoxicillin.jpg",
+                            Drug_interactions = "Methotrexate, Warfarin",
+                            Indications_and_usage = "Bacterial infections",
+                            Storage_and_handling = "Store in a cool, dry place",
+                            Warnings_and_cautions = "Complete full course"
+                        });
                 });
 
             modelBuilder.Entity("PharmaLink_API.Models.Order", b =>
@@ -328,12 +516,23 @@ namespace PharmaLink_API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("PatientId")
+                        .HasColumnType("int");
 
                     b.Property<string>("PaymentIntentId")
                         .HasColumnType("nvarchar(max)");
@@ -349,6 +548,10 @@ namespace PharmaLink_API.Migrations
                     b.Property<int>("PharmacyId")
                         .HasColumnType("int");
 
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SessionId")
                         .HasColumnType("nvarchar(max)");
 
@@ -359,14 +562,11 @@ namespace PharmaLink_API.Migrations
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("OrderID");
 
-                    b.HasIndex("PharmacyId");
+                    b.HasIndex("PatientId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("PharmacyId");
 
                     b.ToTable("Orders");
                 });
@@ -398,9 +598,106 @@ namespace PharmaLink_API.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.HasIndex("DrugId", "PharmacyId");
+                    b.HasIndex("PharmacyId", "DrugId");
 
-                    b.ToTable("OrderDetail");
+                    b.ToTable("OrderDetails");
+                });
+
+            modelBuilder.Entity("PharmaLink_API.Models.Patient", b =>
+                {
+                    b.Property<int>("PatientId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PatientId"));
+
+                    b.Property<string>("AccountId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateOnly>("DateOfBirth")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Gender")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PatientDiseases")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PatientDrugs")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PatientId");
+
+                    b.HasIndex("AccountId")
+                        .IsUnique();
+
+                    b.ToTable("Patients");
+
+                    b.HasData(
+                        new
+                        {
+                            PatientId = 1,
+                            AccountId = "44444444-4444-4444-4444-444444444444",
+                            Address = "15 Tahrir Square, Downtown Cairo",
+                            Country = "Egypt",
+                            DateOfBirth = new DateOnly(1995, 3, 15),
+                            Gender = "Male",
+                            Name = "Ahmed Hassan",
+                            PatientDiseases = "Hypertension",
+                            PatientDrugs = "Amlodipine 5mg daily"
+                        },
+                        new
+                        {
+                            PatientId = 2,
+                            AccountId = "55555555-5555-5555-5555-555555555555",
+                            Address = "27 Nile Corniche, Alexandria",
+                            Country = "Egypt",
+                            DateOfBirth = new DateOnly(1988, 7, 22),
+                            Gender = "Female",
+                            Name = "Fatima El-Zahra",
+                            PatientDiseases = "Diabetes Type 2",
+                            PatientDrugs = "Metformin 500mg twice daily"
+                        },
+                        new
+                        {
+                            PatientId = 3,
+                            AccountId = "66666666-6666-6666-6666-666666666666",
+                            Address = "42 University Street, Giza",
+                            Country = "Egypt",
+                            DateOfBirth = new DateOnly(2000, 11, 8),
+                            Gender = "Male",
+                            Name = "Omar Khaled",
+                            PatientDiseases = "Asthma",
+                            PatientDrugs = "Salbutamol inhaler as needed"
+                        });
+                });
+
+            modelBuilder.Entity("PharmaLink_API.Models.PatientFavoriteDrug", b =>
+                {
+                    b.Property<int>("PatientId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DrugId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PatientId", "DrugId");
+
+                    b.HasIndex("DrugId");
+
+                    b.ToTable("PatientFavoriteDrugs");
                 });
 
             modelBuilder.Entity("PharmaLink_API.Models.Pharmacy", b =>
@@ -417,23 +714,28 @@ namespace PharmaLink_API.Migrations
 
                     b.Property<string>("Address")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<string>("Country")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<TimeOnly>("EndHour")
+                    b.Property<TimeSpan?>("EndHour")
                         .HasColumnType("time");
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Rate")
-                        .HasColumnType("float");
+                    b.Property<decimal?>("Rate")
+                        .HasPrecision(3, 1)
+                        .HasColumnType("decimal(3,1)");
 
-                    b.Property<TimeOnly>("StartHour")
+                    b.Property<TimeSpan?>("StartHour")
                         .HasColumnType("time");
 
                     b.HasKey("PharmacyID");
@@ -441,7 +743,48 @@ namespace PharmaLink_API.Migrations
                     b.HasIndex("AccountId")
                         .IsUnique();
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("Pharmacies");
+
+                    b.HasData(
+                        new
+                        {
+                            PharmacyID = 1,
+                            AccountId = "11111111-1111-1111-1111-111111111111",
+                            Address = "123 Main Street, Downtown Cairo",
+                            Country = "Egypt",
+                            EndHour = new TimeSpan(0, 21, 0, 0, 0),
+                            Name = "City Pharmacy",
+                            PhoneNumber = "01012345678",
+                            Rate = 4.5m,
+                            StartHour = new TimeSpan(0, 9, 0, 0, 0)
+                        },
+                        new
+                        {
+                            PharmacyID = 2,
+                            AccountId = "22222222-2222-2222-2222-222222222222",
+                            Address = "456 Alexandria Corniche, Alexandria",
+                            Country = "Egypt",
+                            EndHour = new TimeSpan(0, 20, 0, 0, 0),
+                            Name = "Health Plus",
+                            PhoneNumber = "01023456789",
+                            Rate = 4.2m,
+                            StartHour = new TimeSpan(0, 8, 0, 0, 0)
+                        },
+                        new
+                        {
+                            PharmacyID = 3,
+                            AccountId = "33333333-3333-3333-3333-333333333333",
+                            Address = "789 Nasr City, Cairo",
+                            Country = "Egypt",
+                            EndHour = new TimeSpan(0, 22, 0, 0, 0),
+                            Name = "MediCare",
+                            PhoneNumber = "01034567890",
+                            Rate = 4.7m,
+                            StartHour = new TimeSpan(0, 10, 0, 0, 0)
+                        });
                 });
 
             modelBuilder.Entity("PharmaLink_API.Models.PharmacyProduct", b =>
@@ -462,76 +805,72 @@ namespace PharmaLink_API.Migrations
 
                     b.HasIndex("DrugId");
 
-                    b.ToTable("PharmacyStock", (string)null);
-                });
+                    b.ToTable("PharmacyStock");
 
-            modelBuilder.Entity("PharmaLink_API.Models.User", b =>
-                {
-                    b.Property<int>("UserID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserID"));
-
-                    b.Property<string>("AccountId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Gender")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MobileNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserDisease")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserDrugs")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("UserID");
-
-                    b.HasIndex("AccountId")
-                        .IsUnique();
-
-                    b.HasIndex("MobileNumber")
-                        .IsUnique();
-
-                    b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("PharmaLink_API.Models.UserFavoriteDrug", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("DrugId")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserId", "DrugId");
-
-                    b.HasIndex("DrugId");
-
-                    b.ToTable("UserFavoriteDrugs");
+                    b.HasData(
+                        new
+                        {
+                            PharmacyId = 1,
+                            DrugId = 1,
+                            Price = 12.50m,
+                            QuantityAvailable = 150
+                        },
+                        new
+                        {
+                            PharmacyId = 1,
+                            DrugId = 2,
+                            Price = 18.00m,
+                            QuantityAvailable = 85
+                        },
+                        new
+                        {
+                            PharmacyId = 1,
+                            DrugId = 3,
+                            Price = 28.50m,
+                            QuantityAvailable = 65
+                        },
+                        new
+                        {
+                            PharmacyId = 2,
+                            DrugId = 1,
+                            Price = 10.50m,
+                            QuantityAvailable = 200
+                        },
+                        new
+                        {
+                            PharmacyId = 2,
+                            DrugId = 2,
+                            Price = 15.00m,
+                            QuantityAvailable = 120
+                        },
+                        new
+                        {
+                            PharmacyId = 2,
+                            DrugId = 3,
+                            Price = 25.00m,
+                            QuantityAvailable = 90
+                        },
+                        new
+                        {
+                            PharmacyId = 3,
+                            DrugId = 1,
+                            Price = 11.25m,
+                            QuantityAvailable = 100
+                        },
+                        new
+                        {
+                            PharmacyId = 3,
+                            DrugId = 2,
+                            Price = 16.50m,
+                            QuantityAvailable = 75
+                        },
+                        new
+                        {
+                            PharmacyId = 3,
+                            DrugId = 3,
+                            Price = 26.75m,
+                            QuantityAvailable = 55
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -587,40 +926,40 @@ namespace PharmaLink_API.Migrations
 
             modelBuilder.Entity("PharmaLink_API.Models.CartItem", b =>
                 {
-                    b.HasOne("PharmaLink_API.Models.User", "User")
+                    b.HasOne("PharmaLink_API.Models.Patient", "Patient")
                         .WithMany("CartItems")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("PharmaLink_API.Models.PharmacyProduct", "PharmacyStocks")
-                        .WithMany()
-                        .HasForeignKey("DrugId", "PharmacyId")
+                    b.HasOne("PharmaLink_API.Models.PharmacyProduct", "PharmacyProduct")
+                        .WithMany("CartItems")
+                        .HasForeignKey("PharmacyId", "DrugId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("PharmacyStocks");
+                    b.Navigation("Patient");
 
-                    b.Navigation("User");
+                    b.Navigation("PharmacyProduct");
                 });
 
             modelBuilder.Entity("PharmaLink_API.Models.Order", b =>
                 {
+                    b.HasOne("PharmaLink_API.Models.Patient", "Patient")
+                        .WithMany("Orders")
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("PharmaLink_API.Models.Pharmacy", "Pharmacy")
                         .WithMany("Orders")
                         .HasForeignKey("PharmacyId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("PharmaLink_API.Models.User", "User")
-                        .WithMany("Orders")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                    b.Navigation("Patient");
 
                     b.Navigation("Pharmacy");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("PharmaLink_API.Models.OrderDetail", b =>
@@ -631,15 +970,45 @@ namespace PharmaLink_API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PharmaLink_API.Models.PharmacyProduct", "PharmacyStock")
-                        .WithMany()
-                        .HasForeignKey("DrugId", "PharmacyId")
+                    b.HasOne("PharmaLink_API.Models.PharmacyProduct", "PharmacyProduct")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("PharmacyId", "DrugId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Order");
 
-                    b.Navigation("PharmacyStock");
+                    b.Navigation("PharmacyProduct");
+                });
+
+            modelBuilder.Entity("PharmaLink_API.Models.Patient", b =>
+                {
+                    b.HasOne("PharmaLink_API.Models.Account", "Account")
+                        .WithOne("Patient")
+                        .HasForeignKey("PharmaLink_API.Models.Patient", "AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Account");
+                });
+
+            modelBuilder.Entity("PharmaLink_API.Models.PatientFavoriteDrug", b =>
+                {
+                    b.HasOne("PharmaLink_API.Models.Drug", "Drug")
+                        .WithMany("PatientFavorites")
+                        .HasForeignKey("DrugId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PharmaLink_API.Models.Patient", "Patient")
+                        .WithMany("PatientFavorites")
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Drug");
+
+                    b.Navigation("Patient");
                 });
 
             modelBuilder.Entity("PharmaLink_API.Models.Pharmacy", b =>
@@ -656,13 +1025,13 @@ namespace PharmaLink_API.Migrations
             modelBuilder.Entity("PharmaLink_API.Models.PharmacyProduct", b =>
                 {
                     b.HasOne("PharmaLink_API.Models.Drug", "Drug")
-                        .WithMany("PharmacyStocks")
+                        .WithMany("PharmacyStock")
                         .HasForeignKey("DrugId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("PharmaLink_API.Models.Pharmacy", "Pharmacy")
-                        .WithMany("PharmacyStocks")
+                        .WithMany("PharmacyStock")
                         .HasForeignKey("PharmacyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -672,48 +1041,18 @@ namespace PharmaLink_API.Migrations
                     b.Navigation("Pharmacy");
                 });
 
-            modelBuilder.Entity("PharmaLink_API.Models.User", b =>
-                {
-                    b.HasOne("PharmaLink_API.Models.Account", "Account")
-                        .WithOne("User")
-                        .HasForeignKey("PharmaLink_API.Models.User", "AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Account");
-                });
-
-            modelBuilder.Entity("PharmaLink_API.Models.UserFavoriteDrug", b =>
-                {
-                    b.HasOne("PharmaLink_API.Models.Drug", "Drug")
-                        .WithMany("UserFavorites")
-                        .HasForeignKey("DrugId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PharmaLink_API.Models.User", "User")
-                        .WithMany("UserFavorites")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Drug");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("PharmaLink_API.Models.Account", b =>
                 {
-                    b.Navigation("Pharmacy");
+                    b.Navigation("Patient");
 
-                    b.Navigation("User");
+                    b.Navigation("Pharmacy");
                 });
 
             modelBuilder.Entity("PharmaLink_API.Models.Drug", b =>
                 {
-                    b.Navigation("PharmacyStocks");
+                    b.Navigation("PatientFavorites");
 
-                    b.Navigation("UserFavorites");
+                    b.Navigation("PharmacyStock");
                 });
 
             modelBuilder.Entity("PharmaLink_API.Models.Order", b =>
@@ -721,20 +1060,27 @@ namespace PharmaLink_API.Migrations
                     b.Navigation("OrderDetails");
                 });
 
-            modelBuilder.Entity("PharmaLink_API.Models.Pharmacy", b =>
-                {
-                    b.Navigation("Orders");
-
-                    b.Navigation("PharmacyStocks");
-                });
-
-            modelBuilder.Entity("PharmaLink_API.Models.User", b =>
+            modelBuilder.Entity("PharmaLink_API.Models.Patient", b =>
                 {
                     b.Navigation("CartItems");
 
                     b.Navigation("Orders");
 
-                    b.Navigation("UserFavorites");
+                    b.Navigation("PatientFavorites");
+                });
+
+            modelBuilder.Entity("PharmaLink_API.Models.Pharmacy", b =>
+                {
+                    b.Navigation("Orders");
+
+                    b.Navigation("PharmacyStock");
+                });
+
+            modelBuilder.Entity("PharmaLink_API.Models.PharmacyProduct", b =>
+                {
+                    b.Navigation("CartItems");
+
+                    b.Navigation("OrderDetails");
                 });
 #pragma warning restore 612, 618
         }
