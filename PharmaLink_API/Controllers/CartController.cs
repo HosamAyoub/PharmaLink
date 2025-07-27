@@ -1,16 +1,16 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using PharmaLink_API.Models;
 using PharmaLink_API.Models.DTO.CartDTO;
-using PharmaLink_API.Repository.IRepository;
+using PharmaLink_API.Repository.Interfaces;
 using System.Security.Claims;
 
 namespace PharmaLink_API.Controllers
 {
-    [Authorize(Roles = "User")]
+    [Authorize(Roles = "Patient")]
     [Route("api/[controller]")]
     [ApiController]
     public class CartController : ControllerBase

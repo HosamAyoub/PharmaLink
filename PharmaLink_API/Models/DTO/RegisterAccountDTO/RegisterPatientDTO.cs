@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using PharmaLink_API.Core.Enums;
 
 namespace PharmaLink_API.Models.DTO.RegisterAccountDTO
 {

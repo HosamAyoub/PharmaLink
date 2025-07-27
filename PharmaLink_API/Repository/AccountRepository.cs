@@ -1,11 +1,14 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using PharmaLink_API.Data;
 using PharmaLink_API.Models;
 using PharmaLink_API.Models.DTO.RegisterAccountDTO;
-using PharmaLink_API.Repository.IRepository;
+using PharmaLink_API.Repository.Interfaces;
+using PharmaLink_API.Core.Constants;
+using PharmaLink_API.Core.Enums;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -20,7 +23,6 @@ namespace PharmaLink_API.Repository
         private readonly ApplicationDbContext _db;
         private readonly IConfiguration _config;
 
-        //private readonly AccountDTO newUser;
         public AccountRepository(UserManager<Account> userManager, IMapper mapper, ApplicationDbContext db, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
         {
             _userManager = userManager;
@@ -28,7 +30,6 @@ namespace PharmaLink_API.Repository
             _db = db;
             _config = configuration;
             _roleManager = roleManager;
-            //newUser = new AccountDTO();
         }
         public async Task<IdentityResult> RegisterAsync(RegisterAccountDTO account)
         {
@@ -58,11 +59,14 @@ namespace PharmaLink_API.Repository
                 await _db.Pharmacies.AddAsync(newAccount.Pharmacy);
             }
 
-            
 
-            string roleName = account.Patient != null ? "User" :
-                              account.Pharmacy != null ? "Pharmacy" :
-                              "Admin";
+
+            // Determine user role based on account type
+            UserRole userRole = account.Patient != null ? UserRole.Patient :
+                               account.Pharmacy != null ? UserRole.Pharmacy :
+                               UserRole.Admin;
+
+            string roleName = userRole.ToRoleString();
 
             if (!await _roleManager.RoleExistsAsync(roleName))
             {
@@ -102,6 +106,9 @@ namespace PharmaLink_API.Repository
                 return Results.Unauthorized();
             }
 
+
+
+
             List<Claim> claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
@@ -110,6 +117,15 @@ namespace PharmaLink_API.Repository
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),   // JWT ID
             };
 
+            // Add pharmacy-specific claims if user is a pharmacy
+            var pharmacy = await _db.Pharmacies.FirstOrDefaultAsync(p => p.AccountId == user.Id);
+            if (pharmacy != null)
+            {
+                claims.Add(new Claim(CustomClaimTypes.PharmacyId, pharmacy.PharmacyID.ToString()));
+            }
+
+
+            // Add roles
             foreach (var role in await _userManager.GetRolesAsync(user))
             {
                 claims.Add(new Claim(ClaimTypes.Role, role));

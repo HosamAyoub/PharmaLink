@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.Identity.Client;
+using PharmaLink_API.Core.Enums;
 using PharmaLink_API.Models;
 using PharmaLink_API.Models.DTO.CartDTO;
-using PharmaLink_API.Repository.IRepository;
-using PharmaLink_API.Utility;
+using PharmaLink_API.Repository.Interfaces;
+//using PharmaLink_API.Utility;
 using Stripe;
 using Stripe.Checkout;
 using System.Security.Claims;
