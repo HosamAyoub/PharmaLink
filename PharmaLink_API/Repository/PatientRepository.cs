@@ -1,6 +1,6 @@
 using PharmaLink_API.Data;
 using PharmaLink_API.Models;
-using PharmaLink_API.Repository.IRepository;
+using PharmaLink_API.Repository.Interfaces;
 
 namespace PharmaLink_API.Repository
 {

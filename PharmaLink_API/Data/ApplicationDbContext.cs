@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PharmaLink_API.Models;
+using PharmaLink_API.Core.Enums;
 
 namespace PharmaLink_API.Data
 {
@@ -169,16 +170,21 @@ namespace PharmaLink_API.Data
                 {
                     Id = "1",
                     Name = "Admin",
+                    NormalizedName = "ADMIN"
                 },
                 new IdentityRole
                 {
                     Id = "2",
                     Name = "Pharmacy",
+                    NormalizedName = "PHARMACY"
+
                 },
                 new IdentityRole
                 {
                     Id = "3",
                     Name = "Patient",
+                    NormalizedName = "PATIENT"
+
                 }
             );
         }
