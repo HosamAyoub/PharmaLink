@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Text.Json;
 
-namespace PharmaLink_API.Middleware
+namespace PharmaLink_API.Core.Middleware
 {
     public class GlobalExceptionHandlingMiddleware
     {

@@ -1,7 +1,7 @@
 using FluentValidation;
 using PharmaLink_API.Models.DTO.PharmacyStockDTO;
 
-namespace PharmaLink_API.Infrastructure.Validators
+namespace PharmaLink_API.Core.Validators
 {
     public class PharmacyProductDTOValidator : AbstractValidator<pharmacyProductDTO>
     {

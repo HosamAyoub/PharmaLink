@@ -10,7 +10,7 @@ using System.Security.Claims;
 
 namespace PharmaLink_API.Controllers
 {
-    [Authorize(Roles = "user")]
+    [Authorize(Roles = "Patient")]
     [Route("api/[controller]")]
     [ApiController]
     public class CartController : ControllerBase

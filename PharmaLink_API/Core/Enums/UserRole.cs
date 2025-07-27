@@ -38,7 +38,7 @@ namespace PharmaLink_API.Core.Enums
             {
                 UserRole.Admin => "Admin",
                 UserRole.Pharmacy => "Pharmacy",
-                UserRole.Patient => "User", // Legacy: Patient role is stored as "User" in database
+                UserRole.Patient => "Patient", // Legacy: Patient role is stored as "User" in database
                 _ => throw new ArgumentOutOfRangeException(nameof(role), role, "Invalid user role")
             };
         }
@@ -55,7 +55,7 @@ namespace PharmaLink_API.Core.Enums
             {
                 "Admin" => UserRole.Admin,
                 "Pharmacy" => UserRole.Pharmacy,
-                "User" => UserRole.Patient, // Legacy: "User" maps to Patient
+                "Patient" => UserRole.Patient, // Legacy: "User" maps to Patient
                 _ => throw new ArgumentException($"Invalid role string: {roleString}", nameof(roleString))
             };
         }
@@ -66,7 +66,7 @@ namespace PharmaLink_API.Core.Enums
         /// <returns>Array of all role strings</returns>
         public static string[] GetAllRoleStrings()
         {
-            return new[] { "Admin", "Pharmacy", "User" };
+            return new[] { "Admin", "Pharmacy", "Patient" };
         }
 
         /// <summary>
