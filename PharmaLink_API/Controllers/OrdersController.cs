@@ -36,7 +36,7 @@ namespace PharmaLink_API.Controllers
             _pharmacyRepository = pharmacyRepository;
         }
 
-        [Authorize(Roles = "user")]
+        [Authorize(Roles = "User")]
         [HttpPost("submit")]
         public async Task<IActionResult> SubmitOrder([FromBody] SubmitOrderRequestDTO dto)
         {
@@ -180,7 +180,7 @@ namespace PharmaLink_API.Controllers
                         ProductData = new SessionLineItemPriceDataProductDataOptions
                         {
                             Name = item.PharmacyProduct.Drug.CommonName ?? "Unnamed Drug",
-                            Description = item.PharmacyProduct.Drug.CommonName ?? "No description",
+                            Description = item.PharmacyProduct.Drug.Description ?? "No description",
                         },
                         UnitAmount = (long)(item.Price * 100),
                     },
@@ -346,7 +346,7 @@ namespace PharmaLink_API.Controllers
 
         //******************Pharmacy Only Endpoints******************//
 
-        [Authorize(Roles = "pharmacy")]
+        [Authorize(Roles = "Pharmacy")]
         [HttpPost("accept/{orderId}")]
         public async Task<IActionResult> AcceptOrder(int orderId)
         {
@@ -374,7 +374,7 @@ namespace PharmaLink_API.Controllers
             return Ok(new { Message = $"Order #{orderId} has been accepted." });
         }
 
-        [Authorize(Roles = "pharmacy")]
+        [Authorize(Roles = "Pharmacy")]
         [HttpPost("reject/{orderId}")]
         public async Task<IActionResult> RejectOrder(int orderId)
         {
@@ -430,7 +430,7 @@ namespace PharmaLink_API.Controllers
             return Ok(new { Message = $"Order #{orderId} has been rejected." });
         }
 
-        [Authorize(Roles = "pharmacy")]
+        [Authorize(Roles = "Pharmacy")]
         [HttpGet("orders")]
         public async Task<IActionResult> GetPharmacyOrders()
         {

@@ -449,6 +449,58 @@
     ]
   },
   {
+    "ContainingType": "PharmaLink_API.Controllers.FavoritesController",
+    "Method": "GetFavorites",
+    "RelativePath": "api/Favorites",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.FavoritesController",
+    "Method": "AddFavorite",
+    "RelativePath": "api/Favorites",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "favorite",
+        "Type": "PharmaLink_API.Models.DTO.FavoriteDTO.AddToFavoriteDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.FavoritesController",
+    "Method": "RemoveFavorite",
+    "RelativePath": "api/Favorites/{drugId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "drugId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.FavoritesController",
+    "Method": "ClearFavorites",
+    "RelativePath": "api/Favorites/ClearFavorites",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "PharmaLink_API.Controllers.OrdersController",
     "Method": "AcceptOrder",
     "RelativePath": "api/Orders/accept/{orderId}",
