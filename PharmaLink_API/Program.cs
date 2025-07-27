@@ -131,7 +131,7 @@ namespace PharmaLink_API
             // Register services
             builder.Services.AddScoped<IPharmacyStockService, PharmacyStockService>();
             builder.Services.AddScoped<IFavoriteRepository, FavoriteRepository>();
-
+            
 
             builder.Services.AddControllers();
 
