@@ -249,6 +249,32 @@
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.DrugController",
+    "Method": "GetDrugWithPharmacyStock",
+    "RelativePath": "api/Drug",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "DrugID",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "PharmaLink_API.Models.DTO.DrugDTO.FullPharmaDrugDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.DrugController",
     "Method": "Post",
     "RelativePath": "api/Drug",
     "HttpMethod": "POST",

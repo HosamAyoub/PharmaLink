@@ -149,7 +149,7 @@ namespace PharmaLink_API.Controllers
         }
 
         [HttpGet("{drugId}/pharmacies")]
-        [Authorize(Policy = "PatientOnly")]
+        //[Authorize(Policy = "PatientOnly")]
         public IActionResult GetPharmaciesThatHaveDrug(int drugId)
         {
             try
