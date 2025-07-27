@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using PharmaLink_API.Models;
 using PharmaLink_API.Models.DTO.RegisterAccountDTO;
 using PharmaLink_API.Models.DTO.LoginAccoutDTO;
-using PharmaLink_API.Repository.IRepository;
+using PharmaLink_API.Repository.Interfaces;
 
 namespace PharmaLink_API.Controllers
 {

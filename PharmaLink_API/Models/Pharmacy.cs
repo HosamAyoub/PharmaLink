@@ -1,4 +1,4 @@
-﻿using PharmaLink_API.Models.CustomAttributes;
+﻿using PharmaLink_API.Core.Attributes;
 using System.ComponentModel.DataAnnotations;
 
 namespace PharmaLink_API.Models
