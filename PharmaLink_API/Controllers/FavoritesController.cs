@@ -9,7 +9,7 @@ using System.Security.Claims;
 
 namespace PharmaLink_API.Controllers
 {
-    [Authorize(Roles = "User")]
+    [Authorize(Roles = "Patient")]
     [Route("api/[controller]")]
     [ApiController]
     public class FavoritesController : ControllerBase
