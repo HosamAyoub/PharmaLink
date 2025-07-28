@@ -37,7 +37,7 @@ namespace PharmaLink_API.Controllers
             _pharmacyRepository = pharmacyRepository;
         }
 
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "Patient")]
         [HttpPost("submit")]
         public async Task<IActionResult> SubmitOrder([FromBody] SubmitOrderRequestDTO dto)
         {
