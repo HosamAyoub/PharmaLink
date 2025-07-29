@@ -7,6 +7,7 @@ using System.Security.Claims;
 
 namespace PharmaLink_API.Controllers
 {
+    [Authorize]
     [Authorize(Roles = "Patient")]
     [Route("api/[controller]")]
     [ApiController]
@@ -18,15 +19,17 @@ namespace PharmaLink_API.Controllers
             _cartService = cartService;
         }
 
+        /// <summary>
+        /// Retrieves a summary of the current patient's cart, including items and order summary.
+        /// </summary>
+        /// <returns>Cart summary DTO if found; otherwise, NotFound or Unauthorized.</returns>
         [HttpGet("summary")]
         public async Task<ActionResult<CartItemSummaryDTO>> GetCartSummary()
         {
-            // Extract the account ID from the JWT token
             var accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(accountId))
                 return Unauthorized("Invalid user ID in token.");
 
-            // Get the cart summary using the service
             var cartSummary = await _cartService.GetCartSummaryAsync(accountId);
             if (cartSummary == null)
                 return NotFound("Your cart is empty or patient not found.");
@@ -34,14 +37,17 @@ namespace PharmaLink_API.Controllers
             return Ok(cartSummary);
         }
 
+        /// <summary>
+        /// Adds an item to the current patient's cart.
+        /// </summary>
+        /// <param name="cartItem">DTO containing item details to add.</param>
+        /// <returns>Added cart item and total count, or error response.</returns>
         [HttpPost("AddToCart")]
         public async Task<ActionResult> AddToCart([FromBody] AddToCartDTO cartItem)
         {
-            // Validate the input DTO: ensure it's not null and contains a valid PharmacyId
             if (cartItem == null || cartItem.PharmacyId == 0)
                 return BadRequest("Cart item is invalid");
 
-            // Extract the account ID from the JWT token
             var accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(accountId))
                 return Unauthorized("Invalid user ID in token.");
@@ -53,16 +59,19 @@ namespace PharmaLink_API.Controllers
             }
             catch (ArgumentException ex)
             {
-                //Patient not found or invalid data
                 return NotFound(ex.Message);
             }
             catch (InvalidOperationException ex)
             {
-                //Business rule violations (e.g., trying to add from a different pharmacy)
                 return BadRequest(ex.Message);
             }
         }
 
+        /// <summary>
+        /// Removes a specific item from the current patient's cart.
+        /// </summary>
+        /// <param name="cartUpdateDTO">DTO specifying which item to remove.</param>
+        /// <returns>Success or error response.</returns>
         [HttpPost("remove")]
         public async Task<IActionResult> RemoveItemFromCart([FromBody] CartUpdateDTO cartUpdateDTO)
         {
@@ -77,16 +86,19 @@ namespace PharmaLink_API.Controllers
             }
             catch (ArgumentException ex)
             {
-                // patient not found
                 return NotFound(ex.Message);
             }
             catch (KeyNotFoundException ex)
             {
-                // item not found in cart
                 return NotFound(ex.Message);
             }
         }
 
+        /// <summary>
+        /// Increments the quantity of a specific item in the current patient's cart.
+        /// </summary>
+        /// <param name="cartUpdateDTO">DTO specifying which item to increment.</param>
+        /// <returns>Updated cart item or error response.</returns>
         [HttpPost("plus")]
         public async Task<ActionResult<CartItem>> IncrementCartItem([FromBody] CartUpdateDTO cartUpdateDTO)
         {
@@ -109,6 +121,11 @@ namespace PharmaLink_API.Controllers
             }
         }
 
+        /// <summary>
+        /// Decrements the quantity of a specific item in the current patient's cart.
+        /// </summary>
+        /// <param name="cartUpdateDTO">DTO specifying which item to decrement.</param>
+        /// <returns>Updated cart item, or message if item removed, or error response.</returns>
         [HttpPost("minus")]
         public async Task<ActionResult<CartItem>> DecrementCartItem([FromBody] CartUpdateDTO cartUpdateDTO)
         {
@@ -134,6 +151,10 @@ namespace PharmaLink_API.Controllers
             }
         }
 
+        /// <summary>
+        /// Clears all items from the current patient's cart.
+        /// </summary>
+        /// <returns>Success or error response.</returns>
         [HttpPost("clear")]
         public async Task<IActionResult> ClearCart()
         {

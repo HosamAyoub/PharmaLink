@@ -17,6 +17,13 @@ namespace PharmaLink_API.Services
         private readonly StripeModel _stripeModel;
         private readonly IOrderHeaderRepository _orderHeaderRepository;
         private readonly IOrderDetailRepository _orderDetailRepository;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StripeService"/> class.
+        /// </summary>
+        /// <param name="stripeOptions">Stripe configuration options.</param>
+        /// <param name="orderHeaderRepository">Order header repository.</param>
+        /// <param name="orderDetailRepository">Order detail repository.</param>
         public StripeService(IOptions<StripeModel> stripeOptions, IOrderHeaderRepository orderHeaderRepository, IOrderDetailRepository orderDetailRepository)
         {
             _orderHeaderRepository = orderHeaderRepository;
@@ -25,6 +32,11 @@ namespace PharmaLink_API.Services
             _orderDetailRepository = orderDetailRepository;
         }
 
+        /// <summary>
+        /// Creates a Stripe payment session for the specified order.
+        /// </summary>
+        /// <param name="orderId">The unique identifier of the order to create a payment session for.</param>
+        /// <returns>A ServiceResult containing the Stripe session DTO with session details.</returns>
         public async Task<ServiceResult<StripeSessionDTO>> CreateStripeSessionAsync(int orderId)
         {
             var order = await _orderHeaderRepository.GetAsync(
@@ -55,6 +67,11 @@ namespace PharmaLink_API.Services
             });
         }
 
+        /// <summary>
+        /// Handles incoming Stripe webhook events from the payment gateway.
+        /// </summary>
+        /// <param name="request">The HTTP request containing the webhook payload.</param>
+        /// <returns>A ServiceResult indicating the success or failure of webhook processing.</returns>
         public async Task<ServiceResult> HandleStripeWebhookAsync(HttpRequest request)
         {
             try
@@ -106,6 +123,11 @@ namespace PharmaLink_API.Services
             }
         }
 
+        /// <summary>
+        /// Initiates a refund for a Stripe payment using the specified payment intent ID.
+        /// </summary>
+        /// <param name="paymentIntentId">The unique identifier of the Stripe payment intent to refund.</param>
+        /// <returns>A ServiceResult containing a message about the refund status.</returns>
         public async Task<ServiceResult<string>> RefundStripePaymentAsync(string paymentIntentId)
         {
             try
@@ -133,7 +155,12 @@ namespace PharmaLink_API.Services
             }
         }
 
-
+        /// <summary>
+        /// Builds Stripe session options for the given order and order details.
+        /// </summary>
+        /// <param name="order">The order for which to build session options.</param>
+        /// <param name="orderDetails">The details of the order.</param>
+        /// <returns>A ServiceResult containing the Stripe session creation options.</returns>
         private async Task<ServiceResult<SessionCreateOptions>> BuildSessionOptionsAsync(PharmaLink_API.Models.Order order, IEnumerable<OrderDetail> orderDetails)
         {
             var options = new SessionCreateOptions
@@ -169,6 +196,5 @@ namespace PharmaLink_API.Services
 
             return ServiceResult<SessionCreateOptions>.SuccessResult(options);
         }
-
     }
 }

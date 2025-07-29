@@ -42,6 +42,10 @@ namespace PharmaLink_API.Services
             _stripeService = stripeService;
         }
 
+        /// <summary>
+        /// Submits a new order for the specified account using the provided order details.
+        /// Validates cart items, creates order and order details, updates stock, and clears cart.
+        /// </summary>
         public async Task<ServiceResult<OrderResponseDTO>> SubmitOrderAsync(string accountId, SubmitOrderRequestDTO dto)
         {
             var patientResult = await GetPatientWithCartAsync(accountId);
@@ -71,6 +75,10 @@ namespace PharmaLink_API.Services
             });
         }
 
+        /// <summary>
+        /// Cancels an existing order for the specified account.
+        /// Handles refund if applicable and restocks drugs.
+        /// </summary>
         public async Task<ServiceResult<string>> CancelOrderAsync(string accountId, int orderId)
         {
             var order = await _orderHeaderRepository.GetAsync(
@@ -93,7 +101,7 @@ namespace PharmaLink_API.Services
                 {
                     var refundResult = await _stripeService.RefundStripePaymentAsync(order.PaymentIntentId);
                     if (!refundResult.Success)
-                        return refundResult; 
+                        return refundResult;
                 }
                 else
                 {
@@ -114,6 +122,10 @@ namespace PharmaLink_API.Services
             return ServiceResult<string>.SuccessResult($"Order #{orderId} has been cancelled and refund issued if applicable.");
         }
 
+        /// <summary>
+        /// Accepts an order for the specified account and order ID.
+        /// Updates order status to approved.
+        /// </summary>
         public async Task<ServiceResult> AcceptOrderAsync(int orderId, string accountId)
         {
             var order = await _orderHeaderRepository.GetAsync(o => o.OrderID == orderId, true, x => x.OrderDetails);
@@ -136,6 +148,10 @@ namespace PharmaLink_API.Services
             return ServiceResult.SuccessResult();
         }
 
+        /// <summary>
+        /// Rejects an order for the specified account and order ID.
+        /// Handles refund if payment was approved and method was not cash, and restocks drugs.
+        /// </summary>
         public async Task<ServiceResult> RejectOrderAsync(int orderId, string accountId)
         {
             var order = await _orderHeaderRepository.GetAsync(o => o.OrderID == orderId, true, x => x.OrderDetails);
@@ -171,6 +187,10 @@ namespace PharmaLink_API.Services
             return ServiceResult.SuccessResult();
         }
 
+        /// <summary>
+        /// Retrieves all pharmacy orders associated with the specified account.
+        /// Returns a collection of pharmacy order DTOs.
+        /// </summary>
         public async Task<ServiceResult<IEnumerable<PharmacyOrderDTO>>> GetPharmacyOrdersAsync(string accountId)
         {
             var pharmacy = await _pharmacyRepository.GetAsync(p => p.AccountId == accountId);
@@ -187,13 +207,16 @@ namespace PharmaLink_API.Services
             if (orders == null || !orders.Any())
                 return ServiceResult<IEnumerable<PharmacyOrderDTO>>.ErrorResult("No orders found for this pharmacy.", ErrorType.NotFound);
 
-            // Map orders to DTO
             var result = _mapper.Map<List<PharmacyOrderDTO>>(orders);
             return ServiceResult<IEnumerable<PharmacyOrderDTO>>.SuccessResult(result);
         }
 
         // ** Helper Methods **//
 
+        /// <summary>
+        /// Retrieves the patient with their cart items for the specified account ID.
+        /// Returns error if no items in cart.
+        /// </summary>
         private async Task<ServiceResult<Patient>> GetPatientWithCartAsync(string accountId)
         {
             var user = await _patientRepository.GetAsync(
@@ -210,6 +233,10 @@ namespace PharmaLink_API.Services
             return ServiceResult<Patient>.SuccessResult(user);
         }
 
+        /// <summary>
+        /// Validates the cart items for stock availability and calculates total price.
+        /// Returns error if any item is not available or insufficient quantity.
+        /// </summary>
         private async Task<ServiceResult<decimal>> ValidateCartItemsAsync(List<CartItem> cartItems)
         {
             decimal totalPrice = 0;
@@ -232,6 +259,10 @@ namespace PharmaLink_API.Services
             return ServiceResult<decimal>.SuccessResult(totalPrice);
         }
 
+        /// <summary>
+        /// Creates a new order for the specified patient, payment method, total price, and pharmacy ID.
+        /// Persists the order to the repository.
+        /// </summary>
         private async Task<PharmaLink_API.Models.Order> CreateOrderAsync(Patient user, string paymentMethod, decimal totalPrice, int pharmacyId)
         {
             var order = new PharmaLink_API.Models.Order
@@ -256,6 +287,10 @@ namespace PharmaLink_API.Services
             return order;
         }
 
+        /// <summary>
+        /// Creates order details for the specified order ID and cart items.
+        /// Persists the order details to the repository.
+        /// </summary>
         private async Task CreateOrderDetailsAsync(int orderId, List<CartItem> cartItems)
         {
             foreach (var item in cartItems)
@@ -279,6 +314,10 @@ namespace PharmaLink_API.Services
             await _orderDetailRepository.SaveAsync();
         }
 
+        /// <summary>
+        /// Updates the stock quantities for the specified cart items by decreasing available quantity.
+        /// Persists the changes to the repository.
+        /// </summary>
         private async Task UpdateStockAsync(List<CartItem> cartItems)
         {
             foreach (var item in cartItems)
@@ -294,12 +333,18 @@ namespace PharmaLink_API.Services
             await _pharmacyStockRepository.SaveAsync();
         }
 
+        /// <summary>
+        /// Clears the cart items for the patient by removing them from the repository.
+        /// </summary>
         private async Task ClearCartAsync(List<CartItem> cartItems)
         {
             await _cartRepository.RemoveRangeAsync(cartItems);
             await _cartRepository.SaveAsync();
         }
 
+        /// <summary>
+        /// Restocks drugs for the specified order by increasing the available quantity in stock.
+        /// </summary>
         private async Task RestockDrugsAsync(PharmaLink_API.Models.Order order)
         {
             foreach (var item in order.OrderDetails)
