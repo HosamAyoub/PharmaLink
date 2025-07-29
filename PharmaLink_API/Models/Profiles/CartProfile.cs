@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using PharmaLink_API.Models.DTO.CartDTO;
+using PharmaLink_API.Models.DTO.OrderDTO;
 
 namespace PharmaLink_API.Models.Profiles
 {
@@ -16,13 +17,14 @@ namespace PharmaLink_API.Models.Profiles
                 .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.PharmacyProduct != null && src.PharmacyProduct.Drug != null? src.PharmacyProduct.Drug.Drug_UrlImg : ""))
                 .ForMember(dest => dest.UnitPrice, opt => opt.MapFrom(src => src.Price));
 
-
-            // Patient → OrderSummaryDTO
             CreateMap<Patient, OrderSummaryDTO>()
                 .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.Account!.PhoneNumber))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Account!.Email))
                 .ForMember(dest => dest.Subtotal, opt => opt.Ignore())
                 .ForMember(dest => dest.DeliveryFee, opt => opt.Ignore());
+
+            CreateMap<Order, PharmacyOrderDTO>();
+            CreateMap<OrderDetail, OrderItemDTO>();
         }
     }
 }
