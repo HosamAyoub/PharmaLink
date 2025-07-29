@@ -1,260 +1,258 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PharmaLink_API.Data;
 using PharmaLink_API.Models;
 using PharmaLink_API.Models.DTO.DrugDto;
-using System.Threading.Tasks;
-using PharmaLink_API.Repository.Interfaces;
 using PharmaLink_API.Models.DTO.DrugDTO;
+using PharmaLink_API.Models.DTO.FavoriteDTO;
+using PharmaLink_API.Repository.Interfaces;
 using System.Collections;
+using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace PharmaLink_API.Controllers
 {
+    /// <summary>
+    /// API Controller for managing drug-related operations in the PharmaLink system.
+    /// Provides endpoints for CRUD operations, searching, and retrieving drug information with pharmacy stock data.
+    /// </summary>
+    /// <remarks>
+    /// This controller handles various drug operations including:
+    /// - Retrieving drug details with pharmacy stock information
+    /// - Batch retrieval of drugs with pagination
+    /// - Searching drugs by name, category, or active ingredient
+    /// - Creating, updating, and deleting drug records
+    /// </remarks>
     //[Authorize(Roles = "Admin,Pharmacist,Doctor,Patient")]
     [Route("api/[controller]")]
     [ApiController]
     public class DrugController : ControllerBase
     {
+        /// <summary>
+        /// Repository interface for drug-related data operations.
+        /// </summary>
         private readonly IDrugRepository DrugRepo;
-        private readonly IPharmacyStockRepository PharmaStockRepo;
-        public readonly ApplicationDbContext Context;
 
-        public DrugController(IDrugRepository drugRepo, IPharmacyStockRepository pharmaStockRepo, ApplicationDbContext _context)
+        /// <summary>
+        /// Repository interface for pharmacy stock-related data operations.
+        /// </summary>
+        private readonly IPharmacyStockRepository PharmaStockRepo;
+
+        /// <summary>
+        /// Entity Framework database context for direct database access.
+        /// </summary>
+        public readonly ApplicationDbContext Context;
+        private readonly IMapper _mapper;
+
+        /// <summary>
+        /// Initializes a new instance of the DrugController class with dependency injection.
+        /// </summary>
+        /// <param name="drugRepo">The drug repository for data access operations.</param>
+        /// <param name="pharmaStockRepo">The pharmacy stock repository for stock-related operations.</param>
+        /// <param name="_context">The Entity Framework database context.</param>
+        public DrugController(IDrugRepository drugRepo, IPharmacyStockRepository pharmaStockRepo, ApplicationDbContext _context , IMapper mapper)
         {
             this.DrugRepo = drugRepo;
             this.PharmaStockRepo = pharmaStockRepo;
             Context = _context;
+            _mapper = mapper;
         }
 
-
+        /// <summary>
+        /// Retrieves comprehensive drug information including pharmacy stock details.
+        /// </summary>
+        /// <param name="DrugID">The unique identifier of the drug to retrieve.</param>
+        /// <returns>
+        /// A FullPharmaDrugDTO containing complete drug information and a list of pharmacies 
+        /// that have the drug in stock with their pricing and availability details.
+        /// </returns>
+        /// <response code="200">Returns the drug information with pharmacy stock details.</response>
+        /// <response code="404">If the drug with the specified ID is not found.</response>
         [HttpGet]
-
-        public async Task<FullPharmaDrugDTO> GetDrugWithPharmacyStock (int DrugID)
+        public async Task<FullPharmaDrugDTO> GetDrugWithPharmacyStock(int DrugID)
         {
-            Drug Result = await DrugRepo.GetAsync(D => D.DrugID == DrugID,false,D=>D.PharmacyStock);
-            var Pharmas  = PharmaStockRepo.getPharmaciesThatHaveDrug(DrugID);
+            Drug Result = await DrugRepo.GetAsync(D => D.DrugID == DrugID, false, D => D.PharmacyStock);
+            var Pharmas = PharmaStockRepo.getPharmaciesThatHaveDrug(DrugID);
             return new FullPharmaDrugDTO
             {
-                Drug_Info = new DrugDetailsDTO
-                {
-                    DrugID = Result.DrugID,
-                    CommonName = Result.CommonName,
-                    Category = Result.Category,
-                    ActiveIngredient = Result.ActiveIngredient,
-                    Alternatives_names = Result.Alternatives_names,
-                    AlternativesGpID = Result.AlternativesGpID,
-                    Indications_and_usage = Result.Indications_and_usage,
-                    Dosage_and_administration = Result.Dosage_and_administration,
-                    Dosage_forms_and_strengths = Result.Dosage_forms_and_strengths,
-                    Contraindications = Result.Contraindications,
-                    Warnings_and_cautions = Result.Warnings_and_cautions,
-                    Drug_interactions = Result.Drug_interactions,
-                    Description = Result.Description,
-                    Storage_and_handling = Result.Storage_and_handling,
-                    Adverse_reactions = Result.Adverse_reactions,
-                    Drug_UrlImg = Result.Drug_UrlImg
-                },
+                Drug_Info = _mapper.Map<DrugDetailsDTO>(Result),
                 Pharma_Info = Result.PharmacyStock.Select(P => new PharmaDataDTO
                 {
                     Pharma_Id = P.PharmacyId,
                     Pharma_Name = Pharmas.FirstOrDefault(Ph => Ph.PharmacyID == P.PharmacyId).Name,
-                    Pharma_Location = Pharmas.FirstOrDefault(Ph => Ph.PharmacyID == P.PharmacyId).Address,
+                    Pharma_Address = Pharmas.FirstOrDefault(Ph => Ph.PharmacyID == P.PharmacyId).Address,
+                    Pharma_Location = "5 K.M",
                     Price = P.Price,
                     QuantityAvailable = P.QuantityAvailable
                 }).ToList()
             };
-
-
         }
 
-
-
+        /// <summary>
+        /// Retrieves a batch of drugs with pagination support using randomized results.
+        /// </summary>
+        /// <param name="PageIndex">The page number for pagination (1-based indexing).</param>
+        /// <returns>A list of DrugDetailsDTO objects containing drug information (typically 10 items per page).</returns>
+        /// <response code="200">Returns a list of drugs for the specified page.</response>
+        /// <remarks>
+        /// This endpoint uses randomized pagination to provide varied results across requests.
+        /// Each page contains up to 10 drug records.
+        /// </remarks>
         [HttpGet("{PageIndex:int}")]
-
-        public async Task<List<DrugDetailsDTO>> GetBatch(int PageIndex)
+        public async Task<List<FavoriteDrugDTO>> GetBatch(int PageIndex)
         {
-            var Batch =  await DrugRepo.GetBatchDrugs(PageIndex);
-            return Batch.Select(D => new DrugDetailsDTO
+            var Batch = await DrugRepo.GetBatchDrugs(PageIndex);
+            return Batch.Select(D => new FavoriteDrugDTO
             {
-                DrugID = D.DrugID,
-                CommonName = D.CommonName,
-                Category = D.Category,
-                ActiveIngredient = D.ActiveIngredient,
-                Alternatives_names = D.Alternatives_names,
-                AlternativesGpID = D.AlternativesGpID,
-                Indications_and_usage = D.Indications_and_usage,
-                Dosage_and_administration = D.Dosage_and_administration,
-                Dosage_forms_and_strengths = D.Dosage_forms_and_strengths,
-                Contraindications = D.Contraindications,
-                Warnings_and_cautions = D.Warnings_and_cautions,
-                Drug_interactions = D.Drug_interactions,
+                DrugId = D.DrugID,
+                Name = D.CommonName,
                 Description = D.Description,
-                Storage_and_handling = D.Storage_and_handling,
-                Adverse_reactions = D.Adverse_reactions,
-                Drug_UrlImg = D.Drug_UrlImg
+                ImageUrl = D.Drug_UrlImg,
+                DrugCategory = D.Category
             }).ToList();
         }
 
-        // GET api/<DrugController>/paracetamol
+        /// <summary>
+        /// Searches for drugs by their common name using partial matching.
+        /// </summary>
+        /// <param name="Dname">The drug name or partial name to search for (case-insensitive).</param>
+        /// <returns>A list of DrugDetailsDTO objects for drugs whose names start with the specified string.</returns>
+        /// <response code="200">Returns a list of matching drugs.</response>
+        /// <remarks>
+        /// The search is case-insensitive and matches drugs whose common names start with the provided string.
+        /// </remarks>
+        /// <example>
+        /// GET /api/Drug/Drug_Name?Dname=para
+        /// Returns drugs like "Paracetamol", "Paracetamol Extra", etc.
+        /// </example>
         //[Authorize(Roles = "Admin")]
         [HttpGet("Drug_Name")]
         public async Task<List<DrugDetailsDTO>> GetByName(string Dname)
         {
             var Result = await DrugRepo.GetAllAsync(D => D.CommonName.ToLower().StartsWith(Dname.ToLower()));
-            return Result.Select(D => new DrugDetailsDTO
-            {
-                DrugID = D.DrugID,
-                CommonName = D.CommonName,
-                Category = D.Category,
-                ActiveIngredient = D.ActiveIngredient,
-                Alternatives_names = D.Alternatives_names,
-                AlternativesGpID = D.AlternativesGpID,
-                Indications_and_usage = D.Indications_and_usage,
-                Dosage_and_administration = D.Dosage_and_administration,
-                Dosage_forms_and_strengths = D.Dosage_forms_and_strengths,
-                Contraindications = D.Contraindications,
-                Warnings_and_cautions = D.Warnings_and_cautions,
-                Drug_interactions = D.Drug_interactions,
-                Description = D.Description,
-                Storage_and_handling = D.Storage_and_handling,
-                Adverse_reactions = D.Adverse_reactions,
-                Drug_UrlImg = D.Drug_UrlImg
-            }).ToList();
+            return Result.Select(D => _mapper.Map<DrugDetailsDTO>(D)).ToList();
         }
 
+        /// <summary>
+        /// Searches for drugs by their category using partial matching.
+        /// </summary>
+        /// <param name="Cname">The category name or partial category name to search for (case-insensitive).</param>
+        /// <returns>A list of DrugDetailsDTO objects for drugs whose categories start with the specified string.</returns>
+        /// <response code="200">Returns a list of drugs in the matching category.</response>
+        /// <remarks>
+        /// The search is case-insensitive and matches drugs whose categories start with the provided string.
+        /// </remarks>
+        /// <example>
+        /// GET /api/Drug/Category?Cname=anti
+        /// Returns drugs in categories like "Antibiotic", "Antiviral", etc.
+        /// </example>
         //[Authorize(Roles = "User, Admin, Pharmacy")]
         [HttpGet("Category")]
-        public async Task<List<DrugDetailsDTO>> GetByCategory(string Cname)
+        public async Task<List<FavoriteDrugDTO>> GetByCategory(string Cname)
         {
-            var Result =  await DrugRepo.GetAllAsync(D => D.Category.ToLower().StartsWith(Cname.ToLower()));
-            return Result.Select(D => new DrugDetailsDTO
+            var Result = await DrugRepo.GetAllAsync(D => D.Category.ToLower().StartsWith(Cname.ToLower()),F => F.PatientFavorites);
+            return Result.Select(D => new FavoriteDrugDTO
             {
-                DrugID = D.DrugID,
-                CommonName = D.CommonName,
-                Category = D.Category,
-                ActiveIngredient = D.ActiveIngredient,
-                Alternatives_names = D.Alternatives_names,
-                AlternativesGpID = D.AlternativesGpID,
-                Indications_and_usage = D.Indications_and_usage,
-                Dosage_and_administration = D.Dosage_and_administration,
-                Dosage_forms_and_strengths = D.Dosage_forms_and_strengths,
-                Contraindications = D.Contraindications,
-                Warnings_and_cautions = D.Warnings_and_cautions,
-                Drug_interactions = D.Drug_interactions,
+                DrugId=D.DrugID,
+                Name = D.CommonName,
                 Description = D.Description,
-                Storage_and_handling = D.Storage_and_handling,
-                Adverse_reactions = D.Adverse_reactions,
-                Drug_UrlImg = D.Drug_UrlImg
+                ImageUrl = D.Drug_UrlImg,
+                DrugCategory = D.Category
             }).ToList();
         }
 
+        /// <summary>
+        /// Searches for drugs by their active ingredient using partial matching.
+        /// </summary>
+        /// <param name="Active_Ingredient">The active ingredient name or partial name to search for (case-insensitive).</param>
+        /// <returns>A list of DrugDetailsDTO objects for drugs containing the specified active ingredient.</returns>
+        /// <response code="200">Returns a list of drugs with the matching active ingredient.</response>
+        /// <remarks>
+        /// The search is case-insensitive and currently searches in the Alternatives_names field.
+        /// Note: There appears to be a potential bug as this searches Alternatives_names instead of ActiveIngredient.
+        /// </remarks>
         [HttpGet("Active_Ingredient")]
         public async Task<List<DrugDetailsDTO>> GetByActiveIngredient(string Active_Ingredient)
         {
             var Result = await DrugRepo.GetAllAsync(D => D.Alternatives_names.ToLower().StartsWith(Active_Ingredient.ToLower()));
-            return Result.Select(D => new DrugDetailsDTO
-            {
-                DrugID = D.DrugID,
-                CommonName = D.CommonName,
-                Category = D.Category,
-                ActiveIngredient = D.ActiveIngredient,
-                Alternatives_names = D.Alternatives_names,
-                AlternativesGpID = D.AlternativesGpID,
-                Indications_and_usage = D.Indications_and_usage,
-                Dosage_and_administration = D.Dosage_and_administration,
-                Dosage_forms_and_strengths = D.Dosage_forms_and_strengths,
-                Contraindications = D.Contraindications,
-                Warnings_and_cautions = D.Warnings_and_cautions,
-                Drug_interactions = D.Drug_interactions,
-                Description = D.Description,
-                Storage_and_handling = D.Storage_and_handling,
-                Adverse_reactions = D.Adverse_reactions,
-                Drug_UrlImg = D.Drug_UrlImg
-            }).ToList();
+            return Result.Select(D => _mapper.Map<DrugDetailsDTO>(D)).ToList();
         }
 
+        /// <summary>
+        /// Performs a comprehensive search across multiple drug fields (name, category, and active ingredient).
+        /// </summary>
+        /// <param name="SearchAnything">The search term to look for across drug name, category, and active ingredient fields.</param>
+        /// <returns>A consolidated list of DrugDetailsDTO objects matching the search term in any of the searched fields.</returns>
+        /// <response code="200">Returns a combined list of drugs matching the search criteria.</response>
+        /// <remarks>
+        /// This endpoint searches across three fields: CommonName, Category, and ActiveIngredient.
+        /// Results from all three searches are combined into a single list.
+        /// The search is case-insensitive and uses partial matching (starts with).
+        /// May contain duplicate entries if a drug matches multiple search criteria.
+        /// </remarks>
+        /// <example>
+        /// GET /api/Drug/q=aspirin
+        /// Returns drugs where name, category, or active ingredient starts with "aspirin".
+        /// </example>
         [HttpGet("q={SearchAnything}")]
         public async Task<List<DrugDetailsDTO>> Search(string SearchAnything)
-        { 
+        {
             List<Drug> SearchList = new List<Drug>();
             SearchList.AddRange(await DrugRepo.GetAllAsync(D => D.CommonName.ToLower().StartsWith(SearchAnything.ToLower())));
             SearchList.AddRange(await DrugRepo.GetAllAsync(D => D.Category.ToLower().StartsWith(SearchAnything.ToLower())));
             SearchList.AddRange(await DrugRepo.GetAllAsync(D => D.ActiveIngredient.ToLower().StartsWith(SearchAnything.ToLower())));
-            return SearchList.Select(D => new DrugDetailsDTO
-            {
-                DrugID = D.DrugID,
-                CommonName = D.CommonName,
-                Category = D.Category,
-                ActiveIngredient = D.ActiveIngredient,
-                Alternatives_names = D.Alternatives_names,
-                AlternativesGpID = D.AlternativesGpID,
-                Indications_and_usage = D.Indications_and_usage,
-                Dosage_and_administration = D.Dosage_and_administration,
-                Dosage_forms_and_strengths = D.Dosage_forms_and_strengths,
-                Contraindications = D.Contraindications,
-                Warnings_and_cautions = D.Warnings_and_cautions,
-                Drug_interactions = D.Drug_interactions,
-                Description = D.Description,
-                Storage_and_handling = D.Storage_and_handling,
-                Adverse_reactions = D.Adverse_reactions,
-                Drug_UrlImg = D.Drug_UrlImg
-            }).ToList();
+            return SearchList.Select(D => _mapper.Map<DrugDetailsDTO>(D)).ToList();
         }
 
-
-        // POST api/<DrugController>
+        /// <summary>
+        /// Creates a new drug record in the database.
+        /// </summary>
+        /// <param name="NewDrugDTO">The drug information to create as a DrugDetailsDTO object.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        /// <response code="200">Drug created successfully.</response>
+        /// <response code="400">Invalid drug data provided.</response>
+        /// <remarks>
+        /// All drug properties except DrugID should be provided in the request body.
+        /// The DrugID will be automatically generated by the database.
+        /// </remarks>
         [HttpPost]
         public async Task Post([FromBody] DrugDetailsDTO NewDrugDTO)
         {
-            Drug NewDrug = new Drug
-            {
-                CommonName = NewDrugDTO.CommonName,
-                Category = NewDrugDTO.Category,
-                ActiveIngredient = NewDrugDTO.ActiveIngredient,
-                Alternatives_names = NewDrugDTO.Alternatives_names,
-                AlternativesGpID = NewDrugDTO.AlternativesGpID,
-                Indications_and_usage = NewDrugDTO.Indications_and_usage,
-                Dosage_and_administration = NewDrugDTO.Dosage_and_administration,
-                Dosage_forms_and_strengths = NewDrugDTO.Dosage_forms_and_strengths,
-                Contraindications = NewDrugDTO.Contraindications,
-                Warnings_and_cautions = NewDrugDTO.Warnings_and_cautions,
-                Drug_interactions = NewDrugDTO.Drug_interactions,
-                Description = NewDrugDTO.Description,
-                Storage_and_handling = NewDrugDTO.Storage_and_handling,
-                Adverse_reactions = NewDrugDTO.Adverse_reactions,
-                Drug_UrlImg = NewDrugDTO.Drug_UrlImg
-            };
-            await DrugRepo.CreateAsync(NewDrug);
+            await DrugRepo.CreateAsync(_mapper.Map<Drug>(NewDrugDTO));
         }
 
-        // PUT api/<DrugController>/5
+        /// <summary>
+        /// Updates an existing drug record with new information.
+        /// </summary>
+        /// <param name="id">The unique identifier of the drug to update.</param>
+        /// <param name="EditedDrugDTO">The updated drug information as a DrugDetailsDTO object.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        /// <response code="200">Drug updated successfully.</response>
+        /// <response code="404">Drug with the specified ID not found.</response>
+        /// <response code="400">Invalid drug data provided.</response>
+        /// <remarks>
+        /// All drug properties can be updated except the DrugID.
+        /// If the drug with the specified ID doesn't exist, the operation will complete without error.
+        /// </remarks>
         [HttpPut("{id}")]
         public async Task Put(int id, [FromBody] DrugDetailsDTO EditedDrugDTO)
         {
-            Drug EditedDrug = new Drug
-            {
-                CommonName = EditedDrugDTO.CommonName,
-                Category = EditedDrugDTO.Category,
-                ActiveIngredient = EditedDrugDTO.ActiveIngredient,
-                Alternatives_names = EditedDrugDTO.Alternatives_names,
-                AlternativesGpID = EditedDrugDTO.AlternativesGpID,
-                Indications_and_usage = EditedDrugDTO.Indications_and_usage,
-                Dosage_and_administration = EditedDrugDTO.Dosage_and_administration,
-                Dosage_forms_and_strengths = EditedDrugDTO.Dosage_forms_and_strengths,
-                Contraindications = EditedDrugDTO.Contraindications,
-                Warnings_and_cautions = EditedDrugDTO.Warnings_and_cautions,
-                Drug_interactions = EditedDrugDTO.Drug_interactions,
-                Description = EditedDrugDTO.Description,
-                Storage_and_handling = EditedDrugDTO.Storage_and_handling,
-                Adverse_reactions = EditedDrugDTO.Adverse_reactions,
-                Drug_UrlImg = EditedDrugDTO.Drug_UrlImg
-            };
-            await DrugRepo.EditDrug(id, EditedDrug);
+            await DrugRepo.EditDrug(id, _mapper.Map<Drug>(EditedDrugDTO));
         }
 
-        // DELETE api/<DrugController>/5
+        /// <summary>
+        /// Deletes a drug record from the database.
+        /// </summary>
+        /// <param name="id">The unique identifier of the drug to delete.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        /// <response code="200">Drug deleted successfully.</response>
+        /// <response code="404">Drug with the specified ID not found.</response>
+        /// <remarks>
+        /// This operation permanently removes the drug record from the database.
+        /// If the drug with the specified ID doesn't exist, this may result in an error.
+        /// </remarks>
         [HttpDelete("{id}")]
         public async Task Delete(int id)
         {
