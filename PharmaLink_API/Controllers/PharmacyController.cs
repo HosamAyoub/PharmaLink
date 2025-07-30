@@ -1,105 +1,92 @@
-using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using PharmaLink_API.Models;
 using PharmaLink_API.Models.DTO.PharmacyDTO;
-using PharmaLink_API.Repository.Interfaces;
+using PharmaLink_API.Services.Interfaces;
 
 namespace PharmaLink_API.Controllers
 {
+    // This controller handles all HTTP requests related to pharmacies.
+    // It delegates business logic to the IPharmacyService.
     [Route("api/[controller]")]
     [ApiController]
     public class PharmacyController : ControllerBase
     {
-        private IPharmacyRepository _PharmacyRepo { get; set; }
-        private IMapper _Mapper { get; set; }
+        private readonly IPharmacyService _pharmacyService;
 
-        public PharmacyController(IPharmacyRepository pharmacyRepo, IMapper mapper)
+        // The service is injected via dependency injection.
+        public PharmacyController(IPharmacyService pharmacyService)
         {
-            _PharmacyRepo = pharmacyRepo;
-            _Mapper = mapper;
+            _pharmacyService = pharmacyService;
         }
+
+        // GET: api/pharmacy
+        // Returns a list of all pharmacies.
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PharmacyDisplayDTO>>> GetAllPharmacies()
         {
-            var pharmacies = await _PharmacyRepo.GetAllAsync();
-            if (pharmacies == null || pharmacies.Count == 0)
-            {
+            var pharmacies = await _pharmacyService.GetAllPharmaciesAsync();
+            if (pharmacies == null || !pharmacies.Any())
                 return NotFound("No pharmacies found.");
-            }
-            var pharmaciesDto = _Mapper.Map<IEnumerable<PharmacyDisplayDTO>>(pharmacies);
-            return Ok(pharmaciesDto);
+            return Ok(pharmacies);
         }
+
+        // GET: api/pharmacy/{id}
+        // Returns a single pharmacy by its unique ID.
         [HttpGet("{id:int}")]
         public async Task<ActionResult<PharmacyDisplayDTO>> GetPharmacyById(int id)
         {
-            var pharmacy = await _PharmacyRepo.GetAsync(p => p.PharmacyID == id);
+            var pharmacy = await _pharmacyService.GetPharmacyByIdAsync(id);
             if (pharmacy == null)
-            {
                 return NotFound($"Pharmacy with ID {id} not found.");
-            }
-            var pharmacyDto = _Mapper.Map<PharmacyDisplayDTO>(pharmacy);
-            return Ok(pharmacyDto);
+            return Ok(pharmacy);
         }
+
+        // GET: api/pharmacy/{name}
+        // Returns a single pharmacy by its name.
         [HttpGet("{name:alpha}")]
         public async Task<ActionResult<PharmacyDisplayDTO>> GetPharmacyByName(string name)
         {
-            var pharmacy = await _PharmacyRepo.GetPharmacyByNameAsync(name);
+            var pharmacy = await _pharmacyService.GetPharmacyByNameAsync(name);
             if (pharmacy == null)
-            {
                 return NotFound($"Pharmacy with name {name} not found.");
-            }
-            var pharmacyDto = _Mapper.Map<PharmacyDisplayDTO>(pharmacy);
-            return Ok(pharmacyDto);
+            return Ok(pharmacy);
         }
+
+        // GET: api/pharmacy/search/{name}
+        // Returns all pharmacies that match the given name.
         [HttpGet("search/{name:alpha}")]
         public async Task<ActionResult<IEnumerable<PharmacyDisplayDTO>>> GetAllPharmaciesByName(string name)
         {
-            var pharmacies = await _PharmacyRepo.GetAllPharmaciesByNameAsync(name);
-            if (pharmacies == null || pharmacies.Count == 0)
-            {
+            var pharmacies = await _pharmacyService.GetAllPharmaciesByNameAsync(name);
+            if (pharmacies == null || !pharmacies.Any())
                 return NotFound($"No pharmacies found with name {name}.");
-            }
-            var pharmaciesDto = _Mapper.Map<IEnumerable<PharmacyDisplayDTO>>(pharmacies);
-            return Ok(pharmaciesDto);
+            return Ok(pharmacies);
         }
-        //[HttpPost]
-        //public async Task<IActionResult> CreatePharmacy([FromBody] Pharmacy pharmacy)
-        //{
-        //    if (pharmacy == null || string.IsNullOrEmpty(pharmacy.Name))
-        //    {
-        //        return BadRequest("Invalid pharmacy data.");
-        //    }
-        //    await _PharmacyRepo.CreateAsync(pharmacy);
-        //    return CreatedAtAction(nameof(GetPharmacyById), new { id = pharmacy.PharmacyID }, pharmacy);
-        //}
+
+        // PUT: api/pharmacy/{id}
+        // Updates the details of an existing pharmacy.
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> UpdatePharmacy(int id, [FromBody] PharmacyDisplayDTO Editedpharmacy)
+        public async Task<IActionResult> UpdatePharmacy(int id, [FromBody] PharmacyDisplayDTO editedPharmacy)
         {
-            if (Editedpharmacy == null)
-            {
+            if (editedPharmacy == null)
                 return BadRequest("Invalid pharmacy data.");
-            }
-            var existingPharmacy = await _PharmacyRepo.GetAsync(p => p.PharmacyID == id);
-            if (existingPharmacy == null)
-            {
+
+            var updated = await _pharmacyService.UpdatePharmacyAsync(id, editedPharmacy);
+            if (!updated)
                 return NotFound($"Pharmacy with ID {id} not found.");
-            }
-            // Map the updated properties from DTO to the existing entity
-            var pharmacyToUpdate = _Mapper.Map<Pharmacy>(Editedpharmacy);
-            await _PharmacyRepo.UpdateAsync(pharmacyToUpdate);
+
             return NoContent();
         }
+
+        // DELETE: api/pharmacy/{id}
+        // Deletes a pharmacy by its ID.
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeletePharmacy(int id)
         {
-            var pharmacy = await _PharmacyRepo.GetAsync(p => p.PharmacyID == id);
-            if (pharmacy == null)
-            {
+            var deleted = await _pharmacyService.DeletePharmacyAsync(id);
+            if (!deleted)
                 return NotFound($"Pharmacy with ID {id} not found.");
-            }
-            await _PharmacyRepo.RemoveAsync(pharmacy);
-            return Ok($"Department with ID {id} deleted successfully.");
+
+            return Ok($"Pharmacy with ID {id} deleted successfully.");
         }
     }
 }

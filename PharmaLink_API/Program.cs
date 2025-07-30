@@ -134,6 +134,7 @@ namespace PharmaLink_API
             builder.Services.AddScoped<ICartService, CartService>();
             builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<IStripeService, StripeService>();
+            builder.Services.AddScoped<IPharmacyService, PharmacyService>();
 
 
 
