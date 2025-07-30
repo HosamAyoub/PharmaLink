@@ -25,6 +25,9 @@ namespace PharmaLink_API.Controllers
             _drugRepository = drugRepository;
         }
 
+        /// <summary>
+        /// Retrieves the list of favorite drugs for the authenticated patient.
+        /// </summary>
         [HttpGet]
         public async Task<IActionResult> GetFavorites()
         {
@@ -36,7 +39,7 @@ namespace PharmaLink_API.Controllers
             if (patient == null)
                 return NotFound("Patient not found.");
 
-            var favorites = await _favoriteRepository.GetAllAsync(f => f.PatientId == patient.PatientId, x=>x.Drug);
+            var favorites = await _favoriteRepository.GetAllAsync(f => f.PatientId == patient.PatientId, x => x.Drug);
             if (favorites == null || !favorites.Any())
                 return Ok(new { message = "No favorite drugs found for this patient." });
 
@@ -52,6 +55,10 @@ namespace PharmaLink_API.Controllers
             return Ok(favoriteDrugs);
         }
 
+        /// <summary>
+        /// Adds a drug to the authenticated patient's favorites.
+        /// </summary>
+        /// <param name="favorite">DTO containing the DrugId to add to favorites.</param>
         [HttpPost]
         public async Task<IActionResult> AddFavorite([FromBody] AddToFavoriteDTO favorite)
         {
@@ -86,6 +93,10 @@ namespace PharmaLink_API.Controllers
             return Ok(new { message = "Drug added to favorites successfully." });
         }
 
+        /// <summary>
+        /// Removes a specific drug from the authenticated patient's favorites.
+        /// </summary>
+        /// <param name="drugId">The ID of the drug to remove from favorites.</param>
         [HttpDelete("{drugId}")]
         public async Task<IActionResult> RemoveFavorite(int drugId)
         {
@@ -111,6 +122,9 @@ namespace PharmaLink_API.Controllers
 
         }
 
+        /// <summary>
+        /// Removes all favorite drugs for the authenticated patient.
+        /// </summary>
         [HttpDelete("ClearFavorites")]
         public async Task<IActionResult> ClearFavorites()
         {
