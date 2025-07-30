@@ -214,7 +214,7 @@ namespace PharmaLink_API.Services
                 var newItem = _mapper.Map<CartItem>(dto);
                 newItem.PatientId = patientId;
                 newItem.Price = price;
-                await _cartRepository.CreateAsync(newItem);
+                await _cartRepository.CreateAndSaveAsync(newItem);
                 return newItem;
             }
 

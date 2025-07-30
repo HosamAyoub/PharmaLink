@@ -136,6 +136,7 @@ namespace PharmaLink_API
             builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<IStripeService, StripeService>();
             builder.Services.AddScoped<IAccountService, AccountService>();
+            builder.Services.AddScoped<IRoleService, RoleService>();
 
 
 

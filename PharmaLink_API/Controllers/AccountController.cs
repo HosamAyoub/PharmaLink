@@ -26,13 +26,16 @@ namespace PharmaLink_API.Controllers
         public async Task<IActionResult> Register(RegisterAccountDTO userRegisterInfo)
         {
             IdentityResult result = IdentityResult.Success;
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                result = await _accountService.RegisterAsync(userRegisterInfo);
-                if (result.Succeeded)
-                {
-                    return Ok(new { Message = $"User registered successfully\n{userRegisterInfo.UserName}\n{userRegisterInfo.Email}" });
-                }
+                return BadRequest(ModelState);
+            }
+
+            result = await _accountService.RegisterAsync(userRegisterInfo);
+
+            if (result.Succeeded)
+            {
+                return Ok(new { Message = $"User registered successfully\n{userRegisterInfo.UserName}\n{userRegisterInfo.Email}" });
             }
             return BadRequest(result.Errors.ToArray());
         }
@@ -40,13 +43,16 @@ namespace PharmaLink_API.Controllers
         [HttpPost("Login")]
         public async Task<IActionResult> Login(LoginDTO loginInfo)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var result = await _accountService.LoginAsync(loginInfo.Email, loginInfo.Password);
-                if (result is not null)
-                {
-                    return Ok(result);
-                }
+                return BadRequest(ModelState);
+            }
+
+            var result = await _accountService.LoginAsync(loginInfo.Email, loginInfo.Password);
+
+            if (result is not null)
+            {
+                return Ok(result);
             }
             return Unauthorized(new { Message = "Invalid email or password." });
         }
