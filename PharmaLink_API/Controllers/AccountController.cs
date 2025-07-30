@@ -7,6 +7,7 @@ using PharmaLink_API.Models;
 using PharmaLink_API.Models.DTO.RegisterAccountDTO;
 using PharmaLink_API.Models.DTO.LoginAccoutDTO;
 using PharmaLink_API.Repository.Interfaces;
+using PharmaLink_API.Services.Interfaces;
 
 namespace PharmaLink_API.Controllers
 {
@@ -14,11 +15,11 @@ namespace PharmaLink_API.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private readonly IAccountRepository _accountRepository;
+        private readonly IAccountService _accountService;
 
-        public AccountController(IAccountRepository accountRepository)
+        public AccountController(IAccountService accountService)
         {
-            _accountRepository = accountRepository;
+            _accountService = accountService;
         }
 
         [HttpPost("Register")]
@@ -27,7 +28,7 @@ namespace PharmaLink_API.Controllers
             IdentityResult result = IdentityResult.Success;
             if (ModelState.IsValid)
             {
-                result = await _accountRepository.RegisterAsync(userRegisterInfo);
+                result = await _accountService.RegisterAsync(userRegisterInfo);
                 if (result.Succeeded)
                 {
                     return Ok(new { Message = $"User registered successfully\n{userRegisterInfo.UserName}\n{userRegisterInfo.Email}" });
@@ -41,7 +42,7 @@ namespace PharmaLink_API.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _accountRepository.LoginAsync(loginInfo.Email, loginInfo.Password);
+                var result = await _accountService.LoginAsync(loginInfo.Email, loginInfo.Password);
                 if (result is not null)
                 {
                     return Ok(result);
