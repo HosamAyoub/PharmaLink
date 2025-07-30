@@ -9,7 +9,7 @@ using System.Security.Claims;
 
 namespace PharmaLink_API.Controllers
 {
-    [Authorize(Roles = "User")]
+    [Authorize(Roles = "Patient")]
     [Route("api/[controller]")]
     [ApiController]
     public class FavoritesController : ControllerBase
@@ -25,6 +25,9 @@ namespace PharmaLink_API.Controllers
             _drugRepository = drugRepository;
         }
 
+        /// <summary>
+        /// Retrieves the list of favorite drugs for the authenticated patient.
+        /// </summary>
         [HttpGet]
         public async Task<IActionResult> GetFavorites()
         {
@@ -36,9 +39,9 @@ namespace PharmaLink_API.Controllers
             if (patient == null)
                 return NotFound("Patient not found.");
 
-            var favorites = await _favoriteRepository.GetAllAsync(f => f.PatientId == patient.PatientId, x=>x.Drug);
+            var favorites = await _favoriteRepository.GetAllAsync(f => f.PatientId == patient.PatientId, x => x.Drug);
             if (favorites == null || !favorites.Any())
-                return NotFound("No favorite drugs found for this patient.");
+                return Ok(new { message = "No favorite drugs found for this patient." });
 
             var favoriteDrugs = favorites.Select(f => new FavoriteDrugDTO
             {
@@ -52,15 +55,19 @@ namespace PharmaLink_API.Controllers
             return Ok(favoriteDrugs);
         }
 
+        /// <summary>
+        /// Adds a drug to the authenticated patient's favorites.
+        /// </summary>
+        /// <param name="favorite">DTO containing the DrugId to add to favorites.</param>
         [HttpPost]
         public async Task<IActionResult> AddFavorite([FromBody] AddToFavoriteDTO favorite)
         {
             if (favorite == null || favorite.DrugId == 0)
-                return BadRequest("Invalid favorite drug data.");
+                return BadRequest(new { message = "Invalid favorite drug data." });
 
             var accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(accountId))
-                return Unauthorized("User is not authenticated.");
+                return Unauthorized(new { message = "User is not authenticated." });
 
             var patient = await _patientRepository.GetAsync(p => p.AccountId == accountId);
             if (patient == null)
@@ -68,11 +75,11 @@ namespace PharmaLink_API.Controllers
 
             var drug = await _drugRepository.GetAsync(d => d.DrugID == favorite.DrugId);
             if (drug == null)
-                return NotFound("Drug not found.");
+                return NotFound(new { message = "Drug not found." });
 
             var existingFavorite = await _favoriteRepository.GetAsync(f => f.PatientId == patient.PatientId && f.DrugId == favorite.DrugId);
             if (existingFavorite != null)
-                return Conflict("This drug is already in your favorites.");
+                return Conflict(new { message = "This drug is already in your favorites." });
 
             var newFavorite = new PatientFavoriteDrug
             {
@@ -83,9 +90,13 @@ namespace PharmaLink_API.Controllers
             await _favoriteRepository.CreateAsync(newFavorite);
             await _favoriteRepository.SaveAsync();
 
-            return Ok("Drug added to favorites successfully.");
+            return Ok(new { message = "Drug added to favorites successfully." });
         }
 
+        /// <summary>
+        /// Removes a specific drug from the authenticated patient's favorites.
+        /// </summary>
+        /// <param name="drugId">The ID of the drug to remove from favorites.</param>
         [HttpDelete("{drugId}")]
         public async Task<IActionResult> RemoveFavorite(int drugId)
         {
@@ -111,6 +122,9 @@ namespace PharmaLink_API.Controllers
 
         }
 
+        /// <summary>
+        /// Removes all favorite drugs for the authenticated patient.
+        /// </summary>
         [HttpDelete("ClearFavorites")]
         public async Task<IActionResult> ClearFavorites()
         {
