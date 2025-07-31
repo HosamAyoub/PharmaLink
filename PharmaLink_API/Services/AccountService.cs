@@ -109,21 +109,19 @@ namespace PharmaLink_API.Services
                     return Results.Unauthorized();
                 }
                 var authenticated = await _userManager.CheckPasswordAsync(user, loginInfo.Password).ConfigureAwait(false);
+                // Check if the user is locked out
                 if (!authenticated)
                 {
                     return Results.Unauthorized();
                 }
 
-                // Fetch roles and pharmacy details asynchronously
-                var pharmacyTask = _pharmacyRepository.GetAsync(p => p.AccountId == user.Id);
-                // Get roles asynchronously
-                var rolesTask = _userManager.GetRolesAsync(user);
-
-                // Wait for both tasks to complete
-                await Task.WhenAll(rolesTask, pharmacyTask).ConfigureAwait(false);
-
-                var roles = await rolesTask;
-                var pharmacy = await pharmacyTask;
+                // Get user roles and pharmacy information
+                var roles = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
+                // get pharmacy information if the user is a pharmacy
+                var pharmacy = await _pharmacyRepository.GetAsync(
+                    filter: p => p.AccountId == user.Id,
+                    tracking: false
+                ).ConfigureAwait(false);
 
                 List<Claim> claims = BuildClaims(user, roles, pharmacy);
 
