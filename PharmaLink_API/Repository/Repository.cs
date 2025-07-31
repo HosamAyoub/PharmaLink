@@ -19,6 +19,11 @@ namespace PharmaLink_API.Repository
         public async Task CreateAsync(T entity)
         {
             await dbSet.AddAsync(entity);
+        }
+
+        public async Task CreateAndSaveAsync(T entity)
+        {
+            await dbSet.AddAsync(entity);
             await SaveAsync();
         }
 

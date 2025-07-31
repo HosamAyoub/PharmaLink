@@ -59,7 +59,7 @@ namespace PharmaLink_API.Controllers
             {
                 return BadRequest("Invalid pharmacy data.");
             }
-            await _PharmacyRepo.CreateAsync(pharmacy);
+            await _PharmacyRepo.CreateAndSaveAsync(pharmacy);
             return CreatedAtAction(nameof(GetPharmacyById), new { id = pharmacy.PharmacyID }, pharmacy);
         }
         [HttpPut("{id:int}")]
