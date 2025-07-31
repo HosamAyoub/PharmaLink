@@ -182,7 +182,7 @@ namespace PharmaLink_API.Services
                 {
                     PriceData = new SessionLineItemPriceDataOptions
                     {
-                        Currency = "usd",
+                        Currency = "egp",
                         ProductData = new SessionLineItemPriceDataProductDataOptions
                         {
                             Name = drug.CommonName ?? "Unnamed Drug",
