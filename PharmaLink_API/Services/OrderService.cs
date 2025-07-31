@@ -281,7 +281,7 @@ namespace PharmaLink_API.Services
                 PaymentMethod = paymentMethod
             };
 
-            await _orderHeaderRepository.CreateAsync(order);
+            await _orderHeaderRepository.CreateAndSaveAsync(order);
             await _orderHeaderRepository.SaveAsync();
 
             return order;
@@ -308,7 +308,7 @@ namespace PharmaLink_API.Services
                     Price = stock.Price
                 };
 
-                await _orderDetailRepository.CreateAsync(orderDetail);
+                await _orderDetailRepository.CreateAndSaveAsync(orderDetail);
             }
 
             await _orderDetailRepository.SaveAsync();
