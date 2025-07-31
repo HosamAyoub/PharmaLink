@@ -48,7 +48,7 @@ namespace PharmaLink_API.Controllers
                 return BadRequest(ModelState);
             }
 
-            var result = await _accountService.LoginAsync(loginInfo.Email, loginInfo.Password);
+            var result = await _accountService.LoginAsync(loginInfo);
 
             if (result is not null)
             {
