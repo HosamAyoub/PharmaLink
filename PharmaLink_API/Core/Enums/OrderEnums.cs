@@ -1,34 +1,20 @@
 namespace PharmaLink_API.Core.Enums
 {
-    //public enum OrderStatus
-    //{
-    //    Pending,
-    //    Approved,
-    //    Rejected,
-    //    Cancelled
-    //}
-
-    //public enum PaymentStatus
-    //{
-    //    Pending,
-    //    Approved,
-    //    Rejected,
-    //    Refunded
-    //}
-
     public class SD
     {
-        public const string StatusPending = "Pending";
-        public const string StatusApproved = "Approved";
-        public const string StatusRejected = "Rejected";
-        public const string StatusCancelled = "Cancelled";
+        public const string StatusUnderReview = "UnderReview"; //10minutes
+        public const string StatusReviewing = "Reviewing";     //15minutes
+        public const string StatusPending = "Pending";         //30minutes
+        public const string StatusOutForDelivery = "OutForDelivery";
+        public const string StatusDelivered = "Delivered";    
+        public const string StatusRejected = "Rejected";       //by pharmacy
+        public const string StatusCancelled = "Cancelled";     //by customer
 
 
         public const string PaymentStatusPending = "Pending";
         public const string PaymentStatusApproved = "Approved";
-        public const string PaymentStatusRejected = "Rejected";
+        public const string PaymentStatusRejected = "Rejected"; //by pharmacy
         public const string PaymentStatusRefunded = "Refunded";
 
-        public const string SessionCart = "SessionShoppingCart";
     }
 }
