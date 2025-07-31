@@ -87,7 +87,7 @@ namespace PharmaLink_API.Controllers
                 DrugId = favorite.DrugId
             };
 
-            await _favoriteRepository.CreateAsync(newFavorite);
+            await _favoriteRepository.CreateAndSaveAsync(newFavorite);
             await _favoriteRepository.SaveAsync();
 
             return Ok(new { message = "Drug added to favorites successfully." });
