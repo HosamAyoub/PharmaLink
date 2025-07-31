@@ -23,12 +23,36 @@ namespace PharmaLink_API.Services.Interfaces
         Task<ServiceResult<string>> CancelOrderAsync(string accountId, int orderId);
 
         /// <summary>
-        /// Accepts an order for the specified account and order ID.
+        /// Retrieves the details of an order for review by the specified account.
         /// </summary>
-        /// <param name="orderId">The unique identifier of the order to accept.</param>
-        /// <param name="accountId">The unique identifier of the account accepting the order.</param>
+        /// <param name="orderId">The unique identifier of the order to review.</param>
+        /// <param name="accountId">The unique identifier of the account reviewing the order.</param>
+        /// <returns>A ServiceResult containing the order details DTO if found.</returns>
+        Task<ServiceResult<OrderDetailsDTO>> ReviewingOrderAsync(int orderId, string accountId);
+
+        /// <summary>
+        /// Marks an order as pending for the specified account.
+        /// </summary>
+        /// <param name="orderId">The unique identifier of the order to mark as pending.</param>
+        /// <param name="accountId">The unique identifier of the account performing the action.</param>
         /// <returns>A ServiceResult indicating the success or failure of the operation.</returns>
-        Task<ServiceResult> AcceptOrderAsync(int orderId, string accountId);
+        Task<ServiceResult> PendingOrderAsync(int orderId, string accountId);
+
+        /// <summary>
+        /// Marks an order as delivered for the specified account.
+        /// </summary>
+        /// <param name="orderId">The unique identifier of the order to mark as delivered.</param>
+        /// <param name="accountId">The unique identifier of the account performing the action.</param>
+        /// <returns>A ServiceResult indicating the success or failure of the operation.</returns>
+        Task<ServiceResult> OrderDeliveredAsync(int orderId, string accountId);
+
+        /// <summary>
+        /// Updates the status of an order to 'Out for Delivery' for the specified account and order ID.
+        /// </summary>
+        /// <param name="orderId">The unique identifier of the order to update.</param>
+        /// <param name="accountId">The unique identifier of the account performing the action.</param>
+        /// <returns>A ServiceResult indicating the success or failure of the operation.</returns>
+        Task<ServiceResult> OutForDeliveryOrderAsync(int orderId, string accountId);
 
         /// <summary>
         /// Rejects an order for the specified account and order ID.
@@ -44,5 +68,21 @@ namespace PharmaLink_API.Services.Interfaces
         /// <param name="accountId">The unique identifier of the pharmacy account.</param>
         /// <returns>A ServiceResult containing a collection of pharmacy order DTOs.</returns>
         Task<ServiceResult<IEnumerable<PharmacyOrderDTO>>> GetPharmacyOrdersAsync(string accountId);
+
+        /// <summary>
+        /// Searches pharmacy orders for the specified account using a query string.
+        /// </summary>
+        /// <param name="accountId">The unique identifier of the pharmacy account.</param>
+        /// <param name="query">The search query to filter orders.</param>
+        /// <returns>A ServiceResult containing a list of matching pharmacy order DTOs.</returns>
+        Task<ServiceResult<List<PharmacyOrderDTO>>> SearchOrdersAsync(string accountId, string query);
+
+        /// <summary>
+        /// Filters pharmacy orders by status for the specified account.
+        /// </summary>
+        /// <param name="accountId">The unique identifier of the pharmacy account.</param>
+        /// <param name="status">The status to filter orders by.</param>
+        /// <returns>A ServiceResult containing a list of pharmacy order DTOs with the specified status.</returns>
+        Task<ServiceResult<List<PharmacyOrderDTO>>> FilterOrdersByStatusAsync(string accountId, string status);
     }
 }
