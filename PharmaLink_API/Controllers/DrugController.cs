@@ -220,7 +220,7 @@ namespace PharmaLink_API.Controllers
         [HttpPost]
         public async Task Post([FromBody] DrugDetailsDTO NewDrugDTO)
         {
-            await DrugRepo.CreateAsync(_mapper.Map<Drug>(NewDrugDTO));
+            await DrugRepo.CreateAndSaveAsync(_mapper.Map<Drug>(NewDrugDTO));
         }
 
         /// <summary>

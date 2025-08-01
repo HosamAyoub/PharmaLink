@@ -8,5 +8,7 @@
         public decimal TotalPrice { get; set; }
         public string PaymentStatus { get; set; }
         public List<OrderItemDTO> OrderDetails { get; set; }
+        public string Name { get; set; }
+        public string PhoneNumber { get; set; }
     }
 }

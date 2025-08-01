@@ -426,22 +426,6 @@
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.OrdersController",
-    "Method": "AcceptOrder",
-    "RelativePath": "api/Orders/accept/{orderId}",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "orderId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "PharmaLink_API.Controllers.OrdersController",
     "Method": "CancelOrder",
     "RelativePath": "api/Orders/cancel/{orderId}",
     "HttpMethod": "POST",
@@ -474,12 +458,76 @@
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.OrdersController",
+    "Method": "OrderDelivered",
+    "RelativePath": "api/Orders/delivered/{orderId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.OrdersController",
+    "Method": "FilterOrdersByStatus",
+    "RelativePath": "api/Orders/filter",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "status",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.OrdersController",
     "Method": "GetPharmacyOrders",
     "RelativePath": "api/Orders/orders",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.OrdersController",
+    "Method": "OrderOutForDelivery",
+    "RelativePath": "api/Orders/outForDelivery/{orderId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.OrdersController",
+    "Method": "OrderPending",
+    "RelativePath": "api/Orders/pending/{orderId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": []
   },
   {
@@ -494,6 +542,38 @@
         "Name": "orderId",
         "Type": "System.Int32",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.OrdersController",
+    "Method": "OrderInReview",
+    "RelativePath": "api/Orders/reviewing/{orderId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.OrdersController",
+    "Method": "SearchOrders",
+    "RelativePath": "api/Orders/search",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "query",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []

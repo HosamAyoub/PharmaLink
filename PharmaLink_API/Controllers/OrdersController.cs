@@ -141,19 +141,98 @@ namespace PharmaLink_API.Controllers
         //******************Pharmacy Only Endpoints******************//
 
         /// <summary>
-        /// Accepts an order for the authenticated pharmacy.
+        /// Retrieves all orders for the authenticated pharmacy.
         /// </summary>
-        /// <param name="orderId">Order ID to accept.</param>
-        /// <returns>Acceptance status message.</returns>
+        /// <returns>Collection of pharmacy order DTOs.</returns>
         [Authorize(Roles = "Pharmacy")]
-        [HttpPost("accept/{orderId}")]
-        public async Task<IActionResult> AcceptOrder(int orderId)
+        [HttpGet("orders")]
+        public async Task<IActionResult> GetPharmacyOrders()
         {
             var accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(accountId))
                 return Forbid("AccountId missing.");
 
-            var result = await _orderService.AcceptOrderAsync(orderId, accountId);
+            var result = await _orderService.GetPharmacyOrdersAsync(accountId);
+
+            if (!result.Success)
+            {
+                return result.ErrorType switch
+                {
+                    ErrorType.NotFound => NotFound(result.ErrorMessage),
+                    _ => StatusCode(500, result.ErrorMessage)
+                };
+            }
+
+            return Ok(result.Data);
+        }
+
+
+        /// <summary>
+        /// Sets the specified order to "In Review" status for the authenticated pharmacy.
+        /// </summary>
+        /// <param name="orderId">The unique identifier of the order to review.</param>
+        /// <returns>Order details DTO if successful, or an error response.</returns>
+        [Authorize(Roles = "Pharmacy")]
+        [HttpPost("reviewing/{orderId}")]
+        public async Task<IActionResult> OrderInReview(int orderId)
+        {
+            var accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(accountId))
+                return Forbid("AccountId missing.");
+
+            var result = await _orderService.ReviewingOrderAsync(orderId, accountId);
+            if (!result.Success)
+            {
+                return result.ErrorType switch
+                {
+                    ErrorType.NotFound => NotFound(result.ErrorMessage),
+                    ErrorType.Validation => BadRequest(result.ErrorMessage),
+                    _ => StatusCode(500, result.ErrorMessage)
+                };
+            }
+            return Ok(result.Data);
+        }
+
+        /// <summary>
+        /// Sets the specified order to "Pending" status for the authenticated pharmacy.
+        /// </summary>
+        /// <param name="orderId">The unique identifier of the order to update.</param>
+        /// <returns>Status message indicating the order is pending, or an error response.</returns>
+        [Authorize(Roles = "Pharmacy")]
+        [HttpPost("pending/{orderId}")]
+        public async Task<IActionResult> OrderPending(int orderId)
+        {
+            var accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(accountId))
+                return Forbid("AccountId missing.");
+
+            var result = await _orderService.PendingOrderAsync(orderId, accountId);
+            if (!result.Success)
+            {
+                return result.ErrorType switch
+                {
+                    ErrorType.NotFound => NotFound(result.ErrorMessage),
+                    ErrorType.Validation => BadRequest(result.ErrorMessage),
+                    _ => StatusCode(500, result.ErrorMessage)
+                };
+            }
+            return Ok(new { Message = $"Order #{orderId} is pending." });
+        }
+
+        /// <summary>
+        /// Accepts an order for the authenticated pharmacy.
+        /// </summary>
+        /// <param name="orderId">Order ID to accept.</param>
+        /// <returns>Acceptance status message.</returns>
+        [Authorize(Roles = "Pharmacy")]
+        [HttpPost("outForDelivery/{orderId}")]
+        public async Task<IActionResult> OrderOutForDelivery(int orderId)
+        {
+            var accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(accountId))
+                return Forbid("AccountId missing.");
+
+            var result = await _orderService.OutForDeliveryOrderAsync(orderId, accountId);
 
             if (!result.Success)
             {
@@ -165,7 +244,33 @@ namespace PharmaLink_API.Controllers
                 };
             }
 
-            return Ok(new { Message = $"Order #{orderId} has been accepted." });
+            return Ok(new { Message = $"Order #{orderId} is out for delivery." });
+        }
+
+        /// <summary>
+        /// Marks the specified order as delivered for the authenticated pharmacy.
+        /// </summary>
+        /// <param name="orderId">The unique identifier of the order to mark as delivered.</param>
+        /// <returns>Status message indicating the order has been delivered, or an error response.</returns>
+        [Authorize(Roles = "Pharmacy")]
+        [HttpPost("delivered/{orderId}")]
+        public async Task<IActionResult> OrderDelivered(int orderId)
+        {
+            var accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(accountId))
+                return Forbid("AccountId missing.");
+
+            var result = await _orderService.OrderDeliveredAsync(orderId, accountId);
+            if (!result.Success)
+            {
+                return result.ErrorType switch
+                {
+                    ErrorType.NotFound => NotFound(result.ErrorMessage),
+                    ErrorType.Validation => BadRequest(result.ErrorMessage),
+                    _ => StatusCode(500, result.ErrorMessage)
+                };
+            }
+            return Ok(new { Message = $"Order #{orderId} is in review." });
         }
 
         /// <summary>
@@ -197,29 +302,60 @@ namespace PharmaLink_API.Controllers
         }
 
         /// <summary>
-        /// Retrieves all orders for the authenticated pharmacy.
+        /// Searches pharmacy orders for the authenticated pharmacy using a query string.
         /// </summary>
-        /// <returns>Collection of pharmacy order DTOs.</returns>
+        /// <param name="query">Search term to filter orders.</param>
+        /// <returns>List of matching pharmacy order DTOs or error response.</returns>
         [Authorize(Roles = "Pharmacy")]
-        [HttpGet("orders")]
-        public async Task<IActionResult> GetPharmacyOrders()
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchOrders(string query)
         {
             var accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(accountId))
                 return Forbid("AccountId missing.");
 
-            var result = await _orderService.GetPharmacyOrdersAsync(accountId);
+            var result = await _orderService.SearchOrdersAsync(accountId, query);
 
             if (!result.Success)
             {
                 return result.ErrorType switch
                 {
                     ErrorType.NotFound => NotFound(result.ErrorMessage),
+                    ErrorType.Validation => BadRequest(result.ErrorMessage),
                     _ => StatusCode(500, result.ErrorMessage)
                 };
             }
 
-            return Ok(result.Data);
+            return Ok(result);
         }
+
+        /// <summary>
+        /// Filters pharmacy orders for the authenticated pharmacy by status.
+        /// </summary>
+        /// <param name="status">Order status to filter by.</param>
+        /// <returns>List of pharmacy order DTOs matching the status or error response.</returns>
+        [Authorize(Roles = "Pharmacy")]
+        [HttpGet("filter")]
+        public async Task<IActionResult> FilterOrdersByStatus(string status)
+        {
+            var accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(accountId))
+                return Forbid("AccountId missing.");
+
+            var result = await _orderService.FilterOrdersByStatusAsync(accountId, status);
+
+            if (!result.Success)
+            {
+                return result.ErrorType switch
+                {
+                    ErrorType.NotFound => NotFound(result.ErrorMessage),
+                    ErrorType.Validation => BadRequest(result.ErrorMessage),
+                    _ => StatusCode(500, result.ErrorMessage)
+                };
+            }
+
+            return Ok(result); // Assuming result is already wrapped in ServiceResult<List<PharmacyOrderDTO>>
+        }
+
     }
 }

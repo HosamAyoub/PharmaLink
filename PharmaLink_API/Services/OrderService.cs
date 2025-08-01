@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using PharmaLink_API.Core.Enums;
 using PharmaLink_API.Core.Results;
+using PharmaLink_API.Data;
 using PharmaLink_API.Models;
 using PharmaLink_API.Models.DTO.CartDTO;
 using PharmaLink_API.Models.DTO.OrderDTO;
@@ -13,6 +15,7 @@ namespace PharmaLink_API.Services
 {
     public class OrderService : IOrderService
     {
+        private readonly ApplicationDbContext _dbContext;
         private readonly ICartRepository _cartRepository;
         private readonly IPatientRepository _patientRepository;
         private readonly IOrderHeaderRepository _orderHeaderRepository;
@@ -23,6 +26,7 @@ namespace PharmaLink_API.Services
         private readonly IStripeService _stripeService;
 
         public OrderService(
+            ApplicationDbContext dbContext,
             ICartRepository cartRepository,
             IPatientRepository patientRepository,
             IOrderHeaderRepository orderHeaderRepository,
@@ -32,6 +36,7 @@ namespace PharmaLink_API.Services
             IMapper mapper,
             IStripeService stripeService)
         {
+            _dbContext = dbContext;
             _cartRepository = cartRepository;
             _patientRepository = patientRepository;
             _orderHeaderRepository = orderHeaderRepository;
@@ -95,7 +100,7 @@ namespace PharmaLink_API.Services
             if (order.Status == SD.StatusCancelled)
                 return ServiceResult<string>.ErrorResult("Order is already cancelled.", ErrorType.Conflict);
 
-            if (order.Status == SD.StatusApproved)
+            if (order.Status == SD.StatusPending)
             {
                 if (order.PaymentMethod != "Cash" && order.PaymentStatus == SD.PaymentStatusApproved)
                 {
@@ -123,10 +128,10 @@ namespace PharmaLink_API.Services
         }
 
         /// <summary>
-        /// Accepts an order for the specified account and order ID.
-        /// Updates order status to approved.
+        /// Updates the status of the specified order to "Out For Delivery" for the given pharmacy account.
+        /// Only pending orders can be updated to out for delivery.
         /// </summary>
-        public async Task<ServiceResult> AcceptOrderAsync(int orderId, string accountId)
+        public async Task<ServiceResult> OutForDeliveryOrderAsync(int orderId, string accountId)
         {
             var order = await _orderHeaderRepository.GetAsync(o => o.OrderID == orderId, true, x => x.OrderDetails);
             if (order == null)
@@ -140,11 +145,96 @@ namespace PharmaLink_API.Services
                 return ServiceResult.ErrorResult("You are not authorized to update this order.", ErrorType.Authorization);
 
             if (order.Status != SD.StatusPending)
-                return ServiceResult.ErrorResult("Only pending orders can be accepted.", ErrorType.Validation);
+                return ServiceResult.ErrorResult("Only pending orders can be out for delivery.", ErrorType.Validation);
 
-            order.Status = SD.StatusApproved;
+            order.Status = SD.StatusOutForDelivery;
             await _orderHeaderRepository.SaveAsync();
 
+            return ServiceResult.SuccessResult();
+        }
+
+        /// <summary>
+        /// Updates the status of the specified order to "Reviewing" for the given pharmacy account if the order is under review.
+        /// Returns the order details DTO.
+        /// </summary>
+        public async Task<ServiceResult<OrderDetailsDTO>> ReviewingOrderAsync(int orderId, string accountId)
+        {
+            var order = await _dbContext.Orders
+                .Include(o => o.OrderDetails)
+                .ThenInclude(od => od.PharmacyProduct)
+                .ThenInclude(pp => pp.Drug)
+                .Include(o => o.Patient)
+                .ThenInclude(p => p.Account)
+                .FirstOrDefaultAsync(o => o.OrderID == orderId);
+            if (order == null)
+                return ServiceResult<OrderDetailsDTO>.ErrorResult("Order not found", ErrorType.NotFound);
+
+            var pharmacy = await _pharmacyRepository.GetAsync(p => p.AccountId == accountId);
+            if (pharmacy == null)
+                return ServiceResult<OrderDetailsDTO>.ErrorResult("Pharmacy not found", ErrorType.NotFound);
+
+            if (order.PharmacyId != pharmacy.PharmacyID)
+                return ServiceResult<OrderDetailsDTO>.ErrorResult("You are not authorized to update this order.", ErrorType.Authorization);
+
+            if (order.Status != SD.StatusUnderReview)
+            {
+                var dto = BuildOrderDetailsDto(order);
+                return ServiceResult<OrderDetailsDTO>.SuccessResult(dto);
+            }
+
+            order.Status = SD.StatusReviewing;
+
+            await _orderHeaderRepository.SaveAsync();
+
+            var updatedDto = BuildOrderDetailsDto(order);
+            return ServiceResult<OrderDetailsDTO>.SuccessResult(updatedDto);
+        }
+
+        /// <summary>
+        /// Updates the status of the specified order to "Pending" for the given pharmacy account if the order is currently being reviewed.
+        /// </summary>
+        public async Task<ServiceResult> PendingOrderAsync(int orderId, string accountId)
+        {
+            var order = await _orderHeaderRepository.GetAsync(o => o.OrderID == orderId, true, x => x.OrderDetails);
+            if (order == null)
+                return ServiceResult.ErrorResult("Order not found", ErrorType.NotFound);
+
+            var pharmacy = await _pharmacyRepository.GetAsync(p => p.AccountId == accountId);
+            if (pharmacy == null)
+                return ServiceResult.ErrorResult("Pharmacy not found", ErrorType.NotFound);
+
+            if (order.PharmacyId != pharmacy.PharmacyID)
+                return ServiceResult.ErrorResult("You are not authorized to update this order.", ErrorType.Authorization);
+
+            if (order.Status != SD.StatusReviewing)
+                return ServiceResult.ErrorResult("Only orders reviewed can be updated.", ErrorType.Validation);
+
+            order.Status = SD.StatusPending;
+            await _orderHeaderRepository.SaveAsync();
+            return ServiceResult.SuccessResult();
+        }
+
+        /// <summary>
+        /// Updates the status of the specified order to "Delivered" for the given pharmacy account if the order is out for delivery.
+        /// </summary>
+        public async Task<ServiceResult> OrderDeliveredAsync(int orderId, string accountId)
+        {
+            var order = await _orderHeaderRepository.GetAsync(o => o.OrderID == orderId, true, x => x.OrderDetails);
+            if (order == null)
+                return ServiceResult.ErrorResult("Order not found", ErrorType.NotFound);
+
+            var pharmacy = await _pharmacyRepository.GetAsync(p => p.AccountId == accountId);
+            if (pharmacy == null)
+                return ServiceResult.ErrorResult("Pharmacy not found", ErrorType.NotFound);
+
+            if (order.PharmacyId != pharmacy.PharmacyID)
+                return ServiceResult.ErrorResult("You are not authorized to update this order.", ErrorType.Authorization);
+
+            if (order.Status != SD.StatusOutForDelivery)
+                return ServiceResult.ErrorResult("Only orders out for delivery can be updated.", ErrorType.Validation);
+
+            order.Status = SD.StatusDelivered;
+            await _orderHeaderRepository.SaveAsync();
             return ServiceResult.SuccessResult();
         }
 
@@ -165,8 +255,8 @@ namespace PharmaLink_API.Services
             if (order.PharmacyId != pharmacy.PharmacyID)
                 return ServiceResult.ErrorResult("You are not authorized to update this order.", ErrorType.Authorization);
 
-            if (order.Status != SD.StatusPending)
-                return ServiceResult.ErrorResult("Only pending orders can be rejected.", ErrorType.Validation);
+            if (order.Status != SD.StatusUnderReview && order.Status != SD.StatusReviewing && order.Status != SD.StatusPending)
+                return ServiceResult.ErrorResult("Delivred, out for delivery, rejected or canceled orders cannot be rejected.", ErrorType.Validation);
 
             order.Status = SD.StatusRejected;
 
@@ -209,6 +299,53 @@ namespace PharmaLink_API.Services
 
             var result = _mapper.Map<List<PharmacyOrderDTO>>(orders);
             return ServiceResult<IEnumerable<PharmacyOrderDTO>>.SuccessResult(result);
+        }
+
+        /// <summary>
+        /// Searches pharmacy orders for the specified account using a query string.
+        /// The query matches patient names (case-insensitive, partial match) or order IDs.
+        /// Returns a list of matching PharmacyOrderDTOs.
+        /// </summary>
+        public async Task<ServiceResult<List<PharmacyOrderDTO>>> SearchOrdersAsync(string accountId, string query)
+        {
+            var pharmacy = await _pharmacyRepository.GetAsync(p => p.AccountId == accountId);
+            if (pharmacy == null)
+                return new ServiceResult<List<PharmacyOrderDTO>>();
+
+            query = query.ToLower().Trim();
+
+            var orders = await _orderHeaderRepository.GetAllAsync(
+                o => o.PharmacyId == pharmacy.PharmacyID &&
+                     (EF.Functions.Like(o.Patient.Name, $"%{query}%") || o.OrderID.ToString().Contains(query)),
+                x => x.OrderDetails,
+                x => x.Patient,
+                x => x.Pharmacy
+            );
+            if (orders == null || !orders.Any())
+                return new ServiceResult<List<PharmacyOrderDTO>>();
+            var mappedOrders = _mapper.Map<List<PharmacyOrderDTO>>(orders);
+            return ServiceResult<List<PharmacyOrderDTO>>.SuccessResult(mappedOrders);
+        }
+
+        /// <summary>
+        /// Filters pharmacy orders for the specified account by order status.
+        /// Returns a list of PharmacyOrderDTOs with the given status.
+        /// </summary>
+        public async Task<ServiceResult<List<PharmacyOrderDTO>>> FilterOrdersByStatusAsync(string accountId, string status)
+        {
+            var pharmacy = await _pharmacyRepository.GetAsync(p => p.AccountId == accountId);
+            if (pharmacy == null)
+                return ServiceResult<List<PharmacyOrderDTO>>.ErrorResult("Pharmacy not found", ErrorType.NotFound);
+            var orders = await _orderHeaderRepository.GetAllAsync(
+                o => o.PharmacyId == pharmacy.PharmacyID && o.Status == status,
+                x => x.OrderDetails,
+                x => x.Patient,
+                x => x.Pharmacy
+            );
+            if (orders == null || !orders.Any())
+                return ServiceResult<List<PharmacyOrderDTO>>.ErrorResult("No orders found for this pharmacy with the specified status.", ErrorType.NotFound);
+            var result = _mapper.Map<List<PharmacyOrderDTO>>(orders);
+            return ServiceResult<List<PharmacyOrderDTO>>.SuccessResult(result);
         }
 
         // ** Helper Methods **//
@@ -277,11 +414,11 @@ namespace PharmaLink_API.Services
                 OrderDate = DateTime.UtcNow,
                 PharmacyId = pharmacyId,
                 PaymentStatus = SD.PaymentStatusPending,
-                Status = SD.StatusPending,
+                Status = SD.StatusUnderReview,
                 PaymentMethod = paymentMethod
             };
 
-            await _orderHeaderRepository.CreateAsync(order);
+            await _orderHeaderRepository.CreateAndSaveAsync(order);
             await _orderHeaderRepository.SaveAsync();
 
             return order;
@@ -308,7 +445,7 @@ namespace PharmaLink_API.Services
                     Price = stock.Price
                 };
 
-                await _orderDetailRepository.CreateAsync(orderDetail);
+                await _orderDetailRepository.CreateAndSaveAsync(orderDetail);
             }
 
             await _orderDetailRepository.SaveAsync();
@@ -356,6 +493,27 @@ namespace PharmaLink_API.Services
                 if (stock != null)
                     stock.QuantityAvailable += item.Quantity;
             }
+        }
+
+        /// <summary>
+        /// Builds an OrderDetailsDTO object from the provided Order entity.
+        /// Maps order and patient details, payment information, status, and a list of medicines with quantities.
+        /// </summary>
+        private OrderDetailsDTO BuildOrderDetailsDto(Order order)
+        {
+            return new OrderDetailsDTO
+            {
+                OrderId = order.OrderID,
+                OrderDate = order.OrderDate,
+                PatientName = order.Patient?.Name ?? "Unknown",
+                PatientPhone = order.Patient?.Account?.PhoneNumber ?? "Unknown",
+                PatientAddress = order.Patient?.Address ?? "Unknown",
+                PaymentMethod = order.PaymentMethod,
+                Total = order.TotalPrice,
+                CurrentStatus = order.Status,
+                EstimatedCompletionMinutes = 10,
+                Medicines = order.OrderDetails.Select(od => $"{od.PharmacyProduct?.Drug?.CommonName} (Qty: {od.Quantity})").ToList()
+            };
         }
 
     }

@@ -118,6 +118,7 @@ namespace PharmaLink_API
             });
 
             // Register repositories
+            builder.Services.AddScoped<IAccountRepository, AccountRepository>();
             builder.Services.AddScoped<IPharmacyRepository, PharmacyRepository>();
             builder.Services.AddScoped<IPatientRepository, PatientRepository>();
             builder.Services.AddScoped<ICartRepository, CartRepository>();
@@ -134,7 +135,8 @@ namespace PharmaLink_API
             builder.Services.AddScoped<ICartService, CartService>();
             builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<IStripeService, StripeService>();
-            builder.Services.AddScoped<IPharmacyService, PharmacyService>();
+            builder.Services.AddScoped<IAccountService, AccountService>();
+            builder.Services.AddScoped<IRoleService, RoleService>();
 
 
 
