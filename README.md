@@ -1,10 +1,12 @@
-# PharmaLink
+# ?? PharmaLink
 
-PharmaLink is a modern web platform that connects all pharmacies in one place, empowering users to easily find medicines, check real-time availability, and access comprehensive drug information. The platform leverages AI to suggest drug alternatives based on user history and pharmacy stock, ensuring users always have access to the medications they need. PharmaLink also provides a full suite of e-commerce features, including search, filtering, categories, and a seamless shopping experience.
+[![.NET 9](https://img.shields.io/badge/.NET-9.0-blueviolet)](https://dotnet.microsoft.com/) [![Angular](https://img.shields.io/badge/Frontend-Angular-red)](https://github.com/HosamAyoub/PharmaLink-Angular) [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
+> **Making medicine accessible, transparent, and intelligent for everyone.**
 
 ---
 
-## Table of Contents
+## ?? Table of Contents
 - [Project Overview](#project-overview)
 - [Features](#features)
 - [System Architecture](#system-architecture)
@@ -12,47 +14,47 @@ PharmaLink is a modern web platform that connects all pharmacies in one place, e
 - [API Endpoints](#api-endpoints)
 - [Frontend](#frontend)
 - [Getting Started](#getting-started)
+- [API Usage Examples](#api-usage-examples)
 - [Contributing](#contributing)
 - [License](#license)
-- [API Usage Examples](#api-usage-examples)
+- [Additional Details](#additional-details)
 
 ---
 
-## Project Overview
-PharmaLink addresses the challenge of medicine accessibility by aggregating pharmacy inventories and providing users with up-to-date information on where to find their required drugs. The platform not only helps users locate medicines, especially during shortages, but also empowers them with detailed drug data and intelligent AI-driven suggestions for alternatives.
+## ?? Project Overview
+PharmaLink is a full-stack web platform that connects all pharmacies in one place, empowering users to easily find medicines, check real-time availability, and access comprehensive drug information. The system leverages AI to suggest drug alternatives based on user history and pharmacy stock, ensuring users always have access to the medications they need. PharmaLink also provides a complete e-commerce experience, including search, filtering, categories, cart, and order management.
 
 ---
 
-## Features
-- **Unified Pharmacy Search:** Instantly find which pharmacies have your required medicine in stock, including during shortages.
+## ? Features
+- **Unified Pharmacy Search:** Instantly find which pharmacies have your required medicine in stock, even during shortages.
 - **Comprehensive Drug Information:** View active ingredients, side effects, usage instructions, and more for every drug.
-- **AI-Powered Alternatives:** Receive smart suggestions for alternative drugs based on your medical history, preferences, and real-time pharmacy stock.
+- **?? AI-Powered Alternatives:** Receive smart suggestions for alternative drugs based on your medical history, preferences, and real-time pharmacy stock.
 - **Personalized Experience:** Recommendations are tailored using user history and location for maximum relevance.
-- **E-Commerce Essentials:** Search, filter, browse by categories, manage cart, and place orders.
-- **Order Tracking:** Track your orders and view order history.
-- **Favorites:** Save favorite drugs for quick access.
+- **?? E-Commerce Essentials:** Search, filter, browse by categories, manage cart, and place orders.
+- **Order Tracking & Favorites:** Track your orders, view order history, and save favorite drugs for quick access.
 - **Secure Authentication:** Role-based access for users and pharmacies.
 - **Admin Dashboard:** Manage drugs, pharmacies, users, and orders.
 - **RESTful API:** Clean, well-documented endpoints for all core features.
 
 ---
 
-## System Architecture
+## ??? System Architecture
 PharmaLink is built with a scalable, maintainable architecture:
 - **Backend:** ASP.NET Core (.NET 9), Entity Framework Core, Identity for authentication and authorization.
 - **Frontend:** Angular ([PharmaLink-Angular](https://github.com/HosamAyoub/PharmaLink-Angular))
-- **Database:** Relational (see ERD below)
+- **Database:** SQL Server (relational, see ERD below)
 - **AI Integration:** For drug alternative suggestions (ongoing development)
 - **RESTful API:** Clean separation of concerns, following best practices.
 
-### Backend Structure
+### ?? Backend Structure
 - **Controllers:** Handle HTTP requests and responses (e.g., `AccountController` for registration and login).
 - **Services:** Business logic, including registration, login, role assignment, and AI suggestions (e.g., `AccountService`, `RoleService`).
 - **Repositories:** Data access layer, abstracting database operations (e.g., `AccountRepository`, `RoleRepository`).
 - **DTOs:** Data Transfer Objects for clean API contracts.
 - **Identity:** User and role management.
 
-### Key Backend Components
+### ?? Key Backend Components
 - **Account Management:** Registration, login, and user profile creation with role assignment.
 - **Pharmacy & Drug Management:** CRUD operations for pharmacies and drugs, including stock management.
 - **Order & Cart Management:** E-commerce features for placing and tracking orders.
@@ -61,7 +63,7 @@ PharmaLink is built with a scalable, maintainable architecture:
 
 ---
 
-## Database Design (ERD)
+## ??? Database Design (ERD)
 The database is designed to support all core features and relationships:
 - **Users:** Stores user information, roles, and authentication data.
 - **Pharmacies:** Details about each pharmacy, including location and working hours.
@@ -75,7 +77,7 @@ The database is designed to support all core features and relationships:
 
 ---
 
-## API Endpoints
+## ?? API Endpoints
 PharmaLink exposes a rich set of RESTful endpoints, including but not limited to:
 - **Authentication:** Register, login, and role management.
 - **Pharmacy Management:** Add, update, and list pharmacies.
@@ -89,7 +91,7 @@ PharmaLink exposes a rich set of RESTful endpoints, including but not limited to
 
 ---
 
-## Frontend
+## ??? Frontend
 The frontend is built with Angular and provides a modern, responsive user experience.
 - **Repository:** [PharmaLink-Angular](https://github.com/HosamAyoub/PharmaLink-Angular)
 - **Features:** User registration/login, pharmacy and drug search, detailed drug pages, cart and order management, AI-powered suggestions, and more.
@@ -98,7 +100,7 @@ The frontend is built with Angular and provides a modern, responsive user experi
 
 ---
 
-## Getting Started
+## ? Getting Started
 ### Prerequisites
 - [.NET 9 SDK](https://dotnet.microsoft.com/download)
 - [Node.js & Angular CLI](https://angular.io/guide/setup-local) (for frontend)
@@ -108,28 +110,28 @@ The frontend is built with Angular and provides a modern, responsive user experi
 1. Clone this repository.
 2. Configure your database connection in `appsettings.json`.
 3. Run database migrations:
-```
-dotnet ef database update
-```
+   ```bash
+   dotnet ef database update
+   ```
 4. Build and run the API:
-```
-dotnet run --project PharmaLink_API
-```
+   ```bash
+   dotnet run --project PharmaLink_API
+   ```
 
 ### Frontend Setup
 1. Clone the [PharmaLink-Angular](https://github.com/HosamAyoub/PharmaLink-Angular) repository.
 2. Install dependencies:
-```
-npm install
-```
+   ```bash
+   npm install
+   ```
 3. Run the Angular app:
-```
-ng serve
-```
+   ```bash
+   ng serve
+   ```
 
 ---
 
-## API Usage Examples
+## ?? API Usage Examples
 
 ### Register a New User
 **Endpoint:** `POST /api/Account/Register`
@@ -164,14 +166,12 @@ ng serve
 
 **Failure Response:**
 ```json
-{
-  "errors": {
-    "email": [
-      "The Email field must be a valid email address.",
-      "The Email field is already in use."
-    ]
+[
+  {
+    "code": "DuplicateUserName",
+    "description": "Email is already registered"
   }
-}
+]
 ```
 
 ### Login
@@ -204,22 +204,18 @@ ng serve
 
 ---
 
-## Contributing
+## ?? Contributing
 Contributions are welcome! Please open issues or submit pull requests for new features, bug fixes, or improvements. For major changes, please discuss them in an issue first.
 
 ---
 
-## License
+## ?? License
 This project is licensed under the MIT License.
 
 ---
 
-## Additional Details
+## ?? Additional Details
 - **ERD & Diagrams:** The included ERD and diagrams provide a comprehensive overview of the data model, backend structure, and user flows. These resources are invaluable for onboarding new developers and for understanding the relationships between entities.
 - **Extensibility:** The backend is designed with extensibility in mind, making it easy to add new features such as notifications, advanced analytics, or integrations with external health systems.
 - **Security:** All sensitive operations are protected by robust authentication and authorization mechanisms using ASP.NET Core Identity.
 - **AI Integration:** The platform is architected to support advanced AI features, such as personalized drug suggestions and shortage prediction, leveraging user data and real-time stock information.
-
----
-
-*PharmaLink - Making medicine accessible, transparent, and intelligent for everyone.*
