@@ -1,6 +1,6 @@
 # PharmaLink
 
-[![.NET 9](https://img.shields.io/badge/.NET-9.0-blueviolet)](https://dotnet.microsoft.com/) [![Angular](https://img.shields.io/badge/Frontend-Angular-red)](https://github.com/HosamAyoub/PharmaLink-Angular) [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![.NET 9](https://img.shields.io/badge/.NET-9.0-blueviolet)](https://dotnet.microsoft.com/) [![Angular](https://img.shields.io/badge/Frontend-Angular-red)](https://github.com/HosamAyoub/PharmaLink-Angular)
 
 PharmaLink is a modern web platform that connects all pharmacies in one place, empowering users to easily find medicines, check real-time availability, and access comprehensive drug information. The platform leverages AI to suggest drug alternatives based on user history and pharmacy stock, ensuring users always have access to the medications they need. PharmaLink also provides a full suite of e-commerce features, including search, filtering, categories, and a seamless shopping experience.
 
