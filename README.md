@@ -222,4 +222,4 @@ This project is licensed under the MIT License.
 
 ---
 
-*PharmaLink – Making medicine accessible, transparent, and intelligent for everyone.*
+*PharmaLink - Making medicine accessible, transparent, and intelligent for everyone.*
