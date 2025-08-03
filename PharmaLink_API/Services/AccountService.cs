@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using PharmaLink_API.Core.Constants;
 using PharmaLink_API.Core.Enums;
@@ -19,7 +20,6 @@ namespace PharmaLink_API.Services
     // Service for handling account registration, login, and related logic
     public class AccountService : IAccountService
     {
-        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IAccountRepository _accountRepository;
         private readonly IPatientRepository _patientRepository;
         private readonly IPharmacyRepository _pharmacyRepository;
@@ -29,12 +29,11 @@ namespace PharmaLink_API.Services
         private readonly IRoleService _roleService;
 
         // Inject dependencies for account, role, and mapping operations
-        public AccountService(UserManager<Account> userManager, IMapper mapper, IConfiguration configuration, RoleManager<IdentityRole> roleManager, IAccountRepository accountRepository, IPatientRepository patientRepository, IPharmacyRepository pharmacyRepository, IRoleService roleService)
+        public AccountService(UserManager<Account> userManager, IMapper mapper, IConfiguration configuration, IAccountRepository accountRepository, IPatientRepository patientRepository, IPharmacyRepository pharmacyRepository, IRoleService roleService)
         {
             _userManager = userManager;
             _mapper = mapper;
             _config = configuration;
-            _roleManager = roleManager;
             _accountRepository = accountRepository;
             _patientRepository = patientRepository;
             _pharmacyRepository = pharmacyRepository;
@@ -75,7 +74,7 @@ namespace PharmaLink_API.Services
                     return result;
                 }
 
-                // Create the user profile (Patient or Pharmacy) and assign the role in parallel
+                // Create the user profile (Patient or Pharmacy or Admin) and assign the role in parallel
                 var profileTask = CreateUserProfileAsync(newAccount, accountDto);
                 var roleTask = _roleService.assignRoleAsync(accountDto, newAccount);
 
@@ -83,7 +82,7 @@ namespace PharmaLink_API.Services
                 await Task.WhenAll(profileTask, roleTask).ConfigureAwait(false);
 
                 // Check if role assignment succeeded
-                var roleResult = await roleTask.ConfigureAwait(false);
+                var roleResult = roleTask.Result;
                 if (!roleResult.Succeeded)
                 {
                     await transaction.RollbackAsync().ConfigureAwait(false);
@@ -150,6 +149,7 @@ namespace PharmaLink_API.Services
                     token = new JwtSecurityTokenHandler().WriteToken(token),
                     expiration = token.ValidTo,
                     userName = user.UserName,
+                    role = roles
                 });
             }
             catch (Exception ex)
@@ -201,7 +201,7 @@ namespace PharmaLink_API.Services
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),   // JWT ID
             };
             // Add pharmacy-specific claims if user is a pharmacy
@@ -242,6 +242,82 @@ namespace PharmaLink_API.Services
                     claims: claims,
                     expires: expiration,
                     signingCredentials: signInCred);
+        }
+
+        /// <summary>
+        /// Verifies a JWT token and returns user information if valid.
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public async Task<IResult> VerifyTokenAsync([FromBody] string token)
+        {
+            // Validate the token
+            if (string.IsNullOrWhiteSpace(token))
+            {
+                return Results.BadRequest("Token cannot be empty.");
+            }
+            // Create a token handler to validate the JWT
+            var tokenHandler = new JwtSecurityTokenHandler();
+            try
+            {
+                var key = Encoding.UTF8.GetBytes(_config["JWT:Key"]!);
+                var validationParameters = new TokenValidationParameters
+                {
+                    // Ensures the token’s signature is checked
+                    ValidateIssuerSigningKey = true,
+                    // The signing key used to validate the token
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+
+                    // Validates the issuer of the token
+                    ValidateIssuer = true,
+                    // The expected issuer of the token
+                    ValidIssuer = _config["JWT:Issuer"],
+
+                    // Validates the audience of the token
+                    ValidateAudience = true,
+                    // The expected audience of the token
+                    ValidAudience = _config["JWT:Audience"],
+
+                    // Validates the token's expiration
+                    ValidateLifetime = true,
+                    // Clock skew to account for time differences
+                    ClockSkew = TimeSpan.Zero
+                };
+
+                // Validate the token and extract the principal
+                var principal = tokenHandler.ValidateToken(token, validationParameters, out SecurityToken validatedToken);
+
+                // Extract User Information from Claims
+                var userId = principal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                var userName = principal.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
+                var email = principal.FindFirst(ClaimTypes.Email)?.Value;
+                var roles = principal.FindAll(ClaimTypes.Role).Select(c => c.Value).ToList();
+
+                // fetch user information from the database
+                var user = await _userManager.FindByIdAsync(userId).ConfigureAwait(false);
+
+                if (user == null)
+                {
+                    return Results.Unauthorized();
+                }
+                // Return the user information if the token is valid
+                return Results.Ok(new
+                {
+                    token,
+                    expiration = validatedToken.ValidTo,
+                    userName = user.UserName,
+                    role = roles
+                });
+            }
+            catch (SecurityTokenException)
+            {
+                return Results.Unauthorized();
+            }
+            catch (Exception ex)
+            {
+                // Log the exception here (add logging service)
+                return Results.Problem("An error occurred while verifying the token.");
+            }
         }
     }
 }

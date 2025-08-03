@@ -23,6 +23,7 @@ namespace PharmaLink_API.Services.Interfaces
         /// <param name="loginInfo">The login credentials.</param>
         /// <returns>IResult with token or error message.</returns>
         Task<IResult> LoginAsync(LoginDTO loginInfo);
+        Task<IResult> VerifyTokenAsync(string token);
         //Task<IResult> ChangePasswordAsync(string email, string oldPassword, string newPassword);
         //Task<IResult> UpdateAccountAsync(RegisterAccountDTO account);
         //Task<IResult> DeleteAccountAsync(string email);

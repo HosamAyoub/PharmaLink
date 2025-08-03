@@ -32,6 +32,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "PharmaLink_API.Controllers.AccountController",
+    "Method": "VerifyToken",
+    "RelativePath": "api/Account/VerifyToken",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "token",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "PharmaLink_API.Controllers.CartController",
     "Method": "AddToCart",
     "RelativePath": "api/Cart/AddToCart",
@@ -603,6 +619,93 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.PatientController",
+    "Method": "Get",
+    "RelativePath": "api/Patient",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userNmae",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.PatientController",
+    "Method": "Post",
+    "RelativePath": "api/Patient",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "value",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.PatientController",
+    "Method": "Put",
+    "RelativePath": "api/Patient/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "value",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.PatientController",
+    "Method": "Delete",
+    "RelativePath": "api/Patient/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.PharmacyController",

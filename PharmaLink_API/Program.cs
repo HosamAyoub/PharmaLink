@@ -35,16 +35,9 @@ namespace PharmaLink_API
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy",
-                    builder => builder.WithOrigins("http://localhost:4200")
+                     policyBuilder => policyBuilder.WithOrigins(builder.Configuration["JWT:Audience"]!)
                                       .AllowAnyMethod()
                                       .AllowAnyHeader());
-                                      
-                options.AddPolicy("MyPolicy", builderOptions =>
-                {
-                    builderOptions.AllowAnyOrigin()
-                        .AllowAnyMethod()
-                        .AllowAnyHeader();
-                });
             });
 
             //AutoMapper Configuration
