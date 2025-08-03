@@ -68,6 +68,40 @@ namespace PharmaLink_API.Services.Interfaces
         /// <returns>A ServiceResult containing a list of PharmacyProductDetailsDTO objects filtered by category</returns>
         ServiceResult<PharmacyStockDTO_WithPagination> GetPharmacyStockByCategory(int pharmacyID, string category, int pageNumber, int pageSize);
 
+
+        /// <summary>
+        /// Retrieves pharmacy stock filtered by drug category with pagination.
+        /// </summary>
+        /// <param name="pharmacyID">The ID of the pharmacy to retrieve stock for</param>
+        /// <param name="drugName">The drug Name to filter by</param>
+        /// <param name="pageNumber">Page number for pagination (must be non-negative)</param>
+        /// <param name="pageSize">Number of items per page (must be non-negative, max 100)</param>
+        /// <returns>A ServiceResult containing a list of PharmacyProductDetailsDTO objects filtered by category</returns>
+        ServiceResult<List<PharmacyProductDetailsDTO>> GetPharmacyStockByDrugName(int pharmacyID, string drugName, int pageNumber, int pageSize);
+
+
+        /// <summary>
+        /// Retrieves pharmacy stock filtered by drug category with pagination.
+        /// </summary>
+        /// <param name="pharmacyID">The ID of the pharmacy to retrieve stock for</param>
+        /// <param name="activeIngrediante">The activeIngrediante Name to filter by</param>
+        /// <param name="pageNumber">Page number for pagination (must be non-negative)</param>
+        /// <param name="pageSize">Number of items per page (must be non-negative, max 100)</param>
+        /// <returns>A ServiceResult containing a list of PharmacyProductDetailsDTO objects filtered by category</returns>
+        ServiceResult<List<PharmacyProductDetailsDTO>> GetPharmacyStockByActiveIngrediante(int pharmacyID, string activeIngrediante , int pageNumber, int pageSize);
+
+        /// <summary>
+        /// Retrieves pharmacy stock filtered by drug category with pagination.
+        /// </summary>
+        /// <param name="pharmacyID">The ID of the pharmacy to retrieve stock for</param>
+        /// <param name="q">Search by Name or Category or Active ingrediante</param>
+        /// <param name="pageNumber">Page number for pagination (must be non-negative)</param>
+        /// <param name="pageSize">Number of items per page (must be non-negative, max 100)</param>
+        /// <returns>A ServiceResult containing a list of PharmacyProductDetailsDTO objects filtered by category</returns>
+        ServiceResult<List<PharmacyProductDetailsDTO>> SearchByNameOrCategoryOrActiveingrediante(int pharmacyID, string q, int pageNumber, int pageSize);
+
+
+
         /// <summary>
         /// Retrieves detailed information for a specific product in a pharmacy's inventory.
         /// </summary>

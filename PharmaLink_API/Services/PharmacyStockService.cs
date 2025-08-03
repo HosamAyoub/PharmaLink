@@ -57,11 +57,12 @@ namespace PharmaLink_API.Services
         /// <exception cref="Exception">Thrown for unexpected errors</exception>
         public ServiceResult<PharmacyStockDTO_WithPagination> GetPharmacyStockByPharmacyID(int pharmacyId, int pageNumber, int pageSize)
         {
+            totalSize = 0;
             try
             {
                 _logger.LogInformation("Getting pharmacy stock for pharmacyId {PharmacyId}",
                      pharmacyId);
-
+              
                 // Input validation
                 if (pharmacyId <= 0)
                 {
@@ -448,6 +449,203 @@ namespace PharmaLink_API.Services
                     ErrorType.Internal);
             }
         }
+
+
+
+        /// <inheritdoc />
+        /// <exception cref="InvalidOperationException">Thrown when database operation fails</exception>
+        /// <exception cref="Exception">Thrown for unexpected errors</exception>
+        public ServiceResult<List<PharmacyProductDetailsDTO>> GetPharmacyStockByDrugName(int pharmacyId, string drugName, int pageNumber, int pageSize)
+        {
+            try
+            {
+                _logger.LogInformation("Getting pharmacy stock by drug name {drugName} for pharmacyId {pharmacyId}", drugName, pharmacyId);
+                // Input validation
+                if (string.IsNullOrWhiteSpace(drugName))
+                {
+                    return ServiceResult<List<PharmacyProductDetailsDTO>>.ErrorResult("Category cannot be null or empty.", ErrorType.Validation);
+                }
+                if (pageNumber < 0 || pageSize < 0)
+                {
+                    return ServiceResult<List<PharmacyProductDetailsDTO>>.ErrorResult(
+                        "Page number and page size must be non-negative.",
+                        ErrorType.Validation);
+                }
+                if (pageSize > 100)
+                {
+                    return ServiceResult<List<PharmacyProductDetailsDTO>>.ErrorResult(
+                        "Page size cannot exceed 100.",
+                        ErrorType.Validation);
+                }
+
+                var pharmacyStock = _pharmacyStockRepository.getPharmacyStockByDrugName(pharmacyId, drugName, pageNumber, pageSize).ToList();
+                if (!pharmacyStock.Any())
+                {
+                    return ServiceResult<List<PharmacyProductDetailsDTO>>.ErrorResult(
+                        $"No products found in Drug Name '{drugName}' for the given pharmacy ID.",
+                        ErrorType.NotFound);
+                }
+                var pharmacyStockDetailsDTOs = pharmacyStock.Select(stock => new PharmacyProductDetailsDTO
+                {
+                    DrugId = stock.DrugId,
+                    DrugName = stock.Drug?.CommonName,
+                    DrugDescription = stock.Drug?.Description,
+                    DrugImageUrl = stock.Drug?.Drug_UrlImg,
+                    PharmacyId = stock.PharmacyId,
+                    PharmacyName = stock.Pharmacy?.Name,
+                    Price = stock.Price,
+                    QuantityAvailable = stock.QuantityAvailable
+                }).ToList();
+                _logger.LogInformation("Successfully retrieved {Count} products in drug Name {drugName}",
+                    pharmacyStockDetailsDTOs.Count, drugName);
+
+                return ServiceResult<List<PharmacyProductDetailsDTO>>.SuccessResult(pharmacyStockDetailsDTOs);
+            }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogError(ex, "Invalid operation while getting pharmacy stock by drugName");
+                return ServiceResult<List<PharmacyProductDetailsDTO>>.ErrorResult(
+                    "Failed to retrieve pharmacy stock by drugName.",
+                    ErrorType.Database);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error while getting pharmacy stock by drugName");
+                return ServiceResult<List<PharmacyProductDetailsDTO>>.ErrorResult(
+                    "An unexpected error occurred while retrieving pharmacy stock by drugName.",
+                    ErrorType.Internal);
+            }
+        }
+
+
+        /// <inheritdoc />
+        /// <exception cref="InvalidOperationException">Thrown when database operation fails</exception>
+        /// <exception cref="Exception">Thrown for unexpected errors</exception>
+        public ServiceResult<List<PharmacyProductDetailsDTO>> GetPharmacyStockByActiveIngrediante(int pharmacyId, string activeIngrediante, int pageNumber, int pageSize)
+        {
+            try
+            {
+                _logger.LogInformation("Getting pharmacy stock by drug name {activeIngrediante} for pharmacyId {pharmacyId}", activeIngrediante, pharmacyId);
+                // Input validation
+                if (string.IsNullOrWhiteSpace(activeIngrediante))
+                {
+                    return ServiceResult<List<PharmacyProductDetailsDTO>>.ErrorResult("activeIngrediante cannot be null or empty.", ErrorType.Validation);
+                }
+                if (pageNumber < 0 || pageSize < 0)
+                {
+                    return ServiceResult<List<PharmacyProductDetailsDTO>>.ErrorResult(
+                        "Page number and page size must be non-negative.",
+                        ErrorType.Validation);
+                }
+                if (pageSize > 100)
+                {
+                    return ServiceResult<List<PharmacyProductDetailsDTO>>.ErrorResult(
+                        "Page size cannot exceed 100.",
+                        ErrorType.Validation);
+                }
+
+                var pharmacyStock = _pharmacyStockRepository.getPharmacyStockByActiveIngrediante(pharmacyId, activeIngrediante, pageNumber, pageSize).ToList();
+                if (!pharmacyStock.Any())
+                {
+                    return ServiceResult<List<PharmacyProductDetailsDTO>>.ErrorResult(
+                        $"No products found in active Ingrediante Name '{activeIngrediante}' for the given pharmacy ID.",
+                        ErrorType.NotFound);
+                }
+                var pharmacyStockDetailsDTOs = pharmacyStock.Select(stock => new PharmacyProductDetailsDTO
+                {
+                    DrugId = stock.DrugId,
+                    DrugName = stock.Drug?.CommonName,
+                    DrugDescription = stock.Drug?.Description,
+                    DrugImageUrl = stock.Drug?.Drug_UrlImg,
+                    PharmacyId = stock.PharmacyId,
+                    PharmacyName = stock.Pharmacy?.Name,
+                    Price = stock.Price,
+                    QuantityAvailable = stock.QuantityAvailable
+                }).ToList();
+                _logger.LogInformation("Successfully retrieved {Count} products in activeIngrediante Name {activeIngrediante}",
+                    pharmacyStockDetailsDTOs.Count, activeIngrediante);
+
+                return ServiceResult<List<PharmacyProductDetailsDTO>>.SuccessResult(pharmacyStockDetailsDTOs);
+            }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogError(ex, "Invalid operation while getting pharmacy stock by activeIngrediante");
+                return ServiceResult<List<PharmacyProductDetailsDTO>>.ErrorResult(
+                    "Failed to retrieve pharmacy stock by activeIngrediante.",
+                    ErrorType.Database);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error while getting pharmacy stock by activeIngrediante");
+                return ServiceResult<List<PharmacyProductDetailsDTO>>.ErrorResult(
+                    "An unexpected error occurred while retrieving pharmacy stock by activeIngrediante.",
+                    ErrorType.Internal);
+            }
+        }
+
+        public ServiceResult<List<PharmacyProductDetailsDTO>> SearchByNameOrCategoryOrActiveingrediante(int pharmacyID, string q, int pageNumber, int pageSize)
+        {
+            try
+            {
+                _logger.LogInformation("Searching pharmacy stock by query {Query} for pharmacyId {PharmacyId}", q, pharmacyID);
+                // Input validation
+                if (string.IsNullOrWhiteSpace(q))
+                {
+                    return ServiceResult<List<PharmacyProductDetailsDTO>>.ErrorResult("Search query cannot be null or empty.", ErrorType.Validation);
+                }
+                if (pageNumber < 0 || pageSize < 0)
+                {
+                    return ServiceResult<List<PharmacyProductDetailsDTO>>.ErrorResult(
+                        "Page number and page size must be non-negative.",
+                        ErrorType.Validation);
+                }
+                if (pageSize > 100)
+                {
+                    return ServiceResult<List<PharmacyProductDetailsDTO>>.ErrorResult(
+                        "Page size cannot exceed 100.",
+                        ErrorType.Validation);
+                }
+                var Add = _pharmacyStockRepository.getPharmacyStockByDrugName(pharmacyID, q, pageNumber, pageSize).ToList();
+                var SearchList = Add.UnionBy(_pharmacyStockRepository.getPharmacyStockByCategory(pharmacyID, q, pageNumber, pageSize), u => u.DrugId)
+                                    .UnionBy(_pharmacyStockRepository.getPharmacyStockByActiveIngrediante(pharmacyID, q, pageNumber, pageSize), u => u.DrugId)
+                                    .ToList();
+                if (!SearchList.Any())
+                {
+                    return ServiceResult<List<PharmacyProductDetailsDTO>>.ErrorResult(
+                        $"No products found for the search query '{q}' in pharmacy ID {pharmacyID}.",
+                        ErrorType.NotFound);
+                }
+                var pharmacyStockDetailsDTOs = SearchList.Select(stock => new PharmacyProductDetailsDTO
+                {
+                    DrugId = stock.DrugId,
+                    DrugName = stock.Drug?.CommonName,
+                    DrugDescription = stock.Drug?.Description,
+                    DrugImageUrl = stock.Drug?.Drug_UrlImg,
+                    PharmacyId = stock.PharmacyId,
+                    PharmacyName = stock.Pharmacy?.Name,
+                    Price = stock.Price,
+                    QuantityAvailable = stock.QuantityAvailable
+                }).ToList();
+                _logger.LogInformation("Successfully retrieved {Count} products for search query {Query}",
+                    pharmacyStockDetailsDTOs.Count, q);
+                return ServiceResult<List<PharmacyProductDetailsDTO>>.SuccessResult(pharmacyStockDetailsDTOs);
+            }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogError(ex, "Invalid operation while searching pharmacy stock");
+                return ServiceResult<List<PharmacyProductDetailsDTO>>.ErrorResult(
+                    "Failed to search pharmacy stock.",
+                    ErrorType.Database);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error while searching pharmacy stock");
+                return ServiceResult<List<PharmacyProductDetailsDTO>>.ErrorResult(
+                    "An unexpected error occurred while retrieving pharmacy stock.",
+                    ErrorType.Internal);
+            }
+        }
+
 
         /// <inheritdoc />
         /// <exception cref="InvalidOperationException">Thrown when database operation fails</exception>

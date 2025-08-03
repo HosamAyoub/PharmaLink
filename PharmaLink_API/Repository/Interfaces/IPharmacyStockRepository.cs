@@ -23,7 +23,7 @@ namespace PharmaLink_API.Repository.Interfaces
         /// <param name="pageNumber">Page number for pagination (0 or negative returns all records)</param>
         /// <param name="pageSize">Number of items per page (0 or negative returns all records)</param>
         /// <returns>An enumerable collection of PharmacyProduct entities with Drug and Pharmacy navigation properties loaded</returns>
-        IEnumerable<PharmacyProduct> GetPharmacyStockByPharmacyID(int pharmacyId, int pageNumber, int pageSize);
+        IEnumerable<PharmacyProduct> GetPharmacyStockByPharmacyID(int pharmacyId, int pageNumber, int pageSize , out int totalSize);
 
         public int getPharmacyStockCount(int pharmacyId);
 
@@ -78,6 +78,28 @@ namespace PharmaLink_API.Repository.Interfaces
         /// <param name="pageSize">Number of items per page (0 or negative returns all records)</param>
         /// <returns>A list of PharmacyProduct entities matching the category filter with Drug and Pharmacy navigation properties loaded</returns>
         List<PharmacyProduct> getPharmacyStockByCategory(int pharamcyId, string category, int pageNumber, int pageSize);
+
+
+        /// <summary>
+        /// Retrieves pharmacy stock filtered by drug category with pagination and related entity data.
+        /// </summary>
+        /// <param name="pharamcyId">The ID of the pharmacy to retrieve stock for</param>
+        /// <param name="drugName">The drug drug Name to filter by</param>
+        /// <param name="pageNumber">Page number for pagination (0 or negative returns all records)</param>
+        /// <param name="pageSize">Number of items per page (0 or negative returns all records)</param>
+        /// <returns>A list of PharmacyProduct entities matching the category filter with Drug and Pharmacy navigation properties loaded</returns>
+        List<PharmacyProduct> getPharmacyStockByDrugName(int pharamcyId, string drugName, int pageNumber, int pageSize);
+
+
+        /// <summary>
+        /// Retrieves pharmacy stock filtered by drug category with pagination and related entity data.
+        /// </summary>
+        /// <param name="pharamcyId">The ID of the pharmacy to retrieve stock for</param>
+        /// <param name="activeIngrediante">The drug drug Name to filter by</param>
+        /// <param name="pageNumber">Page number for pagination (0 or negative returns all records)</param>
+        /// <param name="pageSize">Number of items per page (0 or negative returns all records)</param>
+        /// <returns>A list of PharmacyProduct entities matching the category filter with Drug and Pharmacy navigation properties loaded</returns>
+        List<PharmacyProduct> getPharmacyStockByActiveIngrediante(int pharamcyId, string activeIngrediante, int pageNumber, int pageSize);
 
         /// <summary>
         /// Retrieves a specific pharmacy product with detailed related entity information.
