@@ -23,7 +23,7 @@ namespace PharmaLink_API.Repository.Interfaces
         /// <param name="pageNumber">Page number for pagination (0 or negative returns all records)</param>
         /// <param name="pageSize">Number of items per page (0 or negative returns all records)</param>
         /// <returns>An enumerable collection of PharmacyProduct entities with Drug and Pharmacy navigation properties loaded</returns>
-        IEnumerable<PharmacyProduct> GetPharmacyStockByPharmacyID(int pharmacyId, int pageNumber, int pageSize , out int totalSize);
+        IEnumerable<PharmacyProduct> GetPharmacyStockByPharmacyID(int pharmacyId, int pageNumber, int pageSize);
 
         public int getPharmacyStockCount(int pharmacyId);
 

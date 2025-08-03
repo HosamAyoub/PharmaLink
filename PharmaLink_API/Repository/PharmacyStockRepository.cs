@@ -42,7 +42,7 @@ namespace PharmaLink_API.Repository
         /// </remarks>
         /// <exception cref="InvalidOperationException">Thrown when database operation fails</exception>
         /// ////////////////////////////////////Add Input Reference to the total size of the pharmacy stock
-        public IEnumerable<PharmacyProduct> GetPharmacyStockByPharmacyID(int pharmacyId, int pageNumber, int pageSize , out int totalSize)
+        public IEnumerable<PharmacyProduct> GetPharmacyStockByPharmacyID(int pharmacyId, int pageNumber, int pageSize)
         {
             try
             {
@@ -54,7 +54,7 @@ namespace PharmaLink_API.Repository
                     .Include(ps => ps.Drug)
                     .Include(ps => ps.Pharmacy);
 
-                totalSize = pharmacyStock.Count();
+                //totalSize = pharmacyStock.Count();
 
 
                 if (pageNumber > 0 && pageSize > 0)

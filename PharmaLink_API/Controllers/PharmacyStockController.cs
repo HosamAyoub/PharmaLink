@@ -32,7 +32,7 @@ namespace PharmaLink_API.Controllers
 
                 int totalSize = 0;
 
-                var result = _pharmacyStockService.GetPharmacyStockByPharmacyID(pharmacyId, pageNumber, pageSize , out totalSize);
+                var result = _pharmacyStockService.GetPharmacyStockByPharmacyID(pharmacyId, pageNumber, pageSize);
 
                 if (!result.Success)
                 {

@@ -57,7 +57,6 @@ namespace PharmaLink_API.Services
         /// <exception cref="Exception">Thrown for unexpected errors</exception>
         public ServiceResult<PharmacyStockDTO_WithPagination> GetPharmacyStockByPharmacyID(int pharmacyId, int pageNumber, int pageSize)
         {
-            totalSize = 0;
             try
             {
                 _logger.LogInformation("Getting pharmacy stock for pharmacyId {PharmacyId}",
