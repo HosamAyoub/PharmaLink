@@ -85,14 +85,14 @@ namespace PharmaLink_API.Controllers
             }
 
         }
-        [HttpGet("category/{category}")]
-        public IActionResult GetPharmacyStockByCategory(int pharamcyId, string category, int pageNumber = 1, int pageSize = 10)
+        [HttpGet("{category}")]
+        public IActionResult GetPharmacyStockByCategory(int pharmacyId, string category, int pageNumber = 1, int pageSize = 10)
         {
             try
             {
                 _logger.LogInformation("GetPharmacyStockByCategory endpoint called with category: {Category},pharmacyID , pageNumber: {PageNumber}, pageSize: {PageSize}",
                     category, pageNumber, pageSize);
-                var result = _pharmacyStockService.GetPharmacyStockByCategory(pharamcyId, category, pageNumber, pageSize);
+                var result = _pharmacyStockService.GetPharmacyStockByCategory(pharmacyId, category, pageNumber, pageSize);
                 if (!result.Success)
                 {
                     return HandleServiceError(result);

@@ -69,6 +69,16 @@ namespace PharmaLink_API.Repository
             }
         }
 
+        public int getPharmacyStockCount(int pharmacyId)
+        {
+            return db.PharmacyStock.Where(ps=>pharmacyId==ps.PharmacyId).Count();
+        }
+
+        public int getPharmacyStockCountByCategory(int pharmacyId, string category)
+        {
+            return db.PharmacyStock.Include(ph=>ph.Drug).Where(ps => ps.PharmacyId == pharmacyId && ps.Drug!.Category == category).Count();
+        }
+
         /// <inheritdoc />
         /// <remarks>
         /// Eagerly loads Drug and Pharmacy navigation properties for all pharmacies.

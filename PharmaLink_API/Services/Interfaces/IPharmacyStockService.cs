@@ -18,7 +18,7 @@ namespace PharmaLink_API.Services.Interfaces
         /// <param name="pageNumber">Page number for pagination (must be non-negative)</param>
         /// <param name="pageSize">Number of items per page (must be non-negative, max 100)</param>
         /// <returns>A ServiceResult containing a list of PharmacyProductDetailsDTO objects</returns>
-        ServiceResult<List<PharmacyProductDetailsDTO>> GetPharmacyStockByPharmacyID(int pharmacyId, int pageNumber, int pageSize);
+        ServiceResult<PharmacyStockDTO_WithPagination> GetPharmacyStockByPharmacyID(int pharmacyId, int pageNumber, int pageSize);
 
         /// <summary>
         /// Retrieves all pharmacy stock across all pharmacies with pagination.
@@ -66,7 +66,7 @@ namespace PharmaLink_API.Services.Interfaces
         /// <param name="pageNumber">Page number for pagination (must be non-negative)</param>
         /// <param name="pageSize">Number of items per page (must be non-negative, max 100)</param>
         /// <returns>A ServiceResult containing a list of PharmacyProductDetailsDTO objects filtered by category</returns>
-        ServiceResult<List<PharmacyProductDetailsDTO>> GetPharmacyStockByCategory(int pharmacyID, string category, int pageNumber, int pageSize);
+        ServiceResult<PharmacyStockDTO_WithPagination> GetPharmacyStockByCategory(int pharmacyID, string category, int pageNumber, int pageSize);
 
         /// <summary>
         /// Retrieves detailed information for a specific product in a pharmacy's inventory.

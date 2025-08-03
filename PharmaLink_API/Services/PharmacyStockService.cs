@@ -1,15 +1,16 @@
 using AutoMapper;
 using FluentValidation;
+using Microsoft.Extensions.Logging;
+using PharmaLink_API.Core.Constants;
+using PharmaLink_API.Core.Enums;
+using PharmaLink_API.Core.Extensions;
+using PharmaLink_API.Core.Results;
 using PharmaLink_API.Models;
 using PharmaLink_API.Models.DTO.PharmacyStockDTO;
+using PharmaLink_API.Repository;
 using PharmaLink_API.Repository.Interfaces;
 using PharmaLink_API.Services.Interfaces;
-using PharmaLink_API.Core.Results;
-using PharmaLink_API.Core.Enums;
-using PharmaLink_API.Core.Constants;
-using PharmaLink_API.Core.Extensions;
 using System.Security.Claims;
-using Microsoft.Extensions.Logging;
 
 namespace PharmaLink_API.Services
 {
@@ -54,7 +55,7 @@ namespace PharmaLink_API.Services
         /// <inheritdoc />
         /// <exception cref="InvalidOperationException">Thrown when database operation fails</exception>
         /// <exception cref="Exception">Thrown for unexpected errors</exception>
-        public ServiceResult<List<PharmacyProductDetailsDTO>> GetPharmacyStockByPharmacyID(int pharmacyId, int pageNumber, int pageSize)
+        public ServiceResult<PharmacyStockDTO_WithPagination> GetPharmacyStockByPharmacyID(int pharmacyId, int pageNumber, int pageSize)
         {
             try
             {
@@ -62,31 +63,33 @@ namespace PharmaLink_API.Services
                      pharmacyId);
 
                 // Input validation
-                if(pharmacyId <= 0)
+                if (pharmacyId <= 0)
                 {
-                    return ServiceResult<List<PharmacyProductDetailsDTO>>.ErrorResult("Pharmacy ID must be a positive number.", ErrorType.Validation);
+                    return ServiceResult<PharmacyStockDTO_WithPagination>.ErrorResult("Pharmacy ID must be a positive number.", ErrorType.Validation);
                 }
 
                 if (pageNumber < 0 || pageSize < 0)
                 {
-                    return ServiceResult<List<PharmacyProductDetailsDTO>>.ErrorResult(
+                    return ServiceResult<PharmacyStockDTO_WithPagination>.ErrorResult(
                         "Page number and page size must be non-negative.",
                         ErrorType.Validation);
                 }
 
                 if (pageSize > 100)
                 {
-                    return ServiceResult<List<PharmacyProductDetailsDTO>>.ErrorResult(
+                    return ServiceResult<PharmacyStockDTO_WithPagination>.ErrorResult(
                         "Page size cannot exceed 100.",
                         ErrorType.Validation);
                 }
 
-                var pharmacyStock = _pharmacyStockRepository.GetPharmacyStockByPharmacyID(pharmacyId, pageNumber, pageSize).ToList();
+                    var pharmacyStockCount = _pharmacyStockRepository.getPharmacyStockCount(pharmacyId);
+
+                    var pharmacyStock = _pharmacyStockRepository.GetPharmacyStockByPharmacyID(pharmacyId, pageNumber, pageSize).ToList();
 
                 if (!pharmacyStock.Any())
                 {
-                    return ServiceResult<List<PharmacyProductDetailsDTO>>.ErrorResult(
-                        "No pharmacy stock found for the given pharmacy ID.",
+                    return ServiceResult<PharmacyStockDTO_WithPagination>.ErrorResult(
+                        "No pharmacy stock found for this pharmacy.",
                         ErrorType.NotFound);
                 }
 
@@ -102,20 +105,29 @@ namespace PharmaLink_API.Services
                     QuantityAvailable = stock.QuantityAvailable
                 }).ToList();
 
+                var pharmacyStockPagination = new PharmacyStockDTO_WithPagination()
+                {
+                    PageNumber = pageNumber,
+                    PageSize = pageSize,
+                    TotalItems = pharmacyStockCount,
+                    Items = pharmacyStockDetailsDTOs
+
+                };
+
                 _logger.LogInformation("Successfully retrieved {Count} pharmacy stock items", pharmacyStockDetailsDTOs.Count);
-                return ServiceResult<List<PharmacyProductDetailsDTO>>.SuccessResult(pharmacyStockDetailsDTOs);
+                return ServiceResult<PharmacyStockDTO_WithPagination>.SuccessResult(pharmacyStockPagination);
             }
             catch (InvalidOperationException ex)
             {
                 _logger.LogError(ex, "Invalid operation while getting pharmacy stock");
-                return ServiceResult<List<PharmacyProductDetailsDTO>>.ErrorResult(
+                return ServiceResult<PharmacyStockDTO_WithPagination>.ErrorResult(
                     "Failed to retrieve pharmacy stock.",
                     ErrorType.Database);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Unexpected error while getting pharmacy stock");
-                return ServiceResult<List<PharmacyProductDetailsDTO>>.ErrorResult(
+                return ServiceResult<PharmacyStockDTO_WithPagination>.ErrorResult(
                     "An unexpected error occurred while retrieving pharmacy stock.",
                     ErrorType.Internal);
             }
@@ -124,7 +136,7 @@ namespace PharmaLink_API.Services
         /// <inheritdoc />
         /// <exception cref="InvalidOperationException">Thrown when database operation fails</exception>
         /// <exception cref="Exception">Thrown for unexpected errors</exception>
-        public ServiceResult<List<PharmacyProductDetailsDTO>> GetPharmacyStock(int pageNumber , int pageSize)
+        public ServiceResult<List<PharmacyProductDetailsDTO>> GetPharmacyStock(int pageNumber, int pageSize)
         {
             try
             {
@@ -364,7 +376,7 @@ namespace PharmaLink_API.Services
         /// <inheritdoc />
         /// <exception cref="InvalidOperationException">Thrown when database operation fails</exception>
         /// <exception cref="Exception">Thrown for unexpected errors</exception>
-        public ServiceResult<List<PharmacyProductDetailsDTO>> GetPharmacyStockByCategory(int pharmacyId, string category, int pageNumber, int pageSize)
+        public ServiceResult<PharmacyStockDTO_WithPagination> GetPharmacyStockByCategory(int pharmacyId, string category, int pageNumber, int pageSize)
         {
             try
             {
@@ -372,26 +384,28 @@ namespace PharmaLink_API.Services
                 // Input validation
                 if (string.IsNullOrWhiteSpace(category))
                 {
-                    return ServiceResult<List<PharmacyProductDetailsDTO>>.ErrorResult("Category cannot be null or empty.", ErrorType.Validation);
+                    return ServiceResult<PharmacyStockDTO_WithPagination>.ErrorResult("Category cannot be null or empty.", ErrorType.Validation);
                 }
                 if (pageNumber < 0 || pageSize < 0)
                 {
-                    return ServiceResult<List<PharmacyProductDetailsDTO>>.ErrorResult(
+                    return ServiceResult<PharmacyStockDTO_WithPagination>.ErrorResult(
                         "Page number and page size must be non-negative.",
                         ErrorType.Validation);
                 }
                 if (pageSize > 100)
                 {
-                    return ServiceResult<List<PharmacyProductDetailsDTO>>.ErrorResult(
+                    return ServiceResult<PharmacyStockDTO_WithPagination>.ErrorResult(
                         "Page size cannot exceed 100.",
                         ErrorType.Validation);
                 }
 
+                var pharmacyStockCount = _pharmacyStockRepository.getPharmacyStockCountByCategory(pharmacyId, category);
+
                 var pharmacyStock = _pharmacyStockRepository.getPharmacyStockByCategory(pharmacyId, category, pageNumber, pageSize).ToList();
                 if (!pharmacyStock.Any())
                 {
-                    return ServiceResult<List<PharmacyProductDetailsDTO>>.ErrorResult(
-                        $"No products found in category '{category}' for the given pharmacy ID.",
+                    return ServiceResult<PharmacyStockDTO_WithPagination>.ErrorResult(
+                        $"No products found in category '{category}' for this pharmacy.",
                         ErrorType.NotFound);
                 }
                 var pharmacyStockDetailsDTOs = pharmacyStock.Select(stock => new PharmacyProductDetailsDTO
@@ -408,19 +422,28 @@ namespace PharmaLink_API.Services
                 _logger.LogInformation("Successfully retrieved {Count} products in category {Category}",
                     pharmacyStockDetailsDTOs.Count, category);
 
-                return ServiceResult<List<PharmacyProductDetailsDTO>>.SuccessResult(pharmacyStockDetailsDTOs);
+                var pharmacyStockPagination = new PharmacyStockDTO_WithPagination() 
+                {
+                    PageNumber = pageNumber,
+                    PageSize = pageSize,
+                    TotalItems = pharmacyStockCount,
+                    Items = pharmacyStockDetailsDTOs
+                };
+
+
+                return ServiceResult<PharmacyStockDTO_WithPagination>.SuccessResult(pharmacyStockPagination);
             }
             catch (InvalidOperationException ex)
             {
                 _logger.LogError(ex, "Invalid operation while getting pharmacy stock by category");
-                return ServiceResult<List<PharmacyProductDetailsDTO>>.ErrorResult(
+                return ServiceResult<PharmacyStockDTO_WithPagination>.ErrorResult(
                     "Failed to retrieve pharmacy stock by category.",
                     ErrorType.Database);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Unexpected error while getting pharmacy stock by category");
-                return ServiceResult<List<PharmacyProductDetailsDTO>>.ErrorResult(
+                return ServiceResult<PharmacyStockDTO_WithPagination>.ErrorResult(
                     "An unexpected error occurred while retrieving pharmacy stock by category.",
                     ErrorType.Internal);
             }
@@ -767,12 +790,12 @@ namespace PharmaLink_API.Services
             try
             {
                 _logger.LogInformation("Getting pharmacies that have drug with ID {DrugId}", drugId);
-                
+
                 if (drugId <= 0)
                 {
                     return ServiceResult<List<PharmacyDTO>>.ErrorResult("Drug ID must be a positive number.", ErrorType.Validation);
                 }
-                
+
                 var pharmacies = _pharmacyStockRepository.getPharmaciesThatHaveDrug(drugId);
                 if (pharmacies == null || !pharmacies.Any())
                 {
@@ -780,7 +803,7 @@ namespace PharmaLink_API.Services
                         $"No pharmacies found for Drug ID {drugId}.",
                         ErrorType.NotFound);
                 }
-                
+
                 var pharmaciesDTOS = _mapper.Map<List<PharmacyDTO>>(pharmacies);
 
                 _logger.LogInformation("Successfully retrieved {Count} pharmacies for Drug ID {DrugId}", pharmaciesDTOS.Count, drugId);

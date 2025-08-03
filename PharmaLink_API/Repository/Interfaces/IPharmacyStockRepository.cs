@@ -25,6 +25,10 @@ namespace PharmaLink_API.Repository.Interfaces
         /// <returns>An enumerable collection of PharmacyProduct entities with Drug and Pharmacy navigation properties loaded</returns>
         IEnumerable<PharmacyProduct> GetPharmacyStockByPharmacyID(int pharmacyId, int pageNumber, int pageSize);
 
+        public int getPharmacyStockCount(int pharmacyId);
+
+        public int getPharmacyStockCountByCategory(int pharmacyId, string category);
+
         /// <summary>
         /// Retrieves all pharmacy stock across all pharmacies with pagination and related entity data.
         /// </summary>
