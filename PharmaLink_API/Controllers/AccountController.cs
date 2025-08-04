@@ -76,5 +76,28 @@ namespace PharmaLink_API.Controllers
             return Unauthorized(new { Message = "Invalid email or password." });
         }
 
+        /// <summary>
+        /// Verifies a JWT token.
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        [HttpPost("VerifyToken")]
+        public async Task<IActionResult> VerifyToken([FromBody] string token)
+        {
+            // Validate the incoming token
+            if (string.IsNullOrEmpty(token))
+            {
+                return BadRequest(new { Message = "Token is required." });
+            }
+            // Call the service to verify the token
+            var result = await _accountService.VerifyTokenAsync(token);
+            // If verification is successful, return the result
+            if (result is not null)
+            {
+                return Ok(result);
+            }
+            // Otherwise, return unauthorized
+            return Unauthorized(new { Message = "Invalid or expired token." });
+        }
     }
 }
