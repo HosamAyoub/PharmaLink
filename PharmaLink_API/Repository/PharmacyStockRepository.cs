@@ -71,7 +71,7 @@ namespace PharmaLink_API.Repository
         /// </remarks>
         /// <exception cref="InvalidOperationException">Thrown when database operation fails</exception>
         /// ////////////////////////////////////Add Input Reference to the total size of the pharmacy stock
-        public IEnumerable<PharmacyProduct> GetPharmacyStockByPharmacyID(int pharmacyId, int pageNumber, int pageSize , out int totalSize)
+        public IEnumerable<PharmacyProduct> GetPharmacyStockByPharmacyID(int pharmacyId, int pageNumber, int pageSize)
         {
             try
             {
@@ -83,7 +83,7 @@ namespace PharmaLink_API.Repository
                     .Include(ps => ps.Drug)
                     .Include(ps => ps.Pharmacy);
 
-                totalSize = pharmacyStock.Count();
+                //totalSize = pharmacyStock.Count();
 
 
                 if (pageNumber > 0 && pageSize > 0)
@@ -100,6 +100,16 @@ namespace PharmaLink_API.Repository
                 _logger.LogError(ex, "Error occurred while getting pharmacy stock for pharmacy {PharmacyId}", pharmacyId);
                 throw new InvalidOperationException($"Failed to retrieve pharmacy stock for pharmacy {pharmacyId}.", ex);
             }
+        }
+
+        public int getPharmacyStockCount(int pharmacyId)
+        {
+            return db.PharmacyStock.Where(ps=>pharmacyId==ps.PharmacyId).Count();
+        }
+
+        public int getPharmacyStockCountByCategory(int pharmacyId, string category)
+        {
+            return db.PharmacyStock.Include(ph=>ph.Drug).Where(ps => ps.PharmacyId == pharmacyId && ps.Drug!.Category == category).Count();
         }
 
         /// <inheritdoc />

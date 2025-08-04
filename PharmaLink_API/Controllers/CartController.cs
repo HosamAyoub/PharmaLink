@@ -1,101 +1,48 @@
-using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using PharmaLink_API.Models;
 using PharmaLink_API.Models.DTO.CartDTO;
-using PharmaLink_API.Repository.Interfaces;
+using PharmaLink_API.Services.Interfaces;
 using System.Security.Claims;
 
 namespace PharmaLink_API.Controllers
 {
+    [Authorize]
     [Authorize(Roles = "Patient")]
     [Route("api/[controller]")]
     [ApiController]
     public class CartController : ControllerBase
     {
-        private readonly ICartRepository _cartRepository;
-        private readonly IPatientRepository _patientRepository;
-        private readonly IPharmacyStockRepository _pharmacyStockRepository;
-        private readonly IMapper _mapper;
-        public CartController(ICartRepository cartRepository, IPatientRepository patientRepository, IMapper mapper, IPharmacyStockRepository pharmacyStockRepository)
+        private readonly ICartService _cartService;
+        public CartController(ICartService cartService)
         {
-            _cartRepository = cartRepository;
-            _patientRepository = patientRepository;
-            _mapper = mapper;
-            _pharmacyStockRepository = pharmacyStockRepository;
+            _cartService = cartService;
         }
 
+        /// <summary>
+        /// Retrieves a summary of the current patient's cart, including items and order summary.
+        /// </summary>
+        /// <returns>Cart summary DTO if found; otherwise, NotFound or Unauthorized.</returns>
         [HttpGet("summary")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<CartItemSummaryDTO>> GetCartSummary()
         {
             var accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(accountId))
                 return Unauthorized("Invalid user ID in token.");
-            var patient = await _patientRepository.GetAsync(
-                u => u.AccountId == accountId,
-                true,
-                x => x.Account
-            );
 
-            if (patient == null)
-                return NotFound("Patient not found.");
+            var cartSummary = await _cartService.GetCartSummaryAsync(accountId);
+            if (cartSummary == null)
+                return NotFound("Your cart is empty or patient not found.");
 
-            int patientId = patient.PatientId;
-
-            var cartItems = await _cartRepository.GetAllAsync(
-                u => u.PatientId == patientId,
-                x => x.PharmacyProduct!.Drug,
-                x => x.PharmacyProduct!.Pharmacy
-            );
-
-            if (cartItems == null || !cartItems.Any())
-                return NotFound("Your cart is empty.");
-
-            var deliveryFee = 4.99m;
-
-            var cartItemDtos = cartItems.Select(c => new CartItemDetailsDTO
-            {
-                DrugId = c.DrugId,
-                PharmacyId = c.PharmacyId,
-                DrugName = c.PharmacyProduct?.Drug?.CommonName ?? "Unknown Drug",
-                PharmacyName = c.PharmacyProduct?.Pharmacy?.Name ?? "Unknown Pharmacy",
-                ImageUrl = c.PharmacyProduct?.Drug?.Drug_UrlImg ?? "",
-                UnitPrice = c.Price,
-                Quantity = c.Quantity
-            }).ToList();
-
-            var subtotal = cartItemDtos.Sum(x => x.UnitPrice * x.Quantity);
-
-            var orderDto = new OrderSummaryDTO
-            {
-                Name = patient.Name,
-                PhoneNumber = patient.Account.PhoneNumber,
-                Email = patient.Account.Email,
-                Address = patient.Address,
-                Country = patient.Country,
-                Subtotal = subtotal,
-                DeliveryFee = deliveryFee
-            };
-
-            var cartDto = new CartItemSummaryDTO
-            {
-                CartItems = cartItemDtos,
-                OrderSummary = orderDto
-            };
-
-            return Ok(cartDto);
+            return Ok(cartSummary);
         }
 
-
+        /// <summary>
+        /// Adds an item to the current patient's cart.
+        /// </summary>
+        /// <param name="cartItem">DTO containing item details to add.</param>
+        /// <returns>Added cart item and total count, or error response.</returns>
         [HttpPost("AddToCart")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> AddToCart([FromBody] AddToCartDTO cartItem)
         {
             if (cartItem == null || cartItem.PharmacyId == 0)
@@ -105,184 +52,129 @@ namespace PharmaLink_API.Controllers
             if (string.IsNullOrEmpty(accountId))
                 return Unauthorized("Invalid user ID in token.");
 
-            var patient = await _patientRepository.GetAsync(p => p.AccountId == accountId);
-            if (patient == null)
-                return NotFound("Patient not found.");
-
-            int patientId = patient.PatientId;
-
-            var stockExists = await _pharmacyStockRepository.GetAsync(
-                s => s.DrugId == cartItem.DrugId && s.PharmacyId == cartItem.PharmacyId);
-
-            if (stockExists == null)
-                return BadRequest("This drug is not available in the selected pharmacy.");
-
-            decimal stockPrice = stockExists.Price;
-
-            var existingCartItem = await _cartRepository.GetAsync(
-                u => u.PatientId == patientId && u.DrugId == cartItem.DrugId && u.PharmacyId == cartItem.PharmacyId);
-
-            var cartList = await _cartRepository.GetAllAsync(u => u.PatientId == patientId);
-
-            if (cartList.Any())
+            try
             {
-                var pharmacyInCart = cartList.First().PharmacyId;
-                if (pharmacyInCart != cartItem.PharmacyId)
-                {
-                    return BadRequest("You can only add drugs from one pharmacy at a time.");
-                }
+                var result = await _cartService.AddToCartAsync(accountId, cartItem);
+                return Ok(new { cartItem = result.cartItem, totalCount = result.totalCount });
             }
-
-            CartItem finalCartItem;
-            if (existingCartItem == null)
+            catch (ArgumentException ex)
             {
-                var newCartItem = _mapper.Map<CartItem>(cartItem);
-                newCartItem.PatientId = patientId;
-                newCartItem.Price = stockPrice;
-                await _cartRepository.CreateAsync(newCartItem);
-                finalCartItem = newCartItem;
+                return NotFound(ex.Message);
             }
-            else
+            catch (InvalidOperationException ex)
             {
-                _cartRepository.IncrementCount(existingCartItem, cartItem.Quantity);
-                finalCartItem = existingCartItem;
+                return BadRequest(ex.Message);
             }
-
-            await _cartRepository.SaveAsync();
-
-            var responseDTO = _mapper.Map<CartItemResponseDTO>(finalCartItem);
-
-            //var cartList = await _cartRepository.GetAllAsync(u => u.PatientId == patientId);
-            var totalCount = cartList.Count;
-
-            return Ok(new { cartItem = responseDTO, totalCount });
         }
 
+        /// <summary>
+        /// Removes a specific item from the current patient's cart.
+        /// </summary>
+        /// <param name="cartUpdateDTO">DTO specifying which item to remove.</param>
+        /// <returns>Success or error response.</returns>
         [HttpPost("remove")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> RemoveItemFromCart([FromBody] CartUpdateDTO dto)
+        public async Task<IActionResult> RemoveItemFromCart([FromBody] CartUpdateDTO cartUpdateDTO)
         {
             var accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(accountId))
                 return Unauthorized("Invalid user ID in token.");
 
-            var patient = await _patientRepository.GetAsync(p => p.AccountId == accountId);
-            if (patient == null)
-                return NotFound("Patient not found.");
-
-            int patientId = patient.PatientId;
-
-            var cartItem = await _cartRepository.GetAsync(c =>
-                c.PatientId == patientId &&
-                c.DrugId == dto.DrugId &&
-                c.PharmacyId == dto.PharmacyId);
-
-            if (cartItem == null)
-                return NotFound("Item not found in cart.");
-
-            await _cartRepository.RemoveAsync(cartItem);
-            await _cartRepository.SaveAsync();
-
-            return Ok(new { message = "Item removed from cart." });
+            try
+            {
+                await _cartService.RemoveItemFromCartAsync(accountId, cartUpdateDTO);
+                return Ok(new { message = "Item removed from cart." });
+            }
+            catch (ArgumentException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
+        /// <summary>
+        /// Increments the quantity of a specific item in the current patient's cart.
+        /// </summary>
+        /// <param name="cartUpdateDTO">DTO specifying which item to increment.</param>
+        /// <returns>Updated cart item or error response.</returns>
         [HttpPost("plus")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<CartItem>> IncrementCartItem([FromBody] CartUpdateDTO cartUpdateDTO)
         {
             var accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(accountId))
                 return Unauthorized("Invalid user ID in token.");
 
-            var patient = await _patientRepository.GetAsync(p => p.AccountId == accountId);
-            if (patient == null)
-                return NotFound("Patient not found.");
-
-            int patientId = patient.PatientId;
-
-
-            if (cartUpdateDTO == null ||  cartUpdateDTO.DrugId <= 0 || cartUpdateDTO.PharmacyId <= 0)
+            try
             {
-                return BadRequest("Invalid cart update request");
+                var result = await _cartService.IncrementCartItemAsync(accountId, cartUpdateDTO);
+                return Ok(result);
             }
-            var drugId = cartUpdateDTO.DrugId;
-            var pharmacyId = cartUpdateDTO.PharmacyId;
-
-            var cartItem = await _cartRepository.GetAsync(u => u.PatientId == patientId && u.DrugId == drugId && u.PharmacyId == pharmacyId);
-            if (cartItem == null)
+            catch (ArgumentException ex)
             {
-                return NotFound("Cart item not found");
+                return BadRequest(ex.Message);
             }
-            _cartRepository.IncrementCount(cartItem, 1);
-            await _cartRepository.SaveAsync();
-            return Ok(_mapper.Map<CartItemResponseDTO>(cartItem));
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
+        /// <summary>
+        /// Decrements the quantity of a specific item in the current patient's cart.
+        /// </summary>
+        /// <param name="cartUpdateDTO">DTO specifying which item to decrement.</param>
+        /// <returns>Updated cart item, or message if item removed, or error response.</returns>
         [HttpPost("minus")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<CartItem>> DecrementCartItem([FromBody] CartUpdateDTO cartUpdateDTO)
         {
             var accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(accountId))
                 return Unauthorized("Invalid user ID in token.");
 
-            var patient = await _patientRepository.GetAsync(p => p.AccountId == accountId);
-            if (patient == null)
-                return NotFound("Patient not found.");
+            try
+            {
+                var result = await _cartService.DecrementCartItemAsync(accountId, cartUpdateDTO);
+                if (result == null)
+                    return Ok(new { message = "Item removed from cart" });
 
-            int patientId = patient.PatientId;
-
-            if (cartUpdateDTO == null || cartUpdateDTO.DrugId <= 0 || cartUpdateDTO.PharmacyId <= 0)
-            {
-                return BadRequest("Invalid cart update request");
+                return Ok(result);
             }
-            var cartItem = await _cartRepository.GetAsync(u => u.PatientId == patientId && u.DrugId == cartUpdateDTO.DrugId && u.PharmacyId == cartUpdateDTO.PharmacyId);
-            if (cartItem == null)
+            catch (ArgumentException ex)
             {
-                return NotFound("Cart item not found");
+                return BadRequest(ex.Message);
             }
-            if (cartItem.Quantity <= 1)
+            catch (KeyNotFoundException ex)
             {
-                await _cartRepository.RemoveAsync(cartItem);
-                await _cartRepository.SaveAsync();
-                return Ok(new { message = "Item removed from cart" });
+                return NotFound(ex.Message);
             }
-            _cartRepository.DecrementCount(cartItem, 1);
-            await _cartRepository.SaveAsync();
-            return Ok(_mapper.Map<CartItemResponseDTO>(cartItem));
         }
 
+        /// <summary>
+        /// Clears all items from the current patient's cart.
+        /// </summary>
+        /// <returns>Success or error response.</returns>
         [HttpPost("clear")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> ClearCart()
         {
             var accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(accountId))
                 return Unauthorized("Invalid user ID in token.");
 
-            var patient = await _patientRepository.GetAsync(p => p.AccountId == accountId);
-            if (patient == null)
-                return NotFound("Patient not found.");
-
-            int patientId = patient.PatientId;
-
-            var cartItems = await _cartRepository.GetAllAsync(c => c.PatientId == patientId);
-            if (cartItems == null || !cartItems.Any())
-                return NotFound("Your cart is already empty.");
-
-            await _cartRepository.RemoveRangeAsync(cartItems);
-            await _cartRepository.SaveAsync();
-
-            return Ok(new { message = "Cart has been cleared successfully." });
+            try
+            {
+                await _cartService.ClearCartAsync(accountId);
+                return Ok(new { message = "Cart has been cleared successfully." });
+            }
+            catch (ArgumentException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
-
     }
 }

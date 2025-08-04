@@ -153,10 +153,10 @@ namespace PharmaLink_API.Controllers
         [HttpGet("Category")]
         public async Task<List<FavoriteDrugDTO>> GetByCategory(string Cname)
         {
-            var Result = await DrugRepo.GetAllAsync(D => D.Category.ToLower().StartsWith(Cname.ToLower()),F => F.PatientFavorites);
+            var Result = await DrugRepo.GetAllAsync(D => D.Category.ToLower().StartsWith(Cname.ToLower()), F => F.PatientFavorites);
             return Result.Select(D => new FavoriteDrugDTO
             {
-                DrugId=D.DrugID,
+                DrugId = D.DrugID,
                 Name = D.CommonName,
                 Description = D.Description,
                 ImageUrl = D.Drug_UrlImg,
@@ -226,7 +226,7 @@ namespace PharmaLink_API.Controllers
         [HttpPost]
         public async Task Post([FromBody] DrugDetailsDTO NewDrugDTO)
         {
-            await DrugRepo.CreateAsync(_mapper.Map<Drug>(NewDrugDTO));
+            await DrugRepo.CreateAndSaveAsync(_mapper.Map<Drug>(NewDrugDTO));
         }
 
         /// <summary>

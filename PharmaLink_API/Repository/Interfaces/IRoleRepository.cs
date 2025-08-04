@@ -2,6 +2,9 @@ using Microsoft.AspNetCore.Identity;
 
 namespace PharmaLink_API.Repository.Interfaces
 {
+    /// <summary>
+    /// Interface for role-specific repository operations.
+    /// </summary>
     public interface IRoleRepository
     {
         /// <summary>

@@ -1,21 +1,32 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.Storage;
 using PharmaLink_API.Models;
 using PharmaLink_API.Models.DTO.RegisterAccountDTO;
 
 namespace PharmaLink_API.Repository.Interfaces
 {
-    public interface IAccountRepository
+    /// <summary>
+    /// Interface for account-specific repository operations.
+    /// </summary>
+    public interface IAccountRepository : IRepository<Account>
     {
-        Task<IdentityResult> RegisterAsync(RegisterAccountDTO user);
-        Task<IResult> LoginAsync(string email, string password);
-        //Task<Account> GetPatientByEmailAsync(string email);
-        //Task<Account> GetPatientByUsernameAsync(string username);
-        //Task<List<Account>> GetUserByDisplayNameAsync(string displayName);
-        ////Task<Account> GetUserByIdAsync(string id);
-        //Task<IdentityResult> UpdateUserAsync(Account user);
-        //Task<IdentityResult> DeleteUserAsync(string id);
-        ////Task<IList<string>> GetUserRolesAsync(Account user);
-        ////Task<IdentityResult> AddToRoleAsync(Account user, string roleName);
-        ////Task<IdentityResult> RemoveFromRoleAsync(Account user, string roleName);
+        /// <summary>
+        /// Starts a new database transaction for account operations.
+        /// </summary>
+        /// <returns>IDbContextTransaction object for transaction control.</returns>
+        Task<IDbContextTransaction> StartTransactionAsync();
+
+        /// <summary>
+        /// Commits the current transaction.
+        /// </summary>
+        /// <returns>A task representing the commit operation.</returns>
+        Task EndTransactionAsync();
+
+        // Additional methods specific to account management can be added here
+        // For example, methods for retrieving accounts, updating accounts, etc.
+        // Task<Account> GetAccountByEmailAsync(string email);
+        // Task<IEnumerable<Account>> GetAllAccountsAsync();
+        // Task<IdentityResult> UpdateAccountAsync(Account account);
+        // Task<IdentityResult> DeleteAccountAsync(string email);
     }
 }

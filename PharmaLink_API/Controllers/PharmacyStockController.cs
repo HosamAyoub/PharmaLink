@@ -55,7 +55,7 @@ namespace PharmaLink_API.Controllers
 
                 int totalSize = 0;
 
-                var result = _pharmacyStockService.GetPharmacyStockByPharmacyID(pharmacyId, pageNumber, pageSize , out totalSize);
+                var result = _pharmacyStockService.GetPharmacyStockByPharmacyID(pharmacyId, pageNumber, pageSize);
 
                 if (!result.Success)
                 {
@@ -112,7 +112,7 @@ namespace PharmaLink_API.Controllers
             }
 
         }
-        [HttpGet("category/{category}")]
+        [HttpGet("{category}")]
         public IActionResult GetPharmacyStockByCategory(int pharmacyId, string category, int pageNumber = 1, int pageSize = 10)
         {
             try
