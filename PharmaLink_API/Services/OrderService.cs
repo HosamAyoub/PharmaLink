@@ -119,6 +119,7 @@ namespace PharmaLink_API.Services
             }
 
             order.Status = SD.StatusCancelled;
+            order.StatusLastUpdated = DateTime.Now;
 
             await RestockDrugsAsync(order);
             await _orderHeaderRepository.SaveAsync();
@@ -148,6 +149,7 @@ namespace PharmaLink_API.Services
                 return ServiceResult.ErrorResult("Only pending orders can be out for delivery.", ErrorType.Validation);
 
             order.Status = SD.StatusOutForDelivery;
+            order.StatusLastUpdated = DateTime.Now;
             await _orderHeaderRepository.SaveAsync();
 
             return ServiceResult.SuccessResult();
@@ -183,6 +185,7 @@ namespace PharmaLink_API.Services
             }
 
             order.Status = SD.StatusReviewing;
+            order.StatusLastUpdated = DateTime.Now;
 
             await _orderHeaderRepository.SaveAsync();
 
@@ -210,6 +213,7 @@ namespace PharmaLink_API.Services
                 return ServiceResult.ErrorResult("Only orders reviewed can be updated.", ErrorType.Validation);
 
             order.Status = SD.StatusPending;
+            order.StatusLastUpdated = DateTime.Now;
             await _orderHeaderRepository.SaveAsync();
             return ServiceResult.SuccessResult();
         }
@@ -234,6 +238,7 @@ namespace PharmaLink_API.Services
                 return ServiceResult.ErrorResult("Only orders out for delivery can be updated.", ErrorType.Validation);
 
             order.Status = SD.StatusDelivered;
+            order.StatusLastUpdated = DateTime.Now;
             await _orderHeaderRepository.SaveAsync();
             return ServiceResult.SuccessResult();
         }
@@ -259,6 +264,7 @@ namespace PharmaLink_API.Services
                 return ServiceResult.ErrorResult("Delivred, out for delivery, rejected or canceled orders cannot be rejected.", ErrorType.Validation);
 
             order.Status = SD.StatusRejected;
+            order.StatusLastUpdated = DateTime.Now;
 
             //Handle refund if payment was approved and method was not Cash
             if (order.PaymentStatus == SD.PaymentStatusApproved && order.PaymentMethod != "Cash")
@@ -493,6 +499,7 @@ namespace PharmaLink_API.Services
                 PharmacyId = pharmacyId,
                 PaymentStatus = SD.PaymentStatusPending,
                 Status = SD.StatusUnderReview,
+                StatusLastUpdated = DateTime.Now,
                 PaymentMethod = paymentMethod
             };
 

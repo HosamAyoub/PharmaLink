@@ -5580,11 +5580,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\DELL\\Downloads\\ITI\\Projects\\Final Project\\PharmaLink\\PharmaLink_API\\PharmaLink_API.csproj",
+      "projectUniqueName": "E:\\ITI\\GraduationProject\\PharmaLink_API\\PharmaLink\\PharmaLink\\PharmaLink_API\\PharmaLink_API.csproj",
       "projectName": "PharmaLink_API",
-      "projectPath": "C:\\Users\\DELL\\Downloads\\ITI\\Projects\\Final Project\\PharmaLink\\PharmaLink_API\\PharmaLink_API.csproj",
+      "projectPath": "E:\\ITI\\GraduationProject\\PharmaLink_API\\PharmaLink\\PharmaLink\\PharmaLink_API\\PharmaLink_API.csproj",
       "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\DELL\\Downloads\\ITI\\Projects\\Final Project\\PharmaLink\\PharmaLink_API\\obj\\",
+      "outputPath": "E:\\ITI\\GraduationProject\\PharmaLink_API\\PharmaLink\\PharmaLink\\PharmaLink_API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -5617,7 +5617,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.300"
+      "SdkAnalysisLevel": "9.0.200"
     },
     "frameworks": {
       "net9.0": {
@@ -5693,7 +5693,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.205/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
