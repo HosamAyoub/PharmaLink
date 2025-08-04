@@ -348,6 +348,84 @@ namespace PharmaLink_API.Services
             return ServiceResult<List<PharmacyOrderDTO>>.SuccessResult(result);
         }
 
+        public async Task<ServiceResult<PharmacyAnalysisDTO>> GetPharmacyAnalysisAsync(string accountId)
+        {
+            var pharmacy = await _pharmacyRepository.GetAsync(p => p.AccountId == accountId);
+            if (pharmacy == null)
+                return ServiceResult<PharmacyAnalysisDTO>.ErrorResult("Pharmacy not found", ErrorType.NotFound);
+
+            // Fix for CS1061: Replace the incorrect property access `.Drug` with the correct navigation path to access the `Drug` entity.
+            // The `OrderDetail` class does not have a direct `Drug` property, but it has a `PharmacyProduct` property, which in turn has a `Drug` property.
+
+            var orders = await _orderHeaderRepository.GetAllWithDetailsAsync(
+                filter: o => o.PharmacyId == pharmacy.PharmacyID && o.Status == "Completed",
+                include: query => query
+                    .Include(ph => ph.Patient)
+                    .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.PharmacyProduct) 
+                    .ThenInclude(pp => pp.Drug)           
+            );
+
+            if (orders == null || !orders.Any())
+                return ServiceResult<PharmacyAnalysisDTO>.ErrorResult("No completed orders found for this pharmacy.", ErrorType.NotFound);
+
+            // Calculate overall statistics
+            var totalRevenue = orders.Sum(o => o.TotalPrice);
+            var totalOrders = orders.Count;
+            var uniqueCustomers = orders.Select(o => o.PatientId).Distinct().Count();
+
+            // Calculate monthly statistics
+            var monthlyStats = orders
+                .GroupBy(o => new { o.OrderDate.Year, o.OrderDate.Month })
+                .Select(g => new MonthlyOrderStats
+                {
+                    MonthYear = $"{new DateTime(g.Key.Year, g.Key.Month, 1):MMM yyyy}",
+                    OrderCount = g.Count(),
+                    TotalRevenue = g.Sum(o => o.TotalPrice)
+                })
+                .OrderBy(x => x.MonthYear)
+                .ToList();
+
+            // Calculate top selling products
+            var topProducts = orders
+                .SelectMany(o => o.OrderDetails)
+                .GroupBy(od => od.DrugId)
+                .Select(g => new TopSellingProduct
+                {
+                    DrugId = g.Key,
+                    DrugName = g.Select(od => od.PharmacyProduct?.Drug?.CommonName).FirstOrDefault() ?? "Unknown",
+                    TotalQuantity = g.Sum(od => od.Quantity),
+                    TotalRevenue = g.Sum(od => od.Quantity * od.Price)
+                })
+                .OrderByDescending(x => x.TotalQuantity)
+                .Take(10) 
+                .ToList();
+            var topCustomer = orders
+                .GroupBy(o => o.PatientId)
+                .Select(g => new TopCustomers
+                {
+                    CustomerId = g.Key,
+                    TotalSpent = g.Sum(o => o.TotalPrice),
+                    CustomerName = g.Select(o => o.Patient.Name).FirstOrDefault() ?? "Unknown",
+                    TotalOrders = g.Count()
+                })
+                .OrderByDescending(x => x.TotalSpent)
+                .Take(10)
+                .ToList();
+
+            var result = new PharmacyAnalysisDTO
+            {
+                TotalRevenue = totalRevenue,
+                TotalOrders = totalOrders,
+                TotalUniqueCustomers = uniqueCustomers,
+                MonthlyStats = monthlyStats,
+                TopSellingProducts = topProducts,
+                TopCustomers = topCustomer
+            };
+
+            return ServiceResult<PharmacyAnalysisDTO>.SuccessResult(result);
+        }
+
         // ** Helper Methods **//
 
         /// <summary>
@@ -516,5 +594,6 @@ namespace PharmaLink_API.Services
             };
         }
 
+        
     }
 }

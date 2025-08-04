@@ -1,4 +1,5 @@
 using PharmaLink_API.Models;
+using PharmaLink_API.Models.DTO.PharmacyStockDTO;
 
 namespace PharmaLink_API.Repository.Interfaces
 {
@@ -16,6 +17,15 @@ namespace PharmaLink_API.Repository.Interfaces
     /// </remarks>
     public interface IPharmacyStockRepository : IRepository<PharmacyProduct>
     {
+
+        /// <summary>
+        /// Retrieves pharmacy stock for a specific pharmacy and related entity data.
+        /// </summary>
+        /// <param name="pharmacyId">The ID of the pharmacy to retrieve stock for</param>
+        /// <returns>An enumerable collection of PharmacyProduct entities with Drug and Pharmacy navigation properties loaded</returns>
+        IEnumerable<PharmacyProduct> GetAllPharmacyStockByPharmacyID(int pharmacyId);
+
+
         /// <summary>
         /// Retrieves pharmacy stock for a specific pharmacy with pagination and related entity data.
         /// </summary>
@@ -23,7 +33,7 @@ namespace PharmaLink_API.Repository.Interfaces
         /// <param name="pageNumber">Page number for pagination (0 or negative returns all records)</param>
         /// <param name="pageSize">Number of items per page (0 or negative returns all records)</param>
         /// <returns>An enumerable collection of PharmacyProduct entities with Drug and Pharmacy navigation properties loaded</returns>
-        IEnumerable<PharmacyProduct> GetPharmacyStockByPharmacyID(int pharmacyId, int pageNumber, int pageSize , out int totalSize);
+        IEnumerable<PharmacyProduct> GetPharmacyStockByPharmacyID(int pharmacyId, int pageNumber, int pageSize);
 
         public int getPharmacyStockCount(int pharmacyId);
 

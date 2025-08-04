@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using PharmaLink_API.Data;
 using PharmaLink_API.Models;
 using PharmaLink_API.Repository.Interfaces;
+using System.Linq.Expressions;
 
 namespace PharmaLink_API.Repository
 {
@@ -22,6 +23,24 @@ namespace PharmaLink_API.Repository
                 order.PaymentIntentId = paymentIntentId;
                 _db.SaveChanges(); 
             }
+        }
+        public async Task<List<Order>> GetAllWithDetailsAsync(
+        Expression<Func<Order, bool>> filter = null,
+        Func<IQueryable<Order>, IQueryable<Order>> include = null)
+        {
+            IQueryable<Order> query = _db.Orders;
+
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            if (include != null)
+            {
+                query = include(query);
+            }
+
+            return await query.ToListAsync();
         }
     }
 }

@@ -357,5 +357,27 @@ namespace PharmaLink_API.Controllers
             return Ok(result); // Assuming result is already wrapped in ServiceResult<List<PharmacyOrderDTO>>
         }
 
+        [Authorize(Roles = "Pharmacy")]
+        [HttpGet("analysis")]
+        public async Task<IActionResult> GetPharmacyAnalysis()
+        {
+            var accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(accountId))
+                return Forbid("AccountId missing.");
+
+            var result = await _orderService.GetPharmacyAnalysisAsync(accountId);
+
+            if (!result.Success)
+            {
+                return result.ErrorType switch
+                {
+                    ErrorType.NotFound => NotFound(result.ErrorMessage),
+                    _ => StatusCode(500, result.ErrorMessage)
+                };
+            }
+
+            return Ok(result.Data);
+        }
+
     }
 }
