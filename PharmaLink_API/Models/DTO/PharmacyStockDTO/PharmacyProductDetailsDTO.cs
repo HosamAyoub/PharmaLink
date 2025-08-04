@@ -4,6 +4,8 @@
     {
         public int DrugId { get; set; }
         public string? DrugName { get; set; }
+        public string? DrugCategory { get; set; }
+        public string? DrugActiveIngredient { get; set; }
         public string? DrugDescription { get; set; }
         public string? DrugImageUrl { get; set; }
         public int PharmacyId { get; set; }
