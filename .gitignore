@@ -8,6 +8,10 @@ Migrations/
 bin/
 obj/
 
+/PharmaLink_API/bin/
+/PharmaLink_API/obj/
+
+
 # Common node modules locations
 /node_modules
 /wwwroot/node_modules

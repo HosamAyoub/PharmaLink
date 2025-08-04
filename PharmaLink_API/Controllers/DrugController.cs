@@ -1,6 +1,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PharmaLink_API.Data;
 using PharmaLink_API.Models;
 using PharmaLink_API.Models.DTO.DrugDto;
@@ -152,10 +153,10 @@ namespace PharmaLink_API.Controllers
         [HttpGet("Category")]
         public async Task<List<FavoriteDrugDTO>> GetByCategory(string Cname)
         {
-            var Result = await DrugRepo.GetAllAsync(D => D.Category.ToLower().StartsWith(Cname.ToLower()),F => F.PatientFavorites);
+            var Result = await DrugRepo.GetAllAsync(D => D.Category.ToLower().StartsWith(Cname.ToLower()), F => F.PatientFavorites);
             return Result.Select(D => new FavoriteDrugDTO
             {
-                DrugId=D.DrugID,
+                DrugId = D.DrugID,
                 Name = D.CommonName,
                 Description = D.Description,
                 ImageUrl = D.Drug_UrlImg,
@@ -196,14 +197,19 @@ namespace PharmaLink_API.Controllers
         /// GET /api/Drug/q=aspirin
         /// Returns drugs where name, category, or active ingredient starts with "aspirin".
         /// </example>
-        [HttpGet("q={SearchAnything}")]
-        public async Task<List<DrugDetailsDTO>> Search(string SearchAnything)
+        /// 
+
+//        ////SearchList = Add.UnionBy(
+//        await DrugRepo.GetAllAsync(D => EF.Functions.Like(D.CommonName, $"{SearchAnything}%")), 
+//    u => u.DrugID
+//).ToList();
+        [HttpGet("Search")]
+        public async Task<List<DrugDetailsDTO>> Search( [FromQuery]string SearchAnything)
         {
-            List<Drug> SearchList = new List<Drug>();
-            SearchList.AddRange(await DrugRepo.GetAllAsync(D => D.CommonName.ToLower().StartsWith(SearchAnything.ToLower())));
-            SearchList.AddRange(await DrugRepo.GetAllAsync(D => D.Category.ToLower().StartsWith(SearchAnything.ToLower())));
-            SearchList.AddRange(await DrugRepo.GetAllAsync(D => D.ActiveIngredient.ToLower().StartsWith(SearchAnything.ToLower())));
-            return SearchList.Select(D => _mapper.Map<DrugDetailsDTO>(D)).ToList();
+            var Add = await DrugRepo.GetAllAsync(D => EF.Functions.Like(D.CommonName.ToLower(), $"{SearchAnything.ToLower()}%"));
+            var SearchList = Add.UnionBy(await DrugRepo.GetAllAsync(D => EF.Functions.Like(D.Category.ToLower(), $"{SearchAnything.ToLower()}%")), u => u.DrugID)
+                .UnionBy(await DrugRepo.GetAllAsync(D => EF.Functions.Like(D.ActiveIngredient.ToLower(), $"{SearchAnything.ToLower()}%")), u => u.DrugID);
+            return SearchList.Select(D => _mapper.Map<DrugDetailsDTO>(D)).ToList(); 
         }
 
         /// <summary>
@@ -220,7 +226,7 @@ namespace PharmaLink_API.Controllers
         [HttpPost]
         public async Task Post([FromBody] DrugDetailsDTO NewDrugDTO)
         {
-            await DrugRepo.CreateAsync(_mapper.Map<Drug>(NewDrugDTO));
+            await DrugRepo.CreateAndSaveAsync(_mapper.Map<Drug>(NewDrugDTO));
         }
 
         /// <summary>

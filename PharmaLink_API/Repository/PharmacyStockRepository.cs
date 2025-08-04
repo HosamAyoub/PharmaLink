@@ -35,12 +35,42 @@ namespace PharmaLink_API.Repository
             _logger = logger;
         }
 
+
+
+        /// <inheritdoc />
+        /// <remarks>
+        /// Retrieves all pharmacy stock for a specific pharmacy.
+        /// Eagerly loads Drug and Pharmacy navigation properties for each stock item.
+        /// Returns all records without pagination.
+        /// Handles errors and logs operations for traceability.
+        /// </remarks>
+        /// <exception cref="InvalidOperationException">Thrown when database operation fails</exception>
+        public IEnumerable<PharmacyProduct> GetAllPharmacyStockByPharmacyID(int pharmacyId)
+        {
+            try
+            {
+                _logger.LogInformation("Getting all pharmacy stock for pharmacy {PharmacyId}", pharmacyId);
+                return db.PharmacyStock
+                    .Where(ps => ps.PharmacyId == pharmacyId)
+                    .Include(ps => ps.Drug)
+                    .Include(ps => ps.Pharmacy)
+                    .ToList();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while getting all pharmacy stock for pharmacy {PharmacyId}", pharmacyId);
+                throw new InvalidOperationException($"Failed to retrieve pharmacy stock for pharmacy {pharmacyId}.", ex);
+
+            }
+        }
+
         /// <inheritdoc />
         /// <remarks>
         /// Eagerly loads Drug and Pharmacy navigation properties. 
         /// Uses Entity Framework Skip/Take for efficient pagination.
         /// </remarks>
         /// <exception cref="InvalidOperationException">Thrown when database operation fails</exception>
+        /// ////////////////////////////////////Add Input Reference to the total size of the pharmacy stock
         public IEnumerable<PharmacyProduct> GetPharmacyStockByPharmacyID(int pharmacyId, int pageNumber, int pageSize)
         {
             try
@@ -52,6 +82,9 @@ namespace PharmaLink_API.Repository
                     .Where(ps => ps.PharmacyId == pharmacyId)
                     .Include(ps => ps.Drug)
                     .Include(ps => ps.Pharmacy);
+
+                //totalSize = pharmacyStock.Count();
+
 
                 if (pageNumber > 0 && pageSize > 0)
                 {
@@ -67,6 +100,16 @@ namespace PharmaLink_API.Repository
                 _logger.LogError(ex, "Error occurred while getting pharmacy stock for pharmacy {PharmacyId}", pharmacyId);
                 throw new InvalidOperationException($"Failed to retrieve pharmacy stock for pharmacy {pharmacyId}.", ex);
             }
+        }
+
+        public int getPharmacyStockCount(int pharmacyId)
+        {
+            return db.PharmacyStock.Where(ps=>pharmacyId==ps.PharmacyId).Count();
+        }
+
+        public int getPharmacyStockCountByCategory(int pharmacyId, string category)
+        {
+            return db.PharmacyStock.Include(ph=>ph.Drug).Where(ps => ps.PharmacyId == pharmacyId && ps.Drug!.Category == category).Count();
         }
 
         /// <inheritdoc />
@@ -306,7 +349,7 @@ namespace PharmaLink_API.Repository
                 _logger.LogInformation("Getting pharmacy stock by category {Category}, page {PageNumber}, size {PageSize}",
                     category, pageNumber, pageSize);
                 var pharmacyStock = db.PharmacyStock
-                    .Where(ps => ps.Drug!.Category == category && ps.PharmacyId == pharmacyId)
+                    .Where(ps => EF.Functions.Like(ps.Drug!.Category.ToLower(), $"{category.ToLower()}%") && ps.PharmacyId == pharmacyId)
                     .Include(ps => ps.Drug)
                     .Include(ps => ps.Pharmacy);
 
@@ -323,6 +366,77 @@ namespace PharmaLink_API.Repository
             {
                 _logger.LogError(ex, "Error occurred while getting pharmacy stock by category {Category}", category);
                 throw new InvalidOperationException($"Failed to retrieve pharmacy stock for category {category}.", ex);
+            }
+        }
+
+
+        /// <inheritdoc />
+        /// <remarks>
+        /// Filters by drug category using navigation property Drug.Category.
+        /// Eagerly loads Drug and Pharmacy navigation properties.
+        /// Uses Entity Framework Skip/Take for efficient pagination.
+        /// </remarks>
+        /// <exception cref="InvalidOperationException">Thrown when database operation fails</exception>
+        public List<PharmacyProduct> getPharmacyStockByDrugName(int pharmacyId, string drugName, int pageNumber, int pageSize)
+        {
+            try
+            {
+                _logger.LogInformation("Getting pharmacy stock by drug Name {drugName}, page {PageNumber}, size {PageSize}",
+                    drugName, pageNumber, pageSize);
+                var pharmacyStock = db.PharmacyStock
+                    .Where(ps => EF.Functions.Like(ps.Drug!.CommonName.ToLower(), $"{drugName.ToLower()}%") && ps.PharmacyId == pharmacyId)
+                    .Include(ps => ps.Drug)
+                    .Include(ps => ps.Pharmacy);
+
+                if (pageNumber > 0 && pageSize > 0)
+                {
+                    return pharmacyStock.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+                }
+                else
+                {
+                    return pharmacyStock.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while getting pharmacy stock by DrugName {drugName}", drugName);
+                throw new InvalidOperationException($"Failed to retrieve pharmacy stock for DrugName {drugName}.", ex);
+            }
+        }
+
+
+
+        /// <inheritdoc />
+        /// <remarks>
+        /// Filters by drug category using navigation property Drug.Category.
+        /// Eagerly loads Drug and Pharmacy navigation properties.
+        /// Uses Entity Framework Skip/Take for efficient pagination.
+        /// </remarks>
+        /// <exception cref="InvalidOperationException">Thrown when database operation fails</exception>
+        public List<PharmacyProduct> getPharmacyStockByActiveIngrediante(int pharmacyId, string activeIngrediante, int pageNumber, int pageSize)
+        {
+            try
+            {
+                _logger.LogInformation("Getting pharmacy stock by activeIngrediante Name {activeIngrediante}, page {PageNumber}, size {PageSize}",
+                    activeIngrediante, pageNumber, pageSize);
+                var pharmacyStock = db.PharmacyStock
+                    .Where(ps => EF.Functions.Like(ps.Drug!.ActiveIngredient.ToLower() , $"{activeIngrediante.ToLower()}%") && ps.PharmacyId == pharmacyId)
+                    .Include(ps => ps.Drug)
+                    .Include(ps => ps.Pharmacy);
+
+                if (pageNumber > 0 && pageSize > 0)
+                {
+                    return pharmacyStock.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+                }
+                else
+                {
+                    return pharmacyStock.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while getting pharmacy stock by activeIngrediante {activeIngrediante}", activeIngrediante);
+                throw new InvalidOperationException($"Failed to retrieve pharmacy stock for activeIngrediante {activeIngrediante}.", ex);
             }
         }
 

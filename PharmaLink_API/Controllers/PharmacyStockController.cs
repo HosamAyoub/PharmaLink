@@ -1,9 +1,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PharmaLink_API.Core.Enums;
+using PharmaLink_API.Core.Results;
+using PharmaLink_API.Models;
 using PharmaLink_API.Models.DTO.PharmacyStockDTO;
 using PharmaLink_API.Services.Interfaces;
-using PharmaLink_API.Core.Results;
-using PharmaLink_API.Core.Enums;
 
 namespace PharmaLink_API.Controllers
 {
@@ -20,7 +21,30 @@ namespace PharmaLink_API.Controllers
             _logger = logger;
         }
 
-        [HttpGet()]
+        [HttpGet("InventoryStatusByID")]
+        public IActionResult GetPharmacyInventoryStatus(int pharmacyId)
+        {
+
+            _logger.LogInformation("GetPharmacyInventoryStatus endpoint called for pharmacyId: {PharmacyId}", pharmacyId);
+            var result = _pharmacyStockService.GetPharmacyInventoryStatus(pharmacyId);
+
+            if (!result.Success)
+            {
+                return HandleServiceError(result);
+            }
+
+            return Ok(new
+            {
+                success = true,
+                data = result.Data,
+                message = "Pharmacy inventory status retrieved successfully."
+            });
+        }
+
+
+
+
+        [HttpGet("GetBatchOfPharmacyStock")]
 
         public IActionResult GetPharmacyStockByPharmacyId(int pharmacyId, int pageNumber = 1, int pageSize = 10)
         {
@@ -28,6 +52,8 @@ namespace PharmaLink_API.Controllers
             {
                 _logger.LogInformation("GetPharmacyStock endpoint called with pharmacyId: {PharmacyId}, pageNumber: {PageNumber}, pageSize: {PageSize}", 
                     pharmacyId, pageNumber, pageSize);
+
+                int totalSize = 0;
 
                 var result = _pharmacyStockService.GetPharmacyStockByPharmacyID(pharmacyId, pageNumber, pageSize);
 
@@ -40,6 +66,7 @@ namespace PharmaLink_API.Controllers
                 {
                     success = true,
                     data = result.Data,
+                    pharamcystocksize = totalSize,
                     message = "Pharmacy stock retrieved successfully."
                 });
             }
@@ -85,14 +112,14 @@ namespace PharmaLink_API.Controllers
             }
 
         }
-        [HttpGet("category/{category}")]
-        public IActionResult GetPharmacyStockByCategory(int pharamcyId, string category, int pageNumber = 1, int pageSize = 10)
+        [HttpGet("{category}")]
+        public IActionResult GetPharmacyStockByCategory(int pharmacyId, string category, int pageNumber = 1, int pageSize = 10)
         {
             try
             {
                 _logger.LogInformation("GetPharmacyStockByCategory endpoint called with category: {Category},pharmacyID , pageNumber: {PageNumber}, pageSize: {PageSize}",
                     category, pageNumber, pageSize);
-                var result = _pharmacyStockService.GetPharmacyStockByCategory(pharamcyId, category, pageNumber, pageSize);
+                var result = _pharmacyStockService.GetPharmacyStockByCategory(pharmacyId, category, pageNumber, pageSize);
                 if (!result.Success)
                 {
                     return HandleServiceError(result);
@@ -115,6 +142,95 @@ namespace PharmaLink_API.Controllers
                 });
             }
         }
+
+        [HttpGet("DrugName/")]
+        public IActionResult GetPharmacyStockByDrugName(int pharmacyId, string drugName, int pageNumber = 1, int pageSize = 10)
+        {
+            try
+            {
+                _logger.LogInformation("GetPharmacyStockByDrugName endpoint called with Drug Name: {drugName},pharmacyID , pageNumber: {PageNumber}, pageSize: {PageSize}",
+                    drugName, pageNumber, pageSize);
+                var result = _pharmacyStockService.GetPharmacyStockByDrugName(pharmacyId, drugName, pageNumber, pageSize);
+                if (!result.Success)
+                {
+                    return HandleServiceError(result);
+                }
+                return Ok(new
+                {
+                    success = true,
+                    data = result.Data,
+                    message = "Pharmacy stock by Drug Name retrieved successfully."
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unhandled exception in GetPharmacyStockByDrugName endpoint");
+                return StatusCode(500, new
+                {
+                    success = false,
+                    message = "An internal server error occurred.",
+                    details = ex.Message
+                });
+            }
+        }
+
+
+
+        [HttpGet("ActiveIngrediante/")]
+        public IActionResult GetPharmacyStockByActiveIngrediante(int pharmacyId, string activeIngrediante, int pageNumber = 1, int pageSize = 10)
+        {
+            try
+            {
+                _logger.LogInformation("GetPharmacyStockByDrugName endpoint called with Active Ingrediante : {activeIngrediante},pharmacyID , pageNumber: {PageNumber}, pageSize: {PageSize}",
+                    activeIngrediante, pageNumber, pageSize);
+                var result = _pharmacyStockService.GetPharmacyStockByActiveIngrediante(pharmacyId, activeIngrediante , pageNumber, pageSize);
+                if (!result.Success)
+                {
+                    return HandleServiceError(result);
+                }
+                return Ok(new
+                {
+                    success = true,
+                    data = result.Data,
+                    message = "Pharmacy stock by active Ingrediante  retrieved successfully."
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unhandled exception in GetPharmacyStockByActiveIngrediante endpoint");
+                return StatusCode(500, new
+                {
+                    success = false,
+                    message = "An internal server error occurred.",
+                    details = ex.Message
+                });
+            }
+        }
+
+        [HttpGet("SearchFor")]
+        public IActionResult SearchByNameOrCategoryOrActiveingrediante([FromQuery] int pharmacyId,[FromQuery] string q,[FromQuery] int pageNumber = 1,[FromQuery] int pageSize = 10)
+        {
+            var result = _pharmacyStockService.SearchByNameOrCategoryOrActiveingrediante(pharmacyId, q, pageNumber, pageSize);
+            if (!result.Success)
+            {
+                return Ok(new
+                {
+                    success = true,
+                    data = new List<PharmacyProductDetailsDTO> (),
+                    message = "Pharmacy stock retrieved successfully : No Search Result"
+                });
+            }
+            return Ok(new
+            {
+                success = true,
+                data = result.Data,
+                message = "Pharmacy stock Search end point retrieved successfully."
+            });
+        }
+
+
+
+
         [HttpGet("{pharmacyId}/{drugId}")]
         public IActionResult GetPharmacyProductDetails(int pharmacyId, int drugId)
         {
