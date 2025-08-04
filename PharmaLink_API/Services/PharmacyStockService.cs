@@ -52,6 +52,51 @@ namespace PharmaLink_API.Services
             _logger = logger;
         }
 
+
+
+        public ServiceResult<PharmaInventoryDTO> GetPharmacyInventoryStatus(int pharmacyId)
+        {
+            try
+            {
+                _logger.LogInformation("Getting pharmacy inventory status for pharmacyId {PharmacyId}", pharmacyId);
+                // Input validation
+                if (pharmacyId <= 0)
+                {
+                    return ServiceResult<PharmaInventoryDTO>.ErrorResult("Pharmacy ID must be a positive number.", ErrorType.Validation);
+                }
+                var pharmacyStock = _pharmacyStockRepository.GetAllPharmacyStockByPharmacyID(pharmacyId);
+
+                if (pharmacyStock == null)
+                {
+                    return ServiceResult<PharmaInventoryDTO>.ErrorResult(
+                        $"No inventory found for pharmacy ID {pharmacyId}.",
+                        ErrorType.NotFound);
+                }
+
+                return ServiceResult<PharmaInventoryDTO>.SuccessResult( new PharmaInventoryDTO
+                {
+                    InStockCount = pharmacyStock.Count(stock => stock.QuantityAvailable > 0),
+                    OutOfStockCount = pharmacyStock.Count(stock => stock.QuantityAvailable == 0),
+                    TotalCount = pharmacyStock.Count(),
+                    LowStockCount = pharmacyStock.Count(stock => stock.QuantityAvailable > 0 && stock.QuantityAvailable < 12)
+                });
+            }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogError(ex, "Invalid operation while getting pharmacy inventory status");
+                return ServiceResult<PharmaInventoryDTO>.ErrorResult(
+                    "Failed to retrieve pharmacy inventory status.",
+                    ErrorType.Database);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error while getting pharmacy inventory status");
+                return ServiceResult<PharmaInventoryDTO>.ErrorResult(
+                    "An unexpected error occurred while retrieving pharmacy inventory status.",
+                    ErrorType.Internal);
+            }
+        }
+
         /// <inheritdoc />
         /// <exception cref="InvalidOperationException">Thrown when database operation fails</exception>
         /// <exception cref="Exception">Thrown for unexpected errors</exception>
@@ -97,6 +142,8 @@ namespace PharmaLink_API.Services
                 {
                     DrugId = stock.DrugId,
                     DrugName = stock.Drug?.CommonName,
+                    DrugActiveIngredient = stock.Drug?.ActiveIngredient,
+                    DrugCategory = stock.Drug?.Category,
                     DrugDescription = stock.Drug?.Description,
                     DrugImageUrl = stock.Drug?.Drug_UrlImg,
                     PharmacyId = stock.PharmacyId,
@@ -165,6 +212,8 @@ namespace PharmaLink_API.Services
                 {
                     DrugId = stock.DrugId,
                     DrugName = stock.Drug?.CommonName,
+                    DrugActiveIngredient = stock.Drug?.ActiveIngredient,
+                    DrugCategory = stock.Drug?.Category,
                     DrugDescription = stock.Drug?.Description,
                     DrugImageUrl = stock.Drug?.Drug_UrlImg,
                     PharmacyId = stock.PharmacyId,
@@ -412,6 +461,8 @@ namespace PharmaLink_API.Services
                 {
                     DrugId = stock.DrugId,
                     DrugName = stock.Drug?.CommonName,
+                    DrugActiveIngredient = stock.Drug?.ActiveIngredient,
+                    DrugCategory = stock.Drug?.Category,
                     DrugDescription = stock.Drug?.Description,
                     DrugImageUrl = stock.Drug?.Drug_UrlImg,
                     PharmacyId = stock.PharmacyId,
@@ -488,6 +539,8 @@ namespace PharmaLink_API.Services
                 {
                     DrugId = stock.DrugId,
                     DrugName = stock.Drug?.CommonName,
+                    DrugActiveIngredient = stock.Drug?.ActiveIngredient,
+                    DrugCategory = stock.Drug?.Category,
                     DrugDescription = stock.Drug?.Description,
                     DrugImageUrl = stock.Drug?.Drug_UrlImg,
                     PharmacyId = stock.PharmacyId,
@@ -554,6 +607,8 @@ namespace PharmaLink_API.Services
                 {
                     DrugId = stock.DrugId,
                     DrugName = stock.Drug?.CommonName,
+                    DrugActiveIngredient = stock.Drug?.ActiveIngredient,
+                    DrugCategory = stock.Drug?.Category,
                     DrugDescription = stock.Drug?.Description,
                     DrugImageUrl = stock.Drug?.Drug_UrlImg,
                     PharmacyId = stock.PharmacyId,
@@ -618,6 +673,8 @@ namespace PharmaLink_API.Services
                 {
                     DrugId = stock.DrugId,
                     DrugName = stock.Drug?.CommonName,
+                    DrugActiveIngredient = stock.Drug?.ActiveIngredient,
+                    DrugCategory = stock.Drug?.Category,
                     DrugDescription = stock.Drug?.Description,
                     DrugImageUrl = stock.Drug?.Drug_UrlImg,
                     PharmacyId = stock.PharmacyId,
@@ -677,6 +734,8 @@ namespace PharmaLink_API.Services
                 {
                     DrugId = product.DrugId,
                     DrugName = product.Drug?.CommonName,
+                    DrugActiveIngredient = product.Drug?.ActiveIngredient,
+                    DrugCategory = product.Drug?.Category,
                     DrugDescription = product.Drug?.Description,
                     DrugImageUrl = product.Drug?.Drug_UrlImg,
                     PharmacyId = product.PharmacyId,

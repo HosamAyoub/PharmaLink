@@ -365,7 +365,7 @@
   {
     "ContainingType": "PharmaLink_API.Controllers.DrugController",
     "Method": "Search",
-    "RelativePath": "api/Drug/q={SearchAnything}",
+    "RelativePath": "api/Drug/Search",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -373,7 +373,7 @@
       {
         "Name": "SearchAnything",
         "Type": "System.String",
-        "IsRequired": true
+        "IsRequired": false
       }
     ],
     "ReturnTypes": [
@@ -834,32 +834,6 @@
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.PharmacyStockController",
-    "Method": "GetPharmacyStockByPharmacyId",
-    "RelativePath": "api/PharmacyStock",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "pharmacyId",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "pageNumber",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "pageSize",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "PharmaLink_API.Controllers.PharmacyStockController",
     "Method": "AddProductsToPharmacyStock",
     "RelativePath": "api/PharmacyStock",
     "HttpMethod": "POST",
@@ -1076,7 +1050,7 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "pharamcyId",
+        "Name": "pharmacyId",
         "Type": "System.Int32",
         "IsRequired": false
       },
@@ -1128,7 +1102,7 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "pharamcyId",
+        "Name": "pharmacyId",
         "Type": "System.Int32",
         "IsRequired": false
       },
@@ -1152,6 +1126,48 @@
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.PharmacyStockController",
+    "Method": "GetPharmacyStockByPharmacyId",
+    "RelativePath": "api/PharmacyStock/GetBatchOfPharmacyStock",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pharmacyId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageNumber",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.PharmacyStockController",
+    "Method": "GetPharmacyInventoryStatus",
+    "RelativePath": "api/PharmacyStock/InventoryStatusByID",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pharmacyId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.PharmacyStockController",
     "Method": "SearchByNameOrCategoryOrActiveingrediante",
     "RelativePath": "api/PharmacyStock/SearchFor",
     "HttpMethod": "GET",
@@ -1159,7 +1175,7 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "pharamcyId",
+        "Name": "pharmacyId",
         "Type": "System.Int32",
         "IsRequired": false
       },
