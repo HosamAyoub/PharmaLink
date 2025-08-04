@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PharmaLink_API.Repository.Interfaces;
+using PharmaLink_API.Services.Interfaces;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -9,18 +10,22 @@ namespace PharmaLink_API.Controllers
     [ApiController]
     public class PatientController : ControllerBase
     {
-        private readonly IPatientRepository _patientRepository;
-        public PatientController(IPatientRepository patientRepository)
+        private readonly IPatientService _patientService;
+        public PatientController(IPatientService patientService)
         {
-            _patientRepository = patientRepository;
+            _patientService = patientService;
         }
 
         // Correct async GET method
-        [HttpGet]
-        public async Task<IActionResult> Get(string userNmae)
+        [HttpGet("Info")]
+        public async Task<IActionResult> GetPatientInfo(string AccountId)
         {
-            var user = await _patientRepository.GetAllAsync(p => p.Account.UserName == userNmae, p => p.Account);
-            return Ok(user);
+            var patientInfo = await _patientService.GetPatientByUserNameAsync(AccountId);
+            if (patientInfo == null)
+            {
+                return NotFound();
+            }
+            return Ok(patientInfo);
         }
 
         // POST api/<PatientController>
