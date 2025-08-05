@@ -622,22 +622,6 @@
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.PatientController",
-    "Method": "Get",
-    "RelativePath": "api/Patient",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userNmae",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "PharmaLink_API.Controllers.PatientController",
     "Method": "Post",
     "RelativePath": "api/Patient",
     "HttpMethod": "POST",
@@ -706,6 +690,22 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.PatientController",
+    "Method": "GetPatientInfo",
+    "RelativePath": "api/Patient/Info",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "AccountId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.PharmacyController",
