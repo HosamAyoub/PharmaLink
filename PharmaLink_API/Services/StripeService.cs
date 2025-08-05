@@ -186,7 +186,7 @@ namespace PharmaLink_API.Services
                         ProductData = new SessionLineItemPriceDataProductDataOptions
                         {
                             Name = drug.CommonName ?? "Unnamed Drug",
-                            Description = drug.Description ?? "No description"
+                            Description = drug.Category?? "No description"
                         },
                         UnitAmount = (long)(item.Price * 100)
                     },

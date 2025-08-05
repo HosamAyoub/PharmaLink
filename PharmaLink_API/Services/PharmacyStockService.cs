@@ -1,13 +1,11 @@
 using AutoMapper;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
-using Microsoft.Identity.Client;
 using PharmaLink_API.Core.Constants;
 using PharmaLink_API.Core.Enums;
 using PharmaLink_API.Core.Extensions;
 using PharmaLink_API.Core.Results;
 using PharmaLink_API.Models;
-using PharmaLink_API.Models.DTO.OrderDTO;
 using PharmaLink_API.Models.DTO.PharmacyStockDTO;
 using PharmaLink_API.Repository;
 using PharmaLink_API.Repository.Interfaces;
@@ -23,7 +21,6 @@ namespace PharmaLink_API.Services
     public class PharmacyStockService : IPharmacyStockService
     {
         private readonly IPharmacyStockRepository _pharmacyStockRepository;
-        private readonly IPharmacyRepository _pharmacyRepository;
         private readonly IMapper _mapper;
         private readonly IValidator<pharmacyProductDTO> _validator;
         private readonly IValidator<PharmacyStockDTO> _pharmacyStockDTOValidator;
@@ -37,7 +34,6 @@ namespace PharmaLink_API.Services
         /// </summary>
         public PharmacyStockService(
             IPharmacyStockRepository pharmacyStockRepository,
-            IPharmacyRepository pharmacyRepository,
             IMapper mapper,
             IValidator<pharmacyProductDTO> validator,
             IValidator<PharmacyStockDTO> pharmacyStockDTOValidator,
@@ -47,7 +43,6 @@ namespace PharmaLink_API.Services
             ILogger<PharmacyStockService> logger)
         {
             _pharmacyStockRepository = pharmacyStockRepository;
-            _pharmacyRepository = pharmacyRepository;
             _mapper = mapper;
             _validator = validator;
             _pharmacyStockDTOValidator = pharmacyStockDTOValidator;
@@ -59,31 +54,32 @@ namespace PharmaLink_API.Services
 
 
 
-        public async Task<ServiceResult<PharmaInventoryDTO>> GetPharmacyInventoryStatus(string accountId)
+        public ServiceResult<PharmaInventoryDTO> GetPharmacyInventoryStatus(ClaimsPrincipal user, int? pharmacyId)
         {
             try
             {
-                var pharmacy = await _pharmacyRepository.GetAsync(p => p.AccountId == accountId);
-                if (pharmacy == null)
-                    return ServiceResult<PharmaInventoryDTO>.ErrorResult("Pharmacy not found", ErrorType.NotFound);
-
-                _logger.LogInformation("Getting pharmacy inventory status for pharmacyId {PharmacyId}", pharmacy.PharmacyID);
-                
+                _logger.LogInformation("Getting pharmacy inventory status for pharmacyId {PharmacyId}", pharmacyId);
                 // Input validation
-                if (pharmacy.PharmacyID <= 0)
+                if (pharmacyId <= 0)
                 {
                     return ServiceResult<PharmaInventoryDTO>.ErrorResult("Pharmacy ID must be a positive number.", ErrorType.Validation);
                 }
-                var pharmacyStock = _pharmacyStockRepository.GetAllPharmacyStockByPharmacyID(pharmacy.PharmacyID);
+                var pharmacyIdResult = GetPharmacyIdForUser(user, pharmacyId);
+                if (!pharmacyIdResult.Success)
+                    return ServiceResult<PharmaInventoryDTO>.ErrorResult(
+                        pharmacyIdResult.ErrorMessage,
+                        pharmacyIdResult.ErrorType ?? ErrorType.Authorization);
+
+                var pharmacyStock = _pharmacyStockRepository.GetAllPharmacyStockByPharmacyID(pharmacyIdResult.Data);
 
                 if (pharmacyStock == null)
                 {
                     return ServiceResult<PharmaInventoryDTO>.ErrorResult(
-                        $"No inventory found for pharmacy ID {pharmacy.PharmacyID}.",
+                        $"No inventory found for pharmacy ID {pharmacyId}.",
                         ErrorType.NotFound);
                 }
 
-                return ServiceResult<PharmaInventoryDTO>.SuccessResult( new PharmaInventoryDTO
+                return ServiceResult<PharmaInventoryDTO>.SuccessResult(new PharmaInventoryDTO
                 {
                     InStockCount = pharmacyStock.Count(stock => stock.QuantityAvailable > 0),
                     OutOfStockCount = pharmacyStock.Count(stock => stock.QuantityAvailable == 0),
@@ -647,7 +643,7 @@ namespace PharmaLink_API.Services
             }
         }
 
-        public ServiceResult<List<PharmacyProductDetailsDTO>> SearchByNameOrCategoryOrActiveingrediante(int pharmacyID, string q, int pageNumber, int pageSize)
+        public ServiceResult<List<PharmacyProductDetailsDTO>> SearchByNameOrCategoryOrActiveingrediante(ClaimsPrincipal user ,int? pharmacyID, string q, int pageNumber, int pageSize)
         {
             try
             {
@@ -669,9 +665,17 @@ namespace PharmaLink_API.Services
                         "Page size cannot exceed 100.",
                         ErrorType.Validation);
                 }
-                var Add = _pharmacyStockRepository.getPharmacyStockByDrugName(pharmacyID, q, pageNumber, pageSize).ToList();
-                var SearchList = Add.UnionBy(_pharmacyStockRepository.getPharmacyStockByCategory(pharmacyID, q, pageNumber, pageSize), u => u.DrugId)
-                                    .UnionBy(_pharmacyStockRepository.getPharmacyStockByActiveIngrediante(pharmacyID, q, pageNumber, pageSize), u => u.DrugId)
+
+                var pharmacyIdResult = GetPharmacyIdForUser(user, pharmacyID);
+                if (!pharmacyIdResult.Success)
+                    return ServiceResult<List<PharmacyProductDetailsDTO>>.ErrorResult(
+                        pharmacyIdResult.ErrorMessage,
+                        pharmacyIdResult.ErrorType ?? ErrorType.Authorization);
+
+
+                var Add = _pharmacyStockRepository.getPharmacyStockByDrugName(pharmacyIdResult.Data, q, pageNumber, pageSize).ToList();
+                var SearchList = Add.UnionBy(_pharmacyStockRepository.getPharmacyStockByCategory(pharmacyIdResult.Data, q, pageNumber, pageSize), u => u.DrugId)
+                                    .UnionBy(_pharmacyStockRepository.getPharmacyStockByActiveIngrediante(pharmacyIdResult.Data, q, pageNumber, pageSize), u => u.DrugId)
                                     .ToList();
                 if (!SearchList.Any())
                 {

@@ -145,24 +145,24 @@ namespace PharmaLink_API.Data
 
             //// *********Seed tables********* //
 
-            // 1. Drugs
-            SeedDrugs(modelBuilder);
+            //// 1. Drugs
+            //SeedDrugs(modelBuilder);
 
-            // 2. Roles
-            SeedRoles(modelBuilder);
+            //// 2. Roles
+            //SeedRoles(modelBuilder);
 
-            // 3. Pharmacies
-            SeedPharmacies(modelBuilder);
+            //// 3. Pharmacies
+            //SeedPharmacies(modelBuilder);
 
-            // 4. Patients
-            SeedPatients(modelBuilder);
+            //// 4. Patients
+            //SeedPatients(modelBuilder);
 
-            // 5. PharmacyStock
-            SeedPharmacyStocks(modelBuilder);
-            // 6. OrderDetails
-            SeedOrderDetails(modelBuilder);
-            // 7. Orders
-            SeedOrders(modelBuilder);
+            //// 5. PharmacyStock
+            //SeedPharmacyStocks(modelBuilder);
+            //// 6. OrderDetails
+            //SeedOrderDetails(modelBuilder);
+            //// 7. Orders
+            //SeedOrders(modelBuilder);
         }
 
 

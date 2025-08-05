@@ -3,11 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using PharmaLink_API.Core.Enums;
 using PharmaLink_API.Core.Results;
 using PharmaLink_API.Models;
-using PharmaLink_API.Models.DTO.OrderDTO;
 using PharmaLink_API.Models.DTO.PharmacyStockDTO;
-using PharmaLink_API.Repository.Interfaces;
 using PharmaLink_API.Services.Interfaces;
-using System.Security.Claims;
 
 namespace PharmaLink_API.Controllers
 {
@@ -16,33 +13,32 @@ namespace PharmaLink_API.Controllers
     public class PharmacyStockController : ControllerBase
     {
         private readonly IPharmacyStockService _pharmacyStockService;
-        private readonly IPharmacyRepository _pharmacyRepository;
         private readonly ILogger<PharmacyStockController> _logger;
 
-        public PharmacyStockController(IPharmacyStockService pharmacyStockService, ILogger<PharmacyStockController> logger, IPharmacyRepository pharmacyRepository)
+        public PharmacyStockController(IPharmacyStockService pharmacyStockService, ILogger<PharmacyStockController> logger)
         {
             _pharmacyStockService = pharmacyStockService;
-            _pharmacyRepository = pharmacyRepository; // Assuming PharmacyRepository is accessible from the service
             _logger = logger;
         }
 
-        [HttpGet("InventoryStatus")]
-        public async Task<IActionResult> GetPharmacyInventoryStatusAsync()
+        [HttpGet("InventoryStatusByID")]
+        public IActionResult GetPharmacyInventoryStatus(int? pharmacyId)
         {
-            var accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (string.IsNullOrEmpty(accountId))
-                return Forbid("AccountId missing.");
-            
-            _logger.LogInformation("GetPharmacyInventoryStatus endpoint called for AccountId: {AccountId}", accountId);
-            var result = await _pharmacyStockService.GetPharmacyInventoryStatus(accountId);
+
+            _logger.LogInformation("GetPharmacyInventoryStatus endpoint called for pharmacyId: {PharmacyId}", pharmacyId);
+            var result = _pharmacyStockService.GetPharmacyInventoryStatus(User, pharmacyId);
 
             if (!result.Success)
             {
                 return HandleServiceError(result);
             }
 
-            return Ok(result.Data);
-            
+            return Ok(new
+            {
+                success = true,
+                data = result.Data,
+                message = "Pharmacy inventory status retrieved successfully."
+            });
         }
 
 
@@ -212,9 +208,9 @@ namespace PharmaLink_API.Controllers
         }
 
         [HttpGet("SearchFor")]
-        public IActionResult SearchByNameOrCategoryOrActiveingrediante([FromQuery] int pharmacyId,[FromQuery] string q,[FromQuery] int pageNumber = 1,[FromQuery] int pageSize = 10)
+        public IActionResult SearchByNameOrCategoryOrActiveingrediante([FromQuery] int? pharmacyId,[FromQuery] string q,[FromQuery] int pageNumber = 1,[FromQuery] int pageSize = 10)
         {
-            var result = _pharmacyStockService.SearchByNameOrCategoryOrActiveingrediante(pharmacyId, q, pageNumber, pageSize);
+            var result = _pharmacyStockService.SearchByNameOrCategoryOrActiveingrediante(User,pharmacyId, q, pageNumber, pageSize);
             if (!result.Success)
             {
                 return Ok(new
