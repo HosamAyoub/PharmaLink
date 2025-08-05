@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PharmaLink_API.Models.DTO.PatientDTO;
 using PharmaLink_API.Repository.Interfaces;
 using PharmaLink_API.Services.Interfaces;
 
@@ -17,10 +18,10 @@ namespace PharmaLink_API.Controllers
         }
 
         // Correct async GET method
-        [HttpGet("Info")]
-        public async Task<IActionResult> GetPatientInfo(string AccountId)
+        [HttpGet("Profile")]
+        public async Task<IActionResult> GetPatientProfile(string AccountId)
         {
-            var patientInfo = await _patientService.GetPatientByUserNameAsync(AccountId);
+            var patientInfo = await _patientService.GetPatientByIdAsync(AccountId);
             if (patientInfo == null)
             {
                 return NotFound();
@@ -28,22 +29,26 @@ namespace PharmaLink_API.Controllers
             return Ok(patientInfo);
         }
 
-        // POST api/<PatientController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
+        //// POST api/<PatientController>
+        //[HttpPost]
+        //public void Post([FromBody] string value)
+        //{
+        //}
 
         // PUT api/<PatientController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("UpdateProfile/{accountId}")]
+        public async Task<IActionResult> UpdatePatientProfile([FromBody] PatientDTO patient, string accountId)
         {
+            if (patient == null || string.IsNullOrWhiteSpace(accountId))
+                return BadRequest();
+            await _patientService.UpdatePatientAsync(patient, accountId);
+            return NoContent();
         }
 
-        // DELETE api/<PatientController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        //// DELETE api/<PatientController>/5
+        //[HttpDelete("{id}")]
+        //public void Delete(int id)
+        //{
+        //}
     }
 }

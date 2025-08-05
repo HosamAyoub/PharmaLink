@@ -426,8 +426,9 @@ namespace PharmaLink_API.Data
                     DateOfBirth = new DateOnly(1995, 3, 15),
                     Country = "Egypt",
                     Address = "15 Tahrir Square, Downtown Cairo",
-                    PatientDiseases = "Hypertension",
-                    PatientDrugs = "Amlodipine 5mg daily",
+                    MedicalHistory = "Hypertension",
+                    Medications = "Amlodipine 5mg daily",
+                    Allergies = "Latex",
                     AccountId = "44444444-4444-4444-4444-444444444444"
                 },
                 new Patient
@@ -438,8 +439,9 @@ namespace PharmaLink_API.Data
                     DateOfBirth = new DateOnly(1988, 7, 22),
                     Country = "Egypt",
                     Address = "27 Nile Corniche, Alexandria",
-                    PatientDiseases = "Diabetes Type 2",
-                    PatientDrugs = "Metformin 500mg twice daily",
+                    MedicalHistory = "Diabetes Type 2",
+                    Medications = "Metformin 500mg twice daily",
+                    Allergies = "Peanuts",
                     AccountId = "55555555-5555-5555-5555-555555555555"
                 },
                 new Patient
@@ -450,8 +452,9 @@ namespace PharmaLink_API.Data
                     DateOfBirth = new DateOnly(2000, 11, 8),
                     Country = "Egypt",
                     Address = "42 University Street, Giza",
-                    PatientDiseases = "Asthma",
-                    PatientDrugs = "Salbutamol inhaler as needed",
+                    MedicalHistory = "Asthma",
+                    Medications = "Salbutamol inhaler as needed",
+                    Allergies = "Shellfish",
                     AccountId = "66666666-6666-6666-6666-666666666666"
                 }
             );
