@@ -22,11 +22,11 @@ namespace PharmaLink_API.Controllers
         }
 
         [HttpGet("InventoryStatusByID")]
-        public IActionResult GetPharmacyInventoryStatus(int pharmacyId)
+        public IActionResult GetPharmacyInventoryStatus(int? pharmacyId)
         {
 
             _logger.LogInformation("GetPharmacyInventoryStatus endpoint called for pharmacyId: {PharmacyId}", pharmacyId);
-            var result = _pharmacyStockService.GetPharmacyInventoryStatus(pharmacyId);
+            var result = _pharmacyStockService.GetPharmacyInventoryStatus(User, pharmacyId);
 
             if (!result.Success)
             {
@@ -208,9 +208,9 @@ namespace PharmaLink_API.Controllers
         }
 
         [HttpGet("SearchFor")]
-        public IActionResult SearchByNameOrCategoryOrActiveingrediante([FromQuery] int pharmacyId,[FromQuery] string q,[FromQuery] int pageNumber = 1,[FromQuery] int pageSize = 10)
+        public IActionResult SearchByNameOrCategoryOrActiveingrediante([FromQuery] int? pharmacyId,[FromQuery] string q,[FromQuery] int pageNumber = 1,[FromQuery] int pageSize = 10)
         {
-            var result = _pharmacyStockService.SearchByNameOrCategoryOrActiveingrediante(pharmacyId, q, pageNumber, pageSize);
+            var result = _pharmacyStockService.SearchByNameOrCategoryOrActiveingrediante(User,pharmacyId, q, pageNumber, pageSize);
             if (!result.Success)
             {
                 return Ok(new
