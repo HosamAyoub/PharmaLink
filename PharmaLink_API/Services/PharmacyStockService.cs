@@ -54,7 +54,7 @@ namespace PharmaLink_API.Services
 
 
 
-        public ServiceResult<PharmaInventoryDTO> GetPharmacyInventoryStatus(int pharmacyId)
+        public ServiceResult<PharmaInventoryDTO> GetPharmacyInventoryStatus(ClaimsPrincipal user, int? pharmacyId)
         {
             try
             {
@@ -64,7 +64,13 @@ namespace PharmaLink_API.Services
                 {
                     return ServiceResult<PharmaInventoryDTO>.ErrorResult("Pharmacy ID must be a positive number.", ErrorType.Validation);
                 }
-                var pharmacyStock = _pharmacyStockRepository.GetAllPharmacyStockByPharmacyID(pharmacyId);
+                var pharmacyIdResult = GetPharmacyIdForUser(user, pharmacyId);
+                if (!pharmacyIdResult.Success)
+                    return ServiceResult<PharmaInventoryDTO>.ErrorResult(
+                        pharmacyIdResult.ErrorMessage,
+                        pharmacyIdResult.ErrorType ?? ErrorType.Authorization);
+
+                var pharmacyStock = _pharmacyStockRepository.GetAllPharmacyStockByPharmacyID(pharmacyIdResult.Data);
 
                 if (pharmacyStock == null)
                 {
@@ -73,7 +79,7 @@ namespace PharmaLink_API.Services
                         ErrorType.NotFound);
                 }
 
-                return ServiceResult<PharmaInventoryDTO>.SuccessResult( new PharmaInventoryDTO
+                return ServiceResult<PharmaInventoryDTO>.SuccessResult(new PharmaInventoryDTO
                 {
                     InStockCount = pharmacyStock.Count(stock => stock.QuantityAvailable > 0),
                     OutOfStockCount = pharmacyStock.Count(stock => stock.QuantityAvailable == 0),
@@ -637,7 +643,7 @@ namespace PharmaLink_API.Services
             }
         }
 
-        public ServiceResult<List<PharmacyProductDetailsDTO>> SearchByNameOrCategoryOrActiveingrediante(int pharmacyID, string q, int pageNumber, int pageSize)
+        public ServiceResult<List<PharmacyProductDetailsDTO>> SearchByNameOrCategoryOrActiveingrediante(ClaimsPrincipal user ,int? pharmacyID, string q, int pageNumber, int pageSize)
         {
             try
             {
@@ -659,9 +665,17 @@ namespace PharmaLink_API.Services
                         "Page size cannot exceed 100.",
                         ErrorType.Validation);
                 }
-                var Add = _pharmacyStockRepository.getPharmacyStockByDrugName(pharmacyID, q, pageNumber, pageSize).ToList();
-                var SearchList = Add.UnionBy(_pharmacyStockRepository.getPharmacyStockByCategory(pharmacyID, q, pageNumber, pageSize), u => u.DrugId)
-                                    .UnionBy(_pharmacyStockRepository.getPharmacyStockByActiveIngrediante(pharmacyID, q, pageNumber, pageSize), u => u.DrugId)
+
+                var pharmacyIdResult = GetPharmacyIdForUser(user, pharmacyID);
+                if (!pharmacyIdResult.Success)
+                    return ServiceResult<List<PharmacyProductDetailsDTO>>.ErrorResult(
+                        pharmacyIdResult.ErrorMessage,
+                        pharmacyIdResult.ErrorType ?? ErrorType.Authorization);
+
+
+                var Add = _pharmacyStockRepository.getPharmacyStockByDrugName(pharmacyIdResult.Data, q, pageNumber, pageSize).ToList();
+                var SearchList = Add.UnionBy(_pharmacyStockRepository.getPharmacyStockByCategory(pharmacyIdResult.Data, q, pageNumber, pageSize), u => u.DrugId)
+                                    .UnionBy(_pharmacyStockRepository.getPharmacyStockByActiveIngrediante(pharmacyIdResult.Data, q, pageNumber, pageSize), u => u.DrugId)
                                     .ToList();
                 if (!SearchList.Any())
                 {
