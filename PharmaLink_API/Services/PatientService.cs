@@ -16,7 +16,7 @@ namespace PharmaLink_API.Services
             _patientRepository = patientRepository;
             _mapper = mapper;
         }
-        public async Task<PatientDTO> GetPatientByUserNameAsync(string accountId)
+        public async Task<PatientDTO> GetPatientByIdAsync(string accountId)
         {
             var patient = await _patientRepository.GetAsync(p => p.AccountId == accountId);
             var patientDTO = _mapper.Map<PatientDTO>(patient);

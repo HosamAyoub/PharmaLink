@@ -14,7 +14,8 @@ namespace PharmaLink_API.Models.DTO.RegisterAccountDTO
         [Required]
         public string Country { get; set; }
         public string? Address { get; set; }
-        public string? PatientDiseases { get; set; }
-        public string? PatientDrugs { get; set; }
+        public string? MedicalHistory { get; set; }
+        public string? Medications { get; set; }
+        public string? Allergies { get; set; }
     }
 }

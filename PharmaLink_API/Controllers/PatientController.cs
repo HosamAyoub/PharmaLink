@@ -21,7 +21,7 @@ namespace PharmaLink_API.Controllers
         [HttpGet("Profile")]
         public async Task<IActionResult> GetPatientProfile(string AccountId)
         {
-            var patientInfo = await _patientService.GetPatientByUserNameAsync(AccountId);
+            var patientInfo = await _patientService.GetPatientByIdAsync(AccountId);
             if (patientInfo == null)
             {
                 return NotFound();
