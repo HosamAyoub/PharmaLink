@@ -13,7 +13,7 @@ namespace PharmaLink_API.Services.Interfaces
     {
 
 
-        ServiceResult<PharmaInventoryDTO> GetPharmacyInventoryStatus(int pharmacyId);
+        ServiceResult<PharmaInventoryDTO> GetPharmacyInventoryStatus(ClaimsPrincipal user, int? pharmacyId);
         /// <summary>
         /// Retrieves pharmacy stock for a specific pharmacy with pagination.
         /// </summary>
@@ -101,7 +101,7 @@ namespace PharmaLink_API.Services.Interfaces
         /// <param name="pageNumber">Page number for pagination (must be non-negative)</param>
         /// <param name="pageSize">Number of items per page (must be non-negative, max 100)</param>
         /// <returns>A ServiceResult containing a list of PharmacyProductDetailsDTO objects filtered by category</returns>
-        ServiceResult<List<PharmacyProductDetailsDTO>> SearchByNameOrCategoryOrActiveingrediante(int pharmacyID, string q, int pageNumber, int pageSize);
+        ServiceResult<List<PharmacyProductDetailsDTO>> SearchByNameOrCategoryOrActiveingrediante(ClaimsPrincipal user, int? pharmacyID, string q, int pageNumber, int pageSize);
 
 
 

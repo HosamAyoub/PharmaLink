@@ -11,8 +11,9 @@ namespace PharmaLink_API.Models
         public DateOnly DateOfBirth { get; set; }
         public string Country { get; set; }
         public string? Address { get; set; }
-        public string? PatientDiseases { get; set; }
-        public string? PatientDrugs { get; set; }
+        public string? MedicalHistory { get; set; }
+        public string? Medications { get; set; }
+        public string? Allergies { get; set; }
 
         //Patient-Account relationship (one to one)
         public string AccountId { get; set; }
