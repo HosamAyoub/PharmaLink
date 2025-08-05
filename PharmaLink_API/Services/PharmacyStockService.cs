@@ -52,6 +52,57 @@ namespace PharmaLink_API.Services
             _logger = logger;
         }
 
+
+
+        public ServiceResult<PharmaInventoryDTO> GetPharmacyInventoryStatus(ClaimsPrincipal user, int? pharmacyId)
+        {
+            try
+            {
+                _logger.LogInformation("Getting pharmacy inventory status for pharmacyId {PharmacyId}", pharmacyId);
+                // Input validation
+                if (pharmacyId <= 0)
+                {
+                    return ServiceResult<PharmaInventoryDTO>.ErrorResult("Pharmacy ID must be a positive number.", ErrorType.Validation);
+                }
+                var pharmacyIdResult = GetPharmacyIdForUser(user, pharmacyId);
+                if (!pharmacyIdResult.Success)
+                    return ServiceResult<PharmaInventoryDTO>.ErrorResult(
+                        pharmacyIdResult.ErrorMessage,
+                        pharmacyIdResult.ErrorType ?? ErrorType.Authorization);
+
+                var pharmacyStock = _pharmacyStockRepository.GetAllPharmacyStockByPharmacyID(pharmacyIdResult.Data);
+
+                if (pharmacyStock == null)
+                {
+                    return ServiceResult<PharmaInventoryDTO>.ErrorResult(
+                        $"No inventory found for pharmacy ID {pharmacyId}.",
+                        ErrorType.NotFound);
+                }
+
+                return ServiceResult<PharmaInventoryDTO>.SuccessResult(new PharmaInventoryDTO
+                {
+                    InStockCount = pharmacyStock.Count(stock => stock.QuantityAvailable > 0),
+                    OutOfStockCount = pharmacyStock.Count(stock => stock.QuantityAvailable == 0),
+                    TotalCount = pharmacyStock.Count(),
+                    LowStockCount = pharmacyStock.Count(stock => stock.QuantityAvailable > 0 && stock.QuantityAvailable < 12)
+                });
+            }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogError(ex, "Invalid operation while getting pharmacy inventory status");
+                return ServiceResult<PharmaInventoryDTO>.ErrorResult(
+                    "Failed to retrieve pharmacy inventory status.",
+                    ErrorType.Database);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error while getting pharmacy inventory status");
+                return ServiceResult<PharmaInventoryDTO>.ErrorResult(
+                    "An unexpected error occurred while retrieving pharmacy inventory status.",
+                    ErrorType.Internal);
+            }
+        }
+
         /// <inheritdoc />
         /// <exception cref="InvalidOperationException">Thrown when database operation fails</exception>
         /// <exception cref="Exception">Thrown for unexpected errors</exception>
@@ -97,6 +148,8 @@ namespace PharmaLink_API.Services
                 {
                     DrugId = stock.DrugId,
                     DrugName = stock.Drug?.CommonName,
+                    DrugActiveIngredient = stock.Drug?.ActiveIngredient,
+                    DrugCategory = stock.Drug?.Category,
                     DrugDescription = stock.Drug?.Description,
                     DrugImageUrl = stock.Drug?.Drug_UrlImg,
                     PharmacyId = stock.PharmacyId,
@@ -165,6 +218,8 @@ namespace PharmaLink_API.Services
                 {
                     DrugId = stock.DrugId,
                     DrugName = stock.Drug?.CommonName,
+                    DrugActiveIngredient = stock.Drug?.ActiveIngredient,
+                    DrugCategory = stock.Drug?.Category,
                     DrugDescription = stock.Drug?.Description,
                     DrugImageUrl = stock.Drug?.Drug_UrlImg,
                     PharmacyId = stock.PharmacyId,
@@ -412,6 +467,8 @@ namespace PharmaLink_API.Services
                 {
                     DrugId = stock.DrugId,
                     DrugName = stock.Drug?.CommonName,
+                    DrugActiveIngredient = stock.Drug?.ActiveIngredient,
+                    DrugCategory = stock.Drug?.Category,
                     DrugDescription = stock.Drug?.Description,
                     DrugImageUrl = stock.Drug?.Drug_UrlImg,
                     PharmacyId = stock.PharmacyId,
@@ -488,6 +545,8 @@ namespace PharmaLink_API.Services
                 {
                     DrugId = stock.DrugId,
                     DrugName = stock.Drug?.CommonName,
+                    DrugActiveIngredient = stock.Drug?.ActiveIngredient,
+                    DrugCategory = stock.Drug?.Category,
                     DrugDescription = stock.Drug?.Description,
                     DrugImageUrl = stock.Drug?.Drug_UrlImg,
                     PharmacyId = stock.PharmacyId,
@@ -554,6 +613,8 @@ namespace PharmaLink_API.Services
                 {
                     DrugId = stock.DrugId,
                     DrugName = stock.Drug?.CommonName,
+                    DrugActiveIngredient = stock.Drug?.ActiveIngredient,
+                    DrugCategory = stock.Drug?.Category,
                     DrugDescription = stock.Drug?.Description,
                     DrugImageUrl = stock.Drug?.Drug_UrlImg,
                     PharmacyId = stock.PharmacyId,
@@ -582,7 +643,7 @@ namespace PharmaLink_API.Services
             }
         }
 
-        public ServiceResult<List<PharmacyProductDetailsDTO>> SearchByNameOrCategoryOrActiveingrediante(int pharmacyID, string q, int pageNumber, int pageSize)
+        public ServiceResult<List<PharmacyProductDetailsDTO>> SearchByNameOrCategoryOrActiveingrediante(ClaimsPrincipal user ,int? pharmacyID, string q, int pageNumber, int pageSize)
         {
             try
             {
@@ -604,9 +665,17 @@ namespace PharmaLink_API.Services
                         "Page size cannot exceed 100.",
                         ErrorType.Validation);
                 }
-                var Add = _pharmacyStockRepository.getPharmacyStockByDrugName(pharmacyID, q, pageNumber, pageSize).ToList();
-                var SearchList = Add.UnionBy(_pharmacyStockRepository.getPharmacyStockByCategory(pharmacyID, q, pageNumber, pageSize), u => u.DrugId)
-                                    .UnionBy(_pharmacyStockRepository.getPharmacyStockByActiveIngrediante(pharmacyID, q, pageNumber, pageSize), u => u.DrugId)
+
+                var pharmacyIdResult = GetPharmacyIdForUser(user, pharmacyID);
+                if (!pharmacyIdResult.Success)
+                    return ServiceResult<List<PharmacyProductDetailsDTO>>.ErrorResult(
+                        pharmacyIdResult.ErrorMessage,
+                        pharmacyIdResult.ErrorType ?? ErrorType.Authorization);
+
+
+                var Add = _pharmacyStockRepository.getPharmacyStockByDrugName(pharmacyIdResult.Data, q, pageNumber, pageSize).ToList();
+                var SearchList = Add.UnionBy(_pharmacyStockRepository.getPharmacyStockByCategory(pharmacyIdResult.Data, q, pageNumber, pageSize), u => u.DrugId)
+                                    .UnionBy(_pharmacyStockRepository.getPharmacyStockByActiveIngrediante(pharmacyIdResult.Data, q, pageNumber, pageSize), u => u.DrugId)
                                     .ToList();
                 if (!SearchList.Any())
                 {
@@ -618,6 +687,8 @@ namespace PharmaLink_API.Services
                 {
                     DrugId = stock.DrugId,
                     DrugName = stock.Drug?.CommonName,
+                    DrugActiveIngredient = stock.Drug?.ActiveIngredient,
+                    DrugCategory = stock.Drug?.Category,
                     DrugDescription = stock.Drug?.Description,
                     DrugImageUrl = stock.Drug?.Drug_UrlImg,
                     PharmacyId = stock.PharmacyId,
@@ -677,6 +748,8 @@ namespace PharmaLink_API.Services
                 {
                     DrugId = product.DrugId,
                     DrugName = product.Drug?.CommonName,
+                    DrugActiveIngredient = product.Drug?.ActiveIngredient,
+                    DrugCategory = product.Drug?.Category,
                     DrugDescription = product.Drug?.Description,
                     DrugImageUrl = product.Drug?.Drug_UrlImg,
                     PharmacyId = product.PharmacyId,

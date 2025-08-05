@@ -145,20 +145,24 @@ namespace PharmaLink_API.Data
 
             //// *********Seed tables********* //
 
-            // 1. Drugs
-            SeedDrugs(modelBuilder);
+            //// 1. Drugs
+            //SeedDrugs(modelBuilder);
 
-            // 2. Roles
-            SeedRoles(modelBuilder);
+            //// 2. Roles
+            //SeedRoles(modelBuilder);
 
-            // 3. Pharmacies
-            SeedPharmacies(modelBuilder);
+            //// 3. Pharmacies
+            //SeedPharmacies(modelBuilder);
 
-            // 4. Patients
-            SeedPatients(modelBuilder);
+            //// 4. Patients
+            //SeedPatients(modelBuilder);
 
-            // 5. PharmacyStock
-            SeedPharmacyStocks(modelBuilder);
+            //// 5. PharmacyStock
+            //SeedPharmacyStocks(modelBuilder);
+            //// 6. OrderDetails
+            //SeedOrderDetails(modelBuilder);
+            //// 7. Orders
+            //SeedOrders(modelBuilder);
         }
 
 
@@ -187,6 +191,32 @@ namespace PharmaLink_API.Data
 
                 }
             );
+
+
+            // 4. PharmacyStock
+        //    modelBuilder.Entity<PharmacyProduct>().HasData(
+        //        new PharmacyProduct
+        //        {
+        //            DrugId = 1,
+        //            PharmacyId = 2,
+        //            Price = 10.50m,
+        //            QuantityAvailable = 100
+        //        },
+        //        new PharmacyProduct
+        //        {
+        //            DrugId = 2,
+        //            PharmacyId = 2,
+        //            Price = 15.00m,
+        //            QuantityAvailable = 50
+        //        },
+        //        new PharmacyProduct
+        //        {
+        //            DrugId = 3,
+        //            PharmacyId = 2,
+        //            Price = 25.00m,
+        //            QuantityAvailable = 70
+        //        }
+        //    );
         }
         private void SeedPharmacies(ModelBuilder modelBuilder)
         {
@@ -396,8 +426,9 @@ namespace PharmaLink_API.Data
                     DateOfBirth = new DateOnly(1995, 3, 15),
                     Country = "Egypt",
                     Address = "15 Tahrir Square, Downtown Cairo",
-                    PatientDiseases = "Hypertension",
-                    PatientDrugs = "Amlodipine 5mg daily",
+                    MedicalHistory = "Hypertension",
+                    Medications = "Amlodipine 5mg daily",
+                    Allergies = "Latex",
                     AccountId = "44444444-4444-4444-4444-444444444444"
                 },
                 new Patient
@@ -408,8 +439,9 @@ namespace PharmaLink_API.Data
                     DateOfBirth = new DateOnly(1988, 7, 22),
                     Country = "Egypt",
                     Address = "27 Nile Corniche, Alexandria",
-                    PatientDiseases = "Diabetes Type 2",
-                    PatientDrugs = "Metformin 500mg twice daily",
+                    MedicalHistory = "Diabetes Type 2",
+                    Medications = "Metformin 500mg twice daily",
+                    Allergies = "Peanuts",
                     AccountId = "55555555-5555-5555-5555-555555555555"
                 },
                 new Patient
@@ -420,8 +452,9 @@ namespace PharmaLink_API.Data
                     DateOfBirth = new DateOnly(2000, 11, 8),
                     Country = "Egypt",
                     Address = "42 University Street, Giza",
-                    PatientDiseases = "Asthma",
-                    PatientDrugs = "Salbutamol inhaler as needed",
+                    MedicalHistory = "Asthma",
+                    Medications = "Salbutamol inhaler as needed",
+                    Allergies = "Shellfish",
                     AccountId = "66666666-6666-6666-6666-666666666666"
                 }
             );
@@ -453,7 +486,7 @@ namespace PharmaLink_API.Data
                     QuantityAvailable = 65
                 },
 
-                // Health Plus (PharmacyID = 2) - Competitive pricing, high stock
+                 //Health Plus(PharmacyID = 2) - Competitive pricing, high stock
                 new PharmacyProduct
                 {
                     DrugId = 1, // Paracetamol
@@ -497,6 +530,124 @@ namespace PharmaLink_API.Data
                     PharmacyId = 3,
                     Price = 26.75m,
                     QuantityAvailable = 55
+                }
+            );
+        }
+        private void SeedOrders(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Order>().HasData(
+                new Order
+                {
+                    OrderID = 1,
+                    TotalPrice = 45.50m,
+                    Status = "Completed",
+                    PaymentMethod = "Credit Card",
+                    PaymentStatus = "Paid",
+                    OrderDate = DateTime.Parse("2023-05-15"),
+                    PharmacyId = 1, // City Pharmacy
+                    PatientId = 1, // Ahmed Hassan
+                    Name = "Ahmed Hassan",
+                    PhoneNumber = "01045678901", // Matches patient1 account
+                    Email = "patient1@example.com", // Matches patient1 account
+                    Address = "15 Tahrir Square, Downtown Cairo", // Matches patient1 address
+                    Country = "Egypt"
+                },
+                new Order
+                {
+                    OrderID = 2,
+                    TotalPrice = 62.50m,
+                    Status = "Processing",
+                    PaymentMethod = "PayPal",
+                    PaymentStatus = "Paid",
+                    OrderDate = DateTime.Parse("2023-06-20"),
+                    PharmacyId = 2, // Health Plus
+                    PatientId = 2, // Fatima El-Zahra
+                    Name = "Fatima El-Zahra",
+                    PhoneNumber = "01056789012", // Matches patient2 account
+                    Email = "patient2@example.com", // Matches patient2 account
+                    Address = "27 Nile Corniche, Alexandria", // Matches patient2 address
+                    Country = "Egypt"
+                },
+                new Order
+                {
+                    OrderID = 3,
+                    TotalPrice = 33.75m,
+                    Status = "Pending",
+                    PaymentMethod = "Cash on Delivery",
+                    PaymentStatus = "Pending",
+                    OrderDate = DateTime.Parse("2023-07-10"),
+                    PharmacyId = 3, // MediCare
+                    PatientId = 3, // Omar Khaled
+                    Name = "Omar Khaled",
+                    PhoneNumber = "01067890123", // Matches patient3 account
+                    Email = "patient3@example.com", // Matches patient3 account
+                    Address = "42 University Street, Giza", // Matches patient3 address
+                    Country = "Egypt"
+                }
+            );
+        }
+
+        private void SeedOrderDetails(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<OrderDetail>().HasData(
+                // Order 1 - Ahmed Hassan at City Pharmacy
+                new OrderDetail
+                {
+                    OrderDetailId = 1,
+                    OrderId = 1,
+                    DrugId = 1, // Paracetamol
+                    PharmacyId = 1, // City Pharmacy
+                    Quantity = 2,
+                    Price = 12.50m // Matches City Pharmacy's Paracetamol price
+                },
+                new OrderDetail
+                {
+                    OrderDetailId = 2,
+                    OrderId = 1,
+                    DrugId = 2, // Ibuprofen
+                    PharmacyId = 1, // City Pharmacy
+                    Quantity = 1,
+                    Price = 18.00m // Matches City Pharmacy's Ibuprofen price
+                },
+
+                // Order 2 - Fatima El-Zahra at Health Plus
+                new OrderDetail
+                {
+                    OrderDetailId = 3,
+                    OrderId = 2,
+                    DrugId = 1, // Paracetamol
+                    PharmacyId = 2, // Health Plus
+                    Quantity = 3,
+                    Price = 10.50m // Matches Health Plus's Paracetamol price
+                },
+                new OrderDetail
+                {
+                    OrderDetailId = 4,
+                    OrderId = 2,
+                    DrugId = 3, // Amoxicillin
+                    PharmacyId = 2, // Health Plus
+                    Quantity = 1,
+                    Price = 25.00m // Matches Health Plus's Amoxicillin price
+                },
+                new OrderDetail
+                {
+                    OrderDetailId = 5,
+                    OrderId = 2,
+                    DrugId = 2, // Ibuprofen
+                    PharmacyId = 2, // Health Plus
+                    Quantity = 1,
+                    Price = 15.00m // Matches Health Plus's Ibuprofen price
+                },
+
+                // Order 3 - Omar Khaled at MediCare
+                new OrderDetail
+                {
+                    OrderDetailId = 6,
+                    OrderId = 3,
+                    DrugId = 1, // Paracetamol
+                    PharmacyId = 3, // MediCare
+                    Quantity = 3,
+                    Price = 11.25m // Matches MediCare's Paracetamol price
                 }
             );
         }

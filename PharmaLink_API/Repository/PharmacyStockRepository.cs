@@ -35,6 +35,35 @@ namespace PharmaLink_API.Repository
             _logger = logger;
         }
 
+
+
+        /// <inheritdoc />
+        /// <remarks>
+        /// Retrieves all pharmacy stock for a specific pharmacy.
+        /// Eagerly loads Drug and Pharmacy navigation properties for each stock item.
+        /// Returns all records without pagination.
+        /// Handles errors and logs operations for traceability.
+        /// </remarks>
+        /// <exception cref="InvalidOperationException">Thrown when database operation fails</exception>
+        public IEnumerable<PharmacyProduct> GetAllPharmacyStockByPharmacyID(int pharmacyId)
+        {
+            try
+            {
+                _logger.LogInformation("Getting all pharmacy stock for pharmacy {PharmacyId}", pharmacyId);
+                return db.PharmacyStock
+                    .Where(ps => ps.PharmacyId == pharmacyId)
+                    .Include(ps => ps.Drug)
+                    .Include(ps => ps.Pharmacy)
+                    .ToList();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while getting all pharmacy stock for pharmacy {PharmacyId}", pharmacyId);
+                throw new InvalidOperationException($"Failed to retrieve pharmacy stock for pharmacy {pharmacyId}.", ex);
+
+            }
+        }
+
         /// <inheritdoc />
         /// <remarks>
         /// Eagerly loads Drug and Pharmacy navigation properties. 
@@ -320,7 +349,7 @@ namespace PharmaLink_API.Repository
                 _logger.LogInformation("Getting pharmacy stock by category {Category}, page {PageNumber}, size {PageSize}",
                     category, pageNumber, pageSize);
                 var pharmacyStock = db.PharmacyStock
-                    .Where(ps => EF.Functions.Like(ps.Drug!.Category, $"{category}%") && ps.PharmacyId == pharmacyId)
+                    .Where(ps => EF.Functions.Like(ps.Drug!.Category.ToLower(), $"{category.ToLower()}%") && ps.PharmacyId == pharmacyId)
                     .Include(ps => ps.Drug)
                     .Include(ps => ps.Pharmacy);
 
@@ -355,7 +384,7 @@ namespace PharmaLink_API.Repository
                 _logger.LogInformation("Getting pharmacy stock by drug Name {drugName}, page {PageNumber}, size {PageSize}",
                     drugName, pageNumber, pageSize);
                 var pharmacyStock = db.PharmacyStock
-                    .Where(ps => EF.Functions.Like(ps.Drug!.CommonName, $"{drugName}%") && ps.PharmacyId == pharmacyId)
+                    .Where(ps => EF.Functions.Like(ps.Drug!.CommonName.ToLower(), $"{drugName.ToLower()}%") && ps.PharmacyId == pharmacyId)
                     .Include(ps => ps.Drug)
                     .Include(ps => ps.Pharmacy);
 
@@ -391,7 +420,7 @@ namespace PharmaLink_API.Repository
                 _logger.LogInformation("Getting pharmacy stock by activeIngrediante Name {activeIngrediante}, page {PageNumber}, size {PageSize}",
                     activeIngrediante, pageNumber, pageSize);
                 var pharmacyStock = db.PharmacyStock
-                    .Where(ps => EF.Functions.Like(ps.Drug!.ActiveIngredient , $"{activeIngrediante}%") && ps.PharmacyId == pharmacyId)
+                    .Where(ps => EF.Functions.Like(ps.Drug!.ActiveIngredient.ToLower() , $"{activeIngrediante.ToLower()}%") && ps.PharmacyId == pharmacyId)
                     .Include(ps => ps.Drug)
                     .Include(ps => ps.Pharmacy);
 
