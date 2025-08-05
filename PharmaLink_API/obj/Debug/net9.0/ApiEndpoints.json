@@ -442,6 +442,16 @@
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.OrdersController",
+    "Method": "GetPharmacyAnalysis",
+    "RelativePath": "api/Orders/analysis",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.OrdersController",
     "Method": "CancelOrder",
     "RelativePath": "api/Orders/cancel/{orderId}",
     "HttpMethod": "POST",
@@ -622,79 +632,8 @@
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.PatientController",
-    "Method": "Post",
-    "RelativePath": "api/Patient",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "value",
-        "Type": "System.String",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "PharmaLink_API.Controllers.PatientController",
-    "Method": "Put",
-    "RelativePath": "api/Patient/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "value",
-        "Type": "System.String",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "PharmaLink_API.Controllers.PatientController",
-    "Method": "Delete",
-    "RelativePath": "api/Patient/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "PharmaLink_API.Controllers.PatientController",
-    "Method": "GetPatientInfo",
-    "RelativePath": "api/Patient/Info",
+    "Method": "GetPatientProfile",
+    "RelativePath": "api/Patient/Profile",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -703,6 +642,27 @@
         "Name": "AccountId",
         "Type": "System.String",
         "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.PatientController",
+    "Method": "UpdatePatientProfile",
+    "RelativePath": "api/Patient/UpdateProfile/{accountId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "patient",
+        "Type": "PharmaLink_API.Models.DTO.PatientDTO.PatientDTO",
+        "IsRequired": true
+      },
+      {
+        "Name": "accountId",
+        "Type": "System.String",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
