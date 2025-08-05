@@ -360,11 +360,8 @@ namespace PharmaLink_API.Services
             if (pharmacy == null)
                 return ServiceResult<PharmacyAnalysisDTO>.ErrorResult("Pharmacy not found", ErrorType.NotFound);
 
-            // Fix for CS1061: Replace the incorrect property access `.Drug` with the correct navigation path to access the `Drug` entity.
-            // The `OrderDetail` class does not have a direct `Drug` property, but it has a `PharmacyProduct` property, which in turn has a `Drug` property.
-
             var orders = await _orderHeaderRepository.GetAllWithDetailsAsync(
-                filter: o => o.PharmacyId == pharmacy.PharmacyID && o.Status == "Completed",
+                filter: o => o.PharmacyId == pharmacy.PharmacyID && o.Status == SD.StatusDelivered,
                 include: query => query
                     .Include(ph => ph.Patient)
                     .Include(o => o.OrderDetails)
