@@ -442,6 +442,16 @@
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.OrdersController",
+    "Method": "GetPharmacyAnalysis",
+    "RelativePath": "api/Orders/analysis",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.OrdersController",
     "Method": "CancelOrder",
     "RelativePath": "api/Orders/cancel/{orderId}",
     "HttpMethod": "POST",
