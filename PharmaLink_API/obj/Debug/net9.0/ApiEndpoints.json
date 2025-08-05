@@ -1162,18 +1162,12 @@
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.PharmacyStockController",
-    "Method": "GetPharmacyInventoryStatus",
-    "RelativePath": "api/PharmacyStock/InventoryStatusByID",
+    "Method": "GetPharmacyInventoryStatusAsync",
+    "RelativePath": "api/PharmacyStock/InventoryStatus",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "pharmacyId",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": []
   },
   {

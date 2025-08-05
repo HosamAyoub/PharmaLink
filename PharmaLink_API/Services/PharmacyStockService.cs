@@ -1,11 +1,13 @@
 using AutoMapper;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
+using Microsoft.Identity.Client;
 using PharmaLink_API.Core.Constants;
 using PharmaLink_API.Core.Enums;
 using PharmaLink_API.Core.Extensions;
 using PharmaLink_API.Core.Results;
 using PharmaLink_API.Models;
+using PharmaLink_API.Models.DTO.OrderDTO;
 using PharmaLink_API.Models.DTO.PharmacyStockDTO;
 using PharmaLink_API.Repository;
 using PharmaLink_API.Repository.Interfaces;
@@ -21,6 +23,7 @@ namespace PharmaLink_API.Services
     public class PharmacyStockService : IPharmacyStockService
     {
         private readonly IPharmacyStockRepository _pharmacyStockRepository;
+        private readonly IPharmacyRepository _pharmacyRepository;
         private readonly IMapper _mapper;
         private readonly IValidator<pharmacyProductDTO> _validator;
         private readonly IValidator<PharmacyStockDTO> _pharmacyStockDTOValidator;
@@ -34,6 +37,7 @@ namespace PharmaLink_API.Services
         /// </summary>
         public PharmacyStockService(
             IPharmacyStockRepository pharmacyStockRepository,
+            IPharmacyRepository pharmacyRepository,
             IMapper mapper,
             IValidator<pharmacyProductDTO> validator,
             IValidator<PharmacyStockDTO> pharmacyStockDTOValidator,
@@ -43,6 +47,7 @@ namespace PharmaLink_API.Services
             ILogger<PharmacyStockService> logger)
         {
             _pharmacyStockRepository = pharmacyStockRepository;
+            _pharmacyRepository = pharmacyRepository;
             _mapper = mapper;
             _validator = validator;
             _pharmacyStockDTOValidator = pharmacyStockDTOValidator;
@@ -54,22 +59,27 @@ namespace PharmaLink_API.Services
 
 
 
-        public ServiceResult<PharmaInventoryDTO> GetPharmacyInventoryStatus(int pharmacyId)
+        public async Task<ServiceResult<PharmaInventoryDTO>> GetPharmacyInventoryStatus(string accountId)
         {
             try
             {
-                _logger.LogInformation("Getting pharmacy inventory status for pharmacyId {PharmacyId}", pharmacyId);
+                var pharmacy = await _pharmacyRepository.GetAsync(p => p.AccountId == accountId);
+                if (pharmacy == null)
+                    return ServiceResult<PharmaInventoryDTO>.ErrorResult("Pharmacy not found", ErrorType.NotFound);
+
+                _logger.LogInformation("Getting pharmacy inventory status for pharmacyId {PharmacyId}", pharmacy.PharmacyID);
+                
                 // Input validation
-                if (pharmacyId <= 0)
+                if (pharmacy.PharmacyID <= 0)
                 {
                     return ServiceResult<PharmaInventoryDTO>.ErrorResult("Pharmacy ID must be a positive number.", ErrorType.Validation);
                 }
-                var pharmacyStock = _pharmacyStockRepository.GetAllPharmacyStockByPharmacyID(pharmacyId);
+                var pharmacyStock = _pharmacyStockRepository.GetAllPharmacyStockByPharmacyID(pharmacy.PharmacyID);
 
                 if (pharmacyStock == null)
                 {
                     return ServiceResult<PharmaInventoryDTO>.ErrorResult(
-                        $"No inventory found for pharmacy ID {pharmacyId}.",
+                        $"No inventory found for pharmacy ID {pharmacy.PharmacyID}.",
                         ErrorType.NotFound);
                 }
 

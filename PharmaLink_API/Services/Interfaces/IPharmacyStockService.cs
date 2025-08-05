@@ -13,7 +13,7 @@ namespace PharmaLink_API.Services.Interfaces
     {
 
 
-        ServiceResult<PharmaInventoryDTO> GetPharmacyInventoryStatus(int pharmacyId);
+        Task<ServiceResult<PharmaInventoryDTO>> GetPharmacyInventoryStatus(string accountId);
         /// <summary>
         /// Retrieves pharmacy stock for a specific pharmacy with pagination.
         /// </summary>

@@ -3,8 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using PharmaLink_API.Core.Enums;
 using PharmaLink_API.Core.Results;
 using PharmaLink_API.Models;
+using PharmaLink_API.Models.DTO.OrderDTO;
 using PharmaLink_API.Models.DTO.PharmacyStockDTO;
+using PharmaLink_API.Repository.Interfaces;
 using PharmaLink_API.Services.Interfaces;
+using System.Security.Claims;
 
 namespace PharmaLink_API.Controllers
 {
@@ -13,32 +16,33 @@ namespace PharmaLink_API.Controllers
     public class PharmacyStockController : ControllerBase
     {
         private readonly IPharmacyStockService _pharmacyStockService;
+        private readonly IPharmacyRepository _pharmacyRepository;
         private readonly ILogger<PharmacyStockController> _logger;
 
-        public PharmacyStockController(IPharmacyStockService pharmacyStockService, ILogger<PharmacyStockController> logger)
+        public PharmacyStockController(IPharmacyStockService pharmacyStockService, ILogger<PharmacyStockController> logger, IPharmacyRepository pharmacyRepository)
         {
             _pharmacyStockService = pharmacyStockService;
+            _pharmacyRepository = pharmacyRepository; // Assuming PharmacyRepository is accessible from the service
             _logger = logger;
         }
 
-        [HttpGet("InventoryStatusByID")]
-        public IActionResult GetPharmacyInventoryStatus(int pharmacyId)
+        [HttpGet("InventoryStatus")]
+        public async Task<IActionResult> GetPharmacyInventoryStatusAsync()
         {
-
-            _logger.LogInformation("GetPharmacyInventoryStatus endpoint called for pharmacyId: {PharmacyId}", pharmacyId);
-            var result = _pharmacyStockService.GetPharmacyInventoryStatus(pharmacyId);
+            var accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(accountId))
+                return Forbid("AccountId missing.");
+            
+            _logger.LogInformation("GetPharmacyInventoryStatus endpoint called for AccountId: {AccountId}", accountId);
+            var result = await _pharmacyStockService.GetPharmacyInventoryStatus(accountId);
 
             if (!result.Success)
             {
                 return HandleServiceError(result);
             }
 
-            return Ok(new
-            {
-                success = true,
-                data = result.Data,
-                message = "Pharmacy inventory status retrieved successfully."
-            });
+            return Ok(result.Data);
+            
         }
 
 
