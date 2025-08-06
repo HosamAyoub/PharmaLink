@@ -67,6 +67,16 @@ namespace PharmaLink_API.Services
 
             decimal totalPrice = validationResult.Data;
 
+            if (dto.PaymentMethod.ToLower() != "cash")
+            {
+                return ServiceResult<OrderResponseDTO>.SuccessResult(new OrderResponseDTO
+                {
+                    OrderId = 0, // Not yet created
+                    PaymentMethod = dto.PaymentMethod,
+                    Message = "Stripe payment required."
+                });
+            }
+
             var order = await CreateOrderAsync(patient, dto.PaymentMethod, totalPrice, pharmacyId);
             await CreateOrderDetailsAsync(order.OrderID, cartItems);
             await UpdateStockAsync(cartItems);
@@ -145,7 +155,7 @@ namespace PharmaLink_API.Services
             if (order.PharmacyId != pharmacy.PharmacyID)
                 return ServiceResult.ErrorResult("You are not authorized to update this order.", ErrorType.Authorization);
 
-            if (order.Status != SD.StatusPending)
+            if (order.Status != SD.StatusPending && order.Status != SD.StatusReviewing)
                 return ServiceResult.ErrorResult("Only pending orders can be out for delivery.", ErrorType.Validation);
 
             order.Status = SD.StatusOutForDelivery;
