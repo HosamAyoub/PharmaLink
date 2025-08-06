@@ -22,6 +22,7 @@
         public int DrugId { get; set; }
         public string DrugName { get; set; } // You'll need to add this to your OrderDetail model
         public int TotalQuantity { get; set; }
+        public int SalesCount { get; set; }
         public decimal TotalRevenue { get; set; }
     }
     public class TopCustomers
