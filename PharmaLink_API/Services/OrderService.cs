@@ -407,10 +407,11 @@ namespace PharmaLink_API.Services
                 {
                     DrugId = g.Key,
                     DrugName = g.Select(od => od.PharmacyProduct?.Drug?.CommonName).FirstOrDefault() ?? "Unknown",
-                    TotalQuantity = g.Sum(od => od.Quantity),
+                    SalesCount = g.Sum(od => od.Quantity),
+                    TotalQuantity = g.Select(od=> od.PharmacyProduct.QuantityAvailable).FirstOrDefault(),
                     TotalRevenue = g.Sum(od => od.Quantity * od.Price)
                 })
-                .OrderByDescending(x => x.TotalQuantity)
+                .OrderByDescending(x => x.SalesCount)
                 .Take(10) 
                 .ToList();
             var topCustomer = orders
