@@ -67,6 +67,16 @@ namespace PharmaLink_API.Services
 
             decimal totalPrice = validationResult.Data;
 
+            if (dto.PaymentMethod.ToLower() != "cash")
+            {
+                return ServiceResult<OrderResponseDTO>.SuccessResult(new OrderResponseDTO
+                {
+                    OrderId = 0, // Not yet created
+                    PaymentMethod = dto.PaymentMethod,
+                    Message = "Stripe payment required."
+                });
+            }
+
             var order = await CreateOrderAsync(patient, dto.PaymentMethod, totalPrice, pharmacyId);
             await CreateOrderDetailsAsync(order.OrderID, cartItems);
             await UpdateStockAsync(cartItems);
@@ -145,7 +155,7 @@ namespace PharmaLink_API.Services
             if (order.PharmacyId != pharmacy.PharmacyID)
                 return ServiceResult.ErrorResult("You are not authorized to update this order.", ErrorType.Authorization);
 
-            if (order.Status != SD.StatusPending)
+            if (order.Status != SD.StatusPending && order.Status != SD.StatusReviewing)
                 return ServiceResult.ErrorResult("Only pending orders can be out for delivery.", ErrorType.Validation);
 
             order.Status = SD.StatusOutForDelivery;
@@ -360,11 +370,8 @@ namespace PharmaLink_API.Services
             if (pharmacy == null)
                 return ServiceResult<PharmacyAnalysisDTO>.ErrorResult("Pharmacy not found", ErrorType.NotFound);
 
-            // Fix for CS1061: Replace the incorrect property access `.Drug` with the correct navigation path to access the `Drug` entity.
-            // The `OrderDetail` class does not have a direct `Drug` property, but it has a `PharmacyProduct` property, which in turn has a `Drug` property.
-
             var orders = await _orderHeaderRepository.GetAllWithDetailsAsync(
-                filter: o => o.PharmacyId == pharmacy.PharmacyID && o.Status == "Completed",
+                filter: o => o.PharmacyId == pharmacy.PharmacyID && o.Status == SD.StatusDelivered,
                 include: query => query
                     .Include(ph => ph.Patient)
                     .Include(o => o.OrderDetails)

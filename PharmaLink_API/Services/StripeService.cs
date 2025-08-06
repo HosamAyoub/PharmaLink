@@ -1,6 +1,9 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Microsoft.Identity.Client;
 using PharmaLink_API.Core.Enums;
 using PharmaLink_API.Core.Results;
+using PharmaLink_API.Data;
 using PharmaLink_API.Models;
 using PharmaLink_API.Models.DTO.OrderDTO;
 using PharmaLink_API.Repository;
@@ -9,6 +12,7 @@ using PharmaLink_API.Services.Interfaces;
 using Stripe;
 using Stripe.Checkout;
 using Stripe.Climate;
+using Order = PharmaLink_API.Models.Order;
 
 namespace PharmaLink_API.Services
 {
@@ -17,6 +21,8 @@ namespace PharmaLink_API.Services
         private readonly StripeModel _stripeModel;
         private readonly IOrderHeaderRepository _orderHeaderRepository;
         private readonly IOrderDetailRepository _orderDetailRepository;
+        private readonly IPatientRepository _patientRepository;
+        private readonly ApplicationDbContext _context;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StripeService"/> class.
@@ -24,12 +30,14 @@ namespace PharmaLink_API.Services
         /// <param name="stripeOptions">Stripe configuration options.</param>
         /// <param name="orderHeaderRepository">Order header repository.</param>
         /// <param name="orderDetailRepository">Order detail repository.</param>
-        public StripeService(IOptions<StripeModel> stripeOptions, IOrderHeaderRepository orderHeaderRepository, IOrderDetailRepository orderDetailRepository)
+        public StripeService(IOptions<StripeModel> stripeOptions, IOrderHeaderRepository orderHeaderRepository, IOrderDetailRepository orderDetailRepository, IPatientRepository patientRepository, ApplicationDbContext context)
         {
             _orderHeaderRepository = orderHeaderRepository;
             _stripeModel = stripeOptions.Value;
             StripeConfiguration.ApiKey = _stripeModel.SecretKey;
             _orderDetailRepository = orderDetailRepository;
+            _patientRepository = patientRepository;
+            _context = context;
         }
 
         /// <summary>
@@ -37,28 +45,28 @@ namespace PharmaLink_API.Services
         /// </summary>
         /// <param name="orderId">The unique identifier of the order to create a payment session for.</param>
         /// <returns>A ServiceResult containing the Stripe session DTO with session details.</returns>
-        public async Task<ServiceResult<StripeSessionDTO>> CreateStripeSessionAsync(int orderId)
+        public async Task<ServiceResult<StripeSessionDTO>> CreateStripeSessionAsync(decimal deliveryFee, string accountId)
         {
-            var order = await _orderHeaderRepository.GetAsync(
-                o => o.OrderID == orderId, tracking: true, x => x.OrderDetails
-            );
+            var patient = await _context.Patients
+                .Include(p => p.Account)
+                .Include(p => p.CartItems)
+                    .ThenInclude(ci => ci.PharmacyProduct)
+                        .ThenInclude(pp => pp.Drug)
+                .FirstOrDefaultAsync(p => p.AccountId == accountId);
 
-            if (order == null)
-                return ServiceResult<StripeSessionDTO>.ErrorResult("Order not found.", ErrorType.NotFound);
+            if (patient == null || patient.Account == null || patient.CartItems == null || !patient.CartItems.Any())
+            {
+                return ServiceResult<StripeSessionDTO>.ErrorResult("Patient or cart not found.", ErrorType.NotFound);
+            }
 
-            var orderDetails = await _orderDetailRepository.GetAllAsync(
-                od => od.OrderId == orderId, x => x.PharmacyProduct.Drug
-            );
+            var cartItems = patient.CartItems.ToList();
 
-            var sessionOptions = await BuildSessionOptionsAsync(order, orderDetails);
+            var sessionOptions = await BuildSessionOptionsAsync(cartItems, deliveryFee, accountId);
             if (!sessionOptions.Success)
                 return ServiceResult<StripeSessionDTO>.ErrorResult(sessionOptions.ErrorMessage, sessionOptions.ErrorType ?? ErrorType.Internal);
 
             var service = new SessionService();
             var session = await service.CreateAsync(sessionOptions.Data);
-
-            _orderHeaderRepository.UpdateStripePaymentID(orderId, session.Id, session.PaymentIntentId);
-            await _orderHeaderRepository.SaveAsync();
 
             return ServiceResult<StripeSessionDTO>.SuccessResult(new StripeSessionDTO
             {
@@ -66,6 +74,7 @@ namespace PharmaLink_API.Services
                 Url = session.Url
             });
         }
+
 
         /// <summary>
         /// Handles incoming Stripe webhook events from the payment gateway.
@@ -96,22 +105,72 @@ namespace PharmaLink_API.Services
                     if (session == null)
                         return ServiceResult.ErrorResult("Invalid session object from webhook.", ErrorType.Validation);
 
-                    var sessionService = new SessionService();
-                    var fullSession = await sessionService.GetAsync(session.Id);
+                    // Extract metadata
+                    var accountId = session.Metadata["accountId"];
+                    var deliveryFee = decimal.Parse(session.Metadata["deliveryFee"]);
 
-                    var order = await _orderHeaderRepository.GetAsync(o => o.SessionId == session.Id);
-                    if (order == null)
-                        return ServiceResult.ErrorResult($"No order found for session ID {session.Id}.", ErrorType.NotFound);
+                    // Get full patient & cart
+                    var patient = await _context.Patients
+                        .Include(p => p.Account)
+                        .Include(p => p.CartItems)
+                            .ThenInclude(ci => ci.PharmacyProduct)
+                                .ThenInclude(pp => pp.Drug)
+                        .FirstOrDefaultAsync(p => p.AccountId == accountId);
 
-                    order.PaymentStatus = SD.PaymentStatusApproved;
-                    order.PaymentIntentId = fullSession.PaymentIntentId;
+                    if (patient == null || !patient.CartItems.Any())
+                        return ServiceResult.ErrorResult("Patient or cart not found.", ErrorType.NotFound);
 
+                    var cartItems = patient.CartItems;
+                    var subtotal = cartItems.Sum(i => i.Quantity * i.PharmacyProduct.Price);
+                    var total = subtotal + deliveryFee;
+                    var pharmacyId = cartItems.First().PharmacyId;
+
+                    // Create order
+                    var order = new Order
+                    {
+                        PatientId = patient.PatientId,
+                        Name = patient.Name,
+                        PhoneNumber = patient.Account.PhoneNumber,
+                        Email = patient.Account.Email,
+                        Country = patient.Country,
+                        Address = patient.Address,
+                        TotalPrice = total,
+                        OrderDate = DateTime.UtcNow,
+                        PharmacyId = pharmacyId,
+                        PaymentStatus = SD.PaymentStatusApproved,
+                        Status = SD.StatusUnderReview,
+                        StatusLastUpdated = DateTime.Now,
+                        PaymentMethod = "Stripe",
+                        SessionId = session.Id,
+                        PaymentIntentId = session.PaymentIntentId
+                    };
+
+                    await _orderHeaderRepository.CreateAndSaveAsync(order);
+
+                    // Add order details
+                    foreach (var item in cartItems)
+                    {
+                        var detail = new OrderDetail
+                        {
+                            OrderId = order.OrderID,
+                            DrugId = item.DrugId,
+                            PharmacyId = item.PharmacyId,
+                            Quantity = item.Quantity,
+                            Price = item.PharmacyProduct.Price
+                        };
+
+                        await _orderDetailRepository.CreateAndSaveAsync(detail);
+                    }
+
+                    // Save & clean cart
                     await _orderHeaderRepository.SaveAsync();
+                    _context.CartItems.RemoveRange(cartItems);
+                    await _context.SaveChangesAsync();
 
                     return ServiceResult.SuccessResult();
                 }
 
-                return ServiceResult.SuccessResult();
+                return ServiceResult.SuccessResult(); // Unhandled event types are safely ignored
             }
             catch (StripeException ex)
             {
@@ -122,6 +181,7 @@ namespace PharmaLink_API.Services
                 return ServiceResult.ErrorResult("Webhook processing error: " + ex.Message);
             }
         }
+
 
         /// <summary>
         /// Initiates a refund for a Stripe payment using the specified payment intent ID.
@@ -161,18 +221,23 @@ namespace PharmaLink_API.Services
         /// <param name="order">The order for which to build session options.</param>
         /// <param name="orderDetails">The details of the order.</param>
         /// <returns>A ServiceResult containing the Stripe session creation options.</returns>
-        private async Task<ServiceResult<SessionCreateOptions>> BuildSessionOptionsAsync(PharmaLink_API.Models.Order order, IEnumerable<OrderDetail> orderDetails)
+        private async Task<ServiceResult<SessionCreateOptions>> BuildSessionOptionsAsync(ICollection<CartItem> cartItems, decimal deliveryFee, string accountId)
         {
             var options = new SessionCreateOptions
             {
                 PaymentMethodTypes = new List<string> { "card" },
                 LineItems = new List<SessionLineItemOptions>(),
                 Mode = "payment",
-                SuccessUrl = $"http://localhost:4200/client/success?orderId={order.OrderID}",
-                CancelUrl = "http://localhost:4200/client/cancel"
+                SuccessUrl = "http://localhost:4200/client/success?session_id={CHECKOUT_SESSION_ID}",
+                CancelUrl = "http://localhost:4200/client/cancel",
+                Metadata = new Dictionary<string, string>
+                {
+                    { "accountId", accountId },
+                    { "deliveryFee", deliveryFee.ToString() }
+                }
             };
 
-            foreach (var item in orderDetails)
+            foreach (var item in cartItems)
             {
                 var drug = item.PharmacyProduct?.Drug;
                 if (drug == null)
@@ -186,15 +251,34 @@ namespace PharmaLink_API.Services
                         ProductData = new SessionLineItemPriceDataProductDataOptions
                         {
                             Name = drug.CommonName ?? "Unnamed Drug",
-                            Description = drug.Category?? "No description"
+                            Description = drug.Category ?? "No description"
                         },
-                        UnitAmount = (long)(item.Price * 100)
+                        UnitAmount = (long)(item.PharmacyProduct.Price * 100)
                     },
                     Quantity = item.Quantity
                 });
             }
 
+            if (deliveryFee > 0)
+            {
+                options.LineItems.Add(new SessionLineItemOptions
+                {
+                    PriceData = new SessionLineItemPriceDataOptions
+                    {
+                        Currency = "egp",
+                        ProductData = new SessionLineItemPriceDataProductDataOptions
+                        {
+                            Name = "Delivery Fee",
+                            Description = "Standard delivery charge"
+                        },
+                        UnitAmount = (long)(deliveryFee * 100)
+                    },
+                    Quantity = 1
+                });
+            }
+
             return ServiceResult<SessionCreateOptions>.SuccessResult(options);
         }
+
     }
 }

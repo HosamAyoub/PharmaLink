@@ -220,6 +220,9 @@ namespace PharmaLink_API.Data
         }
         private void SeedPharmacies(ModelBuilder modelBuilder)
         {
+            var password = "Ads6*6";
+            var hasher = new PasswordHasher<object>();
+            var hashedPassword = hasher.HashPassword(null, password);
             // Pharmacy Accounts
             modelBuilder.Entity<Account>().HasData(
                 new Account
@@ -230,7 +233,7 @@ namespace PharmaLink_API.Data
                     Email = "pharmacy1@example.com",
                     NormalizedEmail = "PHARMACY1@EXAMPLE.COM",
                     EmailConfirmed = true,
-                    PasswordHash = "AQAAAAIAAYagAAAAEHYx1JwHk7QbX1YpJxTwWk+YqGE=", // Hash for "123"
+                    PasswordHash = "AQAAAAIAAYagAAAAEMxQ1234567890abcdefghijklmnop", // Hash for "123"
                     PhoneNumber = "01012345678",
                     PhoneNumberConfirmed = true,
                     SecurityStamp = "7D8C9A2B4E6F1C3A5B9D8E7F6A5C4B3A", // Static value
@@ -244,7 +247,7 @@ namespace PharmaLink_API.Data
                     Email = "pharmacy2@example.com",
                     NormalizedEmail = "PHARMACY2@EXAMPLE.COM",
                     EmailConfirmed = true,
-                    PasswordHash = "AQAAAAIAAYagAAAAEHYx1JwHk7QbX1YpJxTwWk+YqGE=",
+                    PasswordHash = "AQAAAAIAAYagAAAAEMxQ1234567890abcdefghijklmnop",
                     PhoneNumber = "01023456789",
                     PhoneNumberConfirmed = true,
                     SecurityStamp = "8E9F0A1B2C3D4E5F6G7H8I9J0K1L2M3N", // Static value
@@ -258,7 +261,7 @@ namespace PharmaLink_API.Data
                     Email = "pharmacy3@example.com",
                     NormalizedEmail = "PHARMACY3@EXAMPLE.COM",
                     EmailConfirmed = true,
-                    PasswordHash = "AQAAAAIAAYagAAAAEHYx1JwHk7QbX1YpJxTwWk+YqGE=",
+                    PasswordHash = "AQAAAAIAAYagAAAAEMxQ1234567890abcdefghijklmnop",
                     PhoneNumber = "01034567890",
                     PhoneNumberConfirmed = true,
                     SecurityStamp = "9F0A1B2C3D4E5F6G7H8I9J0K1L2M3N4O", // Static value

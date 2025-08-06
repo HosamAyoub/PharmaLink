@@ -6,6 +6,7 @@ using Microsoft.Identity.Client;
 using PharmaLink_API.Core.Enums;
 using PharmaLink_API.Models;
 using PharmaLink_API.Models.DTO.CartDTO;
+using PharmaLink_API.Models.DTO.OrderDTO;
 using PharmaLink_API.Repository.Interfaces;
 using PharmaLink_API.Services.Interfaces;
 
@@ -23,10 +24,12 @@ namespace PharmaLink_API.Controllers
     {
         private readonly IOrderService _orderService;
         private readonly IStripeService _stripeService;
-        public OrdersController(IOrderService orderService, IStripeService stripeService)
+        private readonly IOrderHeaderRepository _orderHeaderRepository;
+        public OrdersController(IOrderService orderService, IStripeService stripeService, IOrderHeaderRepository orderHeaderRepository)
         {
             _orderService = orderService;
             _stripeService = stripeService;
+            _orderHeaderRepository = orderHeaderRepository;
         }
 
         /// <summary>
@@ -65,9 +68,13 @@ namespace PharmaLink_API.Controllers
         /// <param name="orderId">Order ID to create session for.</param>
         /// <returns>Stripe session DTO if successful.</returns>
         [HttpPost("CreateCheckoutSession")]
-        public async Task<ActionResult> CreateCheckoutSession([FromBody] int orderId)
+        public async Task<ActionResult> CreateCheckoutSession([FromBody] StripeSessionRequestDTO request)
         {
-            var result = await _stripeService.CreateStripeSessionAsync(orderId);
+            var accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(accountId))
+                return Unauthorized("Invalid token.");
+
+            var result = await _stripeService.CreateStripeSessionAsync( request.DeliveryFee, accountId);
 
             if (!result.Success)
             {
@@ -83,6 +90,34 @@ namespace PharmaLink_API.Controllers
 
             return Ok(result.Data);
         }
+
+        [HttpGet("validate-session")]
+        public async Task<IActionResult> ValidateStripeSession([FromQuery] string sessionId)
+        {
+            if (string.IsNullOrEmpty(sessionId))
+                return BadRequest("Session ID is required.");
+
+            var order = await _orderHeaderRepository.GetAsync(
+                o => o.SessionId == sessionId,
+                tracking: false,
+                x => x.OrderDetails
+            );
+
+            if (order == null)
+                return NotFound("Order not created yet. Please wait a moment.");
+
+            var result = new
+            {
+                order.OrderID,
+                order.TotalPrice,
+                order.Status,
+                order.OrderDate,
+                order.PaymentStatus
+            };
+
+            return Ok(result);
+        }
+
 
         /// <summary>
         /// Handles Stripe webhook events for payment processing.
