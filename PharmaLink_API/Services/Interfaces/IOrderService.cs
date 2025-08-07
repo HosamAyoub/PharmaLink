@@ -23,6 +23,13 @@ namespace PharmaLink_API.Services.Interfaces
         Task<ServiceResult<string>> CancelOrderAsync(string accountId, int orderId);
 
         /// <summary>
+        /// Retrieves an order summary for the specified account based on cart items.
+        /// </summary>
+        /// <param name="accountId">The unique identifier of the account.</param>
+        /// <returns>A ServiceResult containing the order summary DTO if found.</returns>
+        Task<ServiceResult<OrderSummaryDTO>> GetOrderSummaryAsync(string accountId);
+
+        /// <summary>
         /// Retrieves the details of an order for review by the specified account.
         /// </summary>
         /// <param name="orderId">The unique identifier of the order to review.</param>
