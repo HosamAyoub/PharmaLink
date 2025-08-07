@@ -15,11 +15,13 @@ namespace PharmaLink_API.Controllers
     {
         private IPharmacyRepository _PharmacyRepo { get; set; }
         private IMapper _Mapper { get; set; }
+        private readonly IWebHostEnvironment _WebHostEnvironment;
 
-        public PharmacyController(IPharmacyRepository pharmacyRepo, IMapper mapper)
+        public PharmacyController(IPharmacyRepository pharmacyRepo, IMapper mapper, IWebHostEnvironment webHostEnvironment)
         {
             _PharmacyRepo = pharmacyRepo;
             _Mapper = mapper;
+            _WebHostEnvironment = webHostEnvironment;
         }
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PharmacyDisplayDTO>>> GetAllPharmacies()
@@ -75,7 +77,8 @@ namespace PharmaLink_API.Controllers
         }
 
         [HttpPut("UpdatePharmacy")]
-        public async Task<IActionResult> UpdatePharmacy([FromBody] PharmacyDisplayDTO Editedpharmacy)
+        [Authorize(Roles = "Pharmacy")]
+        public async Task<IActionResult> UpdatePharmacy([FromForm] PharmacyUpdateDTO Editedpharmacy)
         {
             var accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(accountId))
@@ -95,10 +98,40 @@ namespace PharmaLink_API.Controllers
             existingPharmacy.Name = Editedpharmacy.Name;
             existingPharmacy.Address = Editedpharmacy.Address;
             existingPharmacy.Account.PhoneNumber = Editedpharmacy.PhoneNumber;
+            existingPharmacy.PhoneNumber = Editedpharmacy.PhoneNumber;
             existingPharmacy.Account.Email = Editedpharmacy.Email;
-            existingPharmacy.ImgUrl = Editedpharmacy.ImgUrl;
             existingPharmacy.StartHour = Editedpharmacy.StartHour;
             existingPharmacy.EndHour = Editedpharmacy.EndHour;
+
+            if (Editedpharmacy.Photo != null && Editedpharmacy.Photo.Length > 0)
+            {
+                var extension = Path.GetExtension(Editedpharmacy.Photo.FileName).ToLower();
+                var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".webp" };
+                if (!allowedExtensions.Contains(extension))
+                    return BadRequest("Unsupported image format.");
+
+                // remove old image if it exists
+                if (!string.IsNullOrEmpty(existingPharmacy.ImgUrl))
+                {
+                    var oldFileName = Path.GetFileName(new Uri(existingPharmacy.ImgUrl).LocalPath);
+                    var oldFilePath = Path.Combine(_WebHostEnvironment.WebRootPath, "uploads", oldFileName);
+
+                    if (System.IO.File.Exists(oldFilePath))
+                    {
+                        System.IO.File.Delete(oldFilePath);
+                    }
+                }
+
+                // save new image
+                var fileName = Guid.NewGuid() + extension;
+                var filePath = Path.Combine(_WebHostEnvironment.WebRootPath, "uploads", fileName);
+
+                using var stream = new FileStream(filePath, FileMode.Create);
+                await Editedpharmacy.Photo.CopyToAsync(stream);
+
+                existingPharmacy.ImgUrl = $"{Request.Scheme}://{Request.Host}/uploads/{fileName}";
+            }
+
 
             await _PharmacyRepo.UpdateAsync(existingPharmacy);
 
