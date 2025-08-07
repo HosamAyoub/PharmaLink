@@ -1,9 +1,11 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PharmaLink_API.Models;
 using PharmaLink_API.Models.DTO.PharmacyDTO;
 using PharmaLink_API.Repository.Interfaces;
+using System.Security.Claims;
 
 namespace PharmaLink_API.Controllers
 {
@@ -30,17 +32,25 @@ namespace PharmaLink_API.Controllers
             var pharmaciesDto = _Mapper.Map<IEnumerable<PharmacyDisplayDTO>>(pharmacies);
             return Ok(pharmaciesDto);
         }
-        [HttpGet("{id:int}")]
-        public async Task<ActionResult<PharmacyDisplayDTO>> GetPharmacyById(int id)
+
+        [Authorize(Roles = "Pharmacy")]
+        [HttpGet("pharmacyProfile")]
+        public async Task<ActionResult<PharmacyDisplayDTO>> GetPharmacyById()
         {
-            var pharmacy = await _PharmacyRepo.GetAsync(p => p.PharmacyID == id);
+            var accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(accountId))
+                return Unauthorized("Invalid token.");
+
+            var pharmacy = await _PharmacyRepo.GetAsync(p => p.AccountId == accountId, true, x => x.Account);
             if (pharmacy == null)
             {
-                return NotFound($"Pharmacy with ID {id} not found.");
+                return NotFound($"Pharmacy not found.");
             }
+
             var pharmacyDto = _Mapper.Map<PharmacyDisplayDTO>(pharmacy);
             return Ok(pharmacyDto);
         }
+
         [HttpGet("{name:alpha}")]
         public async Task<ActionResult<PharmacyDisplayDTO>> GetPharmacyByName(string name)
         {
@@ -52,6 +62,7 @@ namespace PharmaLink_API.Controllers
             var pharmacyDto = _Mapper.Map<PharmacyDisplayDTO>(pharmacy);
             return Ok(pharmacyDto);
         }
+
         [HttpPost]
         public async Task<IActionResult> CreatePharmacy([FromBody] Pharmacy pharmacy)
         {
@@ -62,23 +73,40 @@ namespace PharmaLink_API.Controllers
             await _PharmacyRepo.CreateAndSaveAsync(pharmacy);
             return CreatedAtAction(nameof(GetPharmacyById), new { id = pharmacy.PharmacyID }, pharmacy);
         }
-        [HttpPut("{id:int}")]
-        public async Task<IActionResult> UpdatePharmacy(int id, [FromBody] PharmacyDisplayDTO Editedpharmacy)
+
+        [HttpPut("UpdatePharmacy")]
+        public async Task<IActionResult> UpdatePharmacy([FromBody] PharmacyDisplayDTO Editedpharmacy)
         {
+            var accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(accountId))
+                return Unauthorized("Invalid token.");
+
+            var existingPharmacy = await _PharmacyRepo.GetAsync(p => p.AccountId == accountId, true, x => x.Account);
+            if (existingPharmacy == null)
+            {
+                return NotFound($"Pharmacy not found.");
+            }
+
             if (Editedpharmacy == null)
             {
                 return BadRequest("Invalid pharmacy data.");
             }
-            var existingPharmacy = await _PharmacyRepo.GetAsync(p => p.PharmacyID == id);
-            if (existingPharmacy == null)
-            {
-                return NotFound($"Pharmacy with ID {id} not found.");
-            }
-            // Map the updated properties from DTO to the existing entity
-            var pharmacyToUpdate = _Mapper.Map<Pharmacy>(Editedpharmacy);
-            await _PharmacyRepo.UpdateAsync(pharmacyToUpdate);
-            return NoContent();
+            // Update only allowed fields
+            existingPharmacy.Name = Editedpharmacy.Name;
+            existingPharmacy.Address = Editedpharmacy.Address;
+            existingPharmacy.Account.PhoneNumber = Editedpharmacy.PhoneNumber;
+            existingPharmacy.Account.Email = Editedpharmacy.Email;
+            existingPharmacy.ImgUrl = Editedpharmacy.ImgUrl;
+            existingPharmacy.StartHour = Editedpharmacy.StartHour;
+            existingPharmacy.EndHour = Editedpharmacy.EndHour;
+
+            await _PharmacyRepo.UpdateAsync(existingPharmacy);
+
+            // Map updated entity back to DTO and return it
+            var updatedDTO = _Mapper.Map<PharmacyDisplayDTO>(existingPharmacy);
+            return Ok(updatedDTO);
         }
+
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeletePharmacy(int id)
         {

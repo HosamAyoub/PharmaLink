@@ -26,6 +26,8 @@ namespace PharmaLink_API.Models
         [Range(0, 24, ErrorMessage = "Start hour must be between 0 and 24.")]
         public TimeOnly? EndHour { get; set; }
 
+        public string? ImgUrl { get; set; }
+
         //Pharmacy-Account relationship (one to one)
         public string AccountId { get; set; }
         public Account Account { get; set; }
