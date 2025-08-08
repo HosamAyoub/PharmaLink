@@ -16,7 +16,6 @@ namespace PharmaLink_API.Core.Validators
                 .GreaterThan(0).WithMessage("Price must be greater than 0.");
 
             RuleFor(x => x.QuantityAvailable)
-                .NotEmpty().WithMessage("Quantity Available is required.")
                 .GreaterThanOrEqualTo(0).WithMessage("Quantity Available cannot be negative.");
         }
     }
@@ -30,7 +29,6 @@ namespace PharmaLink_API.Core.Validators
                 .GreaterThan(0).WithMessage("Drug ID must be greater than 0.");
 
             RuleFor(x => x.QuantityAvailable)
-                .NotEmpty().WithMessage("Quantity Available is required.")
                 .GreaterThanOrEqualTo(0).WithMessage("Quantity Available cannot be negative.");
         }
     }
@@ -50,7 +48,6 @@ namespace PharmaLink_API.Core.Validators
         public IncreaseQuantityDTOValidator()
         {
             RuleFor(x => x.Quantity)
-                .NotEmpty().WithMessage("Quantity to increase is required.")
                 .GreaterThan(0).WithMessage("Quantity to increase must be a positive number.");
         }
     }
@@ -60,7 +57,6 @@ namespace PharmaLink_API.Core.Validators
         public DecreaseQuantityDTOValidator()
         {
             RuleFor(x => x.Quantity)
-                .NotEmpty().WithMessage("Quantity to decrease is required.")
                 .GreaterThan(0).WithMessage("Quantity to decrease must be a positive number.");
         }
     }

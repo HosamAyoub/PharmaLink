@@ -45,7 +45,6 @@ namespace PharmaLink_API.Controllers
 
 
         [HttpGet("GetBatchOfPharmacyStock")]
-
         public IActionResult GetPharmacyStockByPharmacyId(int pharmacyId, int pageNumber = 1, int pageSize = 10)
         {
             try
@@ -53,7 +52,6 @@ namespace PharmaLink_API.Controllers
                 _logger.LogInformation("GetPharmacyStock endpoint called with pharmacyId: {PharmacyId}, pageNumber: {PageNumber}, pageSize: {PageSize}", 
                     pharmacyId, pageNumber, pageSize);
 
-                int totalSize = 0;
 
                 var result = _pharmacyStockService.GetPharmacyStockByPharmacyID(pharmacyId, pageNumber, pageSize);
 
@@ -66,7 +64,6 @@ namespace PharmaLink_API.Controllers
                 {
                     success = true,
                     data = result.Data,
-                    pharamcystocksize = totalSize,
                     message = "Pharmacy stock retrieved successfully."
                 });
             }
@@ -112,6 +109,7 @@ namespace PharmaLink_API.Controllers
             }
 
         }
+
         [HttpGet("{category}")]
         public IActionResult GetPharmacyStockByCategory(int pharmacyId, string category, int pageNumber = 1, int pageSize = 10)
         {
