@@ -440,6 +440,35 @@ namespace PharmaLink_API.Services
             return ServiceResult<PharmacyAnalysisDTO>.SuccessResult(result);
         }
 
+        /// <summary>
+        /// Retrieves an order summary for the specified account based on cart items.
+        /// </summary>
+        /// <param name="accountId">The unique identifier of the account.</param>
+        /// <returns>A ServiceResult containing the order summary DTO if found.</returns>
+        public async Task<ServiceResult<OrderSummaryDTO>> GetOrderSummaryAsync(string accountId)
+        {
+            var patientResult = await GetPatientWithCartAsync(accountId);
+            if (!patientResult.Success)
+                return ServiceResult<OrderSummaryDTO>.ErrorResult(patientResult.ErrorMessage, patientResult.ErrorType ?? ErrorType.Internal);
+
+            var patient = patientResult.Data;
+            var cartItems = patient.CartItems.ToList();
+
+            if (!cartItems.Any())
+                return ServiceResult<OrderSummaryDTO>.ErrorResult("No items in cart.", ErrorType.NotFound);
+
+            // Calculate cart totals
+            var subtotal = cartItems.Sum(item => item.Price * item.Quantity);
+            var deliveryFee = 4.99m;
+
+            var orderSummaryDto = _mapper.Map<OrderSummaryDTO>(patient);
+            orderSummaryDto.Subtotal = subtotal;
+            orderSummaryDto.DeliveryFee = deliveryFee;
+            // Note: Total is computed automatically by the property
+
+            return ServiceResult<OrderSummaryDTO>.SuccessResult(orderSummaryDto);
+        }
+
         // ** Helper Methods **//
 
         /// <summary>

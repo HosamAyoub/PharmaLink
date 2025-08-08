@@ -34,7 +34,7 @@ namespace PharmaLink_API.Services
         {
             var patient = await GetRequiredPatientAsync(accountId);
 
-            var cartItems = await GetCartItemsAsync(patient.PatientId);
+            var cartItems = await GetCartItemsInternalAsync(patient.PatientId);
             if (cartItems == null || !cartItems.Any())
                 return null;
 
@@ -51,6 +51,23 @@ namespace PharmaLink_API.Services
                 CartItems = cartItemDtos,
                 OrderSummary = orderDto
             };
+        }
+
+        /// <summary>
+        /// Retrieves only the cart items for the specified account.
+        /// </summary>
+        /// <param name="accountId">The unique identifier of the account.</param>
+        /// <returns>A list of cart item DTOs, or null if cart is empty.</returns>
+        public async Task<List<CartItemDetailsDTO>?> GetCartItemsAsync(string accountId)
+        {
+            var patient = await GetRequiredPatientAsync(accountId);
+
+            var cartItems = await GetCartItemsInternalAsync(patient.PatientId);
+            if (cartItems == null || !cartItems.Any())
+                return null;
+
+            var cartItemDtos = _mapper.Map<List<CartItemDetailsDTO>>(cartItems);
+            return cartItemDtos;
         }
 
         /// <summary>
@@ -84,6 +101,126 @@ namespace PharmaLink_API.Services
             var totalCount = await GetUpdatedCartCountAsync(patientId);
 
             return (responseDTO, totalCount);
+        }
+
+        /// <summary>
+        /// Adds multiple items to the cart for the specified account.
+        /// </summary>
+        /// <param name="accountId">The unique identifier of the account.</param>
+        /// <param name="cartItemsDto">The DTO containing multiple item details to add.</param>
+        /// <returns>A response DTO containing information about successfully added items and any errors.</returns>
+        public async Task<AddMultipleItemsToCartResponseDTO> AddMultipleItemsToCartAsync(string accountId, List<AddToCartDTO> cartItems)
+        {
+            var response = new AddMultipleItemsToCartResponseDTO();
+
+            if (cartItems == null || !cartItems.Any())
+            {
+                response.Errors.Add("No items provided to add to cart.");
+                return response;
+            }
+
+            try
+            {
+                var patient = await GetRequiredPatientAsync(accountId);
+                int patientId = patient.PatientId;
+
+                // Check if cart has items from different pharmacy
+                var existingCartItems = await _cartRepository.GetAllAsync(c => c.PatientId == patientId);
+                if (existingCartItems.Any())
+                {
+                    var existingPharmacyId = existingCartItems.First().PharmacyId;
+                    var hasDifferentPharmacy = cartItems.Any(item => item.PharmacyId != existingPharmacyId);
+                    
+                    if (hasDifferentPharmacy)
+                    {
+                        response.Errors.Add("You can only add drugs from one pharmacy at a time.");
+                        return response;
+                    }
+                }
+
+                // Check that all items are from the same pharmacy
+                var distinctPharmacies = cartItems.Select(i => i.PharmacyId).Distinct().ToList();
+                if (distinctPharmacies.Count > 1)
+                {
+                    response.Errors.Add("All items must be from the same pharmacy.");
+                    return response;
+                }
+
+                // Process each item
+                foreach (var item in cartItems)
+                {
+                    try
+                    {
+                        // Validate item
+                        if (item.DrugId <= 0 || item.PharmacyId <= 0 || item.Quantity <= 0)
+                        {
+                            response.Errors.Add($"Invalid item data for DrugId: {item.DrugId}, PharmacyId: {item.PharmacyId}");
+                            response.Failed++;
+                            continue;
+                        }
+
+                        // Check if stock exists
+                        var stockExists = await _pharmacyStockRepository.GetAsync(
+                            s => s.DrugId == item.DrugId && s.PharmacyId == item.PharmacyId);
+                        
+                        if (stockExists == null)
+                        {
+                            response.Errors.Add($"Drug {item.DrugId} is not available in pharmacy {item.PharmacyId}.");
+                            response.Failed++;
+                            continue;
+                        }
+
+                        // Check if item already exists in cart
+                        var existingCartItem = await _cartRepository.GetAsync(
+                            u => u.PatientId == patientId && u.DrugId == item.DrugId && u.PharmacyId == item.PharmacyId);
+
+                        CartItem finalCartItem;
+                        if (existingCartItem == null)
+                        {
+                            // Create new cart item
+                            var newItem = _mapper.Map<CartItem>(item);
+                            newItem.PatientId = patientId;
+                            newItem.Price = stockExists.Price;
+                            await _cartRepository.CreateAndSaveAsync(newItem);
+                            finalCartItem = newItem;
+                        }
+                        else
+                        {
+                            // Update existing item quantity
+                            _cartRepository.IncrementCount(existingCartItem, item.Quantity);
+                            finalCartItem = existingCartItem;
+                        }
+
+                        // Add to successful items
+                        var responseDto = _mapper.Map<CartItemResponseDTO>(finalCartItem);
+                        response.AddedItems.Add(responseDto);
+                        response.SuccessfullyAdded++;
+                    }
+                    catch (Exception ex)
+                    {
+                        response.Errors.Add($"Error adding item DrugId: {item.DrugId}, PharmacyId: {item.PharmacyId}: {ex.Message}");
+                        response.Failed++;
+                    }
+                }
+
+                // Save all changes
+                await _cartRepository.SaveAsync();
+
+                // Get updated cart count
+                response.TotalItemsInCart = await GetUpdatedCartCountAsync(patientId);
+
+                return response;
+            }
+            catch (ArgumentException ex)
+            {
+                response.Errors.Add(ex.Message);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Errors.Add($"An error occurred while adding items to cart: {ex.Message}");
+                return response;
+            }
         }
 
         /// <summary>
@@ -162,7 +299,7 @@ namespace PharmaLink_API.Services
             var patient = await GetRequiredPatientAsync(accountId);
             int patientId = patient.PatientId;
 
-            var cartItems = await GetCartItemsAsync(patient.PatientId);
+            var cartItems = await GetCartItemsInternalAsync(patient.PatientId);
             if (cartItems == null || !cartItems.Any())
                 throw new InvalidOperationException("Your cart is already empty.");
 
@@ -177,7 +314,7 @@ namespace PharmaLink_API.Services
         /// </summary>
         /// <param name="patientId">The patient ID.</param>
         /// <returns>List of CartItem entities.</returns>
-        private async Task<List<CartItem>> GetCartItemsAsync(int patientId)
+        private async Task<List<CartItem>> GetCartItemsInternalAsync(int patientId)
         {
             return await _cartRepository.GetAllAsync(
                 u => u.PatientId == patientId,

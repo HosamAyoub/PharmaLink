@@ -12,12 +12,27 @@ namespace PharmaLink_API.Services.Interfaces
         Task<CartItemSummaryDTO?> GetCartSummaryAsync(string accountId);
 
         /// <summary>
+        /// Retrieves only the cart items for the specified account.
+        /// </summary>
+        /// <param name="accountId">The unique identifier of the account.</param>
+        /// <returns>A list of cart item DTOs, or null if cart is empty.</returns>
+        Task<List<CartItemDetailsDTO>?> GetCartItemsAsync(string accountId);
+
+        /// <summary>
         /// Adds an item to the cart for the specified account.
         /// </summary>
         /// <param name="accountId">The unique identifier of the account.</param>
         /// <param name="cartItemDto">The DTO containing item details to add.</param>
         /// <returns>A tuple containing the added cart item and the total count of items in the cart.</returns>
         Task<(CartItemResponseDTO cartItem, int totalCount)> AddToCartAsync(string accountId, AddToCartDTO cartItemDto);
+
+        /// <summary>
+        /// Adds multiple items to the cart for the specified account.
+        /// </summary>
+        /// <param name="accountId">The unique identifier of the account.</param>
+        /// <param name="cartItemsDto">The DTO containing multiple item details to add.</param>
+        /// <returns>A response DTO containing information about successfully added items and any errors.</returns>
+        Task<AddMultipleItemsToCartResponseDTO> AddMultipleItemsToCartAsync(string accountId, List<AddToCartDTO> cartItems);
 
         /// <summary>
         /// Removes an item from the cart for the specified account.
