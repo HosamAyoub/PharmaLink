@@ -143,26 +143,26 @@ namespace PharmaLink_API.Data
 
             base.OnModelCreating(modelBuilder);
 
-            //// *********Seed tables********* //
+            // *********Seed tables********* //
 
-            //// 1. Drugs
-            //SeedDrugs(modelBuilder);
+            // 1. Drugs
+            SeedDrugs(modelBuilder);
 
-            //// 2. Roles
-            //SeedRoles(modelBuilder);
+            // 2. Roles
+            SeedRoles(modelBuilder);
 
-            //// 3. Pharmacies
-            //SeedPharmacies(modelBuilder);
+            // 3. Pharmacies
+            SeedPharmacies(modelBuilder);
 
-            //// 4. Patients
-            //SeedPatients(modelBuilder);
+            // 4. Patients
+            SeedPatients(modelBuilder);
 
-            //// 5. PharmacyStock
-            //SeedPharmacyStocks(modelBuilder);
-            //// 6. OrderDetails
-            //SeedOrderDetails(modelBuilder);
-            //// 7. Orders
-            //SeedOrders(modelBuilder);
+            // 5. PharmacyStock
+            SeedPharmacyStocks(modelBuilder);
+            // 6. OrderDetails
+            SeedOrderDetails(modelBuilder);
+            // 7. Orders
+            SeedOrders(modelBuilder);
         }
 
 
@@ -329,7 +329,7 @@ namespace PharmaLink_API.Data
                 Description = "Common OTC analgesic",
                 Storage_and_handling = "Store below 25°C",
                 Adverse_reactions = "Nausea, rash",
-                Drug_UrlImg = "images/Medicine/Paracetamol.jpg"
+                Drug_UrlImg = "https://www.bloompharmacy.com/cdn/shop/products/paracetamol-500-mg-20-tablets-606862.jpg?v=1707749818"
             },
             new Drug
             {
@@ -348,7 +348,7 @@ namespace PharmaLink_API.Data
                 Description = "NSAID used for pain and inflammation",
                 Storage_and_handling = "Store below 25°C",
                 Adverse_reactions = "GI bleeding, headache",
-                Drug_UrlImg = "images/Medicine/Ibuprofen.jpg"
+                Drug_UrlImg = "https://lh6.googleusercontent.com/proxy/uQRcEtpKh0CN_X9m4XoC-XIsU50ITQYNcXEn6YiF4wxFvvctThypADpbL0xskSrs1hM3d6mJlUmnIJ010DF1YihIVBXZ0lnDUq1jWrS_v0wQ5IZDfOQLkQ7ZrzJaTC0KwA"
             },
             new Drug
             {
@@ -367,7 +367,7 @@ namespace PharmaLink_API.Data
                 Description = "Broad-spectrum antibiotic",
                 Storage_and_handling = "Store in a cool, dry place",
                 Adverse_reactions = "Diarrhea, rash",
-                Drug_UrlImg = "images/Medicine/Amoxicillin.jpg"
+                Drug_UrlImg = "https://www.canonbury.com/media/catalog/product/cache/ac001188e3511e11921f4c9c9c586cfc/a/m/amoxicillin_capsules_500mg_15_pl_la_.png"
             }
         );
         }
