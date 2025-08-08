@@ -10,7 +10,7 @@ namespace PharmaLink_API.Services.Interfaces
         /// </summary>
         /// <param name="orderId">The unique identifier of the order to create a payment session for.</param>
         /// <returns>A ServiceResult containing the Stripe session DTO with session details.</returns>
-        Task<ServiceResult<StripeSessionDTO>> CreateStripeSessionAsync(int orderId);
+        Task<ServiceResult<StripeSessionDTO>> CreateStripeSessionAsync(decimal deliveryFee, string accountId);
 
         /// <summary>
         /// Handles incoming Stripe webhook events from the payment gateway.

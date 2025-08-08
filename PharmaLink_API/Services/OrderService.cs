@@ -67,6 +67,16 @@ namespace PharmaLink_API.Services
 
             decimal totalPrice = validationResult.Data;
 
+            if (dto.PaymentMethod.ToLower() != "cash")
+            {
+                return ServiceResult<OrderResponseDTO>.SuccessResult(new OrderResponseDTO
+                {
+                    OrderId = 0, // Not yet created
+                    PaymentMethod = dto.PaymentMethod,
+                    Message = "Stripe payment required."
+                });
+            }
+
             var order = await CreateOrderAsync(patient, dto.PaymentMethod, totalPrice, pharmacyId);
             await CreateOrderDetailsAsync(order.OrderID, cartItems);
             await UpdateStockAsync(cartItems);
@@ -145,7 +155,7 @@ namespace PharmaLink_API.Services
             if (order.PharmacyId != pharmacy.PharmacyID)
                 return ServiceResult.ErrorResult("You are not authorized to update this order.", ErrorType.Authorization);
 
-            if (order.Status != SD.StatusPending)
+            if (order.Status != SD.StatusPending && order.Status != SD.StatusReviewing)
                 return ServiceResult.ErrorResult("Only pending orders can be out for delivery.", ErrorType.Validation);
 
             order.Status = SD.StatusOutForDelivery;
@@ -397,10 +407,11 @@ namespace PharmaLink_API.Services
                 {
                     DrugId = g.Key,
                     DrugName = g.Select(od => od.PharmacyProduct?.Drug?.CommonName).FirstOrDefault() ?? "Unknown",
-                    TotalQuantity = g.Sum(od => od.Quantity),
+                    SalesCount = g.Sum(od => od.Quantity),
+                    TotalQuantity = g.Select(od=> od.PharmacyProduct.QuantityAvailable).FirstOrDefault(),
                     TotalRevenue = g.Sum(od => od.Quantity * od.Price)
                 })
-                .OrderByDescending(x => x.TotalQuantity)
+                .OrderByDescending(x => x.SalesCount)
                 .Take(10) 
                 .ToList();
             var topCustomer = orders
@@ -427,6 +438,35 @@ namespace PharmaLink_API.Services
             };
 
             return ServiceResult<PharmacyAnalysisDTO>.SuccessResult(result);
+        }
+
+        /// <summary>
+        /// Retrieves an order summary for the specified account based on cart items.
+        /// </summary>
+        /// <param name="accountId">The unique identifier of the account.</param>
+        /// <returns>A ServiceResult containing the order summary DTO if found.</returns>
+        public async Task<ServiceResult<OrderSummaryDTO>> GetOrderSummaryAsync(string accountId)
+        {
+            var patientResult = await GetPatientWithCartAsync(accountId);
+            if (!patientResult.Success)
+                return ServiceResult<OrderSummaryDTO>.ErrorResult(patientResult.ErrorMessage, patientResult.ErrorType ?? ErrorType.Internal);
+
+            var patient = patientResult.Data;
+            var cartItems = patient.CartItems.ToList();
+
+            if (!cartItems.Any())
+                return ServiceResult<OrderSummaryDTO>.ErrorResult("No items in cart.", ErrorType.NotFound);
+
+            // Calculate cart totals
+            var subtotal = cartItems.Sum(item => item.Price * item.Quantity);
+            var deliveryFee = 4.99m;
+
+            var orderSummaryDto = _mapper.Map<OrderSummaryDTO>(patient);
+            orderSummaryDto.Subtotal = subtotal;
+            orderSummaryDto.DeliveryFee = deliveryFee;
+            // Note: Total is computed automatically by the property
+
+            return ServiceResult<OrderSummaryDTO>.SuccessResult(orderSummaryDto);
         }
 
         // ** Helper Methods **//
