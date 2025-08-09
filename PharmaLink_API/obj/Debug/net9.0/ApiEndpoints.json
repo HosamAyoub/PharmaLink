@@ -49,6 +49,32 @@
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.CartController",
+    "Method": "AddMultipleToCart",
+    "RelativePath": "api/Cart/AddMultipleToCart",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cartItems",
+        "Type": "System.Collections.Generic.List\u00601[[PharmaLink_API.Models.DTO.CartDTO.AddToCartDTO, PharmaLink_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "PharmaLink_API.Models.DTO.CartDTO.AddMultipleItemsToCartResponseDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.CartController",
     "Method": "AddToCart",
     "RelativePath": "api/Cart/AddToCart",
     "HttpMethod": "POST",
@@ -72,6 +98,26 @@
     "Order": 0,
     "Parameters": [],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.CartController",
+    "Method": "GetCartItems",
+    "RelativePath": "api/Cart/items",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[PharmaLink_API.Models.DTO.CartDTO.CartItemDetailsDTO, PharmaLink_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.CartController",
@@ -516,6 +562,16 @@
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.OrdersController",
+    "Method": "GetOrderSummary",
+    "RelativePath": "api/Orders/order-summary",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.OrdersController",
     "Method": "GetPharmacyOrders",
     "RelativePath": "api/Orders/orders",
     "HttpMethod": "GET",
@@ -721,6 +777,32 @@
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.PharmacyController",
+    "Method": "GetPharmacyById_forUser",
+    "RelativePath": "api/Pharmacy/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "PharmaLink_API.Models.DTO.PharmacyDTO.PharmacyDisplayDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.PharmacyController",
     "Method": "DeletePharmacy",
     "RelativePath": "api/Pharmacy/{id}",
     "HttpMethod": "DELETE",
@@ -749,6 +831,26 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": [
+      {
+        "Type": "PharmaLink_API.Models.DTO.PharmacyDTO.PharmacyDisplayDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.PharmacyController",
+    "Method": "GetPharmacyById_forUser",
+    "RelativePath": "api/Pharmacy/pharmacyById",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": [
       {
         "Type": "PharmaLink_API.Models.DTO.PharmacyDTO.PharmacyDisplayDTO",

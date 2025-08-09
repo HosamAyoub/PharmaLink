@@ -35,6 +35,21 @@ namespace PharmaLink_API.Controllers
             return Ok(pharmaciesDto);
         }
 
+        [HttpGet("pharmacyById")]
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<PharmacyDisplayDTO>> GetPharmacyById_forUser(int Id)
+        {
+
+            var pharmacy = await _PharmacyRepo.GetAsync(p => p.PharmacyID == Id);
+            if (pharmacy == null)
+            {
+                return NotFound($"Pharmacy not found.");
+            }
+
+            var pharmacyDto = _Mapper.Map<PharmacyDisplayDTO>(pharmacy);
+            return Ok(pharmacyDto);
+        }
+
         [Authorize(Roles = "Pharmacy")]
         [HttpGet("pharmacyProfile")]
         public async Task<ActionResult<PharmacyDisplayDTO>> GetPharmacyById()
