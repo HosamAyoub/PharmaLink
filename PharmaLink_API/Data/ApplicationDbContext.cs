@@ -233,7 +233,7 @@ namespace PharmaLink_API.Data
                     Email = "pharmacy1@example.com",
                     NormalizedEmail = "PHARMACY1@EXAMPLE.COM",
                     EmailConfirmed = true,
-                    PasswordHash = "AQAAAAIAAYagAAAAEMxQ1234567890abcdefghijklmnop", // Hash for "123"
+                    PasswordHash = "AQAAAAIAAYagAAAAEFTj4mquLwOc1c1NB1+xuRpdZLOn3yWriL5bvub4bhK+BU1+xQbPOTHbYNoyg/OL9A==", // Hash for "Ads6*6"
                     PhoneNumber = "01012345678",
                     PhoneNumberConfirmed = true,
                     SecurityStamp = "7D8C9A2B4E6F1C3A5B9D8E7F6A5C4B3A", // Static value
@@ -247,7 +247,7 @@ namespace PharmaLink_API.Data
                     Email = "pharmacy2@example.com",
                     NormalizedEmail = "PHARMACY2@EXAMPLE.COM",
                     EmailConfirmed = true,
-                    PasswordHash = "AQAAAAIAAYagAAAAEMxQ1234567890abcdefghijklmnop",
+                    PasswordHash = "AQAAAAIAAYagAAAAEFTj4mquLwOc1c1NB1+xuRpdZLOn3yWriL5bvub4bhK+BU1+xQbPOTHbYNoyg/OL9A==",
                     PhoneNumber = "01023456789",
                     PhoneNumberConfirmed = true,
                     SecurityStamp = "8E9F0A1B2C3D4E5F6G7H8I9J0K1L2M3N", // Static value
@@ -261,14 +261,14 @@ namespace PharmaLink_API.Data
                     Email = "pharmacy3@example.com",
                     NormalizedEmail = "PHARMACY3@EXAMPLE.COM",
                     EmailConfirmed = true,
-                    PasswordHash = "AQAAAAIAAYagAAAAEMxQ1234567890abcdefghijklmnop",
+                    PasswordHash = "AQAAAAIAAYagAAAAEFTj4mquLwOc1c1NB1+xuRpdZLOn3yWriL5bvub4bhK+BU1+xQbPOTHbYNoyg/OL9A==",
                     PhoneNumber = "01034567890",
                     PhoneNumberConfirmed = true,
                     SecurityStamp = "9F0A1B2C3D4E5F6G7H8I9J0K1L2M3N4O", // Static value
                     ConcurrencyStamp = "3C4D5E6F7G8H9I0J1K2L3M4N5O6P7Q8R" // Static value
                 }
             );
- 
+
             // Pharmacies - Using DateTime for TimeOnly conversion
             modelBuilder.Entity<Pharmacy>().HasData(
                 new Pharmacy
@@ -308,6 +308,22 @@ namespace PharmaLink_API.Data
                     AccountId = "33333333-3333-3333-3333-333333333333"
                 }
             );
+
+            modelBuilder.Entity<IdentityUserRole<string>>().HasData(
+                new IdentityUserRole<string>
+                { UserId = "11111111-1111-1111-1111-111111111111",
+                    RoleId = "2" },
+                new IdentityUserRole<string>
+                {
+                    UserId = "22222222-2222-2222-2222-222222222222",
+                    RoleId = "2"
+                },
+                new IdentityUserRole<string>
+                {
+                    UserId = "33333333-3333-3333-3333-333333333333",
+                    RoleId = "2"
+                }
+                );
         }
         private void SeedDrugs(ModelBuilder modelBuilder)
         {
@@ -383,7 +399,7 @@ namespace PharmaLink_API.Data
                     Email = "patient1@example.com",
                     NormalizedEmail = "PATIENT1@EXAMPLE.COM",
                     EmailConfirmed = true,
-                    PasswordHash = "AQAAAAIAAYagAAAAEHYx1JwHk7QbX1YpJxTwWk+YqGE=", // Hash for "123"
+                    PasswordHash = "AQAAAAIAAYagAAAAEFTj4mquLwOc1c1NB1+xuRpdZLOn3yWriL5bvub4bhK+BU1+xQbPOTHbYNoyg/OL9A==", // Hash for "Ads6*6"
                     PhoneNumber = "01045678901",
                     PhoneNumberConfirmed = true,
                     SecurityStamp = "A1B2C3D4E5F6G7H8I9J0K1L2M3N4O5P6", // Static value
@@ -397,7 +413,7 @@ namespace PharmaLink_API.Data
                     Email = "patient2@example.com",
                     NormalizedEmail = "PATIENT2@EXAMPLE.COM",
                     EmailConfirmed = true,
-                    PasswordHash = "AQAAAAIAAYagAAAAEHYx1JwHk7QbX1YpJxTwWk+YqGE=", // Hash for "123"
+                    PasswordHash = "AQAAAAIAAYagAAAAEFTj4mquLwOc1c1NB1+xuRpdZLOn3yWriL5bvub4bhK+BU1+xQbPOTHbYNoyg/OL9A==", // Hash for "Ads6*6"
                     PhoneNumber = "01056789012",
                     PhoneNumberConfirmed = true,
                     SecurityStamp = "B2C3D4E5F6G7H8I9J0K1L2M3N4O5P6Q7", // Static value
@@ -411,7 +427,7 @@ namespace PharmaLink_API.Data
                     Email = "patient3@example.com",
                     NormalizedEmail = "PATIENT3@EXAMPLE.COM",
                     EmailConfirmed = true,
-                    PasswordHash = "AQAAAAIAAYagAAAAEHYx1JwHk7QbX1YpJxTwWk+YqGE=", // Hash for "123"
+                    PasswordHash = "AQAAAAIAAYagAAAAEFTj4mquLwOc1c1NB1+xuRpdZLOn3yWriL5bvub4bhK+BU1+xQbPOTHbYNoyg/OL9A==", // Hash for "Ads6*6"
                     PhoneNumber = "01067890123",
                     PhoneNumberConfirmed = true,
                     SecurityStamp = "C3D4E5F6G7H8I9J0K1L2M3N4O5P6Q7R8", // Static value
@@ -462,6 +478,24 @@ namespace PharmaLink_API.Data
                 }
             );
 
+
+            modelBuilder.Entity<IdentityUserRole<string>>().HasData(
+                new IdentityUserRole<string>
+                {
+                    UserId = "44444444-4444-4444-4444-444444444444",
+                    RoleId = "3"
+                },
+                new IdentityUserRole<string>
+                {
+                    UserId = "55555555-5555-5555-5555-555555555555",
+                    RoleId = "3"
+                },
+                new IdentityUserRole<string>
+                {
+                    UserId = "66666666-6666-6666-6666-666666666666",
+                    RoleId = "3"
+                }
+                );
         }
         private void SeedPharmacyStocks(ModelBuilder modelBuilder)
         {
