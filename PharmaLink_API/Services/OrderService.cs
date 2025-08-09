@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using PharmaLink_API.Core.Enums;
 using PharmaLink_API.Core.Results;
 using PharmaLink_API.Data;
+using PharmaLink_API.Hubs;
 using PharmaLink_API.Models;
 using PharmaLink_API.Models.DTO.CartDTO;
 using PharmaLink_API.Models.DTO.OrderDTO;
@@ -24,6 +26,7 @@ namespace PharmaLink_API.Services
         private readonly IPharmacyRepository _pharmacyRepository;
         private readonly IMapper _mapper;
         private readonly IStripeService _stripeService;
+        private readonly IHubContext<OrderHub> _orderHubContext;
 
         public OrderService(
             ApplicationDbContext dbContext,
@@ -34,7 +37,8 @@ namespace PharmaLink_API.Services
             IPharmacyStockRepository pharmacyStockRepository,
             IPharmacyRepository pharmacyRepository,
             IMapper mapper,
-            IStripeService stripeService)
+            IStripeService stripeService,
+            IHubContext<OrderHub> orderHubContext)
         {
             _dbContext = dbContext;
             _cartRepository = cartRepository;
@@ -45,6 +49,7 @@ namespace PharmaLink_API.Services
             _pharmacyRepository = pharmacyRepository;
             _mapper = mapper;
             _stripeService = stripeService;
+            _orderHubContext = orderHubContext;
         }
 
         /// <summary>
@@ -81,6 +86,15 @@ namespace PharmaLink_API.Services
             await CreateOrderDetailsAsync(order.OrderID, cartItems);
             await UpdateStockAsync(cartItems);
             await ClearCartAsync(patient.CartItems.ToList());
+
+            await _orderHubContext.Clients.Group(pharmacyId.ToString())
+                .SendAsync("NewOrder", new
+                {
+                    OrderId = order.OrderID,
+                    PaymentMethod = dto.PaymentMethod,
+                    TotalPrice = totalPrice,
+                    CreatedAt = DateTime.Now
+                });
 
             return ServiceResult<OrderResponseDTO>.SuccessResult(new OrderResponseDTO
             {
