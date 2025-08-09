@@ -67,7 +67,6 @@ namespace PharmaLink_API.Controllers
             var pharmacyDto = _Mapper.Map<PharmacyDisplayDTO>(pharmacy);
             return Ok(pharmacyDto);
         }
-
         [HttpGet("{name:alpha}")]
         public async Task<ActionResult<PharmacyDisplayDTO>> GetPharmacyByName(string name)
         {
