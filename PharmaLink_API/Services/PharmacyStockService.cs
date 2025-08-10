@@ -52,7 +52,64 @@ namespace PharmaLink_API.Services
             _logger = logger;
         }
 
+        public ServiceResult<List<PharmacyProductDetailsDTO>> GetAllPharmacyStockInventory(ClaimsPrincipal user, int? pharmacyId)
+        {
+            try
+            {
+                _logger.LogInformation("Getting pharmacy inventory  for pharmacyId {PharmacyId}", pharmacyId);
+                // Input validation
+                if (pharmacyId <= 0)
+                {
+                    return ServiceResult<List<PharmacyProductDetailsDTO>>.ErrorResult("Pharmacy ID must be a positive number.", ErrorType.Validation);
+                }
+                var pharmacyIdResult = GetPharmacyIdForUser(user, pharmacyId);
+                if (!pharmacyIdResult.Success)
+                    return ServiceResult<List<PharmacyProductDetailsDTO>>.ErrorResult(
+                        pharmacyIdResult.ErrorMessage,
+                        pharmacyIdResult.ErrorType ?? ErrorType.Authorization);
 
+                var pharmacyStock = _pharmacyStockRepository.GetAllPharmacyStockByPharmacyID(pharmacyIdResult.Data);
+
+                if (pharmacyStock == null)
+                {
+                    return ServiceResult<List<PharmacyProductDetailsDTO>>.ErrorResult(
+                        $"No inventory found for pharmacy ID {pharmacyId}.",
+                        ErrorType.NotFound);
+                }
+
+                var pharmacyStockDetailsDTOs = pharmacyStock.Select(stock => new PharmacyProductDetailsDTO
+                {
+                    DrugId = stock.DrugId,
+                    DrugName = stock.Drug?.CommonName,
+                    DrugActiveIngredient = stock.Drug?.ActiveIngredient,
+                    DrugCategory = stock.Drug?.Category,
+                    DrugDescription = stock.Drug?.Description,
+                    DrugImageUrl = stock.Drug?.Drug_UrlImg,
+                    PharmacyId = stock.PharmacyId,
+                    PharmacyName = stock.Pharmacy?.Name,
+                    Price = stock.Price,
+                    QuantityAvailable = stock.QuantityAvailable,
+                    Status = stock.Status
+                }).ToList();
+
+                _logger.LogInformation("Successfully retrieved {Count} pharmacy stock items", pharmacyStockDetailsDTOs.Count);
+                return ServiceResult<List<PharmacyProductDetailsDTO>>.SuccessResult(pharmacyStockDetailsDTOs);
+            }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogError(ex, "Invalid operation while getting pharmacy inventory ");
+                return ServiceResult<List<PharmacyProductDetailsDTO>>.ErrorResult(
+                    "Failed to retrieve pharmacy inventory.",
+                    ErrorType.Database);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error while getting pharmacy inventory ");
+                return ServiceResult<List<PharmacyProductDetailsDTO>>.ErrorResult(
+                    "An unexpected error occurred while retrieving pharmacy inventory.",
+                    ErrorType.Internal);
+            }
+        }
 
         public ServiceResult<PharmaInventoryDTO> GetPharmacyInventoryStatus(ClaimsPrincipal user, int? pharmacyId)
         {
@@ -155,7 +212,8 @@ namespace PharmaLink_API.Services
                     PharmacyId = stock.PharmacyId,
                     PharmacyName = stock.Pharmacy?.Name,
                     Price = stock.Price,
-                    QuantityAvailable = stock.QuantityAvailable
+                    QuantityAvailable = stock.QuantityAvailable,
+                    Status = stock.Status
                 }).ToList();
 
                 var pharmacyStockPagination = new PharmacyStockDTO_WithPagination()
@@ -225,7 +283,9 @@ namespace PharmaLink_API.Services
                     PharmacyId = stock.PharmacyId,
                     PharmacyName = stock.Pharmacy?.Name,
                     Price = stock.Price,
-                    QuantityAvailable = stock.QuantityAvailable
+                    QuantityAvailable = stock.QuantityAvailable,
+                    Status = stock.Status
+
                 }).ToList();
                 _logger.LogInformation("Successfully retrieved {Count} pharmacy stock items", pharmacyStockDetailsDTOs.Count);
                 return ServiceResult<List<PharmacyProductDetailsDTO>>.SuccessResult(pharmacyStockDetailsDTOs);
@@ -474,7 +534,8 @@ namespace PharmaLink_API.Services
                     PharmacyId = stock.PharmacyId,
                     PharmacyName = stock.Pharmacy?.Name,
                     Price = stock.Price,
-                    QuantityAvailable = stock.QuantityAvailable
+                    QuantityAvailable = stock.QuantityAvailable,
+                    Status = stock.Status
                 }).ToList();
                 _logger.LogInformation("Successfully retrieved {Count} products in category {Category}",
                     pharmacyStockDetailsDTOs.Count, category);
@@ -552,7 +613,8 @@ namespace PharmaLink_API.Services
                     PharmacyId = stock.PharmacyId,
                     PharmacyName = stock.Pharmacy?.Name,
                     Price = stock.Price,
-                    QuantityAvailable = stock.QuantityAvailable
+                    QuantityAvailable = stock.QuantityAvailable,
+                    Status = stock.Status
                 }).ToList();
                 _logger.LogInformation("Successfully retrieved {Count} products in drug Name {drugName}",
                     pharmacyStockDetailsDTOs.Count, drugName);
@@ -620,7 +682,8 @@ namespace PharmaLink_API.Services
                     PharmacyId = stock.PharmacyId,
                     PharmacyName = stock.Pharmacy?.Name,
                     Price = stock.Price,
-                    QuantityAvailable = stock.QuantityAvailable
+                    QuantityAvailable = stock.QuantityAvailable,
+                    Status = stock.Status
                 }).ToList();
                 _logger.LogInformation("Successfully retrieved {Count} products in activeIngrediante Name {activeIngrediante}",
                     pharmacyStockDetailsDTOs.Count, activeIngrediante);
@@ -694,7 +757,8 @@ namespace PharmaLink_API.Services
                     PharmacyId = stock.PharmacyId,
                     PharmacyName = stock.Pharmacy?.Name,
                     Price = stock.Price,
-                    QuantityAvailable = stock.QuantityAvailable
+                    QuantityAvailable = stock.QuantityAvailable,
+                    Status = stock.Status
                 }).ToList();
                 _logger.LogInformation("Successfully retrieved {Count} products for search query {Query}",
                     pharmacyStockDetailsDTOs.Count, q);
@@ -755,7 +819,8 @@ namespace PharmaLink_API.Services
                     PharmacyId = product.PharmacyId,
                     PharmacyName = product.Pharmacy?.Name,
                     Price = product.Price,
-                    QuantityAvailable = product.QuantityAvailable
+                    QuantityAvailable = product.QuantityAvailable,
+                    Status = product.Status
                 };
 
                 _logger.LogInformation("Successfully retrieved pharmacy product details for pharmacyId {PharmacyId} and drugId {DrugId}", pharmacyId, drugId);

@@ -12,7 +12,7 @@ namespace PharmaLink_API.Services.Interfaces
     public interface IPharmacyStockService
     {
 
-
+        ServiceResult<List<PharmacyProductDetailsDTO>> GetAllPharmacyStockInventory(ClaimsPrincipal user, int? pharmacyId);
         ServiceResult<PharmaInventoryDTO> GetPharmacyInventoryStatus(ClaimsPrincipal user, int? pharmacyId);
         /// <summary>
         /// Retrieves pharmacy stock for a specific pharmacy with pagination.

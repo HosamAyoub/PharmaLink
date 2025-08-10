@@ -42,6 +42,27 @@ namespace PharmaLink_API.Controllers
         }
 
 
+        [HttpGet("AllInventory")]
+        public IActionResult GetAllPharmacyInventory(int? pharmacyId)
+        {
+
+            _logger.LogInformation("GetPharmacyInventory endpoint called for pharmacyId: {PharmacyId}", pharmacyId);
+            var result = _pharmacyStockService.GetAllPharmacyStockInventory(User, pharmacyId);
+
+            if (!result.Success)
+            {
+                return HandleServiceError(result);
+            }
+
+            return Ok(new
+            {
+                success = true,
+                data = result.Data,
+                message = "Pharmacy inventory  retrieved successfully."
+            });
+        }
+
+
 
 
         [HttpGet("GetBatchOfPharmacyStock")]
