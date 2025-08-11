@@ -20,6 +20,7 @@ namespace PharmaLink_API.Core.Enums
         /// Note: This maps to "User" in the database for legacy compatibility
         /// </summary>
         Patient,
+
         pending,
         suspended,
     }
