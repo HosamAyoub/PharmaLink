@@ -1,4 +1,5 @@
 ﻿using PharmaLink_API.Core.Attributes;
+using PharmaLink_API.Core.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace PharmaLink_API.Models
@@ -31,6 +32,10 @@ namespace PharmaLink_API.Models
         //Pharmacy-Account relationship (one to one)
         public string AccountId { get; set; }
         public Account Account { get; set; }
+
+        public Pharmacy_Status Status { get; set; }
+
+        public DateTime JoinedDate { get; set; } 
 
         //Pharmacy-Drug relationship (many to many)
         public ICollection<PharmacyProduct>? PharmacyStock { get; set; }

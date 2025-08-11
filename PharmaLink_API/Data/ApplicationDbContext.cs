@@ -281,6 +281,8 @@ namespace PharmaLink_API.Data
                     Rate = 4.5,
                     StartHour = TimeOnly.Parse("09:00"),
                     EndHour = TimeOnly.Parse("21:00"),
+                    Status = Pharmacy_Status.Active,
+                    JoinedDate = DateTime.Parse("2023-05-15"),
                     AccountId = "11111111-1111-1111-1111-111111111111"
                 },
                 new Pharmacy
@@ -293,6 +295,8 @@ namespace PharmaLink_API.Data
                     Rate = 4.2,
                     StartHour = TimeOnly.Parse("08:00"),
                     EndHour = TimeOnly.Parse("20:00"),
+                    Status = Pharmacy_Status.Active,
+                    JoinedDate = DateTime.Parse("2023-05-15"),
                     AccountId = "22222222-2222-2222-2222-222222222222"
                 },
                 new Pharmacy
@@ -305,6 +309,8 @@ namespace PharmaLink_API.Data
                     Rate = 4.7,
                     StartHour = TimeOnly.Parse("10:00"),
                     EndHour = TimeOnly.Parse("22:00"),
+                    Status = Pharmacy_Status.Active,
+                    JoinedDate = DateTime.Parse("2023-05-15"),
                     AccountId = "33333333-3333-3333-3333-333333333333"
                 }
             );
@@ -577,7 +583,7 @@ namespace PharmaLink_API.Data
                 {
                     OrderID = 1,
                     TotalPrice = 45.50m,
-                    Status = "Completed",
+                    Status = "Delivered",
                     PaymentMethod = "Credit Card",
                     PaymentStatus = "Paid",
                     OrderDate = DateTime.Parse("2023-05-15"),
@@ -593,7 +599,7 @@ namespace PharmaLink_API.Data
                 {
                     OrderID = 2,
                     TotalPrice = 62.50m,
-                    Status = "Processing",
+                    Status = "Delivered",
                     PaymentMethod = "PayPal",
                     PaymentStatus = "Paid",
                     OrderDate = DateTime.Parse("2023-06-20"),
@@ -609,7 +615,7 @@ namespace PharmaLink_API.Data
                 {
                     OrderID = 3,
                     TotalPrice = 33.75m,
-                    Status = "Pending",
+                    Status = "Delivered",
                     PaymentMethod = "Cash on Delivery",
                     PaymentStatus = "Pending",
                     OrderDate = DateTime.Parse("2023-07-10"),

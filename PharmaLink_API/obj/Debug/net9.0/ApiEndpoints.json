@@ -777,6 +777,32 @@
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.PharmacyController",
+    "Method": "GetPharmacyById_forUser",
+    "RelativePath": "api/Pharmacy/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "PharmaLink_API.Models.DTO.PharmacyDTO.PharmacyDisplayDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.PharmacyController",
     "Method": "DeletePharmacy",
     "RelativePath": "api/Pharmacy/{id}",
     "HttpMethod": "DELETE",
@@ -805,6 +831,26 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": [
+      {
+        "Type": "PharmaLink_API.Models.DTO.PharmacyDTO.PharmacyDisplayDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.PharmacyController",
+    "Method": "GetPharmacyById_forUser",
+    "RelativePath": "api/Pharmacy/pharmacyById",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": [
       {
         "Type": "PharmaLink_API.Models.DTO.PharmacyDTO.PharmacyDisplayDTO",
@@ -1118,6 +1164,22 @@
       {
         "Name": "pageSize",
         "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.PharmacyStockController",
+    "Method": "GetAllPharmacyInventory",
+    "RelativePath": "api/PharmacyStock/AllInventory",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pharmacyId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": false
       }
     ],
