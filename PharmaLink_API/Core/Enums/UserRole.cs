@@ -19,7 +19,9 @@ namespace PharmaLink_API.Core.Enums
         /// Patient role - can browse pharmacies, place orders, and manage their profile
         /// Note: This maps to "User" in the database for legacy compatibility
         /// </summary>
-        Patient
+        Patient,
+        pending,
+        suspended,
     }
 
     /// <summary>
@@ -39,6 +41,8 @@ namespace PharmaLink_API.Core.Enums
                 UserRole.Admin => "Admin",
                 UserRole.Pharmacy => "Pharmacy",
                 UserRole.Patient => "Patient", // Legacy: Patient role is stored as "User" in database
+                UserRole.pending => "pending",
+                UserRole.suspended => "suspended",
                 _ => throw new ArgumentOutOfRangeException(nameof(role), role, "Invalid user role")
             };
         }
@@ -56,6 +60,8 @@ namespace PharmaLink_API.Core.Enums
                 "Admin" => UserRole.Admin,
                 "Pharmacy" => UserRole.Pharmacy,
                 "Patient" => UserRole.Patient, // Legacy: "User" maps to Patient
+                "pending" => UserRole.pending,
+                "suspended" => UserRole.suspended,
                 _ => throw new ArgumentException($"Invalid role string: {roleString}", nameof(roleString))
             };
         }
@@ -66,7 +72,7 @@ namespace PharmaLink_API.Core.Enums
         /// <returns>Array of all role strings</returns>
         public static string[] GetAllRoleStrings()
         {
-            return new[] { "Admin", "Pharmacy", "Patient" };
+            return new[] { "Admin", "Pharmacy", "Patient", "pending", "suspended" };
         }
 
         /// <summary>

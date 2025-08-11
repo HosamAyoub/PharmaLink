@@ -1,4 +1,6 @@
-﻿namespace PharmaLink_API.Models.DTO.PharmacyDTO
+﻿using PharmaLink_API.Core.Enums;
+
+namespace PharmaLink_API.Models.DTO.PharmacyDTO
 {
     public class PharmacyDisplayDTO
     {
@@ -9,6 +11,8 @@
         public string Email { get; set; }
         public string? ImgUrl { get; set; }
         public double? Rate { get; set; }
+        public Pharmacy_Status Status { get; set; }
+        public DateTime JoinedDate { get; set; }
         public TimeOnly? StartHour { get; set; }
         public TimeOnly? EndHour { get; set; }
     }
