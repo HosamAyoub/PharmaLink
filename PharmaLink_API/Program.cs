@@ -37,12 +37,12 @@ namespace PharmaLink_API
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy",
-                    //builder => builder.WithOrigins("http://localhost:4200")
-                    //                  .AllowAnyMethod()
-                    //                  .AllowAnyHeader());
-                    builder =>builder
-                        .AllowAnyMethod()
-                        .AllowAnyHeader()
+                    builder => builder.WithOrigins("http://localhost:4200")
+                                      .AllowAnyMethod()
+                                      .AllowAnyHeader()
+                    //builder =>builder.AllowAnyOrigin()
+                    //    .AllowAnyMethod()
+                    //    .AllowAnyHeader()
                         .AllowCredentials()
                         .SetIsOriginAllowed(origin => true) // Allow all origins
                     );
