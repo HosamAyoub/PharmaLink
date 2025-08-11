@@ -8,6 +8,7 @@ using PharmaLink_API.Core.Constants;
 using PharmaLink_API.Core.Enums;
 using PharmaLink_API.Core.Middleware;
 using PharmaLink_API.Data;
+using PharmaLink_API.Hubs;
 using PharmaLink_API.Models;
 using PharmaLink_API.Models.Profiles;
 using PharmaLink_API.Repository;
@@ -31,16 +32,18 @@ namespace PharmaLink_API
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            builder.Services.AddSignalR();
             // CORS Configuration
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy",
-                    //builder => builder.WithOrigins("http://localhost:4200")
-                    //                  .AllowAnyMethod()
-                    //                  .AllowAnyHeader());
-                    builder =>builder.AllowAnyOrigin()
-                        .AllowAnyMethod()
-                        .AllowAnyHeader()
+                    builder => builder.WithOrigins("http://localhost:4200")
+                                      .AllowAnyMethod()
+                                      .AllowAnyHeader()
+                    //builder =>builder.AllowAnyOrigin()
+                    //    .AllowAnyMethod()
+                    //    .AllowAnyHeader()
+                        .AllowCredentials()
                         .SetIsOriginAllowed(origin => true) // Allow all origins
                     );
 
@@ -226,14 +229,14 @@ namespace PharmaLink_API
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseStaticFiles();
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseCors("CorsPolicy");
             app.UseAuthentication();
             app.UseAuthorization();
             app.MapControllers();
-
+            app.MapHub<OrderHub>("/orderHub");
             app.Run();
         }
     }

@@ -1,4 +1,5 @@
 ﻿using PharmaLink_API.Core.Attributes;
+using PharmaLink_API.Core.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace PharmaLink_API.Models
@@ -26,9 +27,14 @@ namespace PharmaLink_API.Models
         [Range(0, 24, ErrorMessage = "Start hour must be between 0 and 24.")]
         public TimeOnly? EndHour { get; set; }
 
+        public string? ImgUrl { get; set; }
+
+        public Pharmacy_Status Status { get; set; } = Pharmacy_Status.Pending;
+        public DateTime JoinedDate { get; set; } = DateTime.UtcNow;
+
         //Pharmacy-Account relationship (one to one)
         public string AccountId { get; set; }
-        public Account Account { get; set; }
+        public Account Account { get; set; } 
 
         //Pharmacy-Drug relationship (many to many)
         public ICollection<PharmacyProduct>? PharmacyStock { get; set; }

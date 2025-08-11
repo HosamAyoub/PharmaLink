@@ -12,5 +12,6 @@
         public string? PharmacyName { get; set; }
         public decimal Price { get; set; }
         public int QuantityAvailable { get; set; }
+        public Product_Status Status { get; set; } 
     }
 }
