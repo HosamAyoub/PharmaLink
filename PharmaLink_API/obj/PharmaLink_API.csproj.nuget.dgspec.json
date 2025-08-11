@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "F:\\ITI FAYOUM\\GraduationProject_ITI\\PharmaLink\\PharmaLink_API\\PharmaLink_API.csproj": {}
+    "E:\\ITI FAYOUM\\GraduationProject_ITI\\PharmaLink\\PharmaLink_API\\PharmaLink_API.csproj": {}
   },
   "projects": {
-    "F:\\ITI FAYOUM\\GraduationProject_ITI\\PharmaLink\\PharmaLink_API\\PharmaLink_API.csproj": {
+    "E:\\ITI FAYOUM\\GraduationProject_ITI\\PharmaLink\\PharmaLink_API\\PharmaLink_API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\ITI FAYOUM\\GraduationProject_ITI\\PharmaLink\\PharmaLink_API\\PharmaLink_API.csproj",
+        "projectUniqueName": "E:\\ITI FAYOUM\\GraduationProject_ITI\\PharmaLink\\PharmaLink_API\\PharmaLink_API.csproj",
         "projectName": "PharmaLink_API",
-        "projectPath": "F:\\ITI FAYOUM\\GraduationProject_ITI\\PharmaLink\\PharmaLink_API\\PharmaLink_API.csproj",
+        "projectPath": "E:\\ITI FAYOUM\\GraduationProject_ITI\\PharmaLink\\PharmaLink_API\\PharmaLink_API.csproj",
         "packagesPath": "C:\\Users\\amr mostafa\\.nuget\\packages\\",
-        "outputPath": "F:\\ITI FAYOUM\\GraduationProject_ITI\\PharmaLink\\PharmaLink_API\\obj\\",
+        "outputPath": "E:\\ITI FAYOUM\\GraduationProject_ITI\\PharmaLink\\PharmaLink_API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

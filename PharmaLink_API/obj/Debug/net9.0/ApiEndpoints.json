@@ -49,6 +49,32 @@
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.CartController",
+    "Method": "AddMultipleToCart",
+    "RelativePath": "api/Cart/AddMultipleToCart",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cartItems",
+        "Type": "System.Collections.Generic.List\u00601[[PharmaLink_API.Models.DTO.CartDTO.AddToCartDTO, PharmaLink_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "PharmaLink_API.Models.DTO.CartDTO.AddMultipleItemsToCartResponseDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.CartController",
     "Method": "AddToCart",
     "RelativePath": "api/Cart/AddToCart",
     "HttpMethod": "POST",
@@ -72,6 +98,26 @@
     "Order": 0,
     "Parameters": [],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.CartController",
+    "Method": "GetCartItems",
+    "RelativePath": "api/Cart/items",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[PharmaLink_API.Models.DTO.CartDTO.CartItemDetailsDTO, PharmaLink_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.CartController",
@@ -432,6 +478,22 @@
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.FavoritesController",
+    "Method": "AddMultipleFavorites",
+    "RelativePath": "api/Favorites/AddMultiple",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "favorites",
+        "Type": "System.Collections.Generic.List\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.FavoritesController",
     "Method": "ClearFavorites",
     "RelativePath": "api/Favorites/ClearFavorites",
     "HttpMethod": "DELETE",
@@ -512,6 +574,16 @@
         "IsRequired": false
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.OrdersController",
+    "Method": "GetOrderSummary",
+    "RelativePath": "api/Orders/order-summary",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
