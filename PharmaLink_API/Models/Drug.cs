@@ -17,8 +17,11 @@
         public string Description { get; set; }
         public string Storage_and_handling { get; set; }
         public string Adverse_reactions { get; set; }
-
         public string Drug_UrlImg { get; set; }
+
+        public Status DrugStatus { get; set; } = Status.Approved;
+
+        public int? CreatedByPharmacy { get; set; }
 
 
         //Drug-Pharmacy relationship (many to many)
@@ -26,5 +29,11 @@
 
         //Drug-Patient(favorites) relationship (many to many)
         public ICollection<PatientFavoriteDrug>? PatientFavorites { get; set; }
+    }
+
+    public enum Status
+    {
+        Requested,
+        Approved
     }
 }
