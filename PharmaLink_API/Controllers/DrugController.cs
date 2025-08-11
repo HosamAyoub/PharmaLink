@@ -75,15 +75,34 @@ namespace PharmaLink_API.Controllers
         public async Task<FullPharmaDrugDTO> GetDrugWithPharmacyStock(int DrugID)
         {
             Drug Result = await DrugRepo.GetAsync(D => D.DrugID == DrugID, false, D => D.PharmacyStock);
+            if (Result == null)
+            {
+                return new FullPharmaDrugDTO
+                {
+                    Drug_Info = null,
+                    Pharma_Info = new List<PharmaDataDTO>()
+                };
+            }
+
             var Pharmas = PharmaStockRepo.getPharmaciesThatHaveDrug(DrugID);
+            if (Pharmas == null || !Pharmas.Any())
+            {
+                return new FullPharmaDrugDTO
+                {
+                    Drug_Info = _mapper.Map<DrugDetailsDTO>(Result),
+                    Pharma_Info = new List<PharmaDataDTO>()
+                };
+            }
+
+
             return new FullPharmaDrugDTO
             {
                 Drug_Info = _mapper.Map<DrugDetailsDTO>(Result),
                 Pharma_Info = Result.PharmacyStock.Select(P => new PharmaDataDTO
                 {
                     Pharma_Id = P.PharmacyId,
-                    Pharma_Name = Pharmas.FirstOrDefault(Ph => Ph.PharmacyID == P.PharmacyId).Name,
-                    Pharma_Address = Pharmas.FirstOrDefault(Ph => Ph.PharmacyID == P.PharmacyId).Address,
+                    Pharma_Name = Pharmas.FirstOrDefault(Ph => Ph.PharmacyID == P.PharmacyId)?.Name,
+                    Pharma_Address = Pharmas.FirstOrDefault(Ph => Ph.PharmacyID == P.PharmacyId)?.Address,
                     Pharma_Location = "5 K.M",
                     Price = P.Price,
                     QuantityAvailable = P.QuantityAvailable
@@ -132,7 +151,7 @@ namespace PharmaLink_API.Controllers
         [HttpGet("Drug_Name")]
         public async Task<List<DrugDetailsDTO>> GetByName(string Dname)
         {
-            var Result = await DrugRepo.GetAllAsync(D => D.CommonName.ToLower().StartsWith(Dname.ToLower()));
+            var Result = await DrugRepo.GetAllAsync(D => D.CommonName.ToLower().StartsWith(Dname.ToLower()) && D.DrugStatus == Status.Approved );
             return Result.Select(D => _mapper.Map<DrugDetailsDTO>(D)).ToList();
         }
 
@@ -153,7 +172,7 @@ namespace PharmaLink_API.Controllers
         [HttpGet("Category")]
         public async Task<List<FavoriteDrugDTO>> GetByCategory(string Cname)
         {
-            var Result = await DrugRepo.GetAllAsync(D => D.Category.ToLower().StartsWith(Cname.ToLower()), F => F.PatientFavorites);
+            var Result = await DrugRepo.GetAllAsync(D => D.Category.ToLower().StartsWith(Cname.ToLower()) && D.DrugStatus == Status.Approved, F => F.PatientFavorites);
             return Result.Select(D => new FavoriteDrugDTO
             {
                 DrugId = D.DrugID,
@@ -177,7 +196,7 @@ namespace PharmaLink_API.Controllers
         [HttpGet("Active_Ingredient")]
         public async Task<List<DrugDetailsDTO>> GetByActiveIngredient(string Active_Ingredient)
         {
-            var Result = await DrugRepo.GetAllAsync(D => D.Alternatives_names.ToLower().StartsWith(Active_Ingredient.ToLower()));
+            var Result = await DrugRepo.GetAllAsync(D => D.Alternatives_names.ToLower().StartsWith(Active_Ingredient.ToLower()) && D.DrugStatus == Status.Approved);
             return Result.Select(D => _mapper.Map<DrugDetailsDTO>(D)).ToList();
         }
 
@@ -206,9 +225,9 @@ namespace PharmaLink_API.Controllers
         [HttpGet("Search")]
         public async Task<List<DrugDetailsDTO>> Search( [FromQuery]string SearchAnything)
         {
-            var Add = await DrugRepo.GetAllAsync(D => EF.Functions.Like(D.CommonName.ToLower(), $"{SearchAnything.ToLower()}%"));
-            var SearchList = Add.UnionBy(await DrugRepo.GetAllAsync(D => EF.Functions.Like(D.Category.ToLower(), $"{SearchAnything.ToLower()}%")), u => u.DrugID)
-                .UnionBy(await DrugRepo.GetAllAsync(D => EF.Functions.Like(D.ActiveIngredient.ToLower(), $"{SearchAnything.ToLower()}%")), u => u.DrugID);
+            var Add = await DrugRepo.GetAllAsync(D => EF.Functions.Like(D.CommonName.ToLower(), $"{SearchAnything.ToLower()}%") && D.DrugStatus == Status.Approved);
+            var SearchList = Add.UnionBy(await DrugRepo.GetAllAsync(D => EF.Functions.Like(D.Category.ToLower(), $"{SearchAnything.ToLower()}%") && D.DrugStatus == Status.Approved), u => u.DrugID)
+                .UnionBy(await DrugRepo.GetAllAsync(D => EF.Functions.Like(D.ActiveIngredient.ToLower(), $"{SearchAnything.ToLower()}%") && D.DrugStatus == Status.Approved), u => u.DrugID);
             return SearchList.Select(D => _mapper.Map<DrugDetailsDTO>(D)).ToList(); 
         }
 
