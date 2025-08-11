@@ -8,6 +8,7 @@ namespace PharmaLink_API.Models.DTO.PharmacyStockDTO
         public int DrugId { get; set; }
         public decimal Price { get; set; }
         public int QuantityAvailable { get; set; }
+        public Product_Status Status{ get; set; }
     }
 
     public class UpdatePriceOnlyDTO

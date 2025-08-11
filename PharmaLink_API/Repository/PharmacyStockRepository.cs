@@ -77,9 +77,8 @@ namespace PharmaLink_API.Repository
             {
                 _logger.LogInformation("Getting pharmacy stock for pharmacy {PharmacyId}, page {PageNumber}, size {PageSize}",
                     pharmacyId, pageNumber, pageSize);
-
                 var pharmacyStock = db.PharmacyStock
-                    .Where(ps => ps.PharmacyId == pharmacyId)
+                    .Where(ps => ps.PharmacyId == pharmacyId && ps.Status == Product_Status.Available)
                     .Include(ps => ps.Drug)
                     .Include(ps => ps.Pharmacy);
 
@@ -123,7 +122,8 @@ namespace PharmaLink_API.Repository
             try
             {
                 _logger.LogInformation("Getting pharmacy stock, page {PageNumber}, size {PageSize}", pageNumber, pageSize);
-                var pharmacyStock = db.PharmacyStock
+                //add status check to send only available drugs
+                var pharmacyStock = db.PharmacyStock.Where(ps => ps.Status == Product_Status.Available)
                     .Include(ps => ps.Drug)
                     .Include(ps => ps.Pharmacy);
                 if (pageNumber > 0 && pageSize > 0)
@@ -205,7 +205,19 @@ namespace PharmaLink_API.Repository
                     {
                         throw new InvalidOperationException($"Product with Pharmacy ID {product.PharmacyId} and Drug ID {product.DrugId} already exists.");
                     }
+                    if (product.Status == null)
+                    {
+                        product.Status = product.QuantityAvailable > 0
+                            ? Product_Status.Available
+                            : Product_Status.NotAvailable;
+                    }
+
+                    if (product.QuantityAvailable == 0)
+                        product.Status = Product_Status.NotAvailable;
+
                 }
+
+               
 
                 db.PharmacyStock.AddRange(pharmacyStock);
                 db.SaveChanges();
@@ -253,6 +265,16 @@ namespace PharmaLink_API.Repository
                 {
                     throw new InvalidOperationException($"Product with Pharmacy ID {pharmacyStock.PharmacyId} and Drug ID {pharmacyStock.DrugId} not found.");
                 }
+
+                if (pharmacyStock.Status == null)
+                {
+                    pharmacyStock.Status = pharmacyStock.QuantityAvailable > 0
+                        ? Product_Status.Available
+                        : Product_Status.NotAvailable;
+                }
+
+                if(pharmacyStock.QuantityAvailable ==0)
+                    pharmacyStock.Status = Product_Status.NotAvailable;
 
                 db.PharmacyStock.Update(pharmacyStock);
                 db.SaveChanges();
@@ -628,10 +650,10 @@ namespace PharmaLink_API.Repository
             try
             {
                 _logger.LogInformation("Getting pharmacies that have drug with ID {DrugId}", drugId);
-
+                //add status check to send only available drugs
                 var pharmacies = db.PharmacyStock
                     .AsNoTracking()
-                    .Where(ps => ps.DrugId == drugId && ps.QuantityAvailable > 0)
+                    .Where(ps => ps.DrugId == drugId && ps.QuantityAvailable > 0 && ps.Status == Product_Status.Available)
                     .Include(ps => ps.Pharmacy)
                     .Select(ps => ps.Pharmacy)
                     .Distinct()

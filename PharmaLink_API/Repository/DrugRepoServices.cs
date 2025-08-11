@@ -59,7 +59,7 @@ namespace PharmaLink_API.Repository
             int RandomStart = random.Next(2000);
 
             // Take exactly pageSize number of drugs
-            return await Context.Drugs
+            return await Context.Drugs.Where(D => D.DrugStatus == Status.Approved)
                 .Skip(((pageNumber - 1) * pageSize) + RandomStart)
                 .Take(pageSize)
                 .ToListAsync();
