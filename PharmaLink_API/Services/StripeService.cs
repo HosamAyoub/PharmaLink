@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.Identity.Client;
 using PharmaLink_API.Core.Enums;
 using PharmaLink_API.Core.Results;
 using PharmaLink_API.Data;
+using PharmaLink_API.Hubs;
 using PharmaLink_API.Models;
 using PharmaLink_API.Models.DTO.OrderDTO;
 using PharmaLink_API.Repository;
@@ -14,6 +16,7 @@ using Stripe.Checkout;
 using Stripe.Climate;
 using Order = PharmaLink_API.Models.Order;
 
+
 namespace PharmaLink_API.Services
 {
     public class StripeService : IStripeService
@@ -23,6 +26,8 @@ namespace PharmaLink_API.Services
         private readonly IOrderDetailRepository _orderDetailRepository;
         private readonly IPatientRepository _patientRepository;
         private readonly ApplicationDbContext _context;
+        private readonly IHubContext<OrderHub> _orderHubContext;
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StripeService"/> class.
@@ -30,7 +35,7 @@ namespace PharmaLink_API.Services
         /// <param name="stripeOptions">Stripe configuration options.</param>
         /// <param name="orderHeaderRepository">Order header repository.</param>
         /// <param name="orderDetailRepository">Order detail repository.</param>
-        public StripeService(IOptions<StripeModel> stripeOptions, IOrderHeaderRepository orderHeaderRepository, IOrderDetailRepository orderDetailRepository, IPatientRepository patientRepository, ApplicationDbContext context)
+        public StripeService(IOptions<StripeModel> stripeOptions, IOrderHeaderRepository orderHeaderRepository, IOrderDetailRepository orderDetailRepository, IPatientRepository patientRepository, ApplicationDbContext context, IHubContext<OrderHub> orderHubContext)
         {
             _orderHeaderRepository = orderHeaderRepository;
             _stripeModel = stripeOptions.Value;
@@ -38,6 +43,7 @@ namespace PharmaLink_API.Services
             _orderDetailRepository = orderDetailRepository;
             _patientRepository = patientRepository;
             _context = context;
+            _orderHubContext = orderHubContext;
         }
 
         /// <summary>
@@ -166,6 +172,15 @@ namespace PharmaLink_API.Services
                     await _orderHeaderRepository.SaveAsync();
                     _context.CartItems.RemoveRange(cartItems);
                     await _context.SaveChangesAsync();
+
+                    await _orderHubContext.Clients.Group(pharmacyId.ToString())
+                        .SendAsync("NewOrder", new
+                        {
+                            OrderId = order.OrderID,
+                            PaymentMethod = order.PaymentMethod,
+                            TotalPrice = total,
+                            CreatedAt = DateTime.Now
+                        });
 
                     return ServiceResult.SuccessResult();
                 }
