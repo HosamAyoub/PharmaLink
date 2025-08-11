@@ -189,6 +189,18 @@ namespace PharmaLink_API.Data
                     Name = "Patient",
                     NormalizedName = "PATIENT"
 
+                },
+                new IdentityRole
+                {
+                    Id = "4",
+                    Name = "pending",
+                    NormalizedName = "PENDING"
+                },
+                new IdentityRole
+                {
+                    Id = "5",
+                    Name = "suspended",
+                    NormalizedName = "SUSPENDED"
                 }
             );
 

@@ -29,7 +29,7 @@ namespace PharmaLink_API.Services
         {
             // Determine the user role based on the registration data
             UserRole userRole = accountDto.Patient != null ? UserRole.Patient :
-                   accountDto.Pharmacy != null ? UserRole.Pharmacy :
+                   accountDto.Pharmacy != null ? UserRole.pending :
                    UserRole.Admin;
             string roleName = userRole.ToRoleString();
 
