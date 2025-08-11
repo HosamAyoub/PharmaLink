@@ -139,7 +139,7 @@ namespace PharmaLink_API.Services
             }
             else
             {
-                order.PaymentStatus = SD.PaymentStatusRefunded;
+                order.PaymentStatus = SD.PaymentStatusCancelled;
             }
 
             order.Status = SD.StatusCancelled;
@@ -298,8 +298,8 @@ namespace PharmaLink_API.Services
                     return refundResult;
             }
 
-            // Restock drugs
-            await RestockDrugsAsync(order);
+                // Restock drugs
+                await RestockDrugsAsync(order);
 
             await _orderHeaderRepository.SaveAsync();
             await _pharmacyStockRepository.SaveAsync();
@@ -481,6 +481,44 @@ namespace PharmaLink_API.Services
             // Note: Total is computed automatically by the property
 
             return ServiceResult<OrderSummaryDTO>.SuccessResult(orderSummaryDto);
+        }
+
+        public async Task<ServiceResult<List<PatientOrdersDTO>>> GetPatientOrdersAsync(string accountId)
+        {
+            var patient = await _dbContext.Patients
+                .Include(p => p.Orders)
+                .ThenInclude(o => o.OrderDetails)
+                .Include(p => p.Orders)
+                .ThenInclude(o => o.Pharmacy)
+                .ThenInclude(o => o.PharmacyStock)
+                .ThenInclude(o => o.Drug)
+                .FirstOrDefaultAsync(p => p.AccountId == accountId);    
+
+            //var patient = await _patientRepository.GetAsync(p => p.AccountId == accountId, true, x => x.Orders);
+            if (patient == null)
+                return ServiceResult<List<PatientOrdersDTO>>.ErrorResult("Patient not found.", ErrorType.NotFound);
+            if (patient.Orders == null || !patient.Orders.Any())
+                return ServiceResult<List<PatientOrdersDTO>>.ErrorResult("No orders found for this patient.", ErrorType.NotFound);
+            //var orderDtos = _mapper.Map<List<OrderDetailsDTO>>(patient.Orders);
+            var result = patient.Orders.Select(o => new PatientOrdersDTO
+            {
+                OrderId = o.OrderID,
+                PharmacyName = o.Pharmacy?.Name,
+                PharmacyAddress = o.Pharmacy?.Address,
+                PharmacyPhoneNumber = o.Pharmacy?.PhoneNumber,
+                OrderDate = o.OrderDate,
+                Status = o.Status, 
+                TotalAmount = o.TotalPrice,
+                PaymentMethod = o.PaymentMethod,
+                PaymentStatus = o.PaymentStatus,
+                DeliveryAddress = o.Address,
+                OrderDetails = o.OrderDetails.Select(d => new OrderItemDTO
+                {
+                    DrugName = d.PharmacyProduct?.Drug.CommonName,
+                    Quantity = d.Quantity
+                }).ToList()
+            }).ToList();
+            return ServiceResult<List<PatientOrdersDTO>>.SuccessResult(result);
         }
 
         // ** Helper Methods **//

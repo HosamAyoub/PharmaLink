@@ -598,6 +598,16 @@
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.OrdersController",
+    "Method": "GetAllOrders",
+    "RelativePath": "api/Orders/PatientOrders",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.OrdersController",
     "Method": "OrderPending",
     "RelativePath": "api/Orders/pending/{orderId}",
     "HttpMethod": "POST",

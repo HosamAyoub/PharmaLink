@@ -15,6 +15,7 @@ namespace PharmaLink_API.Core.Enums
         public const string PaymentStatusApproved = "Approved";
         public const string PaymentStatusRejected = "Rejected"; //by pharmacy
         public const string PaymentStatusRefunded = "Refunded";
+        public const string PaymentStatusCancelled = "Cancelled"; //by customer
 
     }
 }
