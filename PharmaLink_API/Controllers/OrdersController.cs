@@ -202,6 +202,29 @@ namespace PharmaLink_API.Controllers
             return Ok(result.Data);
         }
 
+        [HttpGet("PatientOrders")]
+        [Authorize(Roles = "Patient")]
+        public async Task<IActionResult> GetAllOrders()
+        {
+            var accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(accountId))
+                return Unauthorized("Invalid token.");
+
+            var result = await _orderService.GetPatientOrdersAsync(accountId);
+            if (!result.Success)
+            {
+                return result.ErrorType switch
+                {
+                    ErrorType.NotFound => NotFound(result.ErrorMessage),
+                    ErrorType.Validation => BadRequest(result.ErrorMessage),
+                    ErrorType.Authorization => Forbid(result.ErrorMessage),
+                    ErrorType.Conflict => Conflict(result.ErrorMessage),
+                    _ => StatusCode(500, result.ErrorMessage)
+                };
+            }
+            return Ok(result.Data);
+        }
+
         //******************Pharmacy Only Endpoints******************//
 
         /// <summary>
