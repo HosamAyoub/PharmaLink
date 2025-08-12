@@ -93,6 +93,7 @@ namespace PharmaLink_API.Services.Interfaces
         Task<ServiceResult<List<PharmacyOrderDTO>>> FilterOrdersByStatusAsync(string accountId, string status);
 
         Task<ServiceResult<List<PatientOrdersDTO>>> GetPatientOrdersAsync(string accountId);
+        Task<ServiceResult<List<PatientOrdersDTO>>> GetAdminOrdersAsync(string accountId);
 
         Task<ServiceResult<PharmacyAnalysisDTO>> GetPharmacyAnalysisAsync(string accountId);
     }

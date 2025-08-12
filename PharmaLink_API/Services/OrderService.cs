@@ -521,6 +521,43 @@ namespace PharmaLink_API.Services
             return ServiceResult<List<PatientOrdersDTO>>.SuccessResult(result);
         }
 
+        public async Task<ServiceResult<List<PatientOrdersDTO>>> GetAdminOrdersAsync(string accountId)
+        {
+            var Admin = await _dbContext.Users
+                .FirstOrDefaultAsync(p => p.Id == accountId);
+
+            //var patient = await _patientRepository.GetAsync(p => p.AccountId == accountId, true, x => x.Orders);
+            if (Admin == null)
+                return ServiceResult<List<PatientOrdersDTO>>.ErrorResult("Patient not found.", ErrorType.NotFound);
+            //var orderDtos = _mapper.Map<List<OrderDetailsDTO>>(patient.Orders);
+            var orders = await _dbContext.Orders
+                .Include(o => o.Pharmacy)
+                .Include(o => o.OrderDetails)
+                .ThenInclude(od => od.PharmacyProduct)
+                .ThenInclude(pp => pp.Drug)
+                .ToListAsync();
+
+            var result = orders.Select(o => new PatientOrdersDTO
+            {
+                OrderId = o.OrderID,
+                PharmacyName = o.Pharmacy?.Name,
+                PharmacyAddress = o.Pharmacy?.Address,
+                PharmacyPhoneNumber = o.Pharmacy?.PhoneNumber,
+                OrderDate = o.OrderDate,
+                Status = o.Status,
+                TotalAmount = o.TotalPrice,
+                PaymentMethod = o.PaymentMethod,
+                PaymentStatus = o.PaymentStatus,
+                DeliveryAddress = o.Address,
+                OrderDetails = o.OrderDetails.Select(d => new OrderItemDTO
+                {
+                    DrugName = d.PharmacyProduct?.Drug.CommonName,
+                    Quantity = d.Quantity
+                }).ToList()
+            }).ToList();
+            return ServiceResult<List<PatientOrdersDTO>>.SuccessResult(result);
+        }
+
         // ** Helper Methods **//
 
         /// <summary>
