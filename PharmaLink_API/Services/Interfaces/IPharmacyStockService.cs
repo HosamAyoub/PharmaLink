@@ -29,7 +29,7 @@ namespace PharmaLink_API.Services.Interfaces
         /// <param name="pageNumber">Page number for pagination (must be non-negative)</param>
         /// <param name="pageSize">Number of items per page (must be non-negative, max 100)</param>
         /// <returns>A ServiceResult containing a list of PharmacyProductDetailsDTO objects</returns>
-        ServiceResult<List<PharmacyProductDetailsDTO>> GetPharmacyStock(int pageNumber, int pageSize);
+        ServiceResult<List<PharmacyProductDetailsDTO>> GetPharmacyStock(int pageNumber, int pageSize, out int distinctDrugsCount);
 
         /// <summary>
         /// Adds multiple products to a pharmacy's stock inventory.
