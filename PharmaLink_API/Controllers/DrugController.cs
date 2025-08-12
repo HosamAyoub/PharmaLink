@@ -132,15 +132,20 @@ namespace PharmaLink_API.Controllers
             int RequestedDrugCount = result.Count(d => d.DrugStatus == Status.Requested);
             int Categories = result.Select(D => D.Category).Distinct().Count();
             List<Drug> DrugRequests = result.Where(d => d.DrugStatus == Status.Requested).ToList();
-            var requests = await Task.WhenAll(DrugRequests.Select(async D => new DrugRequestDTO
+            var requests = new List<DrugRequestDTO>();
+            foreach (var D in DrugRequests)
             {
-                Pharmacy = new Pharmacy_Sender
+                var pharmacy = await _PharmaService.GetPharmacyByIdAsync(D.CreatedByPharmacy ?? 0);
+                requests.Add(new DrugRequestDTO
                 {
-                    Pharmacy_Id = D.CreatedByPharmacy??0,
-                    Pharmacy_Name = (await _PharmaService.GetPharmacyByIdAsync(D.CreatedByPharmacy??0)).Name ?? "Unknown Pharmacy"
-                },
-                Requests = _mapper.Map<DrugDetailsDTO>(D)
-            }));
+                    Pharmacy = new Pharmacy_Sender
+                    {
+                        Pharmacy_Id = D.CreatedByPharmacy ?? 0,
+                        Pharmacy_Name = pharmacy?.Name ?? "Unknown Pharmacy"
+                    },
+                    Requests = _mapper.Map<DrugDetailsDTO>(D)
+                });
+            }
             return Ok(new
             {
                 Approved = ApprovedDrugCount,

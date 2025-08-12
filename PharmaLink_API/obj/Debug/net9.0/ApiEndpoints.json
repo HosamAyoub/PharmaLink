@@ -410,6 +410,16 @@
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.DrugController",
+    "Method": "GetAdminData",
+    "RelativePath": "api/Drug/GetAdminData",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.DrugController",
     "Method": "Search",
     "RelativePath": "api/Drug/Search",
     "HttpMethod": "GET",
@@ -950,6 +960,22 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.PharmacyController",
+    "Method": "RequestToAddDrug",
+    "RelativePath": "api/Pharmacy/SendRequestAddDrug",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "drugRequest",
+        "Type": "PharmaLink_API.Models.DTO.PharmacyDTO.DrugRequestDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.PharmacyController",
