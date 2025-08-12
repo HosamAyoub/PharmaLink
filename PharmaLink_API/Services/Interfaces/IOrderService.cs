@@ -1,4 +1,5 @@
 ﻿using PharmaLink_API.Core.Results;
+using PharmaLink_API.Models;
 using PharmaLink_API.Models.DTO.CartDTO;
 using PharmaLink_API.Models.DTO.OrderDTO;
 
@@ -91,6 +92,13 @@ namespace PharmaLink_API.Services.Interfaces
         /// <param name="status">The status to filter orders by.</param>
         /// <returns>A ServiceResult containing a list of pharmacy order DTOs with the specified status.</returns>
         Task<ServiceResult<List<PharmacyOrderDTO>>> FilterOrdersByStatusAsync(string accountId, string status);
+
+        Task<ServiceResult<List<PatientOrdersDTO>>> GetPatientOrdersAsync(string accountId);
+
+        Task<Pharmacy?> GetThePharmacyByIdAsync(int id);
+
         Task<ServiceResult<PharmacyAnalysisDTO>> GetPharmacyAnalysisAsync(string accountId);
+
+        Task<ServiceResult<PharmacyAnalysisDTO>> GetAllOrdersAnalysisAsync();
     }
 }

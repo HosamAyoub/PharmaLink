@@ -2,6 +2,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PharmaLink_API.Core.Enums;
 using PharmaLink_API.Models;
 using PharmaLink_API.Models.DTO.PharmacyDTO;
 using PharmaLink_API.Repository.Interfaces;
@@ -38,41 +39,6 @@ namespace PharmaLink_API.Controllers
         }
 
 
-        [HttpPost("SendRequestAddDrug")]
-        [Authorize(Roles = "Pharmacy")]
-        public async Task<IActionResult> RequestToAddDrug([FromBody] DrugRequestDTO drugRequest)
-        {
-            var accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (string.IsNullOrEmpty(accountId))
-                return Unauthorized("Invalid token.");
-
-            var existingPharmacy = await _PharmacyRepo.GetAsync(p => p.AccountId == accountId, true, x => x.Account);
-            if (existingPharmacy == null)
-            {
-                return NotFound($"Pharmacy not found.");
-            }
-            drugRequest.CreatedByPharmacy = existingPharmacy.PharmacyID;
-            await _DrugRepo.CreateAndSaveAsync(_Mapper.Map<Drug>(drugRequest));
-            return Ok($"Request to add drug sent successfully for pharmacy {existingPharmacy.Name}.");
-        }
-
-            [Authorize(Roles = "Pharmacy")]
-        [HttpGet("pharmacyProfile")]
-        public async Task<ActionResult<PharmacyDisplayDTO>> GetPharmacyById()
-        {
-            var accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (string.IsNullOrEmpty(accountId))
-                return Unauthorized("Invalid token.");
-
-            var pharmacy = await _PharmacyRepo.GetAsync(p => p.AccountId == accountId, true, x => x.Account);
-            if (pharmacy == null)
-            {
-                return NotFound($"Pharmacy not found.");
-            }
-
-            var pharmacyDto = _Mapper.Map<PharmacyDisplayDTO>(pharmacy);
-            return Ok(pharmacyDto);
-        }
 
         [HttpGet("pharmacyById")]
         [HttpGet("{id:int}")]
@@ -89,6 +55,42 @@ namespace PharmaLink_API.Controllers
             return Ok(pharmacyDto);
         }
 
+
+        [Authorize(Roles = "Pharmacy")]
+        [HttpPost("SendRequestAddDrug")]
+        public async Task<IActionResult> RequestToAddDrug([FromBody] DrugRequestDTO drugRequest)
+        {
+            var accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(accountId))
+                return Unauthorized("Invalid token.");
+
+            var existingPharmacy = await _PharmacyRepo.GetAsync(p => p.AccountId == accountId, true, x => x.Account);
+            if (existingPharmacy == null)
+            {
+                return NotFound($"Pharmacy not found.");
+            }
+            drugRequest.CreatedByPharmacy = existingPharmacy.PharmacyID;
+            await _DrugRepo.CreateAndSaveAsync(_Mapper.Map<Drug>(drugRequest));
+            return Ok($"Request to add drug sent successfully for pharmacy {existingPharmacy.Name}.");
+        }
+
+        [Authorize(Roles = "Pharmacy")]
+        [HttpGet("pharmacyProfile")]
+        public async Task<ActionResult<PharmacyDisplayDTO>> GetPharmacyById()
+        {
+            var accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(accountId))
+                return Unauthorized("Invalid token.");
+
+            var pharmacy = await _PharmacyRepo.GetAsync(p => p.AccountId == accountId, true, x => x.Account);
+            if (pharmacy == null)
+            {
+                return NotFound($"Pharmacy not found.");
+            }
+
+            var pharmacyDto = _Mapper.Map<PharmacyDisplayDTO>(pharmacy);
+            return Ok(pharmacyDto);
+        }
         [HttpGet("{name:alpha}")]
         public async Task<ActionResult<PharmacyDisplayDTO>> GetPharmacyByName(string name)
         {
@@ -99,17 +101,6 @@ namespace PharmaLink_API.Controllers
             }
             var pharmacyDto = _Mapper.Map<PharmacyDisplayDTO>(pharmacy);
             return Ok(pharmacyDto);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> CreatePharmacy([FromBody] Pharmacy pharmacy)
-        {
-            if (pharmacy == null || string.IsNullOrEmpty(pharmacy.Name))
-            {
-                return BadRequest("Invalid pharmacy data.");
-            }
-            await _PharmacyRepo.CreateAndSaveAsync(pharmacy);
-            return CreatedAtAction(nameof(GetPharmacyById), new { id = pharmacy.PharmacyID }, pharmacy);
         }
 
         [HttpPut("UpdatePharmacy")]
@@ -186,6 +177,46 @@ namespace PharmaLink_API.Controllers
             }
             await _PharmacyRepo.RemoveAsync(pharmacy);
             return Ok($"Department with ID {id} deleted successfully.");
+        }
+        [HttpGet("GetPharmaciesByStatus/{status}")]
+        //[Authorize(Roles = "Admin")]
+        public async Task<ActionResult<IEnumerable<PharmacyDisplayDTO>>> GetPharmaciesByStatus(Pharmacy_Status status)
+        {
+            var pharmacies = await _PharmacyRepo.GetAllAsync(p => p.Status == status);
+            if (pharmacies == null || pharmacies.Count == 0)
+            {
+                return NotFound($"No pharmacies found with status {status}.");
+            }
+            var pharmaciesDto = _Mapper.Map<IEnumerable<PharmacyDisplayDTO>>(pharmacies);
+            return Ok(pharmaciesDto);
+        }
+
+        [HttpPut("ConfirmPharmacy/{id:int}")]
+        //[Authorize(Roles = "Admin")]
+        public async Task<IActionResult> ConfirmPharmacy(int id)
+        {
+            var pharmacy = await _PharmacyRepo.GetAsync(p => p.PharmacyID == id);
+            if (pharmacy == null)
+            {
+                return NotFound($"Pharmacy with ID {id} not found.");
+            }
+            pharmacy.Status = Pharmacy_Status.Active;
+            pharmacy.JoinedDate = DateTime.Now;
+            await _PharmacyRepo.UpdateAsync(pharmacy);
+            return Ok($"Pharmacy with ID {id} status updated to Active.");
+        }
+        [HttpPut("SuspendedPharmacy/{id:int}")]
+        //[Authorize(Roles = "Admin")]
+        public async Task<IActionResult> SuspendedPharmacy(int id)
+        {
+            var pharmacy = await _PharmacyRepo.GetAsync(p => p.PharmacyID == id);
+            if (pharmacy == null)
+            {
+                return NotFound($"Pharmacy with ID {id} not found.");
+            }
+            pharmacy.Status = Pharmacy_Status.Suspended;
+            await _PharmacyRepo.UpdateAsync(pharmacy);
+            return Ok($"Pharmacy with ID {id} status updated to Suspended.");
         }
     }
 }
