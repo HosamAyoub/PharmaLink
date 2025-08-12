@@ -389,13 +389,37 @@ namespace PharmaLink_API.Services
                 include: query => query
                     .Include(ph => ph.Patient)
                     .Include(o => o.OrderDetails)
-                    .ThenInclude(od => od.PharmacyProduct) 
-                    .ThenInclude(pp => pp.Drug)           
+                    .ThenInclude(od => od.PharmacyProduct)
+                    .ThenInclude(pp => pp.Drug)
             );
 
             if (orders == null || !orders.Any())
                 return ServiceResult<PharmacyAnalysisDTO>.ErrorResult("No completed orders found for this pharmacy.", ErrorType.NotFound);
 
+            var result = CalculateStatistics(orders);
+            return ServiceResult<PharmacyAnalysisDTO>.SuccessResult(result);
+        }
+
+        public async Task<ServiceResult<PharmacyAnalysisDTO>> GetAllOrdersAnalysisAsync()
+        {
+            var orders = await _orderHeaderRepository.GetAllWithDetailsAsync(
+               filter: o =>  o.Status == SD.StatusDelivered,
+               include: query => query
+                   .Include(ph => ph.Patient)
+                   .Include(o => o.OrderDetails)
+                   .ThenInclude(od => od.PharmacyProduct)
+                   .ThenInclude(pp => pp.Drug)
+           );
+
+            if (orders == null || !orders.Any())
+                return ServiceResult<PharmacyAnalysisDTO>.ErrorResult("No completed orders found for this pharmacy.", ErrorType.NotFound);
+
+            var result = CalculateStatistics(orders);
+            return ServiceResult<PharmacyAnalysisDTO>.SuccessResult(result);
+        }
+
+        private PharmacyAnalysisDTO CalculateStatistics(List<Order> orders)
+        {
             // Calculate overall statistics
             var totalRevenue = orders.Sum(o => o.TotalPrice);
             var totalOrders = orders.Count;
@@ -422,12 +446,13 @@ namespace PharmaLink_API.Services
                     DrugId = g.Key,
                     DrugName = g.Select(od => od.PharmacyProduct?.Drug?.CommonName).FirstOrDefault() ?? "Unknown",
                     SalesCount = g.Sum(od => od.Quantity),
-                    TotalQuantity = g.Select(od=> od.PharmacyProduct.QuantityAvailable).FirstOrDefault(),
+                    TotalQuantity = g.Sum(od => od.PharmacyProduct.QuantityAvailable),
                     TotalRevenue = g.Sum(od => od.Quantity * od.Price)
                 })
                 .OrderByDescending(x => x.SalesCount)
-                .Take(10) 
+                .Take(10)
                 .ToList();
+
             var topCustomer = orders
                 .GroupBy(o => o.PatientId)
                 .Select(g => new TopCustomers
@@ -441,7 +466,7 @@ namespace PharmaLink_API.Services
                 .Take(10)
                 .ToList();
 
-            var result = new PharmacyAnalysisDTO
+            return new PharmacyAnalysisDTO
             {
                 TotalRevenue = totalRevenue,
                 TotalOrders = totalOrders,
@@ -450,8 +475,6 @@ namespace PharmaLink_API.Services
                 TopSellingProducts = topProducts,
                 TopCustomers = topCustomer
             };
-
-            return ServiceResult<PharmacyAnalysisDTO>.SuccessResult(result);
         }
 
         /// <summary>
@@ -651,6 +674,11 @@ namespace PharmaLink_API.Services
         {
             await _cartRepository.RemoveRangeAsync(cartItems);
             await _cartRepository.SaveAsync();
+        }
+        public async Task<Pharmacy?> GetThePharmacyByIdAsync(int id)
+        {
+            var pharmacy = await _pharmacyRepository.GetAsync(p => p.PharmacyID == id);
+            return pharmacy;
         }
 
         /// <summary>

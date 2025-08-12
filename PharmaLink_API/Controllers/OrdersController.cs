@@ -74,7 +74,7 @@ namespace PharmaLink_API.Controllers
             if (string.IsNullOrEmpty(accountId))
                 return Unauthorized("Invalid token.");
 
-            var result = await _stripeService.CreateStripeSessionAsync( request.DeliveryFee, accountId);
+            var result = await _stripeService.CreateStripeSessionAsync(request.DeliveryFee, accountId);
 
             if (!result.Success)
             {
@@ -444,13 +444,29 @@ namespace PharmaLink_API.Controllers
             return Ok(result); // Assuming result is already wrapped in ServiceResult<List<PharmacyOrderDTO>>
         }
 
-        [Authorize(Roles = "Pharmacy")]
+        //[Authorize(Roles = "Pharmacy,Admin")]
         [HttpGet("analysis")]
-        public async Task<IActionResult> GetPharmacyAnalysis()
+        public async Task<IActionResult> GetPharmacyAnalysis(int? pharmacyid)
         {
-            var accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (string.IsNullOrEmpty(accountId))
-                return Forbid("AccountId missing.");
+            string accountId;
+
+            // If id is provided, use it; otherwise, get the accountId from the user claims
+            if (pharmacyid.HasValue)
+            {
+                var pharmacy = await _orderService.GetThePharmacyByIdAsync(pharmacyid.Value);
+                if (pharmacy == null)
+                    return NotFound("Pharmacy not found.");
+                // Assuming the pharmacy object has an AccountId property
+                accountId = pharmacy.AccountId;
+                if (string.IsNullOrEmpty(accountId))
+                    return Forbid("AccountId missing.");
+            }
+            else
+            {
+                accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (string.IsNullOrEmpty(accountId))
+                    return Forbid("AccountId missing.");
+            }
 
             var result = await _orderService.GetPharmacyAnalysisAsync(accountId);
 
@@ -463,6 +479,21 @@ namespace PharmaLink_API.Controllers
                 };
             }
 
+            return Ok(result.Data);
+        }
+        //[Authorize(Roles = "Admin")]
+        [HttpGet("allOrdersAnalysis")]
+        public async Task<IActionResult> GetAllOrdersAnalysis()
+        {
+            var result = await _orderService.GetAllOrdersAnalysisAsync();
+            if (!result.Success)
+            {
+                return result.ErrorType switch
+                {
+                    ErrorType.NotFound => NotFound(result.ErrorMessage),
+                    _ => StatusCode(500, result.ErrorMessage)
+                };
+            }
             return Ok(result.Data);
         }
 
