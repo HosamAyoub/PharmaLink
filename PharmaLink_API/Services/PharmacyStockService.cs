@@ -247,8 +247,9 @@ namespace PharmaLink_API.Services
         /// <inheritdoc />
         /// <exception cref="InvalidOperationException">Thrown when database operation fails</exception>
         /// <exception cref="Exception">Thrown for unexpected errors</exception>
-        public ServiceResult<List<PharmacyProductDetailsDTO>> GetPharmacyStock(int pageNumber, int pageSize)
+        public ServiceResult<List<PharmacyProductDetailsDTO>> GetPharmacyStock(int pageNumber, int pageSize, out int distinctDrugsCount)
         {
+            distinctDrugsCount = 0;
             try
             {
                 _logger.LogInformation("Getting all pharmacy stock with pageNumber: {PageNumber}, pageSize: {PageSize}", pageNumber, pageSize);
@@ -265,7 +266,7 @@ namespace PharmaLink_API.Services
                         "Page size cannot exceed 100.",
                         ErrorType.Validation);
                 }
-                var pharmacyStock = _pharmacyStockRepository.GetPharmacyStock(pageNumber, pageSize).ToList();
+                var pharmacyStock = _pharmacyStockRepository.GetPharmacyStock(pageNumber, pageSize, out distinctDrugsCount).ToList();
                 if (!pharmacyStock.Any())
                 {
                     return ServiceResult<List<PharmacyProductDetailsDTO>>.ErrorResult(

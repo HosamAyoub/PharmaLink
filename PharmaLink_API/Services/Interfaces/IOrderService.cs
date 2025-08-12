@@ -1,4 +1,5 @@
 ﻿using PharmaLink_API.Core.Results;
+using PharmaLink_API.Models;
 using PharmaLink_API.Models.DTO.CartDTO;
 using PharmaLink_API.Models.DTO.OrderDTO;
 
@@ -94,6 +95,10 @@ namespace PharmaLink_API.Services.Interfaces
 
         Task<ServiceResult<List<PatientOrdersDTO>>> GetPatientOrdersAsync(string accountId);
 
+        Task<Pharmacy?> GetThePharmacyByIdAsync(int id);
+
         Task<ServiceResult<PharmacyAnalysisDTO>> GetPharmacyAnalysisAsync(string accountId);
+
+        Task<ServiceResult<PharmacyAnalysisDTO>> GetAllOrdersAnalysisAsync();
     }
 }

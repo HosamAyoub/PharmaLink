@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PharmaLink_API.Repository.Interfaces;
+using PharmaLink_API.Services.Interfaces;
 
 namespace PharmaLink_API.Controllers
 {
@@ -10,8 +12,10 @@ namespace PharmaLink_API.Controllers
     public class RoleController : ControllerBase
     {
         private readonly IRoleRepository _roleRepository;
-        public RoleController(IRoleRepository roleRepository)
+        private readonly IRoleService _roleService;
+        public RoleController(IRoleRepository roleRepository, IRoleService roleService)
         {
+            _roleService = roleService;
             _roleRepository = roleRepository;
         }
         [HttpPost("CreateRole")]
@@ -62,5 +66,27 @@ namespace PharmaLink_API.Controllers
             var roles = await _roleRepository.GetAllRolesAsync();
             return Ok(roles);
         }
+        [HttpPut("changeRole")]
+        //[Authorize(Roles = "Admin")]
+        public async Task<IActionResult> ChangeRole(string userId, string newRoleName)
+        {
+            if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(newRoleName))
+            {
+                return BadRequest(new { Errors = "User ID and Role Name cannot be null or empty." });
+            }
+            var user = await _roleService.GetUserByIdAsync(userId);
+            if (user == null)
+            {
+                return NotFound(new { Error = $"User with ID '{userId}' not found." });
+            }
+            IdentityResult result = await _roleService.ChangeUserRoleAsync(user, newRoleName);
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
+            return Ok(new { Message = $"User '{user.UserName}' role changed to '{newRoleName}' successfully." });
+        }
+
+
     }
 }
