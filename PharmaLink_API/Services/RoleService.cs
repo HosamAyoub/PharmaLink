@@ -36,5 +36,34 @@ namespace PharmaLink_API.Services
             // Assign the role to the user
             return await _userManager.AddToRoleAsync(newAccount, roleName);
         }
+
+        /// <summary>
+        /// Retrieves a user by their unique ID.
+        /// </summary>
+        public async Task<Account?> GetUserByIdAsync(string userId)
+        {
+            return await _userManager.FindByIdAsync(userId);
+        }
+
+        /// <summary>
+        /// Changes the user's role to the specified new role.
+        /// Removes all current roles and adds the new one.
+        /// </summary>
+        public async Task<IdentityResult> ChangeUserRoleAsync(Account user, string newRoleName)
+        {
+            // Get all current roles for the user
+            var currentRoles = await _userManager.GetRolesAsync(user);
+
+            // Remove user from all current roles
+            var removeResult = await _userManager.RemoveFromRolesAsync(user, currentRoles);
+            if (!removeResult.Succeeded)
+            {
+                return removeResult;
+            }
+
+            // Add user to the new role
+            var addResult = await _userManager.AddToRoleAsync(user, newRoleName);
+            return addResult;
+        }
     }
 }

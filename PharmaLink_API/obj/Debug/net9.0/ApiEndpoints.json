@@ -504,12 +504,28 @@
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.OrdersController",
+    "Method": "GetAllOrdersAnalysis",
+    "RelativePath": "api/Orders/allOrdersAnalysis",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.OrdersController",
     "Method": "GetPharmacyAnalysis",
     "RelativePath": "api/Orders/analysis",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "pharmacyid",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
     "ReturnTypes": []
   },
   {
@@ -610,6 +626,16 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.OrdersController",
+    "Method": "GetAllOrders",
+    "RelativePath": "api/Orders/PatientOrders",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -777,22 +803,6 @@
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.PharmacyController",
-    "Method": "CreatePharmacy",
-    "RelativePath": "api/Pharmacy",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "pharmacy",
-        "Type": "PharmaLink_API.Models.Pharmacy",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "PharmaLink_API.Controllers.PharmacyController",
     "Method": "GetPharmacyById_forUser",
     "RelativePath": "api/Pharmacy/{id}",
     "HttpMethod": "GET",
@@ -861,6 +871,48 @@
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.PharmacyController",
+    "Method": "ConfirmPharmacy",
+    "RelativePath": "api/Pharmacy/ConfirmPharmacy/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.PharmacyController",
+    "Method": "GetPharmaciesByStatus",
+    "RelativePath": "api/Pharmacy/GetPharmaciesByStatus/{status}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "status",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PharmaLink_API.Models.DTO.PharmacyDTO.PharmacyDisplayDTO, PharmaLink_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.PharmacyController",
     "Method": "GetPharmacyById_forUser",
     "RelativePath": "api/Pharmacy/pharmacyById",
     "HttpMethod": "GET",
@@ -898,6 +950,22 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.PharmacyController",
+    "Method": "SuspendedPharmacy",
+    "RelativePath": "api/Pharmacy/SuspendedPharmacy/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.PharmacyController",
@@ -1321,6 +1389,27 @@
       {
         "Name": "pageSize",
         "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.RoleController",
+    "Method": "ChangeRole",
+    "RelativePath": "api/Role/changeRole",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "newRoleName",
+        "Type": "System.String",
         "IsRequired": false
       }
     ],
