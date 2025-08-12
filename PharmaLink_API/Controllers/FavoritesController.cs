@@ -17,12 +17,17 @@ namespace PharmaLink_API.Controllers
         private readonly IFavoriteRepository _favoriteRepository;
         private readonly IPatientRepository _patientRepository;
         private readonly IDrugRepository _drugRepository;
+        private readonly ILogger<FavoritesController> logger;
 
-        public FavoritesController(IFavoriteRepository favoriteRepository, IPatientRepository patientRepository, IDrugRepository drugRepository)
+        public FavoritesController(IFavoriteRepository favoriteRepository, 
+            IPatientRepository patientRepository, 
+            IDrugRepository drugRepository,
+            ILogger<FavoritesController> logger)
         {
             _favoriteRepository = favoriteRepository;
             _patientRepository = patientRepository;
             _drugRepository = drugRepository;
+            this.logger = logger;
         }
 
         /// <summary>
@@ -91,6 +96,161 @@ namespace PharmaLink_API.Controllers
             await _favoriteRepository.SaveAsync();
 
             return Ok(new { message = "Drug added to favorites successfully." });
+        }
+
+        /// <summary>
+        /// Adds multiple drugs to the authenticated patient's favorites.
+        /// </summary>
+        /// <param name="favorites">DTO containing multiple drug IDs to add to favorites.</param>
+        /// <returns>Response with details about successfully added favorites and any errors.</returns>
+        [HttpPost("AddMultiple")]
+        public async Task<IActionResult> AddMultipleFavorites([FromBody] List<int> favorites)
+        {
+            
+            logger.LogInformation("AddMultipleFavorites called with {Count} drug IDs", favorites?.Count ?? 0);
+            if (favorites == null || favorites == null || !favorites.Any())
+                return BadRequest(new { message = "No drug IDs provided to add to favorites." });
+
+            var accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(accountId))
+                return Unauthorized(new { message = "User is not authenticated." });
+
+            var patient = await _patientRepository.GetAsync(p => p.AccountId == accountId);
+            if (patient == null)
+                return NotFound(new { message = "Patient not found." });
+
+            // Validate drug IDs from the list
+            var drugIds = new List<int>();
+            var invalidInputs = new List<string>();
+
+            foreach (var drugId in favorites)
+            {
+                if (drugId <= 0)
+                {
+                    invalidInputs.Add($"Invalid DrugId: {drugId}. DrugId must be greater than 0.");
+                    continue;
+                }
+                
+                drugIds.Add(drugId);
+            }
+
+            var response = new AddMultipleFavoritesResponseDTO
+            {
+                TotalRequested = favorites.Count
+            };
+
+            // Add input validation errors to response
+            if (invalidInputs.Any())
+            {
+                response.Errors.AddRange(invalidInputs);
+                response.Failed += invalidInputs.Count;
+            }
+
+            try
+            {
+                // Remove duplicates from input
+                var uniqueDrugIds = drugIds.Distinct().ToList();
+                
+                // Validate all drug IDs exist
+                var existingDrugs = await _drugRepository.GetAllAsync(d => uniqueDrugIds.Contains(d.DrugID));
+                var existingDrugIds = existingDrugs.Select(d => d.DrugID).ToHashSet();
+                
+                // Find invalid drug IDs
+                var invalidDrugIds = uniqueDrugIds.Where(id => !existingDrugIds.Contains(id)).ToList();
+                foreach (var invalidId in invalidDrugIds)
+                {
+                    response.Errors.Add($"Drug with ID {invalidId} not found.");
+                    response.Failed++;
+                }
+
+                // Get existing favorites for this patient
+                var existingFavorites = await _favoriteRepository.GetAllAsync(
+                    f => f.PatientId == patient.PatientId && uniqueDrugIds.Contains(f.DrugId));
+                var existingFavoriteDrugIds = existingFavorites.Select(f => f.DrugId).ToHashSet();
+
+                // Identify drugs already in favorites
+                var alreadyFavoriteDrugIds = uniqueDrugIds.Where(id => existingFavoriteDrugIds.Contains(id)).ToList();
+                response.SkippedDrugIds.AddRange(alreadyFavoriteDrugIds);
+                response.AlreadyInFavorites = alreadyFavoriteDrugIds.Count;
+
+                // Find drugs to add (valid and not already in favorites)
+                var drugsToAdd = uniqueDrugIds
+                    .Where(id => existingDrugIds.Contains(id) && !existingFavoriteDrugIds.Contains(id))
+                    .ToList();
+
+                if (drugsToAdd.Any())
+                {
+                    // Create favorite entities
+                    var newFavorites = drugsToAdd.Select(drugId => new PatientFavoriteDrug
+                    {
+                        PatientId = patient.PatientId,
+                        DrugId = drugId
+                    }).ToList();
+
+                    // Add to database
+                    await _favoriteRepository.AddRangeAsync(newFavorites);
+
+                    // Create response DTOs for successfully added favorites
+                    var addedDrugs = existingDrugs.Where(d => drugsToAdd.Contains(d.DrugID));
+                    response.AddedFavorites = addedDrugs.Select(drug => new FavoriteDrugDTO
+                    {
+                        DrugId = drug.DrugID,
+                        Name = drug.CommonName,
+                        Description = drug.Description,
+                        ImageUrl = drug.Drug_UrlImg,
+                        DrugCategory = drug.Category
+                    }).ToList();
+
+                    response.SuccessfullyAdded = drugsToAdd.Count;
+                }
+
+                // Add informational messages for skipped items
+                if (response.AlreadyInFavorites > 0)
+                {
+                    response.Errors.Add($"{response.AlreadyInFavorites} drug(s) were already in your favorites and were skipped.");
+                }
+
+                // Determine response based on results
+                if (response.SuccessfullyAdded > 0 && response.Failed == 0)
+                {
+                    return Ok(new { 
+                        message = "All valid drugs added to favorites successfully.", 
+                        data = response 
+                    });
+                }
+                else if (response.SuccessfullyAdded > 0 && response.Failed > 0)
+                {
+                    return Ok(new { 
+                        message = "Some drugs were added to favorites with errors.", 
+                        data = response,
+                        warnings = response.Errors 
+                    });
+                }
+                else if (response.SuccessfullyAdded == 0 && response.AlreadyInFavorites > 0 && response.Failed == 0)
+                {
+                    return Ok(new { 
+                        message = "All drugs were already in your favorites.", 
+                        data = response 
+                    });
+                }
+                else
+                {
+                    return BadRequest(new { 
+                        message = "Failed to add any drugs to favorites.", 
+                        data = response,
+                        errors = response.Errors 
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Errors.Add($"An error occurred while adding drugs to favorites: {ex.Message}");
+                return StatusCode(500, new { 
+                    message = "Internal server error.", 
+                    data = response,
+                    errors = response.Errors 
+                });
+            }
         }
 
         /// <summary>

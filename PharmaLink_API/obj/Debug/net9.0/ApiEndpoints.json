@@ -478,6 +478,22 @@
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.FavoritesController",
+    "Method": "AddMultipleFavorites",
+    "RelativePath": "api/Favorites/AddMultiple",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "favorites",
+        "Type": "System.Collections.Generic.List\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.FavoritesController",
     "Method": "ClearFavorites",
     "RelativePath": "api/Favorites/ClearFavorites",
     "HttpMethod": "DELETE",
