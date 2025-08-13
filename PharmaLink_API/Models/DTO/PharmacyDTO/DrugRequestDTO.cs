@@ -1,0 +1,13 @@
+﻿namespace PharmaLink_API.Models.DTO.PharmacyDTO
+{
+    public class DrugRequestDTO
+    {
+        public string CommonName { get; set; }
+        public string ActiveIngredient { get; set; }
+
+        public Status DrugStatus { get; set; } = Status.Requested;
+
+        public int CreatedByPharmacy { get; set; }
+
+    }
+}

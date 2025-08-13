@@ -19,5 +19,13 @@ namespace PharmaLink_API.Repository
             _db.PatientFavoriteDrugs.RemoveRange(favoriteDrugs);
             await _db.SaveChangesAsync();
         }
+
+        public async Task AddRangeAsync(IEnumerable<PatientFavoriteDrug> favoriteDrugs)
+        {
+            if (favoriteDrugs == null || !favoriteDrugs.Any())
+                return;
+            await _db.PatientFavoriteDrugs.AddRangeAsync(favoriteDrugs);
+            await _db.SaveChangesAsync();
+        }
     }
 }

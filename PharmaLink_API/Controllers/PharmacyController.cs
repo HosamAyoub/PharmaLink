@@ -15,12 +15,14 @@ namespace PharmaLink_API.Controllers
     public class PharmacyController : ControllerBase
     {
         private IPharmacyRepository _PharmacyRepo { get; set; }
+        private IDrugRepository _DrugRepo { get; set; }
         private IMapper _Mapper { get; set; }
         private readonly IWebHostEnvironment _WebHostEnvironment;
 
-        public PharmacyController(IPharmacyRepository pharmacyRepo, IMapper mapper, IWebHostEnvironment webHostEnvironment)
+        public PharmacyController(IPharmacyRepository pharmacyRepo, IDrugRepository drugRepo, IMapper mapper, IWebHostEnvironment webHostEnvironment)
         {
             _PharmacyRepo = pharmacyRepo;
+            _DrugRepo = drugRepo;
             _Mapper = mapper;
             _WebHostEnvironment = webHostEnvironment;
         }
@@ -36,6 +38,8 @@ namespace PharmaLink_API.Controllers
             return Ok(pharmaciesDto);
         }
 
+
+
         [HttpGet("pharmacyById")]
         [HttpGet("{id:int}")]
         public async Task<ActionResult<PharmacyDisplayDTO>> GetPharmacyById_forUser(int Id)
@@ -49,6 +53,25 @@ namespace PharmaLink_API.Controllers
 
             var pharmacyDto = _Mapper.Map<PharmacyDisplayDTO>(pharmacy);
             return Ok(pharmacyDto);
+        }
+
+
+        [Authorize(Roles = "Pharmacy")]
+        [HttpPost("SendRequestAddDrug")]
+        public async Task<IActionResult> RequestToAddDrug([FromBody] DrugRequestDTO drugRequest)
+        {
+            var accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(accountId))
+                return Unauthorized("Invalid token.");
+
+            var existingPharmacy = await _PharmacyRepo.GetAsync(p => p.AccountId == accountId, true, x => x.Account);
+            if (existingPharmacy == null)
+            {
+                return NotFound($"Pharmacy not found.");
+            }
+            drugRequest.CreatedByPharmacy = existingPharmacy.PharmacyID;
+            await _DrugRepo.CreateAndSaveAsync(_Mapper.Map<Drug>(drugRequest));
+            return Ok($"Request to add drug sent successfully for pharmacy {existingPharmacy.Name}.");
         }
 
         [Authorize(Roles = "Pharmacy")]

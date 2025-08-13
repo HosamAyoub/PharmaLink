@@ -410,6 +410,16 @@
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.DrugController",
+    "Method": "GetAdminData",
+    "RelativePath": "api/Drug/GetAdminData",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.DrugController",
     "Method": "Search",
     "RelativePath": "api/Drug/Search",
     "HttpMethod": "GET",
@@ -471,6 +481,22 @@
       {
         "Name": "drugId",
         "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.FavoritesController",
+    "Method": "AddMultipleFavorites",
+    "RelativePath": "api/Favorites/AddMultiple",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "favorites",
+        "Type": "System.Collections.Generic.List\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": true
       }
     ],
@@ -934,6 +960,22 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.PharmacyController",
+    "Method": "RequestToAddDrug",
+    "RelativePath": "api/Pharmacy/SendRequestAddDrug",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "drugRequest",
+        "Type": "PharmaLink_API.Models.DTO.PharmacyDTO.DrugRequestDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.PharmacyController",

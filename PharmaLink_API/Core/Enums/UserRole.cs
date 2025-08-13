@@ -73,7 +73,7 @@ namespace PharmaLink_API.Core.Enums
         /// <returns>Array of all role strings</returns>
         public static string[] GetAllRoleStrings()
         {
-            return new[] { "Admin", "Pharmacy", "Patient", "pending", "suspended" };
+            return new[] { "Admin", "Pharmacy", "Patient", "pending", "suspended"};
         }
 
         /// <summary>

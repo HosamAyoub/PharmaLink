@@ -102,11 +102,12 @@ namespace PharmaLink_API.Controllers
         [HttpGet("allPharmaciesStock")]
         public IActionResult GetAllPharmaciesStock(int pageNumber , int pageSize) 
         {
+            int distinctDrugsCount;
             try
             {
                 _logger.LogInformation("GetPharmacyStock endpoint called with pageNumber: {PageNumber}, pageSize: {PageSize}", 
                     pageNumber, pageSize);
-                var result = _pharmacyStockService.GetPharmacyStock(pageNumber, pageSize);
+                var result = _pharmacyStockService.GetPharmacyStock(pageNumber, pageSize ,out distinctDrugsCount );
                 if (!result.Success)
                 {
                     return HandleServiceError(result);
@@ -115,6 +116,7 @@ namespace PharmaLink_API.Controllers
                 {
                     success = true,
                     data = result.Data,
+                    DrugsCount = distinctDrugsCount,
                     message = "All pharmacy stock retrieved successfully."
                 });
             }
