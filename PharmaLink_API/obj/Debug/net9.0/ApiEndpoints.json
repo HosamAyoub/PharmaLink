@@ -666,6 +666,16 @@
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.OrdersController",
+    "Method": "GetAllPharmaciesSummary",
+    "RelativePath": "api/Orders/pharmacies-summary",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.OrdersController",
     "Method": "RejectOrder",
     "RelativePath": "api/Orders/reject/{orderId}",
     "HttpMethod": "POST",
