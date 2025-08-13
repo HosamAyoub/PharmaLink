@@ -45,7 +45,7 @@ namespace PharmaLink_API.Repository.Interfaces
         /// <param name="pageNumber">Page number for pagination (0 or negative returns all records)</param>
         /// <param name="pageSize">Number of items per page (0 or negative returns all records)</param>
         /// <returns>A list of PharmacyProduct entities with Drug and Pharmacy navigation properties loaded</returns>
-        List<PharmacyProduct> GetPharmacyStock(int pageNumber, int pageSize);
+        List<PharmacyProduct> GetPharmacyStock(int pageNumber, int pageSize, out int distinctDrugsCount);
 
         /// <summary>
         /// Adds multiple products to pharmacy stock inventory with duplicate checking and validation.

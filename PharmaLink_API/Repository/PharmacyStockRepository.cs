@@ -117,7 +117,7 @@ namespace PharmaLink_API.Repository
         /// Uses Entity Framework Skip/Take for efficient pagination.
         /// </remarks>
         /// <exception cref="InvalidOperationException">Thrown when database operation fails</exception>
-        public List<PharmacyProduct> GetPharmacyStock(int pageNumber, int pageSize)
+        public List<PharmacyProduct> GetPharmacyStock(int pageNumber, int pageSize , out int distinctDrugsCount)
         {
             try
             {
@@ -126,6 +126,11 @@ namespace PharmaLink_API.Repository
                 var pharmacyStock = db.PharmacyStock.Where(ps => ps.Status == Product_Status.Available)
                     .Include(ps => ps.Drug)
                     .Include(ps => ps.Pharmacy);
+                distinctDrugsCount = db.PharmacyStock
+                .Where(ps => ps.Status == Product_Status.Available)
+                .Select(ps => ps.DrugId) 
+                .Distinct()
+                .Count();
                 if (pageNumber > 0 && pageSize > 0)
                 {
                     return pharmacyStock.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
