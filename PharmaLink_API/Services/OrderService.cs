@@ -471,6 +471,61 @@ namespace PharmaLink_API.Services
             return ServiceResult<PharmacyAnalysisDTO>.SuccessResult(result);
         }
 
+        public async Task<ServiceResult<PharmacySummaryDTO>> GetAllPharmaciesSummaryAsync()
+        {
+            // Calculate global stats once
+            var allorders = await _orderHeaderRepository.GetAllAsync(o => o.Status == SD.StatusDelivered);
+            decimal allrevenue = allorders?.Sum(o => o.TotalPrice) ?? 0;
+
+            var Drugstock = await _pharmacyStockRepository.GetAllAsync(ps => ps.QuantityAvailable > 0 && ps.Status == Product_Status.Available);
+            int allDrugStock = Drugstock?.Select(ps => ps.DrugId).Distinct().Count() ?? 0;
+
+            // Get all pharmacies with their stock
+            var pharmacies = await _pharmacyRepository.GetAllAsync(filter: null, x => x.PharmacyStock);
+            if (pharmacies == null || pharmacies.Count == 0)
+                return ServiceResult<PharmacySummaryDTO>.ErrorResult("No pharmacies found.", ErrorType.NotFound);
+
+            var summaries = new List<PharmacySummaryData>();
+
+            foreach (var pharmacy in pharmacies)
+            {
+                // Get delivered orders for this pharmacy
+                var orders = await _orderHeaderRepository.GetAllAsync(
+                    o => o.PharmacyId == pharmacy.PharmacyID && o.Status == SD.StatusDelivered
+                );
+
+                int totalOrders = orders?.Count ?? 0;
+                decimal totalRevenue = orders?.Sum(o => o.TotalPrice) ?? 0;
+
+                int totalUniqueDrugs = pharmacy.PharmacyStock?
+                    .Select(ps => ps.DrugId)
+                    .Distinct()
+                    .Count() ?? 0;
+
+                summaries.Add(new PharmacySummaryData
+                {
+                    PharmacyID = pharmacy.PharmacyID,
+                    Name = pharmacy.Name,
+                    Rate = pharmacy.Rate,
+                    TotalOrders = totalOrders,
+                    TotalRevenue = totalRevenue,
+                    TotalMedicineInStock = totalUniqueDrugs
+                });
+            }
+
+            // Sort by TotalRevenue descending
+            var sortedSummaries = summaries.OrderByDescending(x => x.TotalRevenue).ToList();
+
+            var result = new PharmacySummaryDTO
+            {
+                allrevenue = allrevenue,
+                allDrugStock = allDrugStock,
+                PharmacySummary = sortedSummaries
+            };
+
+            return ServiceResult<PharmacySummaryDTO>.SuccessResult(result);
+        }
+
         private PharmacyAnalysisDTO CalculateStatistics(List<Order> orders)
         {
             // Calculate overall statistics

@@ -101,5 +101,10 @@ namespace PharmaLink_API.Services.Interfaces
         Task<ServiceResult<PharmacyAnalysisDTO>> GetPharmacyAnalysisAsync(string accountId);
 
         Task<ServiceResult<PharmacyAnalysisDTO>> GetAllOrdersAnalysisAsync();
+
+        /// <summary>
+        /// Returns a summary for all pharmacies including orders, revenue, and stock count.
+        /// </summary>
+        Task<ServiceResult<PharmacySummaryDTO>> GetAllPharmaciesSummaryAsync();
     }
 }

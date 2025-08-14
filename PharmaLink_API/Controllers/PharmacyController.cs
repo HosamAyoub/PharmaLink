@@ -58,20 +58,21 @@ namespace PharmaLink_API.Controllers
 
         [Authorize(Roles = "Pharmacy")]
         [HttpPost("SendRequestAddDrug")]
-        public async Task<IActionResult> RequestToAddDrug([FromBody] DrugRequestDTO drugRequest)
+        public async Task<IActionResult> RequestToAddDrug([FromBody] SendRequestDTO drugRequest)
         {
             var accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(accountId))
-                return Unauthorized("Invalid token.");
+                return Unauthorized( new {  message = "Invalid token." });
 
             var existingPharmacy = await _PharmacyRepo.GetAsync(p => p.AccountId == accountId, true, x => x.Account);
             if (existingPharmacy == null)
             {
-                return NotFound($"Pharmacy not found.");
+                return NotFound(new { message = $"Pharmacy not found." });
             }
             drugRequest.CreatedByPharmacy = existingPharmacy.PharmacyID;
+            drugRequest.DrugStatus = Status.Requested;
             await _DrugRepo.CreateAndSaveAsync(_Mapper.Map<Drug>(drugRequest));
-            return Ok($"Request to add drug sent successfully for pharmacy {existingPharmacy.Name}.");
+            return Ok(new { message=$"Request to add drug sent successfully for pharmacy {existingPharmacy.Name}."});
         }
 
         [Authorize(Roles = "Pharmacy")]
@@ -182,7 +183,7 @@ namespace PharmaLink_API.Controllers
         //[Authorize(Roles = "Admin")]
         public async Task<ActionResult<IEnumerable<PharmacyDisplayDTO>>> GetPharmaciesByStatus(Pharmacy_Status status)
         {
-            var pharmacies = await _PharmacyRepo.GetAllAsync(p => p.Status == status);
+            var pharmacies = await _PharmacyRepo.GetAllAsync(p => p.Status == status,includeProperties:p=>p.Account);
             if (pharmacies == null || pharmacies.Count == 0)
             {
                 return NotFound($"No pharmacies found with status {status}.");
@@ -217,6 +218,20 @@ namespace PharmaLink_API.Controllers
             pharmacy.Status = Pharmacy_Status.Suspended;
             await _PharmacyRepo.UpdateAsync(pharmacy);
             return Ok($"Pharmacy with ID {id} status updated to Suspended.");
+        }
+
+        [HttpPut("RejectPharmacy/{id:int}")]
+        //[Authorize(Roles = "Admin")]
+        public async Task<IActionResult> RejectPharmacy(int id)
+        {
+            var pharmacy = await _PharmacyRepo.GetAsync(p => p.PharmacyID == id);
+            if (pharmacy == null)
+            {
+                return NotFound($"Pharmacy with ID {id} not found.");
+            }
+            pharmacy.Status = Pharmacy_Status.Rejected;
+            await _PharmacyRepo.UpdateAsync(pharmacy);
+            return Ok($"Pharmacy with ID {id} status updated to Rejected.");
         }
     }
 }
