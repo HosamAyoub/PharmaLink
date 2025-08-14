@@ -973,6 +973,22 @@
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.PharmacyController",
+    "Method": "RejectPharmacy",
+    "RelativePath": "api/Pharmacy/RejectPharmacy/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.PharmacyController",
     "Method": "RequestToAddDrug",
     "RelativePath": "api/Pharmacy/SendRequestAddDrug",
     "HttpMethod": "POST",
@@ -1441,6 +1457,27 @@
       {
         "Name": "userId",
         "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "newRoleName",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.RoleController",
+    "Method": "ChangeRoleByPharmacy",
+    "RelativePath": "api/Role/changeRoleByPharmacy",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pharmacyId",
+        "Type": "System.Int32",
         "IsRequired": false
       },
       {
