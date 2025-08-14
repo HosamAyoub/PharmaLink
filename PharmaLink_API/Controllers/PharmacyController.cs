@@ -219,6 +219,20 @@ namespace PharmaLink_API.Controllers
             await _PharmacyRepo.UpdateAsync(pharmacy);
             return Ok($"Pharmacy with ID {id} status updated to Suspended.");
         }
+
+        [HttpPut("RejectPharmacy/{id:int}")]
+        //[Authorize(Roles = "Admin")]
+        public async Task<IActionResult> RejectPharmacy(int id)
+        {
+            var pharmacy = await _PharmacyRepo.GetAsync(p => p.PharmacyID == id);
+            if (pharmacy == null)
+            {
+                return NotFound($"Pharmacy with ID {id} not found.");
+            }
+            pharmacy.Status = Pharmacy_Status.Rejected;
+            await _PharmacyRepo.UpdateAsync(pharmacy);
+            return Ok($"Pharmacy with ID {id} status updated to Rejected.");
+        }
     }
 }
 

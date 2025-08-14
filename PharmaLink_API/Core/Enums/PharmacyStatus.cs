@@ -2,6 +2,6 @@
 {
     public enum Pharmacy_Status
     {
-        Suspended, Active, Pending
+        Suspended, Active, Pending, Rejected
     }
 }
