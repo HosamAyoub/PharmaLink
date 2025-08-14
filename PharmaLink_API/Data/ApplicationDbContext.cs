@@ -363,7 +363,10 @@ namespace PharmaLink_API.Data
                 Description = "Common OTC analgesic",
                 Storage_and_handling = "Store below 25°C",
                 Adverse_reactions = "Nausea, rash",
-                Drug_UrlImg = "https://www.bloompharmacy.com/cdn/shop/products/paracetamol-500-mg-20-tablets-606862.jpg?v=1707749818"
+                Drug_UrlImg = "https://www.bloompharmacy.com/cdn/shop/products/paracetamol-500-mg-20-tablets-606862.jpg?v=1707749818",
+                DrugStatus = Status.Approved,
+                CreatedByPharmacy = 0
+
             },
             new Drug
             {
@@ -382,7 +385,9 @@ namespace PharmaLink_API.Data
                 Description = "NSAID used for pain and inflammation",
                 Storage_and_handling = "Store below 25°C",
                 Adverse_reactions = "GI bleeding, headache",
-                Drug_UrlImg = "https://lh6.googleusercontent.com/proxy/uQRcEtpKh0CN_X9m4XoC-XIsU50ITQYNcXEn6YiF4wxFvvctThypADpbL0xskSrs1hM3d6mJlUmnIJ010DF1YihIVBXZ0lnDUq1jWrS_v0wQ5IZDfOQLkQ7ZrzJaTC0KwA"
+                Drug_UrlImg = "https://lh6.googleusercontent.com/proxy/uQRcEtpKh0CN_X9m4XoC-XIsU50ITQYNcXEn6YiF4wxFvvctThypADpbL0xskSrs1hM3d6mJlUmnIJ010DF1YihIVBXZ0lnDUq1jWrS_v0wQ5IZDfOQLkQ7ZrzJaTC0KwA",
+                DrugStatus = Status.Approved,
+                CreatedByPharmacy = 0
             },
             new Drug
             {
@@ -401,7 +406,9 @@ namespace PharmaLink_API.Data
                 Description = "Broad-spectrum antibiotic",
                 Storage_and_handling = "Store in a cool, dry place",
                 Adverse_reactions = "Diarrhea, rash",
-                Drug_UrlImg = "https://www.canonbury.com/media/catalog/product/cache/ac001188e3511e11921f4c9c9c586cfc/a/m/amoxicillin_capsules_500mg_15_pl_la_.png"
+                Drug_UrlImg = "https://www.canonbury.com/media/catalog/product/cache/ac001188e3511e11921f4c9c9c586cfc/a/m/amoxicillin_capsules_500mg_15_pl_la_.png",
+                DrugStatus = Status.Approved,
+                CreatedByPharmacy = 0
             }
         );
         }
@@ -524,21 +531,24 @@ namespace PharmaLink_API.Data
                     DrugId = 1, // Paracetamol
                     PharmacyId = 1,
                     Price = 12.50m,
-                    QuantityAvailable = 150
+                    QuantityAvailable = 150,
+                    Status=Product_Status.Available
                 },
                 new PharmacyProduct
                 {
                     DrugId = 2, // Ibuprofen
                     PharmacyId = 1,
                     Price = 18.00m,
-                    QuantityAvailable = 85
+                    QuantityAvailable = 85,
+                    Status = Product_Status.Available
                 },
                 new PharmacyProduct
                 {
                     DrugId = 3, // Amoxicillin
                     PharmacyId = 1,
                     Price = 28.50m,
-                    QuantityAvailable = 65
+                    QuantityAvailable = 65,
+                    Status = Product_Status.Available
                 },
 
                  //Health Plus(PharmacyID = 2) - Competitive pricing, high stock
@@ -547,21 +557,24 @@ namespace PharmaLink_API.Data
                     DrugId = 1, // Paracetamol
                     PharmacyId = 2,
                     Price = 10.50m,
-                    QuantityAvailable = 200
+                    QuantityAvailable = 200,
+                    Status = Product_Status.Available
                 },
                 new PharmacyProduct
                 {
                     DrugId = 2, // Ibuprofen
                     PharmacyId = 2,
                     Price = 15.00m,
-                    QuantityAvailable = 120
+                    QuantityAvailable = 120,
+                    Status = Product_Status.Available
                 },
                 new PharmacyProduct
                 {
                     DrugId = 3, // Amoxicillin
                     PharmacyId = 2,
                     Price = 25.00m,
-                    QuantityAvailable = 90
+                    QuantityAvailable = 90,
+                    Status = Product_Status.Available
                 },
 
                 // MediCare (PharmacyID = 3) - Mid-range pricing, moderate stock
@@ -570,21 +583,24 @@ namespace PharmaLink_API.Data
                     DrugId = 1, // Paracetamol
                     PharmacyId = 3,
                     Price = 11.25m,
-                    QuantityAvailable = 100
+                    QuantityAvailable = 100,
+                    Status = Product_Status.Available
                 },
                 new PharmacyProduct
                 {
                     DrugId = 2, // Ibuprofen
                     PharmacyId = 3,
                     Price = 16.50m,
-                    QuantityAvailable = 75
+                    QuantityAvailable = 75,
+                    Status = Product_Status.Available
                 },
                 new PharmacyProduct
                 {
                     DrugId = 3, // Amoxicillin
                     PharmacyId = 3,
                     Price = 26.75m,
-                    QuantityAvailable = 55
+                    QuantityAvailable = 55,
+                    Status = Product_Status.Available
                 }
             );
         }

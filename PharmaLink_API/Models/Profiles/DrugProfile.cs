@@ -2,7 +2,6 @@
 using PharmaLink_API.Models.DTO.DrugDto;
 using PharmaLink_API.Models.DTO.DrugDTO;
 using PharmaLink_API.Models.DTO.PharmacyDTO;
-using DrugRequestDTO = PharmaLink_API.Models.DTO.DrugDTO.DrugRequestDTO;
 
 namespace PharmaLink_API.Models.Profiles
 {
@@ -13,6 +12,9 @@ namespace PharmaLink_API.Models.Profiles
             CreateMap<Drug, DrugDetailsDTO>().ReverseMap();
             CreateMap<Drug, FullPharmaDrugDTO>().ReverseMap();
             CreateMap<Drug, DrugRequestDTO>().ReverseMap();
+            CreateMap<Drug, SendRequestDTO>().ReverseMap();
+            CreateMap<Drug, Drug>().ReverseMap();
+
         }   
     }
 }

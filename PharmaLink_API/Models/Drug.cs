@@ -33,7 +33,7 @@
 
     public enum Status
     {
-        Requested,
-        Approved
+        Requested=0,
+        Approved=1
     }
 }
