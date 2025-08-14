@@ -1,6 +1,6 @@
 ﻿namespace PharmaLink_API.Models.DTO.PharmacyDTO
 {
-    public class DrugRequestDTO
+    public class SendRequestDTO
     {
         public string CommonName { get; set; }
         public string ActiveIngredient { get; set; }
