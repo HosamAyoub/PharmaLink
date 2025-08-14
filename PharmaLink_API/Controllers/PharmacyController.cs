@@ -58,20 +58,21 @@ namespace PharmaLink_API.Controllers
 
         [Authorize(Roles = "Pharmacy")]
         [HttpPost("SendRequestAddDrug")]
-        public async Task<IActionResult> RequestToAddDrug([FromBody] DrugRequestDTO drugRequest)
+        public async Task<IActionResult> RequestToAddDrug([FromBody] SendRequestDTO drugRequest)
         {
             var accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(accountId))
-                return Unauthorized("Invalid token.");
+                return Unauthorized( new {  message = "Invalid token." });
 
             var existingPharmacy = await _PharmacyRepo.GetAsync(p => p.AccountId == accountId, true, x => x.Account);
             if (existingPharmacy == null)
             {
-                return NotFound($"Pharmacy not found.");
+                return NotFound(new { message = $"Pharmacy not found." });
             }
             drugRequest.CreatedByPharmacy = existingPharmacy.PharmacyID;
+            drugRequest.DrugStatus = Status.Requested;
             await _DrugRepo.CreateAndSaveAsync(_Mapper.Map<Drug>(drugRequest));
-            return Ok($"Request to add drug sent successfully for pharmacy {existingPharmacy.Name}.");
+            return Ok(new { message=$"Request to add drug sent successfully for pharmacy {existingPharmacy.Name}."});
         }
 
         [Authorize(Roles = "Pharmacy")]

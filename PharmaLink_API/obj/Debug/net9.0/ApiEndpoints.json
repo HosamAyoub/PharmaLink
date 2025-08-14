@@ -258,29 +258,18 @@
   {
     "ContainingType": "PharmaLink_API.Controllers.DrugController",
     "Method": "Put",
-    "RelativePath": "api/Drug/{id}",
+    "RelativePath": "api/Drug",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
       {
         "Name": "EditedDrugDTO",
         "Type": "PharmaLink_API.Models.DTO.DrugDto.DrugDetailsDTO",
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.DrugController",
@@ -296,13 +285,7 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.DrugController",
@@ -997,7 +980,7 @@
     "Parameters": [
       {
         "Name": "drugRequest",
-        "Type": "PharmaLink_API.Models.DTO.PharmacyDTO.DrugRequestDTO",
+        "Type": "PharmaLink_API.Models.DTO.PharmacyDTO.SendRequestDTO",
         "IsRequired": true
       }
     ],
