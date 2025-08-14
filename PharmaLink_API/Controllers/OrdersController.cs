@@ -496,6 +496,21 @@ namespace PharmaLink_API.Controllers
             }
             return Ok(result.Data);
         }
+        [HttpGet("pharmacies-summary")]
+        //[Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetAllPharmaciesSummary()
+        {
+            var result = await _orderService.GetAllPharmaciesSummaryAsync();
+            if (!result.Success)
+            {
+                return result.ErrorType switch
+                {
+                    ErrorType.NotFound => NotFound(result.ErrorMessage),
+                    _ => StatusCode(500, result.ErrorMessage)
+                };
+            }
+            return Ok(result.Data);
+        }
 
     }
 }

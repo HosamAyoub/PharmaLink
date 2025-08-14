@@ -287,6 +287,7 @@ namespace PharmaLink_API.Data
                 {
                     PharmacyID = 1,
                     Name = "City Pharmacy",
+                    OwnerName = "Dr. Ahmed El-Sayed",
                     Country = "Egypt",
                     Address = "123 Main Street, Downtown Cairo",
                     PhoneNumber = "01012345678", // Matches account phone
@@ -301,6 +302,7 @@ namespace PharmaLink_API.Data
                 {
                     PharmacyID = 2,
                     Name = "Health Plus",
+                    OwnerName = "Dr. Fatma Nour",
                     Country = "Egypt",
                     Address = "456 Alexandria Corniche, Alexandria",
                     PhoneNumber = "01023456789", // Matches account phone
@@ -315,6 +317,7 @@ namespace PharmaLink_API.Data
                 {
                     PharmacyID = 3,
                     Name = "MediCare",
+                    OwnerName = "Dr. Mohamed Ali",
                     Country = "Egypt",
                     Address = "789 Nasr City, Cairo",
                     PhoneNumber = "01034567890", // Matches account phone

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using PharmaLink_API.Models.DTO.RolesDTO;
 using PharmaLink_API.Repository.Interfaces;
 using PharmaLink_API.Services.Interfaces;
 
@@ -13,15 +14,19 @@ namespace PharmaLink_API.Controllers
     {
         private readonly IRoleRepository _roleRepository;
         private readonly IRoleService _roleService;
-        public RoleController(IRoleRepository roleRepository, IRoleService roleService)
+        private readonly IPharmacyRepository _pharmacyRepository;
+
+        public RoleController(IRoleRepository roleRepository, IRoleService roleService, IPharmacyRepository pharmacyRepository)
         {
             _roleService = roleService;
             _roleRepository = roleRepository;
+            _pharmacyRepository = pharmacyRepository;
         }
+
         [HttpPost("CreateRole")]
         public async Task<IActionResult> CreateRole(string roleName)
         {
-            if(string.IsNullOrWhiteSpace(roleName))
+            if (string.IsNullOrWhiteSpace(roleName))
             {
                 return BadRequest(new { Error = "Role Name cannot be null or empty." });
             }
@@ -37,7 +42,7 @@ namespace PharmaLink_API.Controllers
         {
             if (string.IsNullOrWhiteSpace(roleId))
             {
-                    return BadRequest(new { Errors = "Role ID cannot be null or empty." });
+                return BadRequest(new { Errors = "Role ID cannot be null or empty." });
             }
             IdentityResult result = await _roleRepository.DeleteRoleByIdAsync(roleId);
             if (!result.Succeeded)
@@ -51,7 +56,7 @@ namespace PharmaLink_API.Controllers
         {
             if (string.IsNullOrWhiteSpace(roleName))
             {
-                    return BadRequest(new { Errors = "Role Name cannot be null or empty." });
+                return BadRequest(new { Errors = "Role Name cannot be null or empty." });
             }
             IdentityResult result = await _roleRepository.DeleteRoleByNameAsync(roleName);
             if (!result.Succeeded)
@@ -87,6 +92,35 @@ namespace PharmaLink_API.Controllers
             return Ok(new { Message = $"User '{user.UserName}' role changed to '{newRoleName}' successfully." });
         }
 
+        [HttpPut("changeRoleByPharmacy")]
+        //[Authorize(Roles = "Admin")]
+        public async Task<IActionResult> ChangeRoleByPharmacy([FromBody] ChangeRoleRequest request)
+        {
+            if (request.PharmacyId <= 0 || string.IsNullOrWhiteSpace(request.NewRoleName))
+            {
+                return BadRequest(new { Errors = "Pharmacy ID and Role Name cannot be null or empty." });
+            }
 
+            // Get the pharmacy by ID
+            var pharmacy = await _pharmacyRepository.GetAsync(p => p.PharmacyID == request.PharmacyId, true, x => x.Account);
+            if (pharmacy == null || string.IsNullOrEmpty(pharmacy.AccountId))
+            {
+                return NotFound(new { Error = $"Pharmacy with ID '{request.PharmacyId}' not found or has no associated user." });
+            }
+
+            // Get the user by AccountId
+            var user = await _roleService.GetUserByIdAsync(pharmacy.AccountId);
+            if (user == null)
+            {
+                return NotFound(new { Error = $"User with ID '{pharmacy.AccountId}' not found." });
+            }
+
+            IdentityResult result = await _roleService.ChangeUserRoleAsync(user, request.NewRoleName);
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
+            return Ok(new { Message = $"User '{user.UserName}' role changed to '{request.NewRoleName}' successfully." });
+        }
     }
 }

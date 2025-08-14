@@ -183,7 +183,7 @@ namespace PharmaLink_API.Controllers
         //[Authorize(Roles = "Admin")]
         public async Task<ActionResult<IEnumerable<PharmacyDisplayDTO>>> GetPharmaciesByStatus(Pharmacy_Status status)
         {
-            var pharmacies = await _PharmacyRepo.GetAllAsync(p => p.Status == status);
+            var pharmacies = await _PharmacyRepo.GetAllAsync(p => p.Status == status,includeProperties:p=>p.Account);
             if (pharmacies == null || pharmacies.Count == 0)
             {
                 return NotFound($"No pharmacies found with status {status}.");
@@ -218,6 +218,20 @@ namespace PharmaLink_API.Controllers
             pharmacy.Status = Pharmacy_Status.Suspended;
             await _PharmacyRepo.UpdateAsync(pharmacy);
             return Ok($"Pharmacy with ID {id} status updated to Suspended.");
+        }
+
+        [HttpPut("RejectPharmacy/{id:int}")]
+        //[Authorize(Roles = "Admin")]
+        public async Task<IActionResult> RejectPharmacy(int id)
+        {
+            var pharmacy = await _PharmacyRepo.GetAsync(p => p.PharmacyID == id);
+            if (pharmacy == null)
+            {
+                return NotFound($"Pharmacy with ID {id} not found.");
+            }
+            pharmacy.Status = Pharmacy_Status.Rejected;
+            await _PharmacyRepo.UpdateAsync(pharmacy);
+            return Ok($"Pharmacy with ID {id} status updated to Rejected.");
         }
     }
 }
