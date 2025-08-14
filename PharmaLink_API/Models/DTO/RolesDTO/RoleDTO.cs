@@ -8,4 +8,9 @@ namespace PharmaLink_API.Models.DTO.RolesDTO
         [Required]
         public string Name { get; set; }
     }
+    public class ChangeRoleRequest
+    {
+        public int PharmacyId { get; set; }
+        public string NewRoleName { get; set; }
+    }
 }

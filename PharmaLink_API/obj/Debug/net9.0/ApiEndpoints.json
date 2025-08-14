@@ -1459,14 +1459,9 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "pharmacyId",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "newRoleName",
-        "Type": "System.String",
-        "IsRequired": false
+        "Name": "request",
+        "Type": "PharmaLink_API.Models.DTO.RolesDTO.ChangeRoleRequest",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []

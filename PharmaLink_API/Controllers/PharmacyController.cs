@@ -183,7 +183,7 @@ namespace PharmaLink_API.Controllers
         //[Authorize(Roles = "Admin")]
         public async Task<ActionResult<IEnumerable<PharmacyDisplayDTO>>> GetPharmaciesByStatus(Pharmacy_Status status)
         {
-            var pharmacies = await _PharmacyRepo.GetAllAsync(p => p.Status == status);
+            var pharmacies = await _PharmacyRepo.GetAllAsync(p => p.Status == status,includeProperties:p=>p.Account);
             if (pharmacies == null || pharmacies.Count == 0)
             {
                 return NotFound($"No pharmacies found with status {status}.");
