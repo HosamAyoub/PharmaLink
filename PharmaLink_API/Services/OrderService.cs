@@ -199,8 +199,7 @@ namespace PharmaLink_API.Services
                 }
                 catch (Exception ex)
                 {
-                    // Log error, don't break the flow
-                    // _logger.LogWarning(ex, "Notification send failed for order {OrderId}", order.OrderID);
+                    Console.WriteLine(ex);
                 }
             }
 
@@ -334,7 +333,7 @@ namespace PharmaLink_API.Services
 
             // Get patient account id (this should match the ClaimTypes.NameIdentifier value used in JWT)
             var patient = await _patientRepository.GetAsync(p => p.PatientId == order.PatientId);
-            var patientAccountId = patient?.AccountId; // مثال: يوزر id أو أي قيمة استخدمتموها في ClaimTypes.NameIdentifier
+            var patientAccountId = patient?.AccountId; 
 
             // Prepare notification payload
             if (!string.IsNullOrEmpty(patientAccountId))
@@ -347,7 +346,6 @@ namespace PharmaLink_API.Services
                     Timestamp = DateTime.UtcNow
                 };
 
-                // حاول تبعت النوتيفيكيشن؛ لو فشل، ما نرجعش الخطأ للمستخدم لكن من الأفضل تسجيله
                 try
                 {
                     await _statusChangeHub.Clients.User(patientAccountId.ToString())
@@ -355,8 +353,7 @@ namespace PharmaLink_API.Services
                 }
                 catch (Exception ex)
                 {
-                    // Log this exception (لا تؤثر على النتيجة النهائية)
-                    // _logger.LogError(ex, "Failed to send notification for order {OrderId}", order.OrderID);
+                    Console.WriteLine(ex);
                 }
             }
 
