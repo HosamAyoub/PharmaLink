@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using PharmaLink_API.Models.DTO.RolesDTO;
 using PharmaLink_API.Repository.Interfaces;
 using PharmaLink_API.Services.Interfaces;
 
@@ -93,18 +94,18 @@ namespace PharmaLink_API.Controllers
 
         [HttpPut("changeRoleByPharmacy")]
         //[Authorize(Roles = "Admin")]
-        public async Task<IActionResult> ChangeRoleByPharmacy(int pharmacyId, string newRoleName)
+        public async Task<IActionResult> ChangeRoleByPharmacy([FromBody] ChangeRoleRequest request)
         {
-            if (pharmacyId <= 0 || string.IsNullOrWhiteSpace(newRoleName))
+            if (request.PharmacyId <= 0 || string.IsNullOrWhiteSpace(request.NewRoleName))
             {
                 return BadRequest(new { Errors = "Pharmacy ID and Role Name cannot be null or empty." });
             }
 
             // Get the pharmacy by ID
-            var pharmacy = await _pharmacyRepository.GetAsync(p => p.PharmacyID == pharmacyId, true, x => x.Account);
+            var pharmacy = await _pharmacyRepository.GetAsync(p => p.PharmacyID == request.PharmacyId, true, x => x.Account);
             if (pharmacy == null || string.IsNullOrEmpty(pharmacy.AccountId))
             {
-                return NotFound(new { Error = $"Pharmacy with ID '{pharmacyId}' not found or has no associated user." });
+                return NotFound(new { Error = $"Pharmacy with ID '{request.PharmacyId}' not found or has no associated user." });
             }
 
             // Get the user by AccountId
@@ -114,12 +115,12 @@ namespace PharmaLink_API.Controllers
                 return NotFound(new { Error = $"User with ID '{pharmacy.AccountId}' not found." });
             }
 
-            IdentityResult result = await _roleService.ChangeUserRoleAsync(user, newRoleName);
+            IdentityResult result = await _roleService.ChangeUserRoleAsync(user, request.NewRoleName);
             if (!result.Succeeded)
             {
                 return BadRequest(result.Errors);
             }
-            return Ok(new { Message = $"User '{user.UserName}' role changed to '{newRoleName}' successfully." });
+            return Ok(new { Message = $"User '{user.UserName}' role changed to '{request.NewRoleName}' successfully." });
         }
     }
 }
