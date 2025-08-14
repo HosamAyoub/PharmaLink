@@ -27,6 +27,7 @@ namespace PharmaLink_API.Services
         private readonly IMapper _mapper;
         private readonly IStripeService _stripeService;
         private readonly IHubContext<OrderHub> _orderHubContext;
+        private readonly IHubContext<StatusChangeHub> _statusChangeHub;
 
         public OrderService(
             ApplicationDbContext dbContext,
@@ -38,7 +39,8 @@ namespace PharmaLink_API.Services
             IPharmacyRepository pharmacyRepository,
             IMapper mapper,
             IStripeService stripeService,
-            IHubContext<OrderHub> orderHubContext)
+            IHubContext<OrderHub> orderHubContext,
+            IHubContext<StatusChangeHub> statusChangeHub)
         {
             _dbContext = dbContext;
             _cartRepository = cartRepository;
@@ -50,6 +52,7 @@ namespace PharmaLink_API.Services
             _mapper = mapper;
             _stripeService = stripeService;
             _orderHubContext = orderHubContext;
+            _statusChangeHub = statusChangeHub;
         }
 
         /// <summary>
@@ -175,6 +178,31 @@ namespace PharmaLink_API.Services
             order.Status = SD.StatusOutForDelivery;
             order.StatusLastUpdated = DateTime.Now;
             await _orderHeaderRepository.SaveAsync();
+
+            var patient = await _patientRepository.GetAsync(p => p.PatientId == order.PatientId);
+            var patientAccountId = patient?.AccountId;
+
+            if (!string.IsNullOrEmpty(patientAccountId))
+            {
+                var payload = new
+                {
+                    OrderId = order.OrderID,
+                    Status = SD.StatusOutForDelivery,
+                    Message = $"Order #{order.OrderID} is out for delivery.",
+                    Timestamp = DateTime.UtcNow
+                };
+
+                try
+                {
+                    await _statusChangeHub.Clients.User(patientAccountId)
+                        .SendAsync("ReceiveNotification", payload);
+                }
+                catch (Exception ex)
+                {
+                    // Log error, don't break the flow
+                    // _logger.LogWarning(ex, "Notification send failed for order {OrderId}", order.OrderID);
+                }
+            }
 
             return ServiceResult.SuccessResult();
         }
@@ -303,6 +331,34 @@ namespace PharmaLink_API.Services
 
             await _orderHeaderRepository.SaveAsync();
             await _pharmacyStockRepository.SaveAsync();
+
+            // Get patient account id (this should match the ClaimTypes.NameIdentifier value used in JWT)
+            var patient = await _patientRepository.GetAsync(p => p.PatientId == order.PatientId);
+            var patientAccountId = patient?.AccountId; // مثال: يوزر id أو أي قيمة استخدمتموها في ClaimTypes.NameIdentifier
+
+            // Prepare notification payload
+            if (!string.IsNullOrEmpty(patientAccountId))
+            {
+                var payload = new
+                {
+                    OrderId = order.OrderID,
+                    Status = SD.StatusRejected,
+                    Message = $"Order #{order.OrderID} has been rejected by the pharmacy.",
+                    Timestamp = DateTime.UtcNow
+                };
+
+                // حاول تبعت النوتيفيكيشن؛ لو فشل، ما نرجعش الخطأ للمستخدم لكن من الأفضل تسجيله
+                try
+                {
+                    await _statusChangeHub.Clients.User(patientAccountId.ToString())
+                        .SendAsync("ReceiveNotification", payload);
+                }
+                catch (Exception ex)
+                {
+                    // Log this exception (لا تؤثر على النتيجة النهائية)
+                    // _logger.LogError(ex, "Failed to send notification for order {OrderId}", order.OrderID);
+                }
+            }
 
             return ServiceResult.SuccessResult();
         }
