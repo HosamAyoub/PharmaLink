@@ -124,6 +124,13 @@ namespace PharmaLink_API.Hubs
             return new List<string>();
         }
 
+        public async Task SendRegistrationRequest(string userId)
+        {
+            var AdminsConnectionID = await GetConnectionId("Admin");
+            await Clients.Clients(AdminsConnectionID).SendAsync("NewUserRegistration", userId);
+            Console.WriteLine($"Registration request sent for User ID: {userId}");
+        }
+
         public async Task SendRequestToAdmin(string message)
         {
             var AdminsConnectionID = await GetConnectionId("Admin");
