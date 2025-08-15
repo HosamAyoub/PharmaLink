@@ -165,6 +165,7 @@ namespace PharmaLink_API
 
 
             builder.Services.AddControllers();
+            builder.Services.AddHttpContextAccessor();
 
             builder.Services.AddOpenApi();
             builder.Services.AddSwaggerGen(options =>
