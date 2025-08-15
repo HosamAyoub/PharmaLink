@@ -33,6 +33,117 @@
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.AccountController",
+    "Method": "RegisterPharmacy",
+    "RelativePath": "api/Account/RegisterPharmacy",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "UserName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Email",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "PasswordHash",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ConfirmPassword",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "PhoneNumber",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Patient.Name",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Patient.Gender",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Patient.DateOfBirth",
+        "Type": "System.DateOnly",
+        "IsRequired": false
+      },
+      {
+        "Name": "Patient.Country",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Patient.Address",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Patient.MedicalHistory",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Patient.Medications",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Patient.Allergies",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Pharmacy.Name",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Pharmacy.OwnerName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Pharmacy.Country",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Pharmacy.Address",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Pharmacy.Doc",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "Pharmacy.StartHour",
+        "Type": "System.Nullable\u00601[[System.TimeOnly, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Pharmacy.EndHour",
+        "Type": "System.Nullable\u00601[[System.TimeOnly, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.AccountController",
     "Method": "VerifyToken",
     "RelativePath": "api/Account/VerifyToken",
     "HttpMethod": "POST",
