@@ -49,13 +49,20 @@ namespace PharmaLink_API.Controllers
 
             if (!result.Success)
             {
+                var errorResponse = new
+                {
+                    success = false,
+                    errorType = result.ErrorType.ToString(),
+                    message = result.ErrorMessage
+                };
+
                 return result.ErrorType switch
                 {
-                    ErrorType.NotFound => NotFound(result.ErrorMessage),
-                    ErrorType.Validation => BadRequest(result.ErrorMessage),
-                    ErrorType.Authorization => Forbid(result.ErrorMessage),
-                    ErrorType.Conflict => Conflict(result.ErrorMessage),
-                    _ => StatusCode(500, result.ErrorMessage)
+                    ErrorType.NotFound => NotFound(errorResponse),
+                    ErrorType.Validation => BadRequest(errorResponse),
+                    ErrorType.Authorization => Forbid(),
+                    ErrorType.Conflict => Conflict(errorResponse),
+                    _ => StatusCode(500, errorResponse)
                 };
             }
 
@@ -74,7 +81,7 @@ namespace PharmaLink_API.Controllers
             if (string.IsNullOrEmpty(accountId))
                 return Unauthorized("Invalid token.");
 
-            var result = await _stripeService.CreateStripeSessionAsync(request.DeliveryFee, accountId);
+            var result = await _stripeService.CreateStripeSessionAsync( request.DeliveryFee, accountId);
 
             if (!result.Success)
             {
@@ -211,6 +218,29 @@ namespace PharmaLink_API.Controllers
                 return Unauthorized("Invalid token.");
 
             var result = await _orderService.GetPatientOrdersAsync(accountId);
+            if (!result.Success)
+            {
+                return result.ErrorType switch
+                {
+                    ErrorType.NotFound => NotFound(result.ErrorMessage),
+                    ErrorType.Validation => BadRequest(result.ErrorMessage),
+                    ErrorType.Authorization => Forbid(result.ErrorMessage),
+                    ErrorType.Conflict => Conflict(result.ErrorMessage),
+                    _ => StatusCode(500, result.ErrorMessage)
+                };
+            }
+            return Ok(result.Data);
+        }
+
+        [HttpGet("AdmintOrders")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetAllOrdersForAdmin()
+        {
+            var accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(accountId))
+                return Unauthorized("Invalid token.");
+
+            var result = await _orderService.GetAdminOrdersAsync(accountId);
             if (!result.Success)
             {
                 return result.ErrorType switch

@@ -97,6 +97,7 @@ namespace PharmaLink_API
                 {
                     OnMessageReceived = context =>
                     {
+<<<<<<< HEAD
                         var accessToken = context.Request.Query["access_token"];
                         var path = context.HttpContext.Request.Path;
 
@@ -110,6 +111,17 @@ namespace PharmaLink_API
                     }
                 };
 
+=======
+                        var accessToken = context.Request.Query["access_token"].FirstOrDefault();
+                        var path = context.HttpContext.Request.Path;
+                        if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/hubs"))
+                        {
+                            context.Token = accessToken;
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
+>>>>>>> 77f293297c383198b0326a21fa1f7c1fa16f1dcf
             });
 
             builder.Services.AddAuthorization(options =>
@@ -257,7 +269,11 @@ namespace PharmaLink_API
             app.UseAuthorization();
             app.MapControllers();
             app.MapHub<OrderHub>("/orderHub");
+<<<<<<< HEAD
             app.MapHub<AdminHub>("/adminHub");
+=======
+            app.MapHub<StatusChangeHub>("/hubs/statusChangeHub");
+>>>>>>> 77f293297c383198b0326a21fa1f7c1fa16f1dcf
             app.Run();
         }
     }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Azure;
 using PharmaLink_API.Models;
 using PharmaLink_API.Models.DTO.CartDTO;
 using PharmaLink_API.Repository;
@@ -253,7 +254,15 @@ namespace PharmaLink_API.Services
             var patient = await GetRequiredPatientAsync(accountId);
             int patientId = patient.PatientId;
 
+            var stock = await _pharmacyStockRepository.GetAsync( 
+                s => s.DrugId == dto.DrugId && s.PharmacyId == dto.PharmacyId);
+            if (stock == null)
+                throw new KeyNotFoundException($"Drug ID {dto.DrugId} not found in pharmacy stock.");
+
             var cartItem = await GetRequiredCartItemAsync(patient.PatientId, dto);
+
+            if (cartItem.Quantity + 1 > stock.QuantityAvailable)
+                throw new InvalidOperationException($"Not enough stock. Only {stock.QuantityAvailable} available.");
 
             _cartRepository.IncrementCount(cartItem, 1);
             await _cartRepository.SaveAsync();
