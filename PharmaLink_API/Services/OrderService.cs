@@ -86,6 +86,8 @@ namespace PharmaLink_API.Services
             }
 
             var order = await CreateOrderAsync(patient, dto.PaymentMethod, totalPrice, pharmacyId);
+            order.Message = $"New Order Recieved From {patient.Name}.";
+            await _orderHeaderRepository.SaveAsync();
             await CreateOrderDetailsAsync(order.OrderID, cartItems);
             await UpdateStockAsync(cartItems);
             await ClearCartAsync(patient.CartItems.ToList());
@@ -177,6 +179,8 @@ namespace PharmaLink_API.Services
 
             order.Status = SD.StatusOutForDelivery;
             order.StatusLastUpdated = DateTime.Now;
+            order.Message = $"Ordre #{order.OrderID} is out for delivery.";
+            order.IsRead = false;
             await _orderHeaderRepository.SaveAsync();
 
             var patient = await _patientRepository.GetAsync(p => p.PatientId == order.PatientId);
@@ -188,8 +192,9 @@ namespace PharmaLink_API.Services
                 {
                     OrderId = order.OrderID,
                     Status = SD.StatusOutForDelivery,
-                    Message = $"Order #{order.OrderID} is out for delivery.",
-                    Timestamp = DateTime.UtcNow
+                    Message = order.Message,
+                    IsRead = order.IsRead,
+                    Timestamp = order.StatusLastUpdated
                 };
 
                 try
@@ -316,6 +321,8 @@ namespace PharmaLink_API.Services
 
             order.Status = SD.StatusRejected;
             order.StatusLastUpdated = DateTime.Now;
+            order.Message = $"Ordre #{order.OrderID} is Rejected.";
+            order.IsRead = false;
 
             //Handle refund if payment was approved and method was not Cash
             if (order.PaymentStatus == SD.PaymentStatusApproved && order.PaymentMethod != "Cash")
@@ -341,9 +348,10 @@ namespace PharmaLink_API.Services
                 var payload = new
                 {
                     OrderId = order.OrderID,
-                    Status = SD.StatusRejected,
-                    Message = $"Order #{order.OrderID} has been rejected by the pharmacy.",
-                    Timestamp = DateTime.UtcNow
+                    Status = SD.StatusOutForDelivery,
+                    Message = order.Message,
+                    IsRead = order.IsRead,
+                    Timestamp = order.StatusLastUpdated
                 };
 
                 try
@@ -697,11 +705,12 @@ namespace PharmaLink_API.Services
         /// </summary>
         private async Task<ServiceResult<Patient>> GetPatientWithCartAsync(string accountId)
         {
-            var user = await _patientRepository.GetAsync(
-                u => u.AccountId == accountId, true,
-                x => x.Account,
-                x => x.CartItems
-            );
+            var user = await _dbContext.Patients
+                .Include(x => x.Account)
+                .Include(x => x.CartItems)
+                .ThenInclude(x => x.PharmacyProduct)
+                .ThenInclude(x => x.Drug)
+                .FirstOrDefaultAsync(u => u.AccountId == accountId);
 
             if (user == null || user.Account == null || user.CartItems == null || !user.CartItems.Any())
             {
@@ -729,7 +738,7 @@ namespace PharmaLink_API.Services
                     return ServiceResult<decimal>.ErrorResult($"Drug ID {item.DrugId} not found in pharmacy stock.", ErrorType.NotFound);
 
                 if (item.Quantity > stock.QuantityAvailable)
-                    return ServiceResult<decimal>.ErrorResult($"Not enough stock for Drug ID {item.DrugId}.", ErrorType.Validation);
+                    return ServiceResult<decimal>.ErrorResult($"Not enough stock for Drug {item.PharmacyProduct.Drug.CommonName}, Quantity available is {stock.QuantityAvailable}." , ErrorType.Validation);
 
                 totalPrice += stock.Price * item.Quantity;
             }

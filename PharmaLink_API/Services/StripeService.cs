@@ -148,7 +148,8 @@ namespace PharmaLink_API.Services
                         StatusLastUpdated = DateTime.Now,
                         PaymentMethod = "Stripe",
                         SessionId = session.Id,
-                        PaymentIntentId = session.PaymentIntentId
+                        PaymentIntentId = session.PaymentIntentId,
+                        Message = $"New Order Recieved From {patient.Name}."
                     };
 
                     await _orderHeaderRepository.CreateAndSaveAsync(order);

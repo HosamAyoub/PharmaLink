@@ -7,7 +7,6 @@ namespace PharmaLink_API.Hubs
         public override async Task OnConnectedAsync()
         {
             var userId = Context.UserIdentifier;
-            Console.WriteLine($"Connected UserIdentifier: {Context.UserIdentifier}");
             await base.OnConnectedAsync();
         }
     }
