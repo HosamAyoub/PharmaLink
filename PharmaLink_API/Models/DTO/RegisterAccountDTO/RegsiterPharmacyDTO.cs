@@ -7,9 +7,13 @@ namespace PharmaLink_API.Models.DTO.RegisterAccountDTO
         [Required]
         public string Name { get; set; }
         [Required]
+        public string OwnerName { get; set; }
+        [Required]
         public string Country { get; set; }
         [Required]
         public string Address { get; set; }
+        
+        public IFormFile? Doc { get; set; }
         
         public TimeOnly? StartHour { get; set; }
         public TimeOnly? EndHour { get; set; }
