@@ -156,7 +156,7 @@ namespace PharmaLink_API.Controllers
                             Pharmacy_Id = D.CreatedByPharmacy ?? 0,
                             Pharmacy_Name = pharmacy?.Name ?? "Unknown Pharmacy"
                         },
-                        DrugRequests = _mapper.Map<DrugDetailsDTO>(D)
+                        NewDrug = _mapper.Map<DrugDetailsDTO>(D)
                     });
                 }
 

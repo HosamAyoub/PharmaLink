@@ -5,7 +5,7 @@ namespace PharmaLink_API.Models.DTO.DrugDTO
     public class DrugRequestDTO
     {
         public Pharmacy_Sender Pharmacy { get; set; }
-        public DrugDetailsDTO DrugRequests { get; set; }
+        public DrugDetailsDTO NewDrug { get; set; }
     }
 
 
