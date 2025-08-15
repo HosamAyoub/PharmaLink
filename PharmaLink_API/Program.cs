@@ -92,6 +92,20 @@ namespace PharmaLink_API
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"])),
                     ClockSkew = TimeSpan.Zero
                 };
+
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        var accessToken = context.Request.Query["access_token"].FirstOrDefault();
+                        var path = context.HttpContext.Request.Path;
+                        if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/hubs"))
+                        {
+                            context.Token = accessToken;
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
             });
 
             builder.Services.AddAuthorization(options =>
@@ -239,6 +253,7 @@ namespace PharmaLink_API
             app.UseAuthorization();
             app.MapControllers();
             app.MapHub<OrderHub>("/orderHub");
+            app.MapHub<StatusChangeHub>("/hubs/statusChangeHub");
             app.Run();
         }
     }

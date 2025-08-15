@@ -5,6 +5,8 @@
         public int OrderID { get; set; }
         public decimal TotalPrice { get; set; }
         public string Status { get; set; }
+        public string? Message { get; set; }
+        public bool? IsRead { get; set; }
         public string PaymentMethod { get; set; }
         public string PaymentStatus { get; set; }
         public DateTime OrderDate { get; set; }
