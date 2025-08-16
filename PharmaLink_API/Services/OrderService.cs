@@ -27,6 +27,7 @@ namespace PharmaLink_API.Services
         private readonly IMapper _mapper;
         private readonly IStripeService _stripeService;
         private readonly IHubContext<OrderHub> _orderHubContext;
+        private readonly IHubContext<StatusChangeHub> _statusChangeHub;
 
         public OrderService(
             ApplicationDbContext dbContext,
@@ -38,7 +39,8 @@ namespace PharmaLink_API.Services
             IPharmacyRepository pharmacyRepository,
             IMapper mapper,
             IStripeService stripeService,
-            IHubContext<OrderHub> orderHubContext)
+            IHubContext<OrderHub> orderHubContext,
+            IHubContext<StatusChangeHub> statusChangeHub)
         {
             _dbContext = dbContext;
             _cartRepository = cartRepository;
@@ -50,6 +52,7 @@ namespace PharmaLink_API.Services
             _mapper = mapper;
             _stripeService = stripeService;
             _orderHubContext = orderHubContext;
+            _statusChangeHub = statusChangeHub;
         }
 
         /// <summary>
@@ -83,6 +86,8 @@ namespace PharmaLink_API.Services
             }
 
             var order = await CreateOrderAsync(patient, dto.PaymentMethod, totalPrice, pharmacyId);
+            order.Message = $"New Order Recieved From {patient.Name}.";
+            await _orderHeaderRepository.SaveAsync();
             await CreateOrderDetailsAsync(order.OrderID, cartItems);
             await UpdateStockAsync(cartItems);
             await ClearCartAsync(patient.CartItems.ToList());
@@ -174,7 +179,34 @@ namespace PharmaLink_API.Services
 
             order.Status = SD.StatusOutForDelivery;
             order.StatusLastUpdated = DateTime.Now;
+            order.Message = $"Ordre #{order.OrderID} is out for delivery.";
+            order.IsRead = false;
             await _orderHeaderRepository.SaveAsync();
+
+            var patient = await _patientRepository.GetAsync(p => p.PatientId == order.PatientId);
+            var patientAccountId = patient?.AccountId;
+
+            if (!string.IsNullOrEmpty(patientAccountId))
+            {
+                var payload = new
+                {
+                    OrderId = order.OrderID,
+                    Status = SD.StatusOutForDelivery,
+                    Message = order.Message,
+                    IsRead = order.IsRead,
+                    Timestamp = order.StatusLastUpdated
+                };
+
+                try
+                {
+                    await _statusChangeHub.Clients.User(patientAccountId)
+                        .SendAsync("ReceiveNotification", payload);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+            }
 
             return ServiceResult.SuccessResult();
         }
@@ -289,6 +321,8 @@ namespace PharmaLink_API.Services
 
             order.Status = SD.StatusRejected;
             order.StatusLastUpdated = DateTime.Now;
+            order.Message = $"Ordre #{order.OrderID} is Rejected.";
+            order.IsRead = false;
 
             //Handle refund if payment was approved and method was not Cash
             if (order.PaymentStatus == SD.PaymentStatusApproved && order.PaymentMethod != "Cash")
@@ -303,6 +337,33 @@ namespace PharmaLink_API.Services
 
             await _orderHeaderRepository.SaveAsync();
             await _pharmacyStockRepository.SaveAsync();
+
+            // Get patient account id (this should match the ClaimTypes.NameIdentifier value used in JWT)
+            var patient = await _patientRepository.GetAsync(p => p.PatientId == order.PatientId);
+            var patientAccountId = patient?.AccountId; 
+
+            // Prepare notification payload
+            if (!string.IsNullOrEmpty(patientAccountId))
+            {
+                var payload = new
+                {
+                    OrderId = order.OrderID,
+                    Status = SD.StatusOutForDelivery,
+                    Message = order.Message,
+                    IsRead = order.IsRead,
+                    Timestamp = order.StatusLastUpdated
+                };
+
+                try
+                {
+                    await _statusChangeHub.Clients.User(patientAccountId.ToString())
+                        .SendAsync("ReceiveNotification", payload);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+            }
 
             return ServiceResult.SuccessResult();
         }
@@ -599,6 +660,43 @@ namespace PharmaLink_API.Services
             return ServiceResult<List<PatientOrdersDTO>>.SuccessResult(result);
         }
 
+        public async Task<ServiceResult<List<PatientOrdersDTO>>> GetAdminOrdersAsync(string accountId)
+        {
+            var Admin = await _dbContext.Users
+                .FirstOrDefaultAsync(p => p.Id == accountId);
+
+            //var patient = await _patientRepository.GetAsync(p => p.AccountId == accountId, true, x => x.Orders);
+            if (Admin == null)
+                return ServiceResult<List<PatientOrdersDTO>>.ErrorResult("Patient not found.", ErrorType.NotFound);
+            //var orderDtos = _mapper.Map<List<OrderDetailsDTO>>(patient.Orders);
+            var orders = await _dbContext.Orders
+                .Include(o => o.Pharmacy)
+                .Include(o => o.OrderDetails)
+                .ThenInclude(od => od.PharmacyProduct)
+                .ThenInclude(pp => pp.Drug)
+                .ToListAsync();
+
+            var result = orders.Select(o => new PatientOrdersDTO
+            {
+                OrderId = o.OrderID,
+                PharmacyName = o.Pharmacy?.Name,
+                PharmacyAddress = o.Pharmacy?.Address,
+                PharmacyPhoneNumber = o.Pharmacy?.PhoneNumber,
+                OrderDate = o.OrderDate,
+                Status = o.Status,
+                TotalAmount = o.TotalPrice,
+                PaymentMethod = o.PaymentMethod,
+                PaymentStatus = o.PaymentStatus,
+                DeliveryAddress = o.Address,
+                OrderDetails = o.OrderDetails.Select(d => new OrderItemDTO
+                {
+                    DrugName = d.PharmacyProduct?.Drug.CommonName,
+                    Quantity = d.Quantity
+                }).ToList()
+            }).ToList();
+            return ServiceResult<List<PatientOrdersDTO>>.SuccessResult(result);
+        }
+
         // ** Helper Methods **//
 
         /// <summary>
@@ -607,11 +705,12 @@ namespace PharmaLink_API.Services
         /// </summary>
         private async Task<ServiceResult<Patient>> GetPatientWithCartAsync(string accountId)
         {
-            var user = await _patientRepository.GetAsync(
-                u => u.AccountId == accountId, true,
-                x => x.Account,
-                x => x.CartItems
-            );
+            var user = await _dbContext.Patients
+                .Include(x => x.Account)
+                .Include(x => x.CartItems)
+                .ThenInclude(x => x.PharmacyProduct)
+                .ThenInclude(x => x.Drug)
+                .FirstOrDefaultAsync(u => u.AccountId == accountId);
 
             if (user == null || user.Account == null || user.CartItems == null || !user.CartItems.Any())
             {
@@ -639,7 +738,7 @@ namespace PharmaLink_API.Services
                     return ServiceResult<decimal>.ErrorResult($"Drug ID {item.DrugId} not found in pharmacy stock.", ErrorType.NotFound);
 
                 if (item.Quantity > stock.QuantityAvailable)
-                    return ServiceResult<decimal>.ErrorResult($"Not enough stock for Drug ID {item.DrugId}.", ErrorType.Validation);
+                    return ServiceResult<decimal>.ErrorResult($"Not enough stock for Drug {item.PharmacyProduct.Drug.CommonName}, Quantity available is {stock.QuantityAvailable}." , ErrorType.Validation);
 
                 totalPrice += stock.Price * item.Quantity;
             }
