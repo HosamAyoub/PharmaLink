@@ -9,6 +9,7 @@ namespace PharmaLink_API.Models.Profiles
         {
             //CreateMap<Patient, PatientDTO>();
             CreateMap<Patient, PatientDTO>().ReverseMap();
+            CreateMap<Patient, PatientMedicalInfoDTO>().ReverseMap();
         }
     }
 }
