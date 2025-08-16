@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -29,6 +31,8 @@ namespace PharmaLink_API.Services
         private readonly IConfiguration _config;
         private readonly IMapper _mapper;
         private readonly IRoleService _roleService;
+        private readonly IWebHostEnvironment _WebHostEnvironment;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IEmailService emailService;
 
 
@@ -46,6 +50,8 @@ namespace PharmaLink_API.Services
             _patientRepository = patientRepository;
             _pharmacyRepository = pharmacyRepository;
             _roleService = roleService;
+            _WebHostEnvironment = webHostEnvironment;
+            _httpContextAccessor = httpContextAccessor;
             this.emailService = emailService;
         }
 
@@ -194,8 +200,39 @@ namespace PharmaLink_API.Services
             {
                 account.Pharmacy = _mapper.Map<Pharmacy>(accountDto.Pharmacy);
                 account.Pharmacy.AccountId = account.Id;
+                if (accountDto.Pharmacy.Doc != null && accountDto.Pharmacy.Doc.Length > 0)
+                {
+                    var docUrl = await SaveDocumentAsync(accountDto.Pharmacy.Doc);
+                    account.Pharmacy.DocURL = docUrl;
+                }
                 await _pharmacyRepository.CreateAsync(account.Pharmacy).ConfigureAwait(false);
             }
+        }
+
+        // Update the constructor to inject IHttpContextAccessor
+
+        private async Task<string> SaveDocumentAsync(IFormFile docFile)
+        {
+            var allowedExtensions = new[] { ".pdf",".jpg", ".jpeg", ".png", ".webp" };
+            var extension = Path.GetExtension(docFile.FileName).ToLower();
+
+            if (!allowedExtensions.Contains(extension))
+                throw new InvalidOperationException("Only PDF documents are allowed");
+
+            var fileName = Guid.NewGuid() + extension;
+            var filePath = Path.Combine(_WebHostEnvironment.WebRootPath, "documents", fileName);
+
+            Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+
+            using var stream = new FileStream(filePath, FileMode.Create);
+            await docFile.CopyToAsync(stream);
+
+            // Use IHttpContextAccessor to access the current HTTP context
+            var request = _httpContextAccessor.HttpContext?.Request;
+            if (request == null)
+                throw new InvalidOperationException("Unable to access the current HTTP request.");
+
+            return $"{request.Scheme}://{request.Host}/documents/{fileName}";
         }
 
         /// <summary>

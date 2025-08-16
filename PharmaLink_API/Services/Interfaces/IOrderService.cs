@@ -1,4 +1,5 @@
 ﻿using PharmaLink_API.Core.Results;
+using PharmaLink_API.Models;
 using PharmaLink_API.Models.DTO.CartDTO;
 using PharmaLink_API.Models.DTO.OrderDTO;
 
@@ -93,7 +94,17 @@ namespace PharmaLink_API.Services.Interfaces
         Task<ServiceResult<List<PharmacyOrderDTO>>> FilterOrdersByStatusAsync(string accountId, string status);
 
         Task<ServiceResult<List<PatientOrdersDTO>>> GetPatientOrdersAsync(string accountId);
+        Task<ServiceResult<List<PatientOrdersDTO>>> GetAdminOrdersAsync(string accountId);
+
+        Task<Pharmacy?> GetThePharmacyByIdAsync(int id);
 
         Task<ServiceResult<PharmacyAnalysisDTO>> GetPharmacyAnalysisAsync(string accountId);
+
+        Task<ServiceResult<PharmacyAnalysisDTO>> GetAllOrdersAnalysisAsync();
+
+        /// <summary>
+        /// Returns a summary for all pharmacies including orders, revenue, and stock count.
+        /// </summary>
+        Task<ServiceResult<PharmacySummaryDTO>> GetAllPharmaciesSummaryAsync();
     }
 }

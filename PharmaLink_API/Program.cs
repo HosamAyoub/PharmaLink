@@ -92,6 +92,20 @@ namespace PharmaLink_API
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"])),
                     ClockSkew = TimeSpan.Zero
                 };
+
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        var accessToken = context.Request.Query["access_token"].FirstOrDefault();
+                        var path = context.HttpContext.Request.Path;
+                        if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/hubs"))
+                        {
+                            context.Token = accessToken;
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
             });
 
             builder.Services.AddAuthorization(options =>
@@ -128,6 +142,7 @@ namespace PharmaLink_API
             // Register repositories
             builder.Services.AddScoped<IAccountRepository, AccountRepository>();
             builder.Services.AddScoped<IPharmacyRepository, PharmacyRepository>();
+            builder.Services.AddScoped<IPharmacyService, PharmacyService>();
             builder.Services.AddScoped<IPatientRepository, PatientRepository>();
             builder.Services.AddScoped<IPatientService, PatientService>();
             builder.Services.AddScoped<ICartRepository, CartRepository>();
@@ -153,6 +168,7 @@ namespace PharmaLink_API
 
 
             builder.Services.AddControllers();
+            builder.Services.AddHttpContextAccessor();
 
             builder.Services.AddOpenApi();
             builder.Services.AddSwaggerGen(options =>
@@ -240,6 +256,7 @@ namespace PharmaLink_API
             app.UseAuthorization();
             app.MapControllers();
             app.MapHub<OrderHub>("/orderHub");
+            app.MapHub<StatusChangeHub>("/hubs/statusChangeHub");
             app.Run();
         }
     }

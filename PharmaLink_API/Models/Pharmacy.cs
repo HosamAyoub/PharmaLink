@@ -10,7 +10,8 @@ namespace PharmaLink_API.Models
         public int PharmacyID { get; set; }
         [Unique]
         public string Name { get; set; }
-        public string? Country { get; set; }
+        public string? OwnerName { get; set; }
+        public string Country { get; set; }
         [MaxLength(150, ErrorMessage = "Address cannot exceed 150 characters.")]
         public string Address { get; set; }
         public double Longitude { get; set; }
@@ -29,8 +30,10 @@ namespace PharmaLink_API.Models
 
         public string? ImgUrl { get; set; }
 
-        public Pharmacy_Status? Status { get; set; } = Pharmacy_Status.Pending;
-        public DateTime? JoinedDate { get; set; } = DateTime.UtcNow;
+        public string? DocURL { get; set; }
+
+        public Pharmacy_Status Status { get; set; } = Pharmacy_Status.Pending;
+        public DateTime JoinedDate { get; set; } = DateTime.UtcNow;
 
         //Pharmacy-Account relationship (one to one)
         public string? AccountId { get; set; }

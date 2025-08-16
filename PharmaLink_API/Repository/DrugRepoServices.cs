@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using PharmaLink_API.Data;
 using PharmaLink_API.Models;
@@ -15,14 +16,16 @@ namespace PharmaLink_API.Repository
     {
 
         public ApplicationDbContext Context { get; }
+        private readonly IMapper _mapper;
 
         /// <summary>
         /// Initializes a new instance of the DrugRepoServices class.
         /// </summary>
         /// <param name="context">The Entity Framework database context for data operations.</param>
-        public DrugRepoServices(ApplicationDbContext context) : base(context)
+        public DrugRepoServices(ApplicationDbContext context, IMapper mapper) : base(context)
         {
             Context = context;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -91,28 +94,14 @@ namespace PharmaLink_API.Repository
         /// await drugRepo.EditDrug(123, updatedDrug);
         /// </code>
         /// </example>
-        public async Task EditDrug(int id, Drug editedDrug)
+        public async Task EditDrug(Drug editedDrug)
         {
-            Drug Updated = await Context.Drugs.FirstOrDefaultAsync(D => D.DrugID == id);
+            Drug Updated = await Context.Drugs.FirstOrDefaultAsync(D => D.DrugID == editedDrug.DrugID);
 
 
             if (Updated != null)
             {
-                Updated.CommonName = editedDrug.CommonName;
-                Updated.ActiveIngredient = editedDrug.ActiveIngredient;
-                Updated.Category = editedDrug.Category;
-                Updated.Indications_and_usage = editedDrug.Indications_and_usage;
-                Updated.Drug_interactions = editedDrug.Drug_interactions;
-                Updated.Alternatives_names = editedDrug.Alternatives_names;
-                Updated.Dosage_forms_and_strengths = editedDrug.Dosage_forms_and_strengths;
-                Updated.Contraindications = editedDrug.Contraindications;
-                Updated.Warnings_and_cautions = editedDrug.Warnings_and_cautions;
-                Updated.Drug_UrlImg = editedDrug.Drug_UrlImg;
-                Updated.Description = editedDrug.Description;
-                Updated.Storage_and_handling = editedDrug.Storage_and_handling;
-                Updated.Adverse_reactions = editedDrug.Adverse_reactions;
-                Updated.AlternativesGpID = editedDrug.AlternativesGpID;
-                Updated.Dosage_and_administration = editedDrug.Dosage_and_administration;
+                _mapper.Map(editedDrug, Updated);
                 await Context.SaveChangesAsync();
             }
         }
