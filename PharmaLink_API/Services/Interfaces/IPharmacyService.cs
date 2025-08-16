@@ -25,7 +25,10 @@ namespace PharmaLink_API.Services.Interfaces
         // Deletes a pharmacy by its ID. Returns true if successful, false if not found.
         Task<bool> DeletePharmacyAsync(int id);
 
+<<<<<<< HEAD
         Task<string?> GetAccountIdByPharmacyIdAsync(string pharmacyId);
         Task<string?> GetPharmacyIdByAccountIdAsync(string accountId);
+=======
+>>>>>>> 0d9b80bb98abe82c49ad8c686f8e96d142b82201
     }
 }

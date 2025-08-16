@@ -105,5 +105,19 @@ namespace PharmaLink_API.Repository
                 await Context.SaveChangesAsync();
             }
         }
+
+        // get number of drugs based on a filter by name 
+        public List<Drug> GetDrugsByFilter(string filter , int size)
+        {
+            // Use EF Core to query the Drugs table with a filter
+            return  Context.Drugs
+                .Where(d => d.CommonName.Contains(filter))
+                .Take(size)
+                .Select(d => new Drug
+                {
+                    DrugID = d.DrugID,
+                    CommonName = d.CommonName,
+                }).ToList();
+        }
     }
 }

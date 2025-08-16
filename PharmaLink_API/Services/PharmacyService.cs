@@ -3,6 +3,7 @@ using PharmaLink_API.Models;
 using PharmaLink_API.Models.DTO.PharmacyDTO;
 using PharmaLink_API.Repository.Interfaces;
 using PharmaLink_API.Services.Interfaces;
+using System.Threading.Tasks;
 
 namespace PharmaLink_API.Services
 {
@@ -130,5 +131,6 @@ namespace PharmaLink_API.Services
             await _pharmacyRepo.RemoveAsync(pharmacy);
             return true;
         }
+
     }
-}
+   }

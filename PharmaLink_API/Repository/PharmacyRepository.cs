@@ -41,5 +41,28 @@ namespace PharmaLink_API.Repository
                 await RemoveAsync(pharmacy);
             }
         }
+
+        // get phramacies by filter with size 
+        public List<Pharmacy> GetPharmaciesByFilter(string filter, int size)
+        {
+            return _db.Pharmacies
+                .Where(p => p.Name.Contains(filter) || p.Address.Contains(filter))
+                .Take(size)
+                .Select(p => new Pharmacy
+                {
+                    PharmacyID = p.PharmacyID,
+                    Name = p.Name,
+                })
+                .ToList();
+        }
+
+        // Change return type from IQueryable to DbSet<Pharmacy> for improved performance
+        public DbSet<Pharmacy> GetAllPharmacies()
+        {
+            return _db.Pharmacies;
+        }
+
+
+
     }
 }

@@ -45,10 +45,31 @@ namespace PharmaLink_API.Controllers
             return NoContent();
         }
 
+        // GET api/<PatientController>/5
+        [HttpGet("MedicalInfo")]
+        public async Task<IActionResult> GetPatientMedicalInfo(string AccountId)
+        {
+            if (string.IsNullOrWhiteSpace(AccountId))
+                return BadRequest("AccountId is required.");
+            var medicalInfo = await _patientService.GetPatientMedicalInfoByIdAsync(AccountId);
+            if (medicalInfo == null)
+            {
+                return NotFound();
+            }
+            return Ok(medicalInfo);
+        }
+
         //// DELETE api/<PatientController>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
+        //[HttpDelete("{accountId}")]
+        //public async Task<IActionResult> DeletePatient(string accountId)
         //{
+        //    if (string.IsNullOrWhiteSpace(accountId))
+        //    {
+        //        BadRequest("AccountId is required.");
+        //    }
+        //    _patientService.DeletePatientAsync(accountId).GetAwaiter().GetResult();
+        //    // No content response for successful deletion
+        //    return NoContent();
         //}
     }
 }

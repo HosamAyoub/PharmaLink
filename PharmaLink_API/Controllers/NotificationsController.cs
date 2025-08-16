@@ -39,7 +39,13 @@ namespace PharmaLink_API.Controllers
 
             // Get orders with notifications for the patient
             var ordersWithNotifications = await _orderHeaderRepository.GetAllAsync(
+<<<<<<< HEAD
                 o => o.PatientId == patient.PatientId && o.Status != SD.StatusUnderReview
+=======
+                o => o.PatientId == patient.PatientId 
+                && o.Message != null
+                && (o.Status == SD.StatusOutForDelivery || o.Status == SD.StatusRejected)
+>>>>>>> 0d9b80bb98abe82c49ad8c686f8e96d142b82201
             );
 
             var notifications = ordersWithNotifications
@@ -70,7 +76,7 @@ namespace PharmaLink_API.Controllers
                 return NotFound("Patient not found.");
 
             var ordersWithNotifications = await _orderHeaderRepository.GetAllAsync(
-                o => o.PatientId == patient.PatientId && o.Message != null && o.IsRead == false
+                o => o.PatientId == patient.PatientId && o.IsRead == false
             );
 
             if (!ordersWithNotifications.Any())
