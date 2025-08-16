@@ -19,7 +19,7 @@
         public string? Adverse_reactions { get; set; }
         public string? Drug_UrlImg { get; set; }
 
-        public Status DrugStatus { get; set; } = Status.Approved;
+        public Status DrugStatus { get; set; } 
 
         public int? CreatedByPharmacy { get; set; }
 
@@ -40,7 +40,8 @@
 
     public enum Status
     {
-        Requested=0,
-        Approved=1
+        Rejected=0,
+        Approved=1,
+        Pending=2
     }
 }

@@ -141,9 +141,9 @@ namespace PharmaLink_API.Controllers
                 }
 
                 int ApprovedDrugCount = result.Count(d => d.DrugStatus == Status.Approved);
-                int RequestedDrugCount = result.Count(d => d.DrugStatus == Status.Requested);
+                int RequestedDrugCount = result.Count(d => d.DrugStatus == Status.Pending);
                 int Categories = result.Select(D => D.Category).Distinct().Count();
-                List<Drug> DrugRequests = result.Where(d => d.DrugStatus == Status.Requested).ToList();
+                List<Drug> DrugRequests = result.Where(d => d.DrugStatus == Status.Pending).ToList();
                 var requests = new List<DrugRequestDTO>();
 
                 foreach (var D in DrugRequests)

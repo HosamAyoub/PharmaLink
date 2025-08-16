@@ -106,7 +106,7 @@ namespace PharmaLink_API.Controllers
 
             // Get drug requests notifications for 
             var DrugRequestesNotifications = await _drugRepository.GetAllAsync(
-                d => d.CreatedByPharmacy == pharmacy.PharmacyID && d.IsRead == false
+                d => d.CreatedByPharmacy == pharmacy.PharmacyID && d.IsRead == false && d.DrugStatus != Status.Pending  
             );
 
             // Replace the problematic code block in GetNotificationsForPharmacy with the following:
@@ -151,8 +151,8 @@ namespace PharmaLink_API.Controllers
             if (string.IsNullOrEmpty(accountId))
                 return Unauthorized("Invalid token.");
             // Get all drug requests from all pharmacies
-            var drugRequests = await _drugRepository.GetAllAsync(d => d.DrugStatus == Status.Requested && d.IsRead == false && d.CreatedAt >= DateTime.Today );
-           
+            var drugRequests = await _drugRepository.GetAllAsync(d => d.DrugStatus == Status.Pending && d.IsRead == false && d.CreatedAt >= DateTime.Today );
+
             if (drugRequests == null || !drugRequests.Any())
                 return Ok(new { message = "No drug requests found." });
 
