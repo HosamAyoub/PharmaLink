@@ -2,9 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.IdentityModel.Tokens;
 using PharmaLink_API.Core.Constants;
 using PharmaLink_API.Core.Enums;
@@ -33,15 +31,9 @@ namespace PharmaLink_API.Services
         private readonly IRoleService _roleService;
         private readonly IWebHostEnvironment _WebHostEnvironment;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IEmailService emailService;
-
 
         // Inject dependencies for account, role, and mapping operations
-        public AccountService(UserManager<Account> userManager, IMapper mapper, 
-            IConfiguration configuration, IAccountRepository accountRepository, 
-            IPatientRepository patientRepository, IPharmacyRepository pharmacyRepository, 
-            IRoleService roleService,
-            IEmailService emailService)
+        public AccountService(UserManager<Account> userManager, IMapper mapper, IConfiguration configuration, IAccountRepository accountRepository, IPatientRepository patientRepository, IPharmacyRepository pharmacyRepository, IRoleService roleService, IWebHostEnvironment webHostEnvironment, IHttpContextAccessor httpContextAccessor)
         {
             _userManager = userManager;
             _mapper = mapper;
@@ -52,7 +44,6 @@ namespace PharmaLink_API.Services
             _roleService = roleService;
             _WebHostEnvironment = webHostEnvironment;
             _httpContextAccessor = httpContextAccessor;
-            this.emailService = emailService;
         }
 
         /// <summary>
@@ -105,13 +96,6 @@ namespace PharmaLink_API.Services
                 }
 
                 // Save all changes and commit the transaction
-                var token = await _userManager.GenerateEmailConfirmationTokenAsync(newAccount);
-                var encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
-
-                var confirmationLink = $"http://localhost:4200/confirm-email?userId={newAccount.Id}&token={encodedToken}";
-
-                await emailService.SendEmailAsync(newAccount.Email, "Confirm your email",
-                    $"Click <a href='{confirmationLink}'>here</a> to confirm your email.");
                 await _accountRepository.SaveAsync().ConfigureAwait(false);
                 await _accountRepository.EndTransactionAsync().ConfigureAwait(false);
 
@@ -213,7 +197,7 @@ namespace PharmaLink_API.Services
 
         private async Task<string> SaveDocumentAsync(IFormFile docFile)
         {
-            var allowedExtensions = new[] { ".pdf",".jpg", ".jpeg", ".png", ".webp" };
+            var allowedExtensions = new[] { ".pdf", ".jpg", ".jpeg", ".png", ".webp" };
             var extension = Path.GetExtension(docFile.FileName).ToLower();
 
             if (!allowedExtensions.Contains(extension))

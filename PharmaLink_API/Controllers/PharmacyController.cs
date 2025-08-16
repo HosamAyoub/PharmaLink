@@ -24,6 +24,7 @@ namespace PharmaLink_API.Controllers
 
         public PharmacyController(IPharmacyRepository pharmacyRepo,
             IPharmacyService pharmacyService,
+            IDrugRepository drugRepo,
             IMapper mapper, IWebHostEnvironment webHostEnvironment)
         {
             _PharmacyRepo = pharmacyRepo;

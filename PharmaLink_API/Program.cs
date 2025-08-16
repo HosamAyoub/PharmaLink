@@ -163,7 +163,6 @@ namespace PharmaLink_API
             builder.Services.AddScoped<IRoleService, RoleService>();
             builder.Services.AddScoped<IPharmacyService, PharmacyService>();
             builder.Services.AddScoped<ISharedService, SharedService>();
-            builder.Services.AddScoped<IEmailService, EmailService>();
 
 
 
