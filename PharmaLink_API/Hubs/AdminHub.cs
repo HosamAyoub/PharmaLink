@@ -16,17 +16,17 @@ namespace PharmaLink_API.Hubs
     public class AdminHub : Hub
     {
         private static readonly Dictionary<string, List<ConnectionInfo>> _connectionsList = new Dictionary<string, List<ConnectionInfo>>();
-        private readonly IPharmacyService _pharmacyService ;
+        private readonly IPharmacyService _pharmacyService;
 
-        public AdminHub( IPharmacyService pharmacyService)
+        public AdminHub(IPharmacyService pharmacyService)
         {
             _pharmacyService = pharmacyService;
         }
 
         public override async Task OnConnectedAsync()
         {
+            var userId = Context.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var userRole = Context.User?.FindFirst(ClaimTypes.Role)?.Value;
-            var userId = Context.UserIdentifier; // بيطلع من الـ Claims
 
             if (!string.IsNullOrEmpty(userRole) && !string.IsNullOrEmpty(userId))
             {
@@ -48,13 +48,12 @@ namespace PharmaLink_API.Hubs
                     ConnectionId = Context.ConnectionId
                 });
 
-                await Groups.AddToGroupAsync(Context.ConnectionId, "PharmaLinkAdmin");
                 Console.WriteLine($"{userRole} joined PharmaLinkAdmin group | ConnID: {Context.ConnectionId}");
+                await Groups.AddToGroupAsync(Context.ConnectionId, "PharmaLinkAdmin");
             }
 
             await base.OnConnectedAsync();
         }
-
 
         /// <summary>
         /// Debug method to print all current connections
@@ -73,50 +72,84 @@ namespace PharmaLink_API.Hubs
             Console.WriteLine("========================");
         }
 
-        // Change the method signature of CheckUserExists to async Task
-        public async Task CheckUserExists(string userId)
+        // Fixed: Convert string to int and proper async handling
+        public async Task CheckUserExists(string pharmacyId)
         {
-            Console.WriteLine($"=== Searching for User ID: {userId} ===");
+            Console.WriteLine($"=== Searching for Pharmacy ID: {pharmacyId} ===");
             bool found = false;
-            string acc_Id = await _pharmacyService.GetAccountIdByPharmacyIdAsync(userId);
 
-            foreach (var role in _connectionsList.Keys)
+            // Convert string to int for the service call
+            if (pharmacyId != null)
             {
-                var userConnections = _connectionsList[role].Where(c => c.UserId == acc_Id).ToList();
-                if (userConnections.Any())
+                string? acc_Id = await _pharmacyService.GetAccountIdByPharmacyIdAsync(pharmacyId);
+                
+                if (!string.IsNullOrEmpty(acc_Id))
                 {
-                    Console.WriteLine($"Found user {userId} in role {role}:");
-                    foreach (var conn in userConnections)
+                    Console.WriteLine($"Converted Pharmacy ID {pharmacyId} to Account ID: {acc_Id}");
+                    
+                    foreach (var role in _connectionsList.Keys)
                     {
-                        Console.WriteLine($"  - ConnectionId: {conn.ConnectionId}");
+                        var userConnections = _connectionsList[role].Where(c => c.UserId == acc_Id).ToList();
+                        if (userConnections.Any())
+                        {
+                            Console.WriteLine($"Found user {pharmacyId} (Account ID: {acc_Id}) in role {role}:");
+                            foreach (var conn in userConnections)
+                            {
+                                Console.WriteLine($"  - ConnectionId: {conn.ConnectionId}");
+                            }
+                            found = true;
+                        }
                     }
-                    found = true;
                 }
+                else
+                {
+                    Console.WriteLine($"Could not find Account ID for Pharmacy ID: {pharmacyId}");
+                }
+            }
+            else
+            {
+                Console.WriteLine($"Invalid Pharmacy ID format: {pharmacyId}");
             }
 
             if (!found)
             {
-                Console.WriteLine($"User {userId} not found in any role");
+                Console.WriteLine($"Pharmacy {pharmacyId} not found in any role");
             }
             Console.WriteLine("================================");
         }
 
-        public async Task<List<string>> GetConnectionId(string Role, string? userId = null)
+        // Fixed: Convert string to int and proper async handling
+        public async Task<List<string>> GetConnectionId(string Role, string? pharmacyId = null)
         {
-
             if (_connectionsList.TryGetValue(Role, out List<ConnectionInfo> conInfo))
             {
-                if (userId == null)
+                if (pharmacyId == null)
                 {
                     Console.WriteLine($"Getting all connections for role {Role}: {string.Join(", ", conInfo.Select(c => c.ConnectionId))}");
                     return conInfo.Select(c => c.ConnectionId).ToList();
                 }
                 else
                 {
-                    string acc_Id = await _pharmacyService.GetAccountIdByPharmacyIdAsync(userId);
-                    var matchingConnections = conInfo.Where(c => c.UserId == acc_Id).Select(c => c.ConnectionId).ToList();
-                    Console.WriteLine($"Getting connections for role {Role}, userId {userId}: {string.Join(", ", matchingConnections)}");
-                    return matchingConnections;
+                    // Convert string to int for the service call
+                    if (pharmacyId!=null)
+                    {
+                        string? acc_Id = await _pharmacyService.GetAccountIdByPharmacyIdAsync(pharmacyId);
+                        
+                        if (!string.IsNullOrEmpty(acc_Id))
+                        {
+                            var matchingConnections = conInfo.Where(c => c.UserId == acc_Id).Select(c => c.ConnectionId).ToList();
+                            Console.WriteLine($"Getting connections for role {Role}, Pharmacy ID {pharmacyId} (Account ID: {acc_Id}): {string.Join(", ", matchingConnections)}");
+                            return matchingConnections;
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Could not find Account ID for Pharmacy ID: {pharmacyId}");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Invalid Pharmacy ID format: {pharmacyId}");
+                    }
                 }
             }
             
@@ -141,16 +174,27 @@ namespace PharmaLink_API.Hubs
         public async Task SendAcceptanceToAll(string message)
         {
             var PhramaciesConnectionID = await GetConnectionId("Pharmacy");
-            await Clients.Clients(PhramaciesConnectionID).SendAsync("DrugRequestAccepted", message);
-            Console.WriteLine($"Message sent to all clients: {message}");
+
+            Console.WriteLine("=== Sending acceptance to all Pharmacies ===");
+            if (!PhramaciesConnectionID.Any())
+            {
+                Console.WriteLine("No active Pharmacy connections found!");
+            }
+            else
+            {
+                Console.WriteLine($"Connections found: {string.Join(", ", PhramaciesConnectionID)}");
+                await Clients.Clients(PhramaciesConnectionID).SendAsync("DrugRequestAccepted", message);
+                Console.WriteLine($"Message sent to all clients: {message}");
+            }
+
         }
 
         public async Task SendRejectionToPharmacy(string pharmacyId, string message)
         {
             Console.WriteLine($"Attempting to send rejection to Pharmacy ID: {pharmacyId}");
 
-            // Debug: Check if user exists in any role
-            CheckUserExists(pharmacyId);
+            // Debug: Check if user exists in any role (now properly awaited)
+            await CheckUserExists(pharmacyId);
 
             // Debug: Print all current connections
             PrintAllConnections();
@@ -170,23 +214,26 @@ namespace PharmaLink_API.Hubs
 
                 // Additional debugging: try to find the user in other roles
                 Console.WriteLine("Checking if pharmacy exists under different roles...");
-                foreach (var role in _connectionsList.Keys)
+                if (pharmacyId != null)
                 {
-                    var userInRole = _connectionsList[role].Any(c => c.UserId == pharmacyId);
-                    if (userInRole)
+                    string? accountId = await _pharmacyService.GetAccountIdByPharmacyIdAsync(pharmacyId);
+                    if (!string.IsNullOrEmpty(accountId))
                     {
-                        Console.WriteLine($"WARNING: User {pharmacyId} found under role '{role}' instead of 'Pharmacy'");
+                        foreach (var role in _connectionsList.Keys)
+                        {
+                            var userInRole = _connectionsList[role].Any(c => c.UserId == accountId);
+                            if (userInRole)
+                            {
+                                Console.WriteLine($"WARNING: Pharmacy {pharmacyId} (Account ID: {accountId}) found under role '{role}' instead of 'Pharmacy'");
+                            }
+                        }
                     }
                 }
             }
         }
 
-
-        
-
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
-
             await base.OnDisconnectedAsync(exception);
         }
     }

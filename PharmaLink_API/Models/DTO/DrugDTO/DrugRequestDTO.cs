@@ -6,6 +6,8 @@ namespace PharmaLink_API.Models.DTO.DrugDTO
     {
         public Pharmacy_Sender Pharmacy { get; set; }
         public DrugDetailsDTO NewDrug { get; set; }
+        public Boolean IsRead { get; set; }
+        public DateTime? CreatedAt { get; set; }
     }
 
 

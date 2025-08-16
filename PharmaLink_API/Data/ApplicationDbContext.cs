@@ -368,7 +368,9 @@ namespace PharmaLink_API.Data
                 Adverse_reactions = "Nausea, rash",
                 Drug_UrlImg = "https://www.bloompharmacy.com/cdn/shop/products/paracetamol-500-mg-20-tablets-606862.jpg?v=1707749818",
                 DrugStatus = Status.Approved,
-                CreatedByPharmacy = 0
+                CreatedByPharmacy = 0,
+                IsRead = false,
+                CreatedAt = new DateTime(2025, 8, 16, 4, 17, 23, 329, DateTimeKind.Local).AddTicks(1600)
 
             },
             new Drug
@@ -390,7 +392,9 @@ namespace PharmaLink_API.Data
                 Adverse_reactions = "GI bleeding, headache",
                 Drug_UrlImg = "https://lh6.googleusercontent.com/proxy/uQRcEtpKh0CN_X9m4XoC-XIsU50ITQYNcXEn6YiF4wxFvvctThypADpbL0xskSrs1hM3d6mJlUmnIJ010DF1YihIVBXZ0lnDUq1jWrS_v0wQ5IZDfOQLkQ7ZrzJaTC0KwA",
                 DrugStatus = Status.Approved,
-                CreatedByPharmacy = 0
+                CreatedByPharmacy = 0,
+                IsRead = false,
+                CreatedAt = new DateTime(2025, 8, 16, 4, 17, 23, 332, DateTimeKind.Local).AddTicks(1030)
             },
             new Drug
             {
@@ -411,7 +415,9 @@ namespace PharmaLink_API.Data
                 Adverse_reactions = "Diarrhea, rash",
                 Drug_UrlImg = "https://www.canonbury.com/media/catalog/product/cache/ac001188e3511e11921f4c9c9c586cfc/a/m/amoxicillin_capsules_500mg_15_pl_la_.png",
                 DrugStatus = Status.Approved,
-                CreatedByPharmacy = 0
+                CreatedByPharmacy = 0,
+                IsRead = false,
+                CreatedAt = new DateTime(2025, 8, 16, 4, 17, 23, 332, DateTimeKind.Local).AddTicks(1058)
             }
         );
         }

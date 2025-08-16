@@ -23,6 +23,13 @@
 
         public int? CreatedByPharmacy { get; set; }
 
+        public Boolean IsRead { get; set; } = false;
+        
+
+        public DateTime? CreatedAt { get; set; } = DateTime.Now;
+
+
+
 
         //Drug-Pharmacy relationship (many to many)
         public ICollection<PharmacyProduct>? PharmacyStock { get; set; }
