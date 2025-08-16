@@ -9,6 +9,7 @@ namespace PharmaLink_API.Services.Interfaces
         Task<PatientDTO> GetPatientByIdAsync(string accountId);
         //Task AddPatientAsync(Patient patient);
         Task UpdatePatientAsync(PatientDTO patientDTO, string accountId);
-        //Task DeletePatientAsync(int id);
+        Task DeletePatientAsync(string accountId);
+        Task<PatientMedicalInfoDTO> GetPatientMedicalInfoByIdAsync(string accountId);
     }
 }
