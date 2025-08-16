@@ -34,5 +34,21 @@ namespace PharmaLink_API.Services
 
             await _patientRepository.UpdateAsync(selectedPatient);
         }
+        public async Task<PatientMedicalInfoDTO> GetPatientMedicalInfoByIdAsync(string accountId)
+        {
+            var patient = await _patientRepository.GetAsync(p => p.AccountId == accountId);
+            if (patient == null)
+                throw new Exception("Patient not found.");
+            // Here you can return or process the medical information as needed
+            var patientMedicalInfoDTO = _mapper.Map<PatientMedicalInfoDTO>(patient);
+            return patientMedicalInfoDTO;
+        }
+        public async Task DeletePatientAsync(string accountId)
+        {
+            var patient = await _patientRepository.GetAsync(p => p.AccountId == accountId, tracking: true);
+            if (patient == null)
+                throw new Exception("Patient not found.");
+            await _patientRepository.RemoveAsync(patient);
+        }
     }
 }
