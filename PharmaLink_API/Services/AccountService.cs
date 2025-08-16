@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.IdentityModel.Tokens;
 using PharmaLink_API.Core.Constants;
 using PharmaLink_API.Core.Enums;
@@ -27,9 +29,15 @@ namespace PharmaLink_API.Services
         private readonly IConfiguration _config;
         private readonly IMapper _mapper;
         private readonly IRoleService _roleService;
+        private readonly IEmailService emailService;
+
 
         // Inject dependencies for account, role, and mapping operations
-        public AccountService(UserManager<Account> userManager, IMapper mapper, IConfiguration configuration, IAccountRepository accountRepository, IPatientRepository patientRepository, IPharmacyRepository pharmacyRepository, IRoleService roleService)
+        public AccountService(UserManager<Account> userManager, IMapper mapper, 
+            IConfiguration configuration, IAccountRepository accountRepository, 
+            IPatientRepository patientRepository, IPharmacyRepository pharmacyRepository, 
+            IRoleService roleService,
+            IEmailService emailService)
         {
             _userManager = userManager;
             _mapper = mapper;
@@ -38,6 +46,7 @@ namespace PharmaLink_API.Services
             _patientRepository = patientRepository;
             _pharmacyRepository = pharmacyRepository;
             _roleService = roleService;
+            this.emailService = emailService;
         }
 
         /// <summary>
@@ -90,6 +99,13 @@ namespace PharmaLink_API.Services
                 }
 
                 // Save all changes and commit the transaction
+                var token = await _userManager.GenerateEmailConfirmationTokenAsync(newAccount);
+                var encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
+
+                var confirmationLink = $"http://localhost:4200/confirm-email?userId={newAccount.Id}&token={encodedToken}";
+
+                await emailService.SendEmailAsync(newAccount.Email, "Confirm your email",
+                    $"Click <a href='{confirmationLink}'>here</a> to confirm your email.");
                 await _accountRepository.SaveAsync().ConfigureAwait(false);
                 await _accountRepository.EndTransactionAsync().ConfigureAwait(false);
 

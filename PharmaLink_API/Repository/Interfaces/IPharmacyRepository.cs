@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PharmaLink_API.Models;
 
 namespace PharmaLink_API.Repository.Interfaces
@@ -14,9 +16,9 @@ namespace PharmaLink_API.Repository.Interfaces
 
         // Deletes a pharmacy by its ID.
         Task DeletePharmacyByIdAsync(int id);
+        public List<Pharmacy> GetPharmaciesByFilter(string filter, int size);
 
-        
-        // Task<List<Pharmacy>> GetPharmaciesByLocationAsync(string location);
-        // Task UpdatePharmacyAsync(Pharmacy pharmacy);
+        DbSet<Pharmacy> GetAllPharmacies();
+
     }
 }

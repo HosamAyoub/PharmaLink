@@ -1,6 +1,7 @@
-using PharmaLink_API.Models;
-using PharmaLink_API.Models.DTO.PharmacyStockDTO;
 using PharmaLink_API.Core.Results;
+using PharmaLink_API.Models;
+using PharmaLink_API.Models.DTO.PharmacyDTO;
+using PharmaLink_API.Models.DTO.PharmacyStockDTO;
 using System.Security.Claims;
 
 namespace PharmaLink_API.Services.Interfaces
@@ -158,5 +159,6 @@ namespace PharmaLink_API.Services.Interfaces
         /// It returns basic pharmacy information including name, address, contact details, and operating hours.
         /// </remarks>
         ServiceResult<List<PharmacyDTO>> getPharmaciesThatHaveDrug(int drugId);
+        Task<List<PharmacyWithDistanceDTO>> GetNearest(double lat, double lng, int drugID, int maxResults = 5);
     }
 }

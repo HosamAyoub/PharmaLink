@@ -19,7 +19,7 @@
         public string Adverse_reactions { get; set; }
         public string Drug_UrlImg { get; set; }
 
-        public Status DrugStatus { get; set; } = Status.Approved;
+        public Status? DrugStatus { get; set; } = Status.Approved;
 
         public int? CreatedByPharmacy { get; set; }
 

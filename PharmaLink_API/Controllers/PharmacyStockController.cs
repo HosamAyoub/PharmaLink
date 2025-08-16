@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using PharmaLink_API.Core.Enums;
 using PharmaLink_API.Core.Results;
 using PharmaLink_API.Models;
+using PharmaLink_API.Models.DTO.PharmacyDTO;
 using PharmaLink_API.Models.DTO.PharmacyStockDTO;
+using PharmaLink_API.Services;
 using PharmaLink_API.Services.Interfaces;
 
 namespace PharmaLink_API.Controllers
@@ -517,6 +519,15 @@ namespace PharmaLink_API.Controllers
                     details = ex.Message
                 });
             }
+        }
+
+               
+
+        [HttpGet("GetNearestPharmacies")]
+        public async Task<ActionResult<IEnumerable<PharmacyDisplayDTO>>> GetNearestPharmacies(double lat, double lng,int drugId, int maxResults = 5)
+        {
+            var nearestPharmacies = await _pharmacyStockService.GetNearest(lat, lng,drugId, maxResults);
+            return Ok(nearestPharmacies);
         }
 
 

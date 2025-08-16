@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using PharmaLink_API.Models;
 using PharmaLink_API.Models.DTO.PharmacyDTO;
 using PharmaLink_API.Repository.Interfaces;
+using PharmaLink_API.Services.Interfaces;
 using System.Security.Claims;
 
 namespace PharmaLink_API.Controllers
@@ -15,11 +16,16 @@ namespace PharmaLink_API.Controllers
     {
         private IPharmacyRepository _PharmacyRepo { get; set; }
         private IMapper _Mapper { get; set; }
+
+        private readonly IPharmacyService pharmacyService;
         private readonly IWebHostEnvironment _WebHostEnvironment;
 
-        public PharmacyController(IPharmacyRepository pharmacyRepo, IMapper mapper, IWebHostEnvironment webHostEnvironment)
+        public PharmacyController(IPharmacyRepository pharmacyRepo,
+            IPharmacyService pharmacyService,
+            IMapper mapper, IWebHostEnvironment webHostEnvironment)
         {
             _PharmacyRepo = pharmacyRepo;
+            this.pharmacyService = pharmacyService;
             _Mapper = mapper;
             _WebHostEnvironment = webHostEnvironment;
         }
@@ -164,6 +170,7 @@ namespace PharmaLink_API.Controllers
             }
             await _PharmacyRepo.RemoveAsync(pharmacy);
             return Ok($"Department with ID {id} deleted successfully.");
+
         }
     }
 }

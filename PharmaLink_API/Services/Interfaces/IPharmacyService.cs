@@ -24,5 +24,6 @@ namespace PharmaLink_API.Services.Interfaces
 
         // Deletes a pharmacy by its ID. Returns true if successful, false if not found.
         Task<bool> DeletePharmacyAsync(int id);
+
     }
 }

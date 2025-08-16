@@ -98,23 +98,37 @@ namespace PharmaLink_API.Repository
 
             if (Updated != null)
             {
-                Updated.CommonName = editedDrug.CommonName; 
-                Updated.ActiveIngredient = editedDrug.ActiveIngredient; 
-                Updated.Category = editedDrug.Category; 
-                Updated.Indications_and_usage = editedDrug.Indications_and_usage; 
-                Updated.Drug_interactions = editedDrug.Drug_interactions; 
-                Updated.Alternatives_names = editedDrug.Alternatives_names; 
-                Updated.Dosage_forms_and_strengths = editedDrug.Dosage_forms_and_strengths; 
-                Updated.Contraindications = editedDrug.Contraindications; 
-                Updated.Warnings_and_cautions = editedDrug.Warnings_and_cautions; 
+                Updated.CommonName = editedDrug.CommonName;
+                Updated.ActiveIngredient = editedDrug.ActiveIngredient;
+                Updated.Category = editedDrug.Category;
+                Updated.Indications_and_usage = editedDrug.Indications_and_usage;
+                Updated.Drug_interactions = editedDrug.Drug_interactions;
+                Updated.Alternatives_names = editedDrug.Alternatives_names;
+                Updated.Dosage_forms_and_strengths = editedDrug.Dosage_forms_and_strengths;
+                Updated.Contraindications = editedDrug.Contraindications;
+                Updated.Warnings_and_cautions = editedDrug.Warnings_and_cautions;
                 Updated.Drug_UrlImg = editedDrug.Drug_UrlImg;
-                Updated.Description = editedDrug.Description; 
-                Updated.Storage_and_handling = editedDrug.Storage_and_handling; 
-                Updated.Adverse_reactions = editedDrug.Adverse_reactions; 
+                Updated.Description = editedDrug.Description;
+                Updated.Storage_and_handling = editedDrug.Storage_and_handling;
+                Updated.Adverse_reactions = editedDrug.Adverse_reactions;
                 Updated.AlternativesGpID = editedDrug.AlternativesGpID;
-                Updated.Dosage_and_administration = editedDrug.Dosage_and_administration; 
+                Updated.Dosage_and_administration = editedDrug.Dosage_and_administration;
                 await Context.SaveChangesAsync();
             }
+        }
+
+        // get number of drugs based on a filter by name 
+        public List<Drug> GetDrugsByFilter(string filter , int size)
+        {
+            // Use EF Core to query the Drugs table with a filter
+            return  Context.Drugs
+                .Where(d => d.CommonName.Contains(filter))
+                .Take(size)
+                .Select(d => new Drug
+                {
+                    DrugID = d.DrugID,
+                    CommonName = d.CommonName,
+                }).ToList();
         }
     }
 }
