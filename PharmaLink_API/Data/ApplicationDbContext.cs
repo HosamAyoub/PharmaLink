@@ -145,6 +145,8 @@ namespace PharmaLink_API.Data
 
             // *********Seed tables********* //
 
+            ////1. Drugs
+            //SeedDrugs(modelBuilder);
 
             // 2. Roles
             SeedRoles(modelBuilder);
@@ -462,8 +464,7 @@ namespace PharmaLink_API.Data
                     UserId = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
                     RoleId = "2"
                 }
-<<<<<<< HEAD
-                );
+            );
         }
         private void SeedDrugs(ModelBuilder modelBuilder)
         {
@@ -538,10 +539,7 @@ namespace PharmaLink_API.Data
                 IsRead = false,
                 CreatedAt = new DateTime(2025, 8, 16, 4, 17, 23, 332, DateTimeKind.Local).AddTicks(1058)
             }
-        );
-=======
             );
->>>>>>> 0d9b80bb98abe82c49ad8c686f8e96d142b82201
         }
        
         private void SeedPatients(ModelBuilder modelBuilder)

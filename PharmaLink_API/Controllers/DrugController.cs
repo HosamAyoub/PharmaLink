@@ -157,7 +157,7 @@ namespace PharmaLink_API.Controllers
                             Pharmacy_Name = pharmacy?.Name ?? "Unknown Pharmacy"
                         },
                         NewDrug = _mapper.Map<DrugDetailsDTO>(D),
-                        IsRead = D.IsRead,
+                        IsRead = D.IsRead ?? false,
                         CreatedAt = D.CreatedAt
                     });
                 }
