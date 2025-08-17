@@ -131,11 +131,15 @@ namespace PharmaLink_API.Services
 
             if (order.Status == SD.StatusPending)
             {
-                if (order.PaymentMethod != "Cash" && order.PaymentStatus == SD.PaymentStatusApproved)
+                if (order.PaymentMethod != "cash" && order.PaymentStatus == SD.PaymentStatusApproved)
                 {
                     var refundResult = await _stripeService.RefundStripePaymentAsync(order.PaymentIntentId);
                     if (!refundResult.Success)
                         return refundResult;
+                }
+                else if (order.PaymentMethod == "cash")
+                {
+                    order.PaymentStatus = SD.PaymentStatusCancelled;
                 }
                 else
                 {

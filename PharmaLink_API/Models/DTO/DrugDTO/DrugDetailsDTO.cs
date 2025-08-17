@@ -4,7 +4,7 @@
     {
         public int DrugID { get; set; }
         public string CommonName { get; set; }
-        public string Category { get; set; }
+        public string? Category { get; set; }
         public string ActiveIngredient { get; set; }
         public string? Alternatives_names { get; set; }
         public int? AlternativesGpID { get; set; }
