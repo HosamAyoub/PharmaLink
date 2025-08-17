@@ -6,6 +6,7 @@ using PharmaLink_API.Core.Enums;
 using PharmaLink_API.Core.Extensions;
 using PharmaLink_API.Core.Results;
 using PharmaLink_API.Models;
+using PharmaLink_API.Models.DTO.PharmacyDTO;
 using PharmaLink_API.Models.DTO.PharmacyStockDTO;
 using PharmaLink_API.Repository;
 using PharmaLink_API.Repository.Interfaces;
@@ -21,6 +22,7 @@ namespace PharmaLink_API.Services
     public class PharmacyStockService : IPharmacyStockService
     {
         private readonly IPharmacyStockRepository _pharmacyStockRepository;
+        private readonly IDrugRepository drugRepository;
         private readonly IMapper _mapper;
         private readonly IValidator<pharmacyProductDTO> _validator;
         private readonly IValidator<PharmacyStockDTO> _pharmacyStockDTOValidator;
@@ -34,6 +36,7 @@ namespace PharmaLink_API.Services
         /// </summary>
         public PharmacyStockService(
             IPharmacyStockRepository pharmacyStockRepository,
+            IDrugRepository drugRepository,
             IMapper mapper,
             IValidator<pharmacyProductDTO> validator,
             IValidator<PharmacyStockDTO> pharmacyStockDTOValidator,
@@ -43,6 +46,7 @@ namespace PharmaLink_API.Services
             ILogger<PharmacyStockService> logger)
         {
             _pharmacyStockRepository = pharmacyStockRepository;
+            this.drugRepository = drugRepository;
             _mapper = mapper;
             _validator = validator;
             _pharmacyStockDTOValidator = pharmacyStockDTOValidator;
@@ -1159,6 +1163,65 @@ namespace PharmaLink_API.Services
                     "An unexpected error occurred while retrieving pharmacies that have the specified drug.",
                     ErrorType.Internal);
             }
+        }
+        public async Task<List<PharmacyWithDistanceDTO>> GetNearest(double lat, double lng, int drugID, int maxResults = 5)
+        {
+            try
+            {
+                _logger.LogInformation("Getting nearest pharmacies for drug {DrugId} at location ({Lat}, {Lng})", drugID, lat, lng);
+
+                // Get pharmacies that have the specific drug
+                var pharmacies = _pharmacyStockRepository.getPharmaciesThatHaveDrug(drugID);
+                
+                if (pharmacies == null || !pharmacies.Any())
+                {
+                    _logger.LogInformation("No pharmacies found with drug ID {DrugId}", drugID);
+                    return new List<PharmacyWithDistanceDTO>();
+                }
+
+                var nearestPharmacies = pharmacies
+                    .Select(p => {
+                        var pharmacyProduct = _pharmacyStockRepository.GetPharmacyProduct(p.PharmacyID, drugID);
+                        return new PharmacyWithDistanceDTO()
+                        {
+                            pharma_Id = p.PharmacyID,
+                            pharma_Address = p.Address,
+                            pharma_Latitude = p.Latitude,
+                            pharma_Longitude = p.Longitude,
+                            pharma_Name = p.Name,
+                            price = pharmacyProduct?.Price ?? 0m,
+                            quantityAvailable = pharmacyProduct?.QuantityAvailable ?? 0,
+                            Distance = CalculateDistance(lat, lng, p.Latitude, p.Longitude)
+                        };
+                    })
+                    .Where(p => p.Distance <= 10) // Filter pharmacies within 10 km
+                    .OrderBy(p => p.Distance)
+                    .Take(maxResults)
+                    .ToList();
+
+                _logger.LogInformation("Found {Count} nearest pharmacies for drug {DrugId}", nearestPharmacies.Count, drugID);
+                return nearestPharmacies;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while getting nearest pharmacies for drug {DrugId}", drugID);
+                return new List<PharmacyWithDistanceDTO>();
+            }
+        }
+        private double CalculateDistance(double lat1, double lon1, double lat2, double lon2)
+        {
+            double R = 6371; // Radius of the earth in km
+            var dLat = (lat2 - lat1) * (Math.PI / 180);
+            var dLon = (lon2 - lon1) * (Math.PI / 180);
+
+            var a =
+                Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
+                Math.Cos(lat1 * Math.PI / 180) * Math.Cos(lat2 * Math.PI / 180) *
+                Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
+
+            var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+            return R * c; // distance in km
+
         }
     }
 }

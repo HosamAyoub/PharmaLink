@@ -197,7 +197,7 @@ namespace PharmaLink_API.Services
 
         private async Task<string> SaveDocumentAsync(IFormFile docFile)
         {
-            var allowedExtensions = new[] { ".pdf",".jpg", ".jpeg", ".png", ".webp" };
+            var allowedExtensions = new[] { ".pdf", ".jpg", ".jpeg", ".png", ".webp" };
             var extension = Path.GetExtension(docFile.FileName).ToLower();
 
             if (!allowedExtensions.Contains(extension))

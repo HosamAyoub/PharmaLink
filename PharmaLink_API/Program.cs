@@ -161,6 +161,8 @@ namespace PharmaLink_API
             builder.Services.AddScoped<IStripeService, StripeService>();
             builder.Services.AddScoped<IAccountService, AccountService>();
             builder.Services.AddScoped<IRoleService, RoleService>();
+            builder.Services.AddScoped<IPharmacyService, PharmacyService>();
+            builder.Services.AddScoped<ISharedService, SharedService>();
 
 
 
@@ -253,6 +255,7 @@ namespace PharmaLink_API
             app.UseAuthorization();
             app.MapControllers();
             app.MapHub<OrderHub>("/orderHub");
+            app.MapHub<AdminHub>("/hubs/adminHub");
             app.MapHub<StatusChangeHub>("/hubs/statusChangeHub");
             app.Run();
         }
