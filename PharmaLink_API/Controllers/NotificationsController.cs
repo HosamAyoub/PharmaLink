@@ -103,7 +103,7 @@ namespace PharmaLink_API.Controllers
 
             // Get orders with notifications for the pharmacy
             var ordersWithNotifications = await _orderHeaderRepository.GetAllAsync(
-                o => o.PharmacyId == pharmacy.PharmacyID && o.Status == SD.StatusUnderReview
+                o => o.PharmacyId == pharmacy.PharmacyID && (o.Status == SD.StatusUnderReview || o.Status == SD.StatusCancelled)
             );
 
             // Get drug requests notifications for 
@@ -119,7 +119,8 @@ namespace PharmaLink_API.Controllers
                     o.OrderID,
                     o.Status,
                     o.Message,
-                    Timestamp = o.OrderDate
+                    Timestamp = o.OrderDate,
+                    Type = o.Status == SD.StatusCancelled ? "cancelOrder" : o.Status == SD.StatusUnderReview ? "order" : "Unknown"
                 })
                 .OrderByDescending(n => n.Timestamp)
                 .ToList();
