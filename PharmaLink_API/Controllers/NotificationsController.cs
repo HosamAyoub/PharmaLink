@@ -154,26 +154,30 @@ namespace PharmaLink_API.Controllers
             if (string.IsNullOrEmpty(accountId))
                 return Unauthorized("Invalid token.");
             // Get all drug requests from all pharmacies
-            var drugRequests = await _drugRepository.GetAllAsync(d => d.DrugStatus == Status.Pending && d.IsRead == false && d.CreatedAt >= DateTime.Today );
+            var drugRequests = await _drugRepository.GetAllAsync(d => d.DrugStatus == Status.Pending && d.IsRead == false && d.CreatedAt >= DateTime.Today);
 
             if (drugRequests == null || !drugRequests.Any())
                 return Ok(new { message = "No drug requests found." });
 
-            var Notifications = drugRequests
-                .Select(d => new
+            var notifications = new List<object>();
+            foreach (var d in drugRequests)
+            {
+                var pharmacy = await _pharmacyRepository.GetAsync(p => p.PharmacyID == d.CreatedByPharmacy);
+                notifications.Add(new
                 {
                     d.DrugID,
                     d.CommonName,
                     d.DrugStatus,
                     d.IsRead,
+                    d.CreatedByPharmacy,
+                    PharmacyName = pharmacy.Name,
                     Timestamp = d.CreatedAt
-                })
-                .OrderByDescending(n => n.Timestamp)
-                .ToList();
-            return Ok(Notifications);
+                });
+            }
+
+            notifications = notifications.OrderByDescending(n => ((DateTime?)n.GetType().GetProperty("Timestamp")?.GetValue(n))).ToList();
+
+            return Ok(notifications);
         }
-
-
-
     }
 }
