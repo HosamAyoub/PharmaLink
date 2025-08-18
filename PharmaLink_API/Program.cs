@@ -66,6 +66,7 @@ namespace PharmaLink_API
             {
                 options.User.RequireUniqueEmail = true;
                 options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+"; // Allowed characters for usernames
+                options.SignIn.RequireConfirmedEmail = true;
             })
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -163,6 +164,7 @@ namespace PharmaLink_API
             builder.Services.AddScoped<IRoleService, RoleService>();
             builder.Services.AddScoped<IPharmacyService, PharmacyService>();
             builder.Services.AddScoped<ISharedService, SharedService>();
+            builder.Services.AddScoped<IEmailSender, EmailSender>();
 
 
 
