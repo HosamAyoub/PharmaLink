@@ -28,28 +28,6 @@ namespace PharmaLink_API.Controllers
         /// </summary>
         /// <param name="userRegisterInfo">The registration data for the new user.</param>
         /// <returns>Action result indicating success or failure.</returns>
-        [HttpPost("RegisterPharmacy")]
-        public async Task<IActionResult> RegisterPharmacy([FromForm] RegisterAccountDTO userRegisterInfo)
-        {
-            IdentityResult result = IdentityResult.Success;
-            // Validate the incoming model
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            // Call the service to register the user
-            result = await _accountService.RegisterAsync(userRegisterInfo);
-
-            // Check if registration succeeded
-            if (result.Succeeded)
-            {
-                return Ok(new { Message = $"User registered successfully\n{userRegisterInfo.UserName}\n{userRegisterInfo.Email}" });
-            }
-            // Return errors if registration failed
-            return BadRequest(result.Errors.ToArray());
-        }
-
         [HttpPost("Register")]
         public async Task<IActionResult> Register(RegisterAccountDTO userRegisterInfo)
         {
@@ -66,11 +44,12 @@ namespace PharmaLink_API.Controllers
             // Check if registration succeeded
             if (result.Succeeded)
             {
-                return Ok(new { Message = $"User registered successfully\n{userRegisterInfo.UserName}\n{userRegisterInfo.Email}" });
+                return Ok(new { Message = "Registration successful. Please check your email to confirm." });
             }
             // Return errors if registration failed
             return BadRequest(result.Errors.ToArray());
         }
+
         /// <summary>
         /// Authenticates a user and returns a JWT token if successful.
         /// </summary>
@@ -119,6 +98,24 @@ namespace PharmaLink_API.Controllers
             }
             // Otherwise, return unauthorized
             return Unauthorized(new { Message = "Invalid or expired token." });
+        }
+
+        [HttpGet("confirm-email")]
+        public async Task<IActionResult> ConfirmEmail(string userId, string token)
+        {
+            // 1. Validate input
+            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(token))
+                return BadRequest("Invalid email confirmation request.");
+
+            bool? isConfirmed = await _accountService.EmailIsConfirmedAsync(userId, token);
+            if( isConfirmed == null)
+                return BadRequest(new { messsage ="Invalid confirmation token or user ID." });
+            if( isConfirmed == false)
+                return BadRequest(new{ message = "Email confirmation failed. Token may be invalid or expired." });
+            if( isConfirmed == true)
+                return Ok(new { message = "Email already confirmed." });
+
+            return BadRequest("Email confirmation failed.");
         }
     }
 }
