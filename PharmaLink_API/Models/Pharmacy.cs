@@ -8,7 +8,7 @@ namespace PharmaLink_API.Models
     {
         [Key]
         public int PharmacyID { get; set; }
-        [Unique]
+        //[Unique]
         public string Name { get; set; }
         public string? OwnerName { get; set; }
         public string Country { get; set; }
@@ -17,7 +17,7 @@ namespace PharmaLink_API.Models
         public double Longitude { get; set; }
         public double Latitude { get; set; }
         [DataType(DataType.PhoneNumber)]
-        [EgyptianPhoneNumber(AcceptLandlines = true)]
+        //[EgyptianPhoneNumber(AcceptLandlines = true)]
         public string? PhoneNumber { get; set; }
         [Range(0,5, ErrorMessage = "Rate must be between 0 and 5.")]
         public double? Rate { get; set; }

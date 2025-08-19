@@ -103,7 +103,7 @@ namespace PharmaLink_API.Controllers
 
             // Get orders with notifications for the pharmacy
             var ordersWithNotifications = await _orderHeaderRepository.GetAllAsync(
-                o => o.PharmacyId == pharmacy.PharmacyID && o.Status == SD.StatusUnderReview
+                o => o.PharmacyId == pharmacy.PharmacyID && (o.Status == SD.StatusUnderReview || o.Status == SD.StatusCancelled)
             );
 
             // Get drug requests notifications for 
@@ -119,7 +119,8 @@ namespace PharmaLink_API.Controllers
                     o.OrderID,
                     o.Status,
                     o.Message,
-                    Timestamp = o.OrderDate
+                    Timestamp = o.OrderDate,
+                    Type = o.Status == SD.StatusCancelled ? "cancelOrder" : o.Status == SD.StatusUnderReview ? "order" : "Unknown"
                 })
                 .OrderByDescending(n => n.Timestamp)
                 .ToList();
@@ -145,6 +146,24 @@ namespace PharmaLink_API.Controllers
             return Ok(notifications);
         }
 
+
+        [Authorize(Roles = "Pharmacy")]
+        [HttpPost("MarkAllAsRead")]
+        public async Task<IActionResult> MarkAllPharmacyNotificationsAsRead()
+        {
+            var accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(accountId))
+                return Unauthorized("Invalid token.");
+            var pharmacy = await _pharmacyRepository.GetAsync(p => p.AccountId == accountId);
+            if (pharmacy == null)
+                return NotFound("Pharmacy not found.");
+            // Get all Drug Requests for the pharmacy
+            var drugRequests = await _drugRepository.GetAllAsync(d => d.CreatedByPharmacy == pharmacy.PharmacyID && d.IsRead == false && d.DrugStatus != Status.Pending);
+
+            return Ok();
+
+        }
+
         [Authorize(Roles = "Admin")]
         [HttpGet("AdminNotifications")]
         public async Task<IActionResult> GetNotificationsForAdmin()
@@ -154,27 +173,49 @@ namespace PharmaLink_API.Controllers
                 return Unauthorized("Invalid token.");
             // Get all drug requests from all pharmacies
             var drugRequests = await _drugRepository.GetAllAsync(d => d.DrugStatus == Status.Pending && d.IsRead == false && d.CreatedAt >= DateTime.Today);
+            var pharmaciesRequests = await _pharmacyRepository.GetAllAsync(p => p.Status == Pharmacy_Status.Pending && p.JoinedDate >= DateTime.Today);
 
-            if (drugRequests == null || !drugRequests.Any())
-                return Ok(new { message = "No drug requests found." });
-
-            var notifications = new List<object>();
-            foreach (var d in drugRequests)
+            var DrugRequests = new List<object>();
+            if (drugRequests != null && drugRequests.Any())
             {
-                var pharmacy = await _pharmacyRepository.GetAsync(p => p.PharmacyID == d.CreatedByPharmacy);
-                notifications.Add(new
+                foreach (var d in drugRequests)
                 {
-                    d.DrugID,
-                    d.CommonName,
-                    d.DrugStatus,
-                    d.IsRead,
-                    d.CreatedByPharmacy,
-                    PharmacyName = pharmacy.Name,
-                    Timestamp = d.CreatedAt
-                });
+                    var pharmacy = await _pharmacyRepository.GetAsync(p => p.PharmacyID == d.CreatedByPharmacy);
+                    DrugRequests.Add(new
+                    {
+                        d.DrugID,
+                        d.CommonName,
+                        d.DrugStatus,
+                        d.IsRead,
+                        d.CreatedByPharmacy,
+                        PharmacyName = pharmacy.Name,
+                        Timestamp = d.CreatedAt
+                    });
+                }
+            }
+            var PharmaciesRequests = new List<object>();
+
+            if (pharmaciesRequests != null && pharmaciesRequests.Any())
+            {
+                foreach (var p in pharmaciesRequests)
+                {
+                    PharmaciesRequests.Add(new
+                    {
+                        p.PharmacyID,
+                        p.Name,
+                        p.Status,
+                        p.JoinedDate,
+                        p.Address,
+                        p.PhoneNumber
+                    });
+                }
             }
 
-            notifications = notifications.OrderByDescending(n => ((DateTime?)n.GetType().GetProperty("Timestamp")?.GetValue(n))).ToList();
+            var notifications = new
+            {
+                DrugRequests,
+                PharmaciesRequests
+            };
 
             return Ok(notifications);
         }
