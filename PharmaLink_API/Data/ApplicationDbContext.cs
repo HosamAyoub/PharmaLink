@@ -145,6 +145,8 @@ namespace PharmaLink_API.Data
 
             // *********Seed tables********* //
 
+            ////1. Drugs
+            //SeedDrugs(modelBuilder);
 
             // 2. Roles
             SeedRoles(modelBuilder);
@@ -462,6 +464,81 @@ namespace PharmaLink_API.Data
                     UserId = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
                     RoleId = "2"
                 }
+            );
+        }
+        private void SeedDrugs(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Drug>().HasData(
+            new Drug
+            {
+                DrugID = 1,
+                CommonName = "Paracetamol",
+                Category = "Painkiller",
+                ActiveIngredient = "Acetaminophen",
+                Alternatives_names = "Panadol, Tylenol",
+                AlternativesGpID = 1,
+                Indications_and_usage = "Fever, headache, pain",
+                Dosage_and_administration = "500mg every 6h",
+                Dosage_forms_and_strengths = "Tablet, 500mg",
+                Contraindications = "Liver disease",
+                Warnings_and_cautions = "Do not exceed 4g/day",
+                Drug_interactions = "Alcohol, Warfarin",
+                Description = "Common OTC analgesic",
+                Storage_and_handling = "Store below 25°C",
+                Adverse_reactions = "Nausea, rash",
+                Drug_UrlImg = "https://www.bloompharmacy.com/cdn/shop/products/paracetamol-500-mg-20-tablets-606862.jpg?v=1707749818",
+                DrugStatus = Status.Approved,
+                CreatedByPharmacy = 0,
+                IsRead = false,
+                CreatedAt = new DateTime(2025, 8, 16, 4, 17, 23, 329, DateTimeKind.Local).AddTicks(1600)
+
+            },
+            new Drug
+            {
+                DrugID = 2,
+                CommonName = "Ibuprofen",
+                Category = "Painkiller",
+                ActiveIngredient = "Ibuprofen",
+                Alternatives_names = "Advil, Motrin",
+                AlternativesGpID = 2,
+                Indications_and_usage = "Pain, inflammation, fever",
+                Dosage_and_administration = "200mg every 6–8h",
+                Dosage_forms_and_strengths = "Tablet, 200mg",
+                Contraindications = "Ulcers, kidney disease",
+                Warnings_and_cautions = "Avoid long-term use",
+                Drug_interactions = "Aspirin, Warfarin",
+                Description = "NSAID used for pain and inflammation",
+                Storage_and_handling = "Store below 25°C",
+                Adverse_reactions = "GI bleeding, headache",
+                Drug_UrlImg = "https://lh6.googleusercontent.com/proxy/uQRcEtpKh0CN_X9m4XoC-XIsU50ITQYNcXEn6YiF4wxFvvctThypADpbL0xskSrs1hM3d6mJlUmnIJ010DF1YihIVBXZ0lnDUq1jWrS_v0wQ5IZDfOQLkQ7ZrzJaTC0KwA",
+                DrugStatus = Status.Approved,
+                CreatedByPharmacy = 0,
+                IsRead = false,
+                CreatedAt = new DateTime(2025, 8, 16, 4, 17, 23, 332, DateTimeKind.Local).AddTicks(1030)
+            },
+            new Drug
+            {
+                DrugID = 3,
+                CommonName = "Amoxicillin",
+                Category = "Antibiotic",
+                ActiveIngredient = "Amoxicillin",
+                Alternatives_names = "Moxatag, Trimox",
+                AlternativesGpID = 3,
+                Indications_and_usage = "Bacterial infections",
+                Dosage_and_administration = "500mg every 8h",
+                Dosage_forms_and_strengths = "Capsule, 500mg",
+                Contraindications = "Penicillin allergy",
+                Warnings_and_cautions = "Complete full course",
+                Drug_interactions = "Methotrexate, Warfarin",
+                Description = "Broad-spectrum antibiotic",
+                Storage_and_handling = "Store in a cool, dry place",
+                Adverse_reactions = "Diarrhea, rash",
+                Drug_UrlImg = "https://www.canonbury.com/media/catalog/product/cache/ac001188e3511e11921f4c9c9c586cfc/a/m/amoxicillin_capsules_500mg_15_pl_la_.png",
+                DrugStatus = Status.Approved,
+                CreatedByPharmacy = 0,
+                IsRead = false,
+                CreatedAt = new DateTime(2025, 8, 16, 4, 17, 23, 332, DateTimeKind.Local).AddTicks(1058)
+            }
             );
         }
        

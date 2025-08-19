@@ -257,6 +257,7 @@ namespace PharmaLink_API
             app.UseAuthorization();
             app.MapControllers();
             app.MapHub<OrderHub>("/orderHub");
+            app.MapHub<AdminHub>("/hubs/adminHub");
             app.MapHub<StatusChangeHub>("/hubs/statusChangeHub");
             app.Run();
         }

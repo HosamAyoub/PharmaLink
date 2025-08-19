@@ -77,7 +77,7 @@ namespace PharmaLink_API.Controllers
                 return NotFound(new { message = $"Pharmacy not found." });
             }
             drugRequest.CreatedByPharmacy = existingPharmacy.PharmacyID;
-            drugRequest.DrugStatus = Status.Requested;
+            drugRequest.DrugStatus = Status.Pending;
             await _DrugRepo.CreateAndSaveAsync(_Mapper.Map<Drug>(drugRequest));
             return Ok(new { message=$"Request to add drug sent successfully for pharmacy {existingPharmacy.Name}."});
         }

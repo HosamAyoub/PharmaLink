@@ -49,6 +49,65 @@ namespace PharmaLink_API.Services
             return _mapper.Map<IEnumerable<PharmacyDisplayDTO>>(pharmacies);
         }
 
+        /// <summary>
+        /// Converts a pharmacy database ID to its corresponding Account ID (GUID).
+        /// </summary>
+        /// <param name="pharmacyId">The pharmacy's database ID</param>
+        /// <returns>The Account ID (GUID) if found, null otherwise</returns>
+        public async Task<string?> GetAccountIdByPharmacyIdAsync(string pharmaId)
+        {
+            try
+            {
+                int pharmacyId = int.TryParse(pharmaId, out var id) ? id : -1;
+
+                if (pharmacyId <= 0)
+                {
+                    return null;
+                }
+
+                var pharmacy = await _pharmacyRepo.GetAsync(
+                    filter: p => p.PharmacyID == pharmacyId,
+                    tracking: false,
+                    includeProperties: p => p.Account
+                );
+
+                return pharmacy?.AccountId;
+            }
+            catch (Exception)
+            {
+                // Log error if needed
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Converts an Account ID (GUID) to its corresponding pharmacy database ID.
+        /// </summary>
+        /// <param name="accountId">The Account ID (GUID)</param>
+        /// <returns>The pharmacy database ID if found, null otherwise</returns>
+        public async Task<string?> GetPharmacyIdByAccountIdAsync(string accountId)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(accountId))
+                {
+                    return null;
+                }
+
+                var pharmacy = await _pharmacyRepo.GetAsync(
+                    filter: p => p.AccountId == accountId,
+                    tracking: false
+                );
+
+                return pharmacy?.PharmacyID.ToString();
+            }
+            catch (Exception)
+            {
+                // Log error if needed
+                return null;
+            }
+        }
+
         // Updates an existing pharmacy's details.
         // Returns true if the update was successful, false if the pharmacy was not found.
         public async Task<bool> UpdatePharmacyAsync(int id, PharmacyDisplayDTO editedPharmacy)

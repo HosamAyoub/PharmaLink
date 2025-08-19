@@ -5,7 +5,7 @@
         public string CommonName { get; set; }
         public string ActiveIngredient { get; set; }
 
-        public Status DrugStatus { get; set; } = Status.Requested;
+        public Status DrugStatus { get; set; } = Status.Pending;
 
         public int CreatedByPharmacy { get; set; }
 
