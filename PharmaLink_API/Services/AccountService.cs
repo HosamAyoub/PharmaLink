@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using PharmaLink_API.Core.Constants;
@@ -11,10 +12,12 @@ using PharmaLink_API.Models.DTO.LoginAccoutDTO;
 using PharmaLink_API.Models.DTO.RegisterAccountDTO;
 using PharmaLink_API.Repository.Interfaces;
 using PharmaLink_API.Services.Interfaces;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Text;
+using System.Web;
 
 
 namespace PharmaLink_API.Services
@@ -31,9 +34,17 @@ namespace PharmaLink_API.Services
         private readonly IRoleService _roleService;
         private readonly IWebHostEnvironment _WebHostEnvironment;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly Interfaces.IEmailSender emailSender;
 
         // Inject dependencies for account, role, and mapping operations
-        public AccountService(UserManager<Account> userManager, IMapper mapper, IConfiguration configuration, IAccountRepository accountRepository, IPatientRepository patientRepository, IPharmacyRepository pharmacyRepository, IRoleService roleService, IWebHostEnvironment webHostEnvironment, IHttpContextAccessor httpContextAccessor)
+        public AccountService(UserManager<Account> userManager, IMapper mapper,
+            IConfiguration configuration, 
+            IAccountRepository accountRepository,
+            IPatientRepository patientRepository, 
+            IPharmacyRepository pharmacyRepository,
+            IRoleService roleService, IWebHostEnvironment webHostEnvironment,
+            IHttpContextAccessor httpContextAccessor,
+            Interfaces.IEmailSender emailSender)
         {
             _userManager = userManager;
             _mapper = mapper;
@@ -44,6 +55,7 @@ namespace PharmaLink_API.Services
             _roleService = roleService;
             _WebHostEnvironment = webHostEnvironment;
             _httpContextAccessor = httpContextAccessor;
+            this.emailSender = emailSender;
         }
 
         /// <summary>
@@ -94,6 +106,17 @@ namespace PharmaLink_API.Services
                     await transaction.RollbackAsync().ConfigureAwait(false);
                     return roleResult;
                 }
+                // Generate email confirmation token
+                var token = await _userManager.GenerateEmailConfirmationTokenAsync(newAccount);
+                var encodedToken = HttpUtility.UrlEncode(token);
+
+                // Create confirmation link
+                var confirmationLink = $"http://localhost:4200/confirm-email?userId={newAccount.Id}&token={encodedToken}";
+
+                // Send email
+                await emailSender.sendEmailAsync(accountDto.Email, "Confirm Your Email",
+                    $"Please confirm your email by clicking <a href='{confirmationLink}'>here</a>.");
+
 
                 // Save all changes and commit the transaction
                 await _accountRepository.SaveAsync().ConfigureAwait(false);
@@ -129,6 +152,9 @@ namespace PharmaLink_API.Services
                 {
                     return Results.Unauthorized();
                 }
+                if (!await _userManager.IsEmailConfirmedAsync(user))
+                    return Results.Unauthorized();
+
                 // Check the password
                 var authenticated = await _userManager.CheckPasswordAsync(user, loginInfo.Password).ConfigureAwait(false);
                 if (!authenticated)
@@ -355,6 +381,26 @@ namespace PharmaLink_API.Services
                 // Log the exception here (add logging service)
                 return Results.Problem("An error occurred while verifying the token.");
             }
+
         }
+
+        public async Task<bool?> EmailIsConfirmedAsync(string userId, string token)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+                return null;
+
+            try
+            {
+                var result = await _userManager.ConfirmEmailAsync(user, token);
+                return result.Succeeded;
+            }
+            catch (Exception)
+            {
+                // Better: log exception instead of rethrowing
+                return false;
+            }
+        }
+
     }
 }
