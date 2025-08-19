@@ -121,9 +121,9 @@ namespace PharmaLink_API.Data
 
             // Configure Pharmacy entity
 
-            modelBuilder.Entity<Pharmacy>()
-                .HasIndex(p => p.Name)
-                .IsUnique();
+            //modelBuilder.Entity<Pharmacy>()
+            //    .HasIndex(p => p.Name)
+            //    .IsUnique();
             // Rate validation (enforces [Range(0,5)] at database level)
             modelBuilder.Entity<Pharmacy>()
                 .Property(p => p.Rate)
