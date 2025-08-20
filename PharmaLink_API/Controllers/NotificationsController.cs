@@ -60,7 +60,7 @@ namespace PharmaLink_API.Controllers
         }
 
         [Authorize(Roles = "Patient")]
-        [HttpPost("markAllAsRead")]
+        [HttpPost("markAllAsReadForPatient")]
         public async Task<IActionResult> MarkAllAsRead()
         {
             var accountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
