@@ -50,6 +50,28 @@ namespace PharmaLink_API.Controllers
             return BadRequest(result.Errors.ToArray());
         }
 
+        [HttpPost("RegisterPharmacy")]
+        public async Task<IActionResult> RegisterPharmacy([FromForm] RegisterAccountDTO userRegisterInfo)
+        {
+            IdentityResult result = IdentityResult.Success;
+            // Validate the incoming model
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            // Call the service to register the user
+            result = await _accountService.RegisterAsync(userRegisterInfo);
+
+            // Check if registration succeeded
+            if (result.Succeeded)
+            {
+                return Ok(new { Message = $"User registered successfully\n{userRegisterInfo.UserName}\n{userRegisterInfo.Email}" });
+            }
+            // Return errors if registration failed
+            return BadRequest(result.Errors.ToArray());
+        }
+
         /// <summary>
         /// Authenticates a user and returns a JWT token if successful.
         /// </summary>
