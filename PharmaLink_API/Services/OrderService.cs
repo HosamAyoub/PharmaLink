@@ -98,7 +98,7 @@ namespace PharmaLink_API.Services
                     OrderId = order.OrderID,
                     PaymentMethod = dto.PaymentMethod,
                     TotalPrice = totalPrice,
-                    CreatedAt = DateTime.Now
+                    CreatedAt = order.OrderDate
                 });
 
             return ServiceResult<OrderResponseDTO>.SuccessResult(new OrderResponseDTO
@@ -153,10 +153,20 @@ namespace PharmaLink_API.Services
 
             order.Status = SD.StatusCancelled;
             order.StatusLastUpdated = DateTime.Now;
+            order.Message = $"Order From {patient.Name} has been cancelled.";
 
             await RestockDrugsAsync(order);
             await _orderHeaderRepository.SaveAsync();
             await _pharmacyStockRepository.SaveAsync();
+
+            var pharmacyId = order.PharmacyId;
+
+            await _orderHubContext.Clients.Group(pharmacyId.ToString())
+               .SendAsync("CancelOrder", new
+               {
+                   OrderId = order.OrderID,
+                   CreatedAt = order.StatusLastUpdated
+               });
 
             return ServiceResult<string>.SuccessResult($"Order #{orderId} has been cancelled and refund issued if applicable.");
         }
@@ -765,7 +775,7 @@ namespace PharmaLink_API.Services
                 Country = user.Country,
                 Address = user.Address,
                 TotalPrice = totalPrice,
-                OrderDate = DateTime.UtcNow,
+                OrderDate = DateTime.Now,
                 PharmacyId = pharmacyId,
                 PaymentStatus = SD.PaymentStatusPending,
                 Status = SD.StatusUnderReview,
