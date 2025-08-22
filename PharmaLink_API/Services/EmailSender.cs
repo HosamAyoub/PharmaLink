@@ -1,5 +1,4 @@
-﻿
-using PharmaLink_API.Services.Interfaces;
+﻿using PharmaLink_API.Services.Interfaces;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using System.Net.Mail;
@@ -16,7 +15,13 @@ namespace PharmaLink_API.Services
         }
         public async Task sendEmailAsync(string email, string subject, string message)
         {
-            var apiKey = configuration["EmailSettings:key"];
+            // Get the API key from environment variable
+            var apiKey = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
+
+            if (string.IsNullOrEmpty(apiKey))
+            {
+                throw new InvalidOperationException("SendGrid API key not found in environment variables");
+            }
             var client = new SendGridClient(apiKey);
             var from = new EmailAddress(configuration["EmailSettings:fromEmail"], configuration["EmailSettings:fromName"]);
             var to = new EmailAddress(email);
