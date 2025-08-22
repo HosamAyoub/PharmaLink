@@ -59,7 +59,7 @@ namespace PharmaLink_API
                 });
             });
 
-            //AutoMapper Configuration
+            //AutoMapper Configurations
             builder.Services.AddAutoMapper(typeof(Program));
             builder.Services.AddAutoMapper(typeof(PharmacyProfile));
             builder.Services.AddValidatorsFromAssemblyContaining<Program>();
