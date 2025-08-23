@@ -152,7 +152,7 @@ namespace PharmaLink_API.Services
             }
 
             order.Status = SD.StatusCancelled;
-            order.StatusLastUpdated = DateTime.Now;
+            order.StatusLastUpdated = DateTime.UtcNow.AddHours(3);
             order.Message = $"Order From {patient.Name} has been cancelled.";
 
             await RestockDrugsAsync(order);
@@ -192,7 +192,7 @@ namespace PharmaLink_API.Services
                 return ServiceResult.ErrorResult("Only pending orders can be out for delivery.", ErrorType.Validation);
 
             order.Status = SD.StatusOutForDelivery;
-            order.StatusLastUpdated = DateTime.Now;
+            order.StatusLastUpdated = DateTime.UtcNow.AddHours(3);
             order.Message = $"Ordre #{order.OrderID} is out for delivery.";
             order.IsRead = false;
             await _orderHeaderRepository.SaveAsync();
@@ -255,7 +255,7 @@ namespace PharmaLink_API.Services
             }
 
             order.Status = SD.StatusReviewing;
-            order.StatusLastUpdated = DateTime.Now;
+            order.StatusLastUpdated = DateTime.UtcNow.AddHours(3);
 
             await _orderHeaderRepository.SaveAsync();
 
@@ -283,7 +283,7 @@ namespace PharmaLink_API.Services
                 return ServiceResult.ErrorResult("Only orders reviewed can be updated.", ErrorType.Validation);
 
             order.Status = SD.StatusPending;
-            order.StatusLastUpdated = DateTime.Now;
+            order.StatusLastUpdated = DateTime.UtcNow.AddHours(3);
             await _orderHeaderRepository.SaveAsync();
             return ServiceResult.SuccessResult();
         }
@@ -308,7 +308,7 @@ namespace PharmaLink_API.Services
                 return ServiceResult.ErrorResult("Only orders out for delivery can be updated.", ErrorType.Validation);
 
             order.Status = SD.StatusDelivered;
-            order.StatusLastUpdated = DateTime.Now;
+            order.StatusLastUpdated = DateTime.UtcNow.AddHours(3);
             await _orderHeaderRepository.SaveAsync();
             return ServiceResult.SuccessResult();
         }
@@ -334,7 +334,7 @@ namespace PharmaLink_API.Services
                 return ServiceResult.ErrorResult("Delivred, out for delivery, rejected or canceled orders cannot be rejected.", ErrorType.Validation);
 
             order.Status = SD.StatusRejected;
-            order.StatusLastUpdated = DateTime.Now;
+            order.StatusLastUpdated = DateTime.UtcNow.AddHours(3);
             order.Message = $"Ordre #{order.OrderID} is Rejected.";
             order.IsRead = false;
 
@@ -775,11 +775,11 @@ namespace PharmaLink_API.Services
                 Country = user.Country,
                 Address = user.Address,
                 TotalPrice = totalPrice,
-                OrderDate = DateTime.Now,
+                OrderDate = DateTime.UtcNow.AddHours(3),
                 PharmacyId = pharmacyId,
                 PaymentStatus = SD.PaymentStatusPending,
                 Status = SD.StatusUnderReview,
-                StatusLastUpdated = DateTime.Now,
+                StatusLastUpdated = DateTime.UtcNow.AddHours(3),
                 PaymentMethod = paymentMethod
             };
 

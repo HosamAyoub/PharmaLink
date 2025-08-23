@@ -41,7 +41,7 @@ namespace PharmaLink_API
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy",
-                    builder => builder.WithOrigins("http://localhost:4200")
+                    builder => builder.WithOrigins("http://localhost:4200", "https://pharma-link.runasp.net", "https://pharma-link-apis.runasp.net")
                                       .AllowAnyMethod()
                                       .AllowAnyHeader()
                     //builder =>builder.AllowAnyOrigin()

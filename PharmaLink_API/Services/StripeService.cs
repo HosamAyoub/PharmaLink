@@ -141,11 +141,11 @@ namespace PharmaLink_API.Services
                         Country = patient.Country,
                         Address = patient.Address,
                         TotalPrice = total,
-                        OrderDate = DateTime.UtcNow,
+                        OrderDate = DateTime.UtcNow.AddHours(3),
                         PharmacyId = pharmacyId,
                         PaymentStatus = SD.PaymentStatusApproved,
                         Status = SD.StatusUnderReview,
-                        StatusLastUpdated = DateTime.Now,
+                        StatusLastUpdated = DateTime.UtcNow.AddHours(3),
                         PaymentMethod = "Stripe",
                         SessionId = session.Id,
                         PaymentIntentId = session.PaymentIntentId,
@@ -180,7 +180,7 @@ namespace PharmaLink_API.Services
                             OrderId = order.OrderID,
                             PaymentMethod = order.PaymentMethod,
                             TotalPrice = total,
-                            CreatedAt = DateTime.Now
+                            CreatedAt = DateTime.UtcNow.AddHours(3)
                         });
 
                     return ServiceResult.SuccessResult();

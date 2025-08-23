@@ -210,7 +210,7 @@ namespace PharmaLink_API.Controllers
                 return NotFound($"Pharmacy with ID {id} not found.");
             }
             pharmacy.Status = Pharmacy_Status.Active;
-            pharmacy.JoinedDate = DateTime.Now;
+            pharmacy.JoinedDate = DateTime.UtcNow.AddHours(3);
             await _PharmacyRepo.UpdateAsync(pharmacy);
             return Ok($"Pharmacy with ID {id} status updated to Active.");
         }

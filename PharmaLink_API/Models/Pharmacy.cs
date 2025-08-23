@@ -33,7 +33,7 @@ namespace PharmaLink_API.Models
         public string? DocURL { get; set; }
 
         public Pharmacy_Status Status { get; set; } = Pharmacy_Status.Pending;
-        public DateTime JoinedDate { get; set; } = DateTime.Now;
+        public DateTime JoinedDate { get; set; } = DateTime.UtcNow.AddHours(3);
 
         //Pharmacy-Account relationship (one to one)
         public string? AccountId { get; set; }
