@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.Identity.Client;
@@ -27,6 +28,8 @@ namespace PharmaLink_API.Services
         private readonly IPatientRepository _patientRepository;
         private readonly ApplicationDbContext _context;
         private readonly IHubContext<OrderHub> _orderHubContext;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
 
 
         /// <summary>
@@ -35,7 +38,7 @@ namespace PharmaLink_API.Services
         /// <param name="stripeOptions">Stripe configuration options.</param>
         /// <param name="orderHeaderRepository">Order header repository.</param>
         /// <param name="orderDetailRepository">Order detail repository.</param>
-        public StripeService(IOptions<StripeModel> stripeOptions, IOrderHeaderRepository orderHeaderRepository, IOrderDetailRepository orderDetailRepository, IPatientRepository patientRepository, ApplicationDbContext context, IHubContext<OrderHub> orderHubContext)
+        public StripeService(IOptions<StripeModel> stripeOptions, IOrderHeaderRepository orderHeaderRepository, IOrderDetailRepository orderDetailRepository, IPatientRepository patientRepository, ApplicationDbContext context, IHubContext<OrderHub> orderHubContext, IWebHostEnvironment webHostEnvironment)
         {
             _orderHeaderRepository = orderHeaderRepository;
             _stripeModel = stripeOptions.Value;
@@ -44,6 +47,7 @@ namespace PharmaLink_API.Services
             _patientRepository = patientRepository;
             _context = context;
             _orderHubContext = orderHubContext;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         /// <summary>
@@ -239,19 +243,44 @@ namespace PharmaLink_API.Services
         /// <returns>A ServiceResult containing the Stripe session creation options.</returns>
         private async Task<ServiceResult<SessionCreateOptions>> BuildSessionOptionsAsync(ICollection<CartItem> cartItems, decimal deliveryFee, string accountId)
         {
-            var options = new SessionCreateOptions
+            SessionCreateOptions options = null;
+            if (_webHostEnvironment.IsDevelopment())
             {
-                PaymentMethodTypes = new List<string> { "card" },
-                LineItems = new List<SessionLineItemOptions>(),
-                Mode = "payment",
-                SuccessUrl = "http://localhost:4200/client/success?session_id={CHECKOUT_SESSION_ID}",
-                CancelUrl = "http://localhost:4200/client/cancel",
-                Metadata = new Dictionary<string, string>
+                options = new SessionCreateOptions
+                {
+                    PaymentMethodTypes = new List<string> { "card" },
+                    LineItems = new List<SessionLineItemOptions>(),
+                    Mode = "payment",
+                    SuccessUrl = "http://localhost:4200/client/success?session_id={CHECKOUT_SESSION_ID}",
+                    CancelUrl = "http://localhost:4200/client/cancel",
+                    Metadata = new Dictionary<string, string>
                 {
                     { "accountId", accountId },
                     { "deliveryFee", deliveryFee.ToString() }
                 }
-            };
+                };
+            }
+            else if (_webHostEnvironment.IsProduction())
+            {
+                options = new SessionCreateOptions
+                {
+                    PaymentMethodTypes = new List<string> { "card" },
+                    LineItems = new List<SessionLineItemOptions>(),
+                    Mode = "payment",
+                    SuccessUrl = "https://pharma-link.runasp.net/client/success?session_id={CHECKOUT_SESSION_ID}",
+                    CancelUrl = "https://pharma-link.runasp.net/client/cancel",
+                    Metadata = new Dictionary<string, string>
+                    {
+                        { "accountId", accountId },
+                        { "deliveryFee", deliveryFee.ToString() }
+                    }
+                };
+            }
+
+            if (options == null)
+            {
+                return ServiceResult<SessionCreateOptions>.ErrorResult("Unknown environment.", ErrorType.Internal);
+            }
 
             foreach (var item in cartItems)
             {

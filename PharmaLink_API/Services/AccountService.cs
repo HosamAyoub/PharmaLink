@@ -111,7 +111,15 @@ namespace PharmaLink_API.Services
                 var encodedToken = HttpUtility.UrlEncode(token);
 
                 // Create confirmation link
-                var confirmationLink = $"http://localhost:4200/confirm-email?userId={newAccount.Id}&token={encodedToken}";
+                string confirmationLink = string.Empty;
+                if (_WebHostEnvironment.IsProduction())
+                {
+                    confirmationLink = $"https://pharma-link.runasp.net/confirm-email?userId={newAccount.Id}&token={encodedToken}";
+                }
+                else if (_WebHostEnvironment.IsDevelopment())
+                { 
+                    confirmationLink = $"http://localhost:4200/confirm-email?userId={newAccount.Id}&token={encodedToken}";
+                }
 
                 // Send email
                 await emailSender.sendEmailAsync(accountDto.Email, "Confirm Your Email",

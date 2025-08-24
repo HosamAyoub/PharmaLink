@@ -163,6 +163,8 @@ namespace PharmaLink_API.Data
             SeedOrderDetails(modelBuilder);
             // 7. Orders
             SeedOrders(modelBuilder);
+            //8. Admin
+            SeedAdmin(modelBuilder);
         }
 
 
@@ -837,6 +839,113 @@ namespace PharmaLink_API.Data
                     Price = 11.25m // Matches MediCare's Paracetamol price
                 }
             );
+
+        }
+
+        //8. Admin
+        private void SeedAdmin(ModelBuilder modelBuilder)
+        {
+            // Patient Accounts
+            modelBuilder.Entity<Account>().HasData(
+                new Account
+                {
+                    Id = "00000000-0000-0000-0000-000000000000",
+                    UserName = "hosam",
+                    NormalizedUserName = "HOSAM",
+                    Email = "hosam@admin.com",
+                    NormalizedEmail = "HOSAM@ADMIN.COM",
+                    EmailConfirmed = true,
+                    PasswordHash = "AQAAAAIAAYagAAAAEFTj4mquLwOc1c1NB1+xuRpdZLOn3yWriL5bvub4bhK+BU1+xQbPOTHbYNoyg/OL9A==", // Hash for "Ads6*6"
+                    PhoneNumber = "01045678910",
+                    PhoneNumberConfirmed = true,
+                    SecurityStamp = "A1B2C3D4E5F6G7H8I9J0K1L2M3N4O5P6", // Static value
+                    ConcurrencyStamp = "4D5E6F7G8H9I0J1K2L3M4N5O6P7Q8R9S" // Static value
+                },
+                new Account
+                {
+                    Id = "99999999-9999-9999-9999-999999999998",
+                    UserName = "abdo",
+                    NormalizedUserName = "ABDO",
+                    Email = "abdo@admin.com",
+                    NormalizedEmail = "ABDO@ADMIN.COM",
+                    EmailConfirmed = true,
+                    PasswordHash = "AQAAAAIAAYagAAAAEFTj4mquLwOc1c1NB1+xuRpdZLOn3yWriL5bvub4bhK+BU1+xQbPOTHbYNoyg/OL9A==", // Hash for "Ads6*6"
+                    PhoneNumber = "01045678911",
+                    PhoneNumberConfirmed = true,
+                    SecurityStamp = "A1B2C3D4E5F6G7H8I9J0K1L2M3N4O5P6", // Static value
+                    ConcurrencyStamp = "4D5E6F7G8H9I0J1K2L3M4N5O6P7Q8R9S" // Static value
+                },
+                new Account
+                {
+                    Id = "99999999-9999-9999-9999-999999999997",
+                    UserName = "Zakaria",
+                    NormalizedUserName = "ZAKARIA",
+                    Email = "zakaria@admin.com",
+                    NormalizedEmail = "ZAKARIA@ADMIN.COM",
+                    EmailConfirmed = true,
+                    PasswordHash = "AQAAAAIAAYagAAAAEFTj4mquLwOc1c1NB1+xuRpdZLOn3yWriL5bvub4bhK+BU1+xQbPOTHbYNoyg/OL9A==", // Hash for "Ads6*6"
+                    PhoneNumber = "01045678912",
+                    PhoneNumberConfirmed = true,
+                    SecurityStamp = "A1B2C3D4E5F6G7H8I9J0K1L2M3N4O5P6", // Static value
+                    ConcurrencyStamp = "4D5E6F7G8H9I0J1K2L3M4N5O6P7Q8R9S" // Static value
+                },
+                new Account
+                {
+                    Id = "99999999-9999-9999-9999-999999999996",
+                    UserName = "Mariem",
+                    NormalizedUserName = "MARIEM",
+                    Email = "mariem@admin.com",
+                    NormalizedEmail = "MARIEM@ADMIN.COM",
+                    EmailConfirmed = true,
+                    PasswordHash = "AQAAAAIAAYagAAAAEFTj4mquLwOc1c1NB1+xuRpdZLOn3yWriL5bvub4bhK+BU1+xQbPOTHbYNoyg/OL9A==", // Hash for "Ads6*6"
+                    PhoneNumber = "01045678913",
+                    PhoneNumberConfirmed = true,
+                    SecurityStamp = "A1B2C3D4E5F6G7H8I9J0K1L2M3N4O5P6", // Static value
+                    ConcurrencyStamp = "4D5E6F7G8H9I0J1K2L3M4N5O6P7Q8R9S" // Static value
+                },
+                new Account
+                {
+                    Id = "99999999-9999-9999-9999-999999999995",
+                    UserName = "Ayman",
+                    NormalizedUserName = "ayman",
+                    Email = "ayman@admin.com",
+                    NormalizedEmail = "AYMAN@ADMIN.COM",
+                    EmailConfirmed = true,
+                    PasswordHash = "AQAAAAIAAYagAAAAEFTj4mquLwOc1c1NB1+xuRpdZLOn3yWriL5bvub4bhK+BU1+xQbPOTHbYNoyg/OL9A==", // Hash for "Ads6*6"
+                    PhoneNumber = "01045678914",
+                    PhoneNumberConfirmed = true,
+                    SecurityStamp = "A1B2C3D4E5F6G7H8I9J0K1L2M3N4O5P6", // Static value
+                    ConcurrencyStamp = "4D5E6F7G8H9I0J1K2L3M4N5O6P7Q8R9S" // Static value
+                }
+            );
+
+            modelBuilder.Entity<IdentityUserRole<string>>().HasData(
+                new IdentityUserRole<string>
+                {
+                    UserId = "99999999-9999-9999-9999-999999999995",
+                    RoleId = "1"
+                },
+                new IdentityUserRole<string>
+                {
+                    UserId = "99999999-9999-9999-9999-999999999996",
+                    RoleId = "1"
+                },
+                new IdentityUserRole<string>
+                {
+                    UserId = "99999999-9999-9999-9999-999999999997",
+                    RoleId = "1"
+                },
+                new IdentityUserRole<string>
+                {
+                    UserId = "99999999-9999-9999-9999-999999999998",
+                    RoleId = "1"
+                },
+                new IdentityUserRole<string>
+                {
+                    UserId = "00000000-0000-0000-0000-000000000000",
+                    RoleId = "1"
+                }
+                );
         }
 
 
