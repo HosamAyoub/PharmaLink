@@ -320,6 +320,7 @@ namespace PharmaLink_API.Data
                 {
                     PharmacyID = 1,
                     Name = "صيدلية كيور - Cure pharmacy",
+                    OwnerName = "Dr. Ahmed El-Sayed",
                     Country = "Egypt",
                     Address = "بعد متجر رنين، بعد فيلا المحافظ، طريق، منشأة عبد الله، محافظة الفيوم",
                     PhoneNumber = "01096906912", // Matches account phone
@@ -336,6 +337,7 @@ namespace PharmaLink_API.Data
                 {
                     PharmacyID = 2,
                     Name = "صيدلية الدكتوره رشا",
+                    OwnerName = "Dr. Fatma Nour",
                     Country = "Egypt",
                     Address = "أمام فيلا المحافظ بجوار محطة البنزين، أحمد شوقي، أول الفيوم، محافظة الفيوم ",
                     PhoneNumber = "0842112689", // Matches account phone
@@ -352,6 +354,7 @@ namespace PharmaLink_API.Data
                 {
                     PharmacyID = 3,
                     Name = "صيدليات عناية",
+                    OwnerName = "Dr. Mohamed Ali",
                     Country = "Egypt",
                     Address = "أمام فيلا المحافظ بجوار مطعم كوك دور، أحمد شوقي، قسم الفيوم، أول الفيوم، محافظة الفيوم ",
                     PhoneNumber = "01200169999", // Matches account phone
@@ -369,6 +372,7 @@ namespace PharmaLink_API.Data
                     PharmacyID = 4,
                     Name = "صيدليه الجبيلي",
                     Country = "Egypt",
+                    OwnerName = "Dr. ahmed Ali",
                     Address = "منشاة عبد الله، قبل معهد الصفوه الازهري، أول الفيوم، محافظة الفيوم",
                     PhoneNumber = "01068309213", // Matches account phone
                     Rate = 4.7,
@@ -385,6 +389,7 @@ namespace PharmaLink_API.Data
                     PharmacyID = 5,
                     Name = "صيدلية الجبيلى فرع التعاونيات",
                     Country = "Egypt",
+                    OwnerName = "Dr. Mohamed medhat",
                     Address = "امام سكن الطالبات، مساكن التعاونيات، قسم الفيوم، أول الفيوم، محافظة الفيوم ",
                     PhoneNumber = "0846343938", // Matches account phone
                     Rate = 4.7,
@@ -400,6 +405,7 @@ namespace PharmaLink_API.Data
                 {
                     PharmacyID = 6,
                     Name = "صيدلية الجهاد",
+                    OwnerName = "Dr. Mohamed wali",
                     Country = "Egypt",
                     Address = "مركز, الجامعة، قسم الفيوم، أول الفيوم، محافظة الفيوم  ",
                     PhoneNumber = "01064206162", // Matches account phone
@@ -417,6 +423,7 @@ namespace PharmaLink_API.Data
                     PharmacyID = 7,
                     Name = "صيدليات سامح عطا ...sameh Atta Pharmacy",
                     Country = "Egypt",
+                    OwnerName = "Dr. Sameh Atta",
                     Address = "Sameh Atta Pharmacy، alsayfiat aljadidat in front of Al-Shorouk Private School، محافظة الفيوم",
                     PhoneNumber = "0842030536", // Matches account phone
                     Rate = 4.7,

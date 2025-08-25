@@ -44,14 +44,14 @@ namespace PharmaLink_API.Controllers
             // Check if registration succeeded
             if (result.Succeeded)
             {
-                return Ok(new { Message = "Registration successful. Please check your email to confirm." });
+                return Ok(new { Message = $"User registered successfully\n{userRegisterInfo.UserName}\n{userRegisterInfo.Email}" });
             }
             // Return errors if registration failed
             return BadRequest(result.Errors.ToArray());
         }
 
-        [HttpPost("RegisterPharmacy")]
-        public async Task<IActionResult> RegisterPharmacy([FromForm] RegisterAccountDTO userRegisterInfo)
+        [HttpPost("Register")]
+        public async Task<IActionResult> Register(RegisterAccountDTO userRegisterInfo)
         {
             IdentityResult result = IdentityResult.Success;
             // Validate the incoming model
