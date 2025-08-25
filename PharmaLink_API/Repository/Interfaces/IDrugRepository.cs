@@ -6,5 +6,6 @@ namespace PharmaLink_API.Repository.Interfaces
     {
         public Task EditDrug( Drug drug);
         public Task<List<Drug>> GetBatchDrugs(int pageNumber);
+        public List<Drug> GetDrugsByFilter(string filter, int size);
     }
 }

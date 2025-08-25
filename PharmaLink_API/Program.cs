@@ -19,6 +19,7 @@ using PharmaLink_API.Services.Interfaces;
 using Serilog;
 using Serilog.Sinks.MSSqlServer;
 using System.Text;
+using DotNetEnv; 
 
 namespace PharmaLink_API
 {
@@ -26,6 +27,9 @@ namespace PharmaLink_API
     {
         public static void Main(string[] args)
         {
+            // Load environment variables from .env file
+            Env.Load();
+
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
@@ -37,7 +41,7 @@ namespace PharmaLink_API
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy",
-                    builder => builder.WithOrigins("http://localhost:4200")
+                    builder => builder.WithOrigins("http://localhost:4200", "https://pharma-link.runasp.net", "https://pharma-link-apis.runasp.net")
                                       .AllowAnyMethod()
                                       .AllowAnyHeader()
                     //builder =>builder.AllowAnyOrigin()
@@ -55,7 +59,7 @@ namespace PharmaLink_API
                 });
             });
 
-            //AutoMapper Configuration
+            //AutoMapper Configurations
             builder.Services.AddAutoMapper(typeof(Program));
             builder.Services.AddAutoMapper(typeof(PharmacyProfile));
             builder.Services.AddValidatorsFromAssemblyContaining<Program>();
@@ -66,6 +70,7 @@ namespace PharmaLink_API
             {
                 options.User.RequireUniqueEmail = true;
                 options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+"; // Allowed characters for usernames
+                options.SignIn.RequireConfirmedEmail = true;
             })
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -161,6 +166,9 @@ namespace PharmaLink_API
             builder.Services.AddScoped<IStripeService, StripeService>();
             builder.Services.AddScoped<IAccountService, AccountService>();
             builder.Services.AddScoped<IRoleService, RoleService>();
+            builder.Services.AddScoped<IPharmacyService, PharmacyService>();
+            builder.Services.AddScoped<ISharedService, SharedService>();
+            builder.Services.AddScoped<IEmailSender, EmailSender>();
 
 
 
@@ -253,6 +261,7 @@ namespace PharmaLink_API
             app.UseAuthorization();
             app.MapControllers();
             app.MapHub<OrderHub>("/orderHub");
+            app.MapHub<AdminHub>("/hubs/adminHub");
             app.MapHub<StatusChangeHub>("/hubs/statusChangeHub");
             app.Run();
         }
