@@ -8,16 +8,16 @@ namespace PharmaLink_API.Models
     {
         [Key]
         public int PharmacyID { get; set; }
-        [Unique]
+        //[Unique]
         public string Name { get; set; }
         public string? OwnerName { get; set; }
         public string Country { get; set; }
         [MaxLength(150, ErrorMessage = "Address cannot exceed 150 characters.")]
         public string Address { get; set; }
-        //public string Longitude { get; set; }
-        //public string Latitude { get; set; }
+        public double? Longitude { get; set; }
+        public double? Latitude { get; set; }
         [DataType(DataType.PhoneNumber)]
-        [EgyptianPhoneNumber(AcceptLandlines = true)]
+        //[EgyptianPhoneNumber(AcceptLandlines = true)]
         public string? PhoneNumber { get; set; }
         [Range(0,5, ErrorMessage = "Rate must be between 0 and 5.")]
         public double? Rate { get; set; }
@@ -37,7 +37,7 @@ namespace PharmaLink_API.Models
 
         //Pharmacy-Account relationship (one to one)
         public string AccountId { get; set; }
-        public Account Account { get; set; } 
+        public Account Account { get; set; }
 
         //Pharmacy-Drug relationship (many to many)
         public ICollection<PharmacyProduct>? PharmacyStock { get; set; }

@@ -38,7 +38,7 @@ namespace PharmaLink_API.Services
         {
             var patient = await _patientRepository.GetAsync(p => p.AccountId == accountId);
             if (patient == null)
-                throw new Exception("Patient not found.");
+                return null;
             // Here you can return or process the medical information as needed
             var patientMedicalInfoDTO = _mapper.Map<PatientMedicalInfoDTO>(patient);
             return patientMedicalInfoDTO;

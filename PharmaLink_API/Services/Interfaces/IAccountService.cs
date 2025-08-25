@@ -29,5 +29,7 @@ namespace PharmaLink_API.Services.Interfaces
         //Task<IResult> DeleteAccountAsync(string email);
         //Task<IResult> GetAccountDetailsAsync(string email);
         //Task<IResult> GetAllAccountsAsync();
+
+        Task<bool?> EmailIsConfirmedAsync(string userId, string token);
     }
 }
