@@ -73,23 +73,23 @@ namespace PharmaLink_API.Controllers
         }
         [HttpPut("changeRole")]
         //[Authorize(Roles = "Admin")]
-        public async Task<IActionResult> ChangeRole(string userId, string newRoleName)
+        public async Task<IActionResult> ChangeRole([FromBody] AssignRoleRequest request)
         {
-            if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(newRoleName))
+            if (string.IsNullOrWhiteSpace(request.UserId) || string.IsNullOrWhiteSpace(request.RoleName))
             {
                 return BadRequest(new { Errors = "User ID and Role Name cannot be null or empty." });
             }
-            var user = await _roleService.GetUserByIdAsync(userId);
+            var user = await _roleService.GetUserByIdAsync(request.UserId);
             if (user == null)
             {
-                return NotFound(new { Error = $"User with ID '{userId}' not found." });
+                return NotFound(new { Error = $"User with ID '{request.UserId}' not found." });
             }
-            IdentityResult result = await _roleService.ChangeUserRoleAsync(user, newRoleName);
+            IdentityResult result = await _roleService.ChangeUserRoleAsync(user, request.RoleName);
             if (!result.Succeeded)
             {
                 return BadRequest(result.Errors);
             }
-            return Ok(new { Message = $"User '{user.UserName}' role changed to '{newRoleName}' successfully." });
+            return Ok(new { Message = $"User '{user.UserName}' role changed to '{request.RoleName}' successfully." });
         }
 
         [HttpPut("changeRoleByPharmacy")]

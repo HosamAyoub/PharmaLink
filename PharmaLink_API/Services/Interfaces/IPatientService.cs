@@ -11,5 +11,6 @@ namespace PharmaLink_API.Services.Interfaces
         Task UpdatePatientAsync(PatientDTO patientDTO, string accountId);
         Task DeletePatientAsync(string accountId);
         Task<PatientMedicalInfoDTO> GetPatientMedicalInfoByIdAsync(string accountId);
+        Task<IEnumerable<PatientDisplayDTO>> GetAllPatients();
     }
 }
