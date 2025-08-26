@@ -14,8 +14,8 @@ namespace PharmaLink_API.Models
         public string Country { get; set; }
         [MaxLength(150, ErrorMessage = "Address cannot exceed 150 characters.")]
         public string Address { get; set; }
-        public double Longitude { get; set; }
-        public double Latitude { get; set; }
+        public double? Longitude { get; set; }
+        public double? Latitude { get; set; }
         [DataType(DataType.PhoneNumber)]
         //[EgyptianPhoneNumber(AcceptLandlines = true)]
         public string? PhoneNumber { get; set; }
@@ -33,11 +33,11 @@ namespace PharmaLink_API.Models
         public string? DocURL { get; set; }
 
         public Pharmacy_Status Status { get; set; } = Pharmacy_Status.Pending;
-        public DateTime JoinedDate { get; set; } = DateTime.UtcNow.AddHours(3);
+        public DateTime JoinedDate { get; set; } = DateTime.UtcNow;
 
         //Pharmacy-Account relationship (one to one)
-        public string? AccountId { get; set; }
-        public Account? Account { get; set; } 
+        public string AccountId { get; set; }
+        public Account Account { get; set; }
 
         //Pharmacy-Drug relationship (many to many)
         public ICollection<PharmacyProduct>? PharmacyStock { get; set; }

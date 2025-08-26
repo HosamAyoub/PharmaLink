@@ -1172,7 +1172,7 @@ namespace PharmaLink_API.Services
 
                 // Get pharmacies that have the specific drug
                 var pharmacies = _pharmacyStockRepository.getPharmaciesThatHaveDrug(drugID);
-                
+
                 if (pharmacies == null || !pharmacies.Any())
                 {
                     _logger.LogInformation("No pharmacies found with drug ID {DrugId}", drugID);
@@ -1180,18 +1180,20 @@ namespace PharmaLink_API.Services
                 }
 
                 var nearestPharmacies = pharmacies
-                    .Select(p => {
+                    .Where(p => p.Latitude.HasValue && p.Longitude.HasValue)
+                    .Select(p =>
+                    {
                         var pharmacyProduct = _pharmacyStockRepository.GetPharmacyProduct(p.PharmacyID, drugID);
                         return new PharmacyWithDistanceDTO()
                         {
                             pharma_Id = p.PharmacyID,
                             pharma_Address = p.Address,
-                            pharma_Latitude = p.Latitude,
-                            pharma_Longitude = p.Longitude,
+                            pharma_Latitude = p.Latitude.Value,
+                            pharma_Longitude = p.Longitude.Value,
                             pharma_Name = p.Name,
                             price = pharmacyProduct?.Price ?? 0m,
                             quantityAvailable = pharmacyProduct?.QuantityAvailable ?? 0,
-                            Distance = CalculateDistance(lat, lng, p.Latitude, p.Longitude)
+                            Distance = CalculateDistance(lat, lng, p.Latitude.Value, p.Longitude.Value)
                         };
                     })
                     .Where(p => p.Distance <= 10) // Filter pharmacies within 10 km
