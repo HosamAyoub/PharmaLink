@@ -1,6 +1,27 @@
 [
   {
     "ContainingType": "PharmaLink_API.Controllers.AccountController",
+    "Method": "ConfirmEmail",
+    "RelativePath": "api/Account/confirm-email",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "token",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.AccountController",
     "Method": "Login",
     "RelativePath": "api/Account/Login",
     "HttpMethod": "POST",
@@ -358,13 +379,7 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.DrugController",
@@ -608,8 +623,18 @@
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.NotificationsController",
-    "Method": "MarkAllAsRead",
-    "RelativePath": "api/Notifications/markAllAsRead",
+    "Method": "GetNotificationsForAdmin",
+    "RelativePath": "api/Notifications/AdminNotifications",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.NotificationsController",
+    "Method": "MarkAllPharmacyNotificationsAsRead",
+    "RelativePath": "api/Notifications/MarkAllAsRead",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -618,7 +643,17 @@
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.NotificationsController",
-    "Method": "GetNotifications",
+    "Method": "MarkAllAsRead",
+    "RelativePath": "api/Notifications/markAllAsReadForPatient",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.NotificationsController",
+    "Method": "GetNotificationsForPatient",
     "RelativePath": "api/Notifications/notifications",
     "HttpMethod": "GET",
     "IsController": true,
@@ -1593,6 +1628,47 @@
   },
   {
     "ContainingType": "PharmaLink_API.Controllers.PharmacyStockController",
+    "Method": "GetNearestPharmacies",
+    "RelativePath": "api/PharmacyStock/GetNearestPharmacies",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "lat",
+        "Type": "System.Double",
+        "IsRequired": false
+      },
+      {
+        "Name": "lng",
+        "Type": "System.Double",
+        "IsRequired": false
+      },
+      {
+        "Name": "drugId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "maxResults",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[PharmaLink_API.Models.DTO.PharmacyDTO.PharmacyDisplayDTO, PharmaLink_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.PharmacyStockController",
     "Method": "GetPharmacyInventoryStatus",
     "RelativePath": "api/PharmacyStock/InventoryStatusByID",
     "HttpMethod": "GET",
@@ -1722,6 +1798,37 @@
     "ContainingType": "PharmaLink_API.Controllers.RoleController",
     "Method": "GetAllRoles",
     "RelativePath": "api/Role/GetAllRoles",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.SharedController",
+    "Method": "serachByDrugOrPharamcy",
+    "RelativePath": "api/Shared/searchByDrugOrPharmacy",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "filter",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "size",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PharmaLink_API.Controllers.TestController",
+    "Method": "PublicEndpoint",
+    "RelativePath": "api/Test/public",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,

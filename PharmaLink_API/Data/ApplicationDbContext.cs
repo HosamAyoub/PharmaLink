@@ -157,9 +157,9 @@ namespace PharmaLink_API.Data
             // 4. Patients
             SeedPatients(modelBuilder);
 
-            // 5. PharmacyStock
+            //5. PharmacyStock
             SeedPharmacyStocks(modelBuilder);
-            // 6. OrderDetails
+            //6. OrderDetails
             SeedOrderDetails(modelBuilder);
             // 7. Orders
             SeedOrders(modelBuilder);
