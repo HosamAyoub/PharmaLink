@@ -222,7 +222,7 @@ namespace PharmaLink_API.Data
                     Email = "pharmacy1@example.com",
                     NormalizedEmail = "PHARMACY1@EXAMPLE.COM",
                     EmailConfirmed = true,
-                    PasswordHash = "AQAAAAIAAYagAAAAEIEkCKQG2iKm6US+dZ1YBaNJ4QotRJ9SMmJqsTv4xtLcas+EPbUGSODp2YlMG0/Z7g==", // Hash for "12345Ab#"
+                    PasswordHash = "AQAAAAIAAYagAAAAEFTj4mquLwOc1c1NB1+xuRpdZLOn3yWriL5bvub4bhK+BU1+xQbPOTHbYNoyg/OL9A==", // Hash for "Ads6*6"
                     PhoneNumber = "01096906912",
                     PhoneNumberConfirmed = true,
                     SecurityStamp = "7D8C9A2B4E6F1C3A5B9D8E7F6A5C4B3A", // Static value
@@ -236,7 +236,7 @@ namespace PharmaLink_API.Data
                     Email = "pharmacy2@example.com",
                     NormalizedEmail = "PHARMACY2@EXAMPLE.COM",
                     EmailConfirmed = true,
-                    PasswordHash = "AQAAAAIAAYagAAAAEIEkCKQG2iKm6US+dZ1YBaNJ4QotRJ9SMmJqsTv4xtLcas+EPbUGSODp2YlMG0/Z7g==",
+                    PasswordHash = "AQAAAAIAAYagAAAAEFTj4mquLwOc1c1NB1+xuRpdZLOn3yWriL5bvub4bhK+BU1+xQbPOTHbYNoyg/OL9A==",
                     PhoneNumber = "0842112689",
                     PhoneNumberConfirmed = true,
                     SecurityStamp = "8E9F0A1B2C3D4E5F6G7H8I9J0K1L2M3N", // Static value
@@ -250,7 +250,7 @@ namespace PharmaLink_API.Data
                     Email = "pharmacy3@example.com",
                     NormalizedEmail = "PHARMACY3@EXAMPLE.COM",
                     EmailConfirmed = true,
-                    PasswordHash = "AQAAAAIAAYagAAAAEIEkCKQG2iKm6US+dZ1YBaNJ4QotRJ9SMmJqsTv4xtLcas+EPbUGSODp2YlMG0/Z7g==",
+                    PasswordHash = "AQAAAAIAAYagAAAAEFTj4mquLwOc1c1NB1+xuRpdZLOn3yWriL5bvub4bhK+BU1+xQbPOTHbYNoyg/OL9A==",
                     PhoneNumber = "01200169999",
                     PhoneNumberConfirmed = true,
                     SecurityStamp = "9F0A1B2C3D4E5F6G7H8I9J0K1L2M3N4O", // Static value
@@ -264,7 +264,7 @@ namespace PharmaLink_API.Data
                     Email = "pharmacy4@example.com",
                     NormalizedEmail = "PHARMACY4@EXAMPLE.COM",
                     EmailConfirmed = true,
-                    PasswordHash = "AQAAAAIAAYagAAAAEIEkCKQG2iKm6US+dZ1YBaNJ4QotRJ9SMmJqsTv4xtLcas+EPbUGSODp2YlMG0/Z7g==",
+                    PasswordHash = "AQAAAAIAAYagAAAAEFTj4mquLwOc1c1NB1+xuRpdZLOn3yWriL5bvub4bhK+BU1+xQbPOTHbYNoyg/OL9A==",
                     PhoneNumber = "01068309213",
                     PhoneNumberConfirmed = true,
                     SecurityStamp = "A1B2C3D4E5F6G7H8I9J0K1L2M3N4O5P6", // Static value
@@ -278,7 +278,7 @@ namespace PharmaLink_API.Data
                     Email = "pharmacy5@example.com",
                     NormalizedEmail = "PHARMACY5@EXAMPLE.COM",
                     EmailConfirmed = true,
-                    PasswordHash = "AQAAAAIAAYagAAAAEIEkCKQG2iKm6US+dZ1YBaNJ4QotRJ9SMmJqsTv4xtLcas+EPbUGSODp2YlMG0/Z7g==",
+                    PasswordHash = "AQAAAAIAAYagAAAAEFTj4mquLwOc1c1NB1+xuRpdZLOn3yWriL5bvub4bhK+BU1+xQbPOTHbYNoyg/OL9A==",
                     PhoneNumber = "0846343938",
                     PhoneNumberConfirmed = true,
                     SecurityStamp = "B2C3D4E5F6G7H8I9J0K1L2M3N4O5P6Q7", // Static value
@@ -292,7 +292,7 @@ namespace PharmaLink_API.Data
                     Email = "pharmacy6@example.com",
                     NormalizedEmail = "PHARMACY6@EXAMPLE.COM",
                     EmailConfirmed = true,
-                    PasswordHash = "AQAAAAIAAYagAAAAEIEkCKQG2iKm6US+dZ1YBaNJ4QotRJ9SMmJqsTv4xtLcas+EPbUGSODp2YlMG0/Z7g==",
+                    PasswordHash = "AQAAAAIAAYagAAAAEFTj4mquLwOc1c1NB1+xuRpdZLOn3yWriL5bvub4bhK+BU1+xQbPOTHbYNoyg/OL9A==",
                     PhoneNumber = "01064206162",
                     PhoneNumberConfirmed = true,
                     SecurityStamp = "C3D4E5F6G7H8I9J0K1L2M3N4O5P6Q7R8", // Static value
@@ -306,7 +306,7 @@ namespace PharmaLink_API.Data
                     Email = "pharmacy7@example.com",
                     NormalizedEmail = "PHARMACY7@EXAMPLE.COM",
                     EmailConfirmed = true,
-                    PasswordHash = "AQAAAAIAAYagAAAAEIEkCKQG2iKm6US+dZ1YBaNJ4QotRJ9SMmJqsTv4xtLcas+EPbUGSODp2YlMG0/Z7g==",
+                    PasswordHash = "AQAAAAIAAYagAAAAEFTj4mquLwOc1c1NB1+xuRpdZLOn3yWriL5bvub4bhK+BU1+xQbPOTHbYNoyg/OL9A==",
                     PhoneNumber = "0842030536",
                     PhoneNumberConfirmed = true,
                     SecurityStamp = "D4E5F6G7H8I9J0K1L2M3N4O5P6Q7R8S9", // Static value
@@ -758,7 +758,7 @@ namespace PharmaLink_API.Data
                     TotalPrice = 50.50m, // Updated to match new prices
                     Status = "Delivered",
                     PaymentMethod = "PayPal",
-                    PaymentStatus = "Paid",
+                    PaymentStatus = "Approved",
                     OrderDate = DateTime.Parse("2023-06-20"),
                     PharmacyId = 2, // صيدلية الدكتوره رشا
                     PatientId = 2, // Fatima El-Zahra
