@@ -731,7 +731,7 @@ namespace PharmaLink_API.Data
                     TotalPrice = 45.50m,
                     Status = "Delivered",
                     PaymentMethod = "Credit Card",
-                    PaymentStatus = "Paid",
+                    PaymentStatus = "Approved",
                     OrderDate = DateTime.Parse("2023-05-15"),
                     PharmacyId = 1, // City Pharmacy
                     PatientId = 1, // Ahmed Hassan
@@ -747,7 +747,7 @@ namespace PharmaLink_API.Data
                     TotalPrice = 62.50m,
                     Status = "Delivered",
                     PaymentMethod = "PayPal",
-                    PaymentStatus = "Paid",
+                    PaymentStatus = "Approved",
                     OrderDate = DateTime.Parse("2023-06-20"),
                     PharmacyId = 2, // Health Plus
                     PatientId = 2, // Fatima El-Zahra
