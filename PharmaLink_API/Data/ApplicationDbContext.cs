@@ -735,36 +735,37 @@ namespace PharmaLink_API.Data
         private void SeedOrders(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Order>().HasData(
+                // Original 2023 orders
                 new Order
                 {
                     OrderID = 1,
-                    TotalPrice = 45.50m,
+                    TotalPrice = 43.00m, // Updated to match new prices
                     Status = "Delivered",
                     PaymentMethod = "Credit Card",
-                    PaymentStatus = "Paid",
+                    PaymentStatus = "Approved",
                     OrderDate = DateTime.Parse("2023-05-15"),
-                    PharmacyId = 1, // City Pharmacy
+                    PharmacyId = 1, // صيدلية كيور
                     PatientId = 1, // Ahmed Hassan
                     Name = "Ahmed Hassan",
-                    PhoneNumber = "01045678901", // Matches patient1 account
-                    Email = "patient1@example.com", // Matches patient1 account
-                    Address = "15 Tahrir Square, Downtown Cairo", // Matches patient1 address
+                    PhoneNumber = "01045678901",
+                    Email = "patient1@example.com",
+                    Address = "15 Tahrir Square, Downtown Cairo",
                     Country = "Egypt"
                 },
                 new Order
                 {
                     OrderID = 2,
-                    TotalPrice = 62.50m,
+                    TotalPrice = 50.50m, // Updated to match new prices
                     Status = "Delivered",
                     PaymentMethod = "PayPal",
                     PaymentStatus = "Paid",
                     OrderDate = DateTime.Parse("2023-06-20"),
-                    PharmacyId = 2, // Health Plus
+                    PharmacyId = 2, // صيدلية الدكتوره رشا
                     PatientId = 2, // Fatima El-Zahra
                     Name = "Fatima El-Zahra",
-                    PhoneNumber = "01056789012", // Matches patient2 account
-                    Email = "patient2@example.com", // Matches patient2 account
-                    Address = "27 Nile Corniche, Alexandria", // Matches patient2 address
+                    PhoneNumber = "01056789012",
+                    Email = "patient2@example.com",
+                    Address = "27 Nile Corniche, Alexandria",
                     Country = "Egypt"
                 },
                 new Order
@@ -775,12 +776,112 @@ namespace PharmaLink_API.Data
                     PaymentMethod = "Cash on Delivery",
                     PaymentStatus = "Pending",
                     OrderDate = DateTime.Parse("2023-07-10"),
-                    PharmacyId = 3, // MediCare
+                    PharmacyId = 3, // صيدليات عناية
                     PatientId = 3, // Omar Khaled
                     Name = "Omar Khaled",
-                    PhoneNumber = "01067890123", // Matches patient3 account
-                    Email = "patient3@example.com", // Matches patient3 account
-                    Address = "42 University Street, Giza", // Matches patient3 address
+                    PhoneNumber = "01067890123",
+                    Email = "patient3@example.com",
+                    Address = "42 University Street, Giza",
+                    Country = "Egypt"
+                },
+
+                // 2024 Orders
+                new Order
+                {
+                    OrderID = 4,
+                    TotalPrice = 95.50m, // Updated to match new prices
+                    Status = "Delivered",
+                    PaymentMethod = "Credit Card",
+                    PaymentStatus = "Approved",
+                    OrderDate = DateTime.Parse("2024-01-18"),
+                    PharmacyId = 4, // صيدليه الجبيلي
+                    PatientId = 2, // Fatima El-Zahra
+                    Name = "Fatima El-Zahra",
+                    PhoneNumber = "01056789012",
+                    Email = "patient2@example.com",
+                    Address = "27 Nile Corniche, Alexandria",
+                    Country = "Egypt"
+                },
+                new Order
+                {
+                    OrderID = 5,
+                    TotalPrice = 112.25m, // Updated to match new prices
+                    Status = "Delivered",
+                    PaymentMethod = "PayPal",
+                    PaymentStatus = "Paid",
+                    OrderDate = DateTime.Parse("2024-03-05"),
+                    PharmacyId = 5, // صيدلية الجبيلى فرع التعاونيات
+                    PatientId = 1, // Ahmed Hassan
+                    Name = "Ahmed Hassan",
+                    PhoneNumber = "01045678901",
+                    Email = "patient1@example.com",
+                    Address = "15 Tahrir Square, Downtown Cairo",
+                    Country = "Egypt"
+                },
+                new Order
+                {
+                    OrderID = 6,
+                    TotalPrice = 68.50m, // Updated to match new prices
+                    Status = "Delivered",
+                    PaymentMethod = "Cash on Delivery",
+                    PaymentStatus = "Pending",
+                    OrderDate = DateTime.Parse("2024-06-12"),
+                    PharmacyId = 6, // صيدلية الجهاد
+                    PatientId = 3, // Omar Khaled
+                    Name = "Omar Khaled",
+                    PhoneNumber = "01067890123",
+                    Email = "patient3@example.com",
+                    Address = "42 University Street, Giza",
+                    Country = "Egypt"
+                },
+
+                // 2025 Orders
+                new Order
+                {
+                    OrderID = 7,
+                    TotalPrice = 124.25m, // Updated to match new prices
+                    Status = "Delivered",
+                    PaymentMethod = "Credit Card",
+                    PaymentStatus = "Approved",
+                    OrderDate = DateTime.Parse("2025-02-22"),
+                    PharmacyId = 7, // صيدليات سامح عطا
+                    PatientId = 3, // Omar Khaled
+                    Name = "Omar Khaled",
+                    PhoneNumber = "01067890123",
+                    Email = "patient3@example.com",
+                    Address = "42 University Street, Giza",
+                    Country = "Egypt"
+                },
+                new Order
+                {
+                    OrderID = 8,
+                    TotalPrice = 156.75m, // Updated to match new prices
+                    Status = "Delivered",
+                    PaymentMethod = "PayPal",
+                    PaymentStatus = "Paid",
+                    OrderDate = DateTime.Parse("2025-04-15"),
+                    PharmacyId = 1, // صيدلية كيور
+                    PatientId = 2, // Fatima El-Zahra
+                    Name = "Fatima El-Zahra",
+                    PhoneNumber = "01056789012",
+                    Email = "patient2@example.com",
+                    Address = "27 Nile Corniche, Alexandria",
+                    Country = "Egypt"
+                },
+                new Order
+                {
+                    OrderID = 9,
+                    TotalPrice = 82.50m, // Updated to match new prices
+                    Status = "Delivered",
+                    PaymentMethod = "Cash on Delivery",
+                    PaymentStatus = "Pending",
+                    OrderDate = DateTime.Parse("2025-08-30"),
+                    PharmacyId = 2, // صيدلية الدكتوره رشا
+                    PatientId = 1, // Ahmed Hassan
+                    Name = "Ahmed Hassan",
+                    PhoneNumber = "01045678901",
+                    Email = "patient1@example.com",
+                    Address = "15 Tahrir Square, Downtown Cairo",
                     Country = "Egypt"
                 }
             );
@@ -789,67 +890,240 @@ namespace PharmaLink_API.Data
         private void SeedOrderDetails(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<OrderDetail>().HasData(
-                // Order 1 - Ahmed Hassan at City Pharmacy
+                // Order 1 - Ahmed Hassan at صيدلية كيور (2023)
                 new OrderDetail
                 {
                     OrderDetailId = 1,
                     OrderId = 1,
                     DrugId = 1, // Paracetamol
-                    PharmacyId = 1, // City Pharmacy
+                    PharmacyId = 1, // صيدلية كيور
                     Quantity = 2,
-                    Price = 12.50m // Matches City Pharmacy's Paracetamol price
+                    Price = 12.50m // Matches Pharmacy 1's Paracetamol price
                 },
                 new OrderDetail
                 {
                     OrderDetailId = 2,
                     OrderId = 1,
                     DrugId = 2, // Ibuprofen
-                    PharmacyId = 1, // City Pharmacy
+                    PharmacyId = 1, // صيدلية كيور
                     Quantity = 1,
-                    Price = 18.00m // Matches City Pharmacy's Ibuprofen price
+                    Price = 18.00m // Matches Pharmacy 1's Ibuprofen price
                 },
 
-                // Order 2 - Fatima El-Zahra at Health Plus
+                // Order 2 - Fatima El-Zahra at صيدلية الدكتوره رشا (2023)
                 new OrderDetail
                 {
                     OrderDetailId = 3,
                     OrderId = 2,
                     DrugId = 1, // Paracetamol
-                    PharmacyId = 2, // Health Plus
+                    PharmacyId = 2, // صيدلية الدكتوره رشا
                     Quantity = 3,
-                    Price = 10.50m // Matches Health Plus's Paracetamol price
+                    Price = 10.50m // Matches Pharmacy 2's Paracetamol price
                 },
                 new OrderDetail
                 {
                     OrderDetailId = 4,
                     OrderId = 2,
                     DrugId = 3, // Amoxicillin
-                    PharmacyId = 2, // Health Plus
+                    PharmacyId = 2, // صيدلية الدكتوره رشا
                     Quantity = 1,
-                    Price = 25.00m // Matches Health Plus's Amoxicillin price
+                    Price = 25.00m // Matches Pharmacy 2's Amoxicillin price
                 },
                 new OrderDetail
                 {
                     OrderDetailId = 5,
                     OrderId = 2,
                     DrugId = 2, // Ibuprofen
-                    PharmacyId = 2, // Health Plus
+                    PharmacyId = 2, // صيدلية الدكتوره رشا
                     Quantity = 1,
-                    Price = 15.00m // Matches Health Plus's Ibuprofen price
+                    Price = 15.00m // Matches Pharmacy 2's Ibuprofen price
                 },
 
-                // Order 3 - Omar Khaled at MediCare
+                // Order 3 - Omar Khaled at صيدليات عناية (2023)
                 new OrderDetail
                 {
                     OrderDetailId = 6,
                     OrderId = 3,
                     DrugId = 1, // Paracetamol
-                    PharmacyId = 3, // MediCare
+                    PharmacyId = 3, // صيدليات عناية
                     Quantity = 3,
-                    Price = 11.25m // Matches MediCare's Paracetamol price
+                    Price = 11.25m // Matches Pharmacy 3's Paracetamol price
+                },
+
+                // Order 4 - Fatima El-Zahra at صيدليه الجبيلي (2024)
+                new OrderDetail
+                {
+                    OrderDetailId = 7,
+                    OrderId = 4,
+                    DrugId = 4, // Vitamin C
+                    PharmacyId = 4, // صيدليه الجبيلي
+                    Quantity = 5,
+                    Price = 6.00m // Matches Pharmacy 4's Vitamin C price
+                },
+                new OrderDetail
+                {
+                    OrderDetailId = 8,
+                    OrderId = 4,
+                    DrugId = 5, // Metformin
+                    PharmacyId = 4, // صيدليه الجبيلي
+                    Quantity = 1,
+                    Price = 43.50m // Matches Pharmacy 4's Metformin price
+                },
+                new OrderDetail
+                {
+                    OrderDetailId = 9,
+                    OrderId = 4,
+                    DrugId = 6, // Atorvastatin
+                    PharmacyId = 4, // صيدليه الجبيلي
+                    Quantity = 2,
+                    Price = 20.75m // Matches Pharmacy 4's Atorvastatin price
+                },
+
+                // Order 5 - Ahmed Hassan at صيدلية الجبيلى فرع التعاونيات (2024)
+                new OrderDetail
+                {
+                    OrderDetailId = 10,
+                    OrderId = 5,
+                    DrugId = 8, // Omeprazole
+                    PharmacyId = 5, // صيدلية الجبيلى فرع التعاونيات
+                    Quantity = 2,
+                    Price = 33.00m // Matches Pharmacy 5's Omeprazole price
+                },
+                new OrderDetail
+                {
+                    OrderDetailId = 11,
+                    OrderId = 5,
+                    DrugId = 9, // Lisinopril
+                    PharmacyId = 5, // صيدلية الجبيلى فرع التعاونيات
+                    Quantity = 1,
+                    Price = 40.50m // Matches Pharmacy 5's Lisinopril price
+                },
+                new OrderDetail
+                {
+                    OrderDetailId = 12,
+                    OrderId = 5,
+                    DrugId = 1, // Paracetamol
+                    PharmacyId = 5, // صيدلية الجبيلى فرع التعاونيات
+                    Quantity = 3,
+                    Price = 11.00m // Matches Pharmacy 5's Paracetamol price
+                },
+
+                // Order 6 - Omar Khaled at صيدلية الجهاد (2024)
+                new OrderDetail
+                {
+                    OrderDetailId = 13,
+                    OrderId = 6,
+                    DrugId = 10, // Simvastatin
+                    PharmacyId = 6, // صيدلية الجهاد
+                    Quantity = 1,
+                    Price = 30.00m // Matches Pharmacy 6's Simvastatin price
+                },
+                new OrderDetail
+                {
+                    OrderDetailId = 14,
+                    OrderId = 6,
+                    DrugId = 11, // Amlodipine
+                    PharmacyId = 6, // صيدلية الجهاد
+                    Quantity = 2,
+                    Price = 19.25m // Matches Pharmacy 6's Amlodipine price
+                },
+                new OrderDetail
+                {
+                    OrderDetailId = 15,
+                    OrderId = 6,
+                    DrugId = 13, // Aspirin
+                    PharmacyId = 6, // صيدلية الجهاد
+                    Quantity = 4,
+                    Price = 7.75m // Matches Pharmacy 6's Aspirin price
+                },
+
+                // Order 7 - Omar Khaled at صيدليات سامح عطا (2025)
+                new OrderDetail
+                {
+                    OrderDetailId = 16,
+                    OrderId = 7,
+                    DrugId = 16, // Insulin
+                    PharmacyId = 7, // صيدليات سامح عطا
+                    Quantity = 1,
+                    Price = 92.50m // Matches Pharmacy 7's Insulin price
+                },
+                new OrderDetail
+                {
+                    OrderDetailId = 17,
+                    OrderId = 7,
+                    DrugId = 17, // Warfarin
+                    PharmacyId = 7, // صيدليات سامح عطا
+                    Quantity = 1,
+                    Price = 82.00m // Matches Pharmacy 7's Warfarin price
+                },
+                new OrderDetail
+                {
+                    OrderDetailId = 18,
+                    OrderId = 7,
+                    DrugId = 18, // Albuterol
+                    PharmacyId = 7, // صيدليات سامح عطا
+                    Quantity = 2,
+                    Price = 23.75m // Matches Pharmacy 7's Albuterol price
+                },
+
+                // Order 8 - Fatima El-Zahra at صيدلية كيور (2025)
+                new OrderDetail
+                {
+                    OrderDetailId = 19,
+                    OrderId = 8,
+                    DrugId = 5, // Metformin
+                    PharmacyId = 1, // صيدلية كيور
+                    Quantity = 2,
+                    Price = 45.00m // Matches Pharmacy 1's Metformin price
+                },
+                new OrderDetail
+                {
+                    OrderDetailId = 20,
+                    OrderId = 8,
+                    DrugId = 6, // Atorvastatin
+                    PharmacyId = 1, // صيدلية كيور
+                    Quantity = 3,
+                    Price = 22.00m // Matches Pharmacy 1's Atorvastatin price
+                },
+                new OrderDetail
+                {
+                    OrderDetailId = 21,
+                    OrderId = 8,
+                    DrugId = 7, // Ciprofloxacin
+                    PharmacyId = 1, // صيدلية كيور
+                    Quantity = 1,
+                    Price = 15.50m // Matches Pharmacy 1's Ciprofloxacin price
+                },
+
+                // Order 9 - Ahmed Hassan at صيدلية الدكتوره رشا (2025)
+                new OrderDetail
+                {
+                    OrderDetailId = 22,
+                    OrderId = 9,
+                    DrugId = 8, // Omeprazole
+                    PharmacyId = 2, // صيدلية الدكتوره رشا
+                    Quantity = 2,
+                    Price = 35.25m // Matches Pharmacy 2's Omeprazole price
+                },
+                new OrderDetail
+                {
+                    OrderDetailId = 23,
+                    OrderId = 9,
+                    DrugId = 9, // Lisinopril
+                    PharmacyId = 2, // صيدلية الدكتوره رشا
+                    Quantity = 1,
+                    Price = 42.00m // Matches Pharmacy 2's Lisinopril price
+                },
+                new OrderDetail
+                {
+                    OrderDetailId = 24,
+                    OrderId = 9,
+                    DrugId = 10, // Simvastatin
+                    PharmacyId = 2, // صيدلية الدكتوره رشا
+                    Quantity = 1,
+                    Price = 28.75m // Matches Pharmacy 2's Simvastatin price
                 }
             );
-
         }
 
         //8. Admin
