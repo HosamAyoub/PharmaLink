@@ -7,7 +7,6 @@ namespace PharmaLink_API.Hubs
 {
     public class OrderHub : Hub
     {
-
         public async Task JoinGroup(string pharmacyId)
         {
             if (!string.IsNullOrEmpty(pharmacyId))

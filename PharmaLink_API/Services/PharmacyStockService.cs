@@ -11,6 +11,7 @@ using PharmaLink_API.Models.DTO.PharmacyStockDTO;
 using PharmaLink_API.Repository;
 using PharmaLink_API.Repository.Interfaces;
 using PharmaLink_API.Services.Interfaces;
+using Serilog;
 using System.Security.Claims;
 
 namespace PharmaLink_API.Services
@@ -173,7 +174,7 @@ namespace PharmaLink_API.Services
             {
                 _logger.LogInformation("Getting pharmacy stock for pharmacyId {PharmacyId}",
                      pharmacyId);
-              
+
                 // Input validation
                 if (pharmacyId <= 0)
                 {
@@ -194,9 +195,9 @@ namespace PharmaLink_API.Services
                         ErrorType.Validation);
                 }
 
-                    var pharmacyStockCount = _pharmacyStockRepository.getPharmacyStockCount(pharmacyId);
+                var pharmacyStockCount = _pharmacyStockRepository.getPharmacyStockCount(pharmacyId);
 
-                    var pharmacyStock = _pharmacyStockRepository.GetPharmacyStockByPharmacyID(pharmacyId, pageNumber, pageSize).ToList();
+                var pharmacyStock = _pharmacyStockRepository.GetPharmacyStockByPharmacyID(pharmacyId, pageNumber, pageSize).ToList();
 
                 if (!pharmacyStock.Any())
                 {
@@ -545,7 +546,7 @@ namespace PharmaLink_API.Services
                 _logger.LogInformation("Successfully retrieved {Count} products in category {Category}",
                     pharmacyStockDetailsDTOs.Count, category);
 
-                var pharmacyStockPagination = new PharmacyStockDTO_WithPagination() 
+                var pharmacyStockPagination = new PharmacyStockDTO_WithPagination()
                 {
                     PageNumber = pageNumber,
                     PageSize = pageSize,
@@ -711,7 +712,7 @@ namespace PharmaLink_API.Services
             }
         }
 
-        public ServiceResult<List<PharmacyProductDetailsDTO>> SearchByNameOrCategoryOrActiveingrediante(ClaimsPrincipal user ,int? pharmacyID, string q, int pageNumber, int pageSize)
+        public ServiceResult<List<PharmacyProductDetailsDTO>> SearchByNameOrCategoryOrActiveingrediante(ClaimsPrincipal user, int? pharmacyID, string q, int pageNumber, int pageSize)
         {
             try
             {
@@ -1179,8 +1180,28 @@ namespace PharmaLink_API.Services
                     return new List<PharmacyWithDistanceDTO>();
                 }
 
-                var nearestPharmacies = pharmacies
-                    .Where(p => p.Latitude.HasValue && p.Longitude.HasValue)
+                double distance = 1;
+                var nearestPharmacies = new List<PharmacyWithDistanceDTO>();
+                do
+                {
+                    nearestPharmacies = GetNearestPharmacies(pharmacies, distance, lat, lng, drugID);
+                    distance += 3;
+                }
+                while (!nearestPharmacies.Any());
+
+                _logger.LogInformation("Found {Count} nearest pharmacies for drug {DrugId}", nearestPharmacies.Count, drugID);
+                return nearestPharmacies;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while getting nearest pharmacies for drug {DrugId}", drugID);
+                return new List<PharmacyWithDistanceDTO>();
+            }
+        }
+
+        private List<PharmacyWithDistanceDTO> GetNearestPharmacies(List<Pharmacy> pharmacies, double distance, double userLat, double userLng, int drugID)
+        {
+            var nearestPharmacies = pharmacies
                     .Select(p =>
                     {
                         var pharmacyProduct = _pharmacyStockRepository.GetPharmacyProduct(p.PharmacyID, drugID);
@@ -1193,22 +1214,14 @@ namespace PharmaLink_API.Services
                             pharma_Name = p.Name,
                             price = pharmacyProduct?.Price ?? 0m,
                             quantityAvailable = pharmacyProduct?.QuantityAvailable ?? 0,
-                            Distance = CalculateDistance(lat, lng, p.Latitude.Value, p.Longitude.Value)
+                            Distance = CalculateDistance(userLat, userLng, p.Latitude ?? 0, p.Longitude ?? 0)
                         };
                     })
-                    .Where(p => p.Distance <= 10) // Filter pharmacies within 10 km
+                    .Where(p => p.Distance <= distance) // Filter pharmacies within 10 km
                     .OrderBy(p => p.Distance)
-                    .Take(maxResults)
+                    .Take(5)
                     .ToList();
-
-                _logger.LogInformation("Found {Count} nearest pharmacies for drug {DrugId}", nearestPharmacies.Count, drugID);
-                return nearestPharmacies;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error occurred while getting nearest pharmacies for drug {DrugId}", drugID);
-                return new List<PharmacyWithDistanceDTO>();
-            }
+            return nearestPharmacies;
         }
         private double CalculateDistance(double lat1, double lon1, double lat2, double lon2)
         {

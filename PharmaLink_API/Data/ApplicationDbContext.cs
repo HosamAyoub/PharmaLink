@@ -145,7 +145,7 @@ namespace PharmaLink_API.Data
 
             // *********Seed tables********* //
 
-            ////1. Drugs
+            //1. Drugs
             //SeedDrugs(modelBuilder);
 
             // 2. Roles
