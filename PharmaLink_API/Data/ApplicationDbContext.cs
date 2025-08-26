@@ -157,9 +157,9 @@ namespace PharmaLink_API.Data
             // 4. Patients
             SeedPatients(modelBuilder);
 
-            // 5. PharmacyStock
+            //5. PharmacyStock
             SeedPharmacyStocks(modelBuilder);
-            // 6. OrderDetails
+            //6. OrderDetails
             SeedOrderDetails(modelBuilder);
             // 7. Orders
             SeedOrders(modelBuilder);
@@ -609,6 +609,7 @@ namespace PharmaLink_API.Data
                     DateOfBirth = new DateOnly(1995, 3, 15),
                     Country = "Egypt",
                     Address = "15 Tahrir Square, Downtown Cairo",
+                    Status = User_Status.Active,
                     MedicalHistory = "Hypertension",
                     Medications = "Amlodipine 5mg daily",
                     Allergies = "Latex",
@@ -622,6 +623,7 @@ namespace PharmaLink_API.Data
                     DateOfBirth = new DateOnly(1988, 7, 22),
                     Country = "Egypt",
                     Address = "27 Nile Corniche, Alexandria",
+                    Status = User_Status.Active,
                     MedicalHistory = "Diabetes Type 2",
                     Medications = "Metformin 500mg twice daily",
                     Allergies = "Peanuts",
@@ -635,6 +637,7 @@ namespace PharmaLink_API.Data
                     DateOfBirth = new DateOnly(2000, 11, 8),
                     Country = "Egypt",
                     Address = "42 University Street, Giza",
+                    Status = User_Status.Active,
                     MedicalHistory = "Asthma",
                     Medications = "Salbutamol inhaler as needed",
                     Allergies = "Shellfish",

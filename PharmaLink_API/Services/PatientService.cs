@@ -50,5 +50,12 @@ namespace PharmaLink_API.Services
                 throw new Exception("Patient not found.");
             await _patientRepository.RemoveAsync(patient);
         }
+
+        public async Task<IEnumerable<PatientDisplayDTO>> GetAllPatients()
+        {
+            var patients = await _patientRepository.GetAllAsync(filter: null, includeProperties: [p => p.Account ,p =>  p.Orders]);
+           var PatientList = _mapper.Map<IEnumerable<PatientDisplayDTO>>(patients);
+            return PatientList;
+        }
     }
 }

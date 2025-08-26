@@ -13,4 +13,9 @@ namespace PharmaLink_API.Models.DTO.RolesDTO
         public int PharmacyId { get; set; }
         public string NewRoleName { get; set; }
     }
+    public class AssignRoleRequest
+    {
+        public string UserId { get; set; }
+        public string RoleName { get; set; }
+    }
 }

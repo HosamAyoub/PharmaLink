@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using PharmaLink_API.Core.Enums;
 using PharmaLink_API.Models.DTO.PatientDTO;
 using PharmaLink_API.Repository.Interfaces;
 using PharmaLink_API.Services.Interfaces;
@@ -12,9 +14,11 @@ namespace PharmaLink_API.Controllers
     public class PatientController : ControllerBase
     {
         private readonly IPatientService _patientService;
-        public PatientController(IPatientService patientService)
+        private readonly IPatientRepository _patientRepository;
+        public PatientController(IPatientService patientService, IPatientRepository patientRepository)
         {
             _patientService = patientService;
+            _patientRepository = patientRepository;
         }
 
         // Correct async GET method
@@ -57,6 +61,44 @@ namespace PharmaLink_API.Controllers
                 return NotFound();
             }
             return Ok(medicalInfo);
+        }
+        //[Authorize(Roles = "Admin")]
+        [HttpGet("AllPatients")]
+        public async Task<IActionResult> GetAllPatients()
+        {
+            var patients = await _patientService.GetAllPatients();
+            if ( patients == null)
+            {
+                return NotFound();
+            }
+            return Ok(patients);
+        }
+
+        [HttpPut("ConfirmPatient/{id:int}")]
+        //[Authorize(Roles = "Admin")]
+        public async Task<IActionResult> ConfirmPatient(int id)
+        {
+            var patient = await _patientRepository.GetAsync(p => p.PatientId == id);
+            if (patient == null)
+            {
+                return NotFound($"Patient with ID {id} not found.");
+            }
+            patient.Status = User_Status.Active;
+            await _patientRepository.UpdateAsync(patient);
+            return Ok($"Patient with ID {id} status updated to Active.");
+        }
+        [HttpPut("SuspendedPatient/{id:int}")]
+        //[Authorize(Roles = "Admin")]
+        public async Task<IActionResult> SuspendedPatient(int id)
+        {
+            var patient = await _patientRepository.GetAsync(p => p.PatientId == id);
+            if (patient == null)
+            {
+                return NotFound($"Patient with ID {id} not found.");
+            }
+            patient.Status = User_Status.Suspended;
+            await _patientRepository.UpdateAsync(patient);
+            return Ok($"Patient with ID {id} status updated to Suspended.");
         }
 
         //// DELETE api/<PatientController>/5

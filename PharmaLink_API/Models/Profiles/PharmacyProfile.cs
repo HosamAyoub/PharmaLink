@@ -8,7 +8,7 @@ namespace PharmaLink_API.Models.Profiles
         public PharmacyProfile()
         {
             CreateMap<Pharmacy, PharmacyDisplayDTO>()
-                //.ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.Account!.PhoneNumber))
+                .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.Account!.PhoneNumber))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Account!.Email))
                 .ReverseMap();
             CreateMap<Pharmacy, PharmacyUpdateDTO>()

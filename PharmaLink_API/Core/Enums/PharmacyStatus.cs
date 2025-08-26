@@ -4,4 +4,8 @@
     {
         Suspended, Active, Pending, Rejected
     }
+    public enum User_Status
+    {
+        Suspended, Active
+    }
 }
