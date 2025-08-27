@@ -808,7 +808,7 @@ namespace PharmaLink_API.Data
                     TotalPrice = 112.25m, // Updated to match new prices
                     Status = "Delivered",
                     PaymentMethod = "PayPal",
-                    PaymentStatus = "Paid",
+                    PaymentStatus = "Approved",
                     OrderDate = DateTime.Parse("2024-03-05"),
                     PharmacyId = 5, // صيدلية الجبيلى فرع التعاونيات
                     PatientId = 1, // Ahmed Hassan
@@ -858,7 +858,7 @@ namespace PharmaLink_API.Data
                     TotalPrice = 156.75m, // Updated to match new prices
                     Status = "Delivered",
                     PaymentMethod = "PayPal",
-                    PaymentStatus = "Paid",
+                    PaymentStatus = "Approved",
                     OrderDate = DateTime.Parse("2025-04-15"),
                     PharmacyId = 1, // صيدلية كيور
                     PatientId = 2, // Fatima El-Zahra
