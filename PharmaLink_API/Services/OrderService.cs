@@ -558,13 +558,20 @@ namespace PharmaLink_API.Services
             // Calculate monthly statistics
             var monthlyStats = orders
                 .GroupBy(o => new { o.OrderDate.Year, o.OrderDate.Month })
-                .Select(g => new MonthlyOrderStats
+                .Select(g => new
                 {
                     MonthYear = $"{new DateTime(g.Key.Year, g.Key.Month, 1):MMM yyyy}",
                     OrderCount = g.Count(),
-                    TotalRevenue = g.Sum(o => o.TotalPrice)
+                    TotalRevenue = g.Sum(o => o.TotalPrice),
+                    SortDate = new DateTime(g.Key.Year, g.Key.Month, 1)
                 })
-                .OrderBy(x => x.MonthYear)
+                .OrderByDescending(x => x.SortDate)
+                .Select(x => new MonthlyOrderStats
+                {
+                    MonthYear = x.MonthYear,
+                    OrderCount = x.OrderCount,
+                    TotalRevenue = x.TotalRevenue
+                })
                 .ToList();
 
             // Calculate top selling products
