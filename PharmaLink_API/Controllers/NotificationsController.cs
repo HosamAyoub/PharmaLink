@@ -41,7 +41,7 @@ namespace PharmaLink_API.Controllers
             var ordersWithNotifications = await _orderHeaderRepository.GetAllAsync(
                 o => o.PatientId == patient.PatientId 
                 && o.Message != null
-                && (o.Status == SD.StatusOutForDelivery || o.Status == SD.StatusRejected)
+                && (o.Status == SD.StatusOutForDelivery || o.Status == SD.StatusRejected || o.Status == SD.StatusDelivered)
             );
 
             var notifications = ordersWithNotifications
