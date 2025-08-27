@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "/FhB3UVhFmI=",
+  "dgSpecHash": "l4LIKZv/Tek=",
   "success": true,
-  "projectFilePath": "C:\\Users\\DELL\\Downloads\\ITI\\Projects\\Final Project\\PharmaLink\\PharmaLink_API\\PharmaLink_API.csproj",
+  "projectFilePath": "E:\\ITI\\GraduationProject2\\PharmaLink\\PharmaLink_API\\PharmaLink_API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\DELL\\.nuget\\packages\\automapper\\14.0.0\\automapper.14.0.0.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
